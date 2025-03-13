@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenuScene/Menu.unity
+    guid: a5a06ca349139534f8cc1094d2fc7747
+  - enabled: 1
+    path: Assets/Scenes/StoriesScene/Stories.unity
+    guid: efb13d1e735a4c745aa154f0727e629f
+  - enabled: 1
+    path: Assets/Scenes/SingleplayerScene/Menu-SinglePlayer.unity
+    guid: d325f68f56616ab40876c1af1ba6bfca
+  - enabled: 1
+    path: "Assets/Scenes/SingleplayerZorlukSe\xE7meEkran\u0131/SinglePlayer-NewGame.unity"
+    guid: 1a599dee174f7884598a5511bb777f85
+  - enabled: 1
+    path: Assets/Scenes/SelectionScreen/SP_SelectionScene.unity
+    guid: 5cae01a6dc4aea6439469a15a749669a
+  - enabled: 1
+    path: Assets/Scenes/InGameScene/Minions/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/MainGameSceneFolder/MainGameScene.unity
+    guid: 8cabe210cdbb53f49bc52a262a0c3694
+  - enabled: 1
+    path: Assets/Scenes/InGameScene/Main Scene.unity
+    guid: a0fdf506acabb1a4fb52efdc8bd12773
+  - enabled: 1
+    path: Assets/Scenes/LobiScene/lobi.unity
+    guid: afb292b8afbedd0499221fcee251261e
+  - enabled: 1
+    path: Assets/Scenes/RoomScene/room.unity
+    guid: d5f8ceda8d8a1a0478686d33373f5971
+  - enabled: 1
+    path: Assets/Scenes/SelectionSingplayer/SelectionSingplayer.unity
+    guid: 1f9427f3cd2966244920d5aa3ff304e0
+  m_configObjects: {}
