@@ -24,7 +24,7 @@ public class EnemyPlayerHealthUI : MonoBehaviour
     // 2 boyutlu sa�l�k kayd�r�c�s�n� g�ncelleyen fonksiyon
     public void Update2DSlider(float maxValue, float value)
     {
-        if (gameObject.CompareTag("EnemyPlayer"))   // E�er bu UI nesnesi "Player" etiketine sahipse
+        if (gameObject.CompareTag("Enemy"))   // E�er bu UI nesnesi "Player" etiketine sahipse
         {
             healthSlider2D.maxValue = maxValue;  // Maksimum de�eri ayarla
             healthSlider2D.value = value;        // �u anki de�eri ayarla

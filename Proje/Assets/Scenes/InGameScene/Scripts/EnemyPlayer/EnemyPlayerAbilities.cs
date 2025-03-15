@@ -87,7 +87,7 @@ public class EnemyPlayerAbilities : MonoBehaviour
 
     private void Ability2Canvas()
     {
-        int layerMask = ~LayerMask.GetMask("Player");
+        int layerMask = ~LayerMask.GetMask("Enemy");
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {

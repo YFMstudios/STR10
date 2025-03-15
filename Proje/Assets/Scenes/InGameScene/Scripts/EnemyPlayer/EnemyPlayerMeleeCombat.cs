@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Movement)), RequireComponent(typeof(Stats))]
+[RequireComponent(typeof(EnemyPlayerMovement)), RequireComponent(typeof(Stats))]
 public class EnemyPlayerMeleeCombat : MonoBehaviour
 {
     private EnemyPlayerMovement moveScript;        // Hareket script bileşeni
-    private EnemyPlayerStats stats;                // Oyuncu istatistikleri bileşeni
+    private Stats stats;                // Oyuncu istatistikleri bileşeni
     private Animator anim;              // Animator bileşeni
 
     [Header("Target")]
@@ -21,7 +21,7 @@ public class EnemyPlayerMeleeCombat : MonoBehaviour
     void Start()
     {
         moveScript = GetComponent<EnemyPlayerMovement>();   // Hareket script bileşenini al
-        stats = GetComponent<EnemyPlayerStats>();           // Oyuncu istatistikleri bileşenini al
+        stats = GetComponent<Stats>();           // Oyuncu istatistikleri bileşenini al
         anim = GetComponent<Animator>();         // Animator bileşenini al
     }
 
@@ -94,7 +94,7 @@ public class EnemyPlayerMeleeCombat : MonoBehaviour
         if (targetEnemy != null)
         {
             // Eğer hedef düşman bir minyon veya başka bir oyuncu ise
-            EnemyPlayerStats enemyStats = targetEnemy.GetComponent<EnemyPlayerStats>();
+            Stats enemyStats = targetEnemy.GetComponent<Stats>();
             if (enemyStats != null)
             {
                 enemyStats.TakeDamage(gameObject, stats.damage);  // Kendi hasarını düşmana uygula

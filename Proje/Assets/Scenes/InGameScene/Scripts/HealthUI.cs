@@ -5,11 +5,11 @@ using Photon.Pun;
 [RequireComponent(typeof(PhotonView))]
 public class HealthUI : MonoBehaviourPun
 {
-    public Slider healthSlider3D;   // 3 boyutlu sağlık kaydırıcısı (herkes görür)
-    public Slider healthSlider2D;   // 2 boyutlu sağlık kaydırıcısı (sadece local player görür)
+    public Slider healthSlider3D; // 3 boyutlu sağlık kaydırıcısı (herkes görür)
+    public Slider healthSlider2D; // 2 boyutlu sağlık kaydırıcısı (sadece local player görür)
 
     // 3 boyutlu sağlık kaydırıcısını başlatan fonksiyon
-    public void start3DSlider(float maxValue)
+    public void Start3DSlider(float maxValue)
     {
         if (healthSlider3D != null)
         {
@@ -19,7 +19,7 @@ public class HealthUI : MonoBehaviourPun
     }
 
     // 3 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (her istemcide çalışır)
-    public void update3DSlider(float value)
+    public void Update3DSlider(float value)
     {
         if (healthSlider3D != null)
         {
@@ -27,11 +27,11 @@ public class HealthUI : MonoBehaviourPun
         }
     }
 
-    // 2 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (sadece local player)
+    // 2 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (sadece local player veya enemy için)
     public void Update2DSlider(float maxValue, float value)
     {
-        // Eğer bu obje "Player" etiketliyse ve photonView.IsMine ise (yani benim karakterimse)
-        if (CompareTag("Player") && photonView.IsMine)
+        // Eğer obje "Player" veya "Enemy" etiketliyse ve photonView.IsMine ise
+        if ((CompareTag("Player") || CompareTag("Enemy")) && photonView.IsMine)
         {
             if (healthSlider2D != null)
             {

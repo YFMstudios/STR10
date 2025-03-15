@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-// Photon
 using Photon.Pun;
-using Photon.Realtime;
 
 public class Abilities : MonoBehaviourPun
 {
+    public enum CharacterType { Player, Enemy }
+    public CharacterType characterType; // **SADECE INSPECTOR'DAN AYARLANACAK**
+
     [Header("Ability 1")]
     public Image abilityImage1;
     public Text abilityText1;
@@ -39,15 +39,12 @@ public class Abilities : MonoBehaviourPun
     private Ray ray;
 
     public ManaSystem manaSystem;
-
-    // Ability2'yi iptal etmek için Coroutine referansı
     private Coroutine ability2TimeoutCoroutine;
 
     void Start()
     {
         manaSystem = GetComponent<ManaSystem>();
 
-        // Başlangıçta UI göstergeleri sıfır veya boş
         abilityImage1.fillAmount = 0;
         abilityImage2.fillAmount = 0;
         abilityText1.text = "";
@@ -62,29 +59,22 @@ public class Abilities : MonoBehaviourPun
 
     void Update()
     {
-        // Photon: Sadece local player (IsMine) bu scripti tam anlamıyla kontrol etsin
-        if (!photonView.IsMine)
-        {
-            return; 
-        }
+        if (!photonView.IsMine) return;
 
-        // Ekranda farenin olduğu yeri ray'e çevir
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        // Yetenek girişi (Input) ve kullanımlarını dinle
+        // Yeteneği kullanan karakter Player da olabilir Enemy de
         Ability1Input();
         Ability2Input();
 
-        // Cooldown güncellemelerini yap
-        AbilityCooldown(ability1Cooldown, abilityManaCost, 
-                        ref currentAbility1Cooldown, ref isAbility1Cooldown, 
+        AbilityCooldown(ability1Cooldown, abilityManaCost,
+                        ref currentAbility1Cooldown, ref isAbility1Cooldown,
                         abilityImage1, abilityText1);
 
-        AbilityCooldown(ability2Cooldown, ability2ManaCost, 
-                        ref currentAbility2Cooldown, ref isAbility2Cooldown, 
+        AbilityCooldown(ability2Cooldown, ability2ManaCost,
+                        ref currentAbility2Cooldown, ref isAbility2Cooldown,
                         abilityImage2, abilityText2);
 
-        // Canvas’ların (skillshot gösterge vs.) konumunu-görünüşünü güncelle
         Ability1Canvas();
         Ability2Canvas();
     }
