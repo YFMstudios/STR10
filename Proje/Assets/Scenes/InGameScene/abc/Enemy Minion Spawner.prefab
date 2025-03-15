@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7427281804350960737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5339737390301278198}
+  - component: {fileID: 8764284995304616237}
+  m_Layer: 0
+  m_Name: Enemy Minion Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5339737390301278198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427281804350960737}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 79.41, y: -2.25, z: 62.58}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8764284995304616237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427281804350960737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47407b3d0ea96ee4c828fe9a17cc802e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeMinionMoveSpeed: 3
+  rangedMinionMoveSpeed: 3
+  superMinionMoveSpeed: 3
+  meleeMinionPrefab: {fileID: 2379972077780547209, guid: bd7b9dee928e57a42b9114159b59e2a3, type: 3}
+  rangedMinionPrefab: {fileID: 2379972077780547209, guid: 49f4ddee6d9dc1b45bf5d845965325a5, type: 3}
+  superMinionPrefab: {fileID: 2379972077780547209, guid: 4fdc048357d2c9e46b6a865ad82fb0d1, type: 3}
+  spawnPoints:
+  - {fileID: 5339737390301278198}
+  spawnInterval: 20
+  minionsPerWave: 8
+  wavesUntilSuperMinion: 3
+  delayBetweenMinions: 1
