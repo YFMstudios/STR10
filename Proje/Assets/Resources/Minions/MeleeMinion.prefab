@@ -94,9 +94,9 @@ GameObject:
   - component: {fileID: -3816466005430610682}
   - component: {fileID: 7627656331015363098}
   - component: {fileID: -8326526324587816037}
+  - component: {fileID: -5319706510038584507}
   - component: {fileID: -4952907264910857934}
   - component: {fileID: 94592416968461357}
-  - component: {fileID: -5319706510038584507}
   m_Layer: 0
   m_Name: MeleeMinion
   m_TagString: AllyMinion
@@ -328,6 +328,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider3D: {fileID: 5732297155171440160}
+--- !u!114 &-5319706510038584507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2379972077780547209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: -4952907264910857934}
+  - {fileID: 94592416968461357}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &-4952907264910857934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,41 +384,17 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isAttacking
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isWalking
   - Type: 9
     SynchronizeType: 0
     Name: isDead
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &-5319706510038584507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2379972077780547209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 1
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: -4952907264910857934}
-  - {fileID: 94592416968461357}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &2699588796327531206
 GameObject:
   m_ObjectHideFlags: 0

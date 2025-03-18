@@ -6,15 +6,19 @@ public class BillboardCanvas : MonoBehaviour
 {
     Transform cameraTransform;  // Kamera transformu
 
-    // Baþlangýçta kamera transformunu al
-    void Start()
-    {
+    // Baï¿½langï¿½ï¿½ta kamera transformunu al
+ void Start()
+{
+    if (Camera.main != null)
         cameraTransform = Camera.main.transform;
-    }
+    else
+        Debug.LogError("MainCamera bulunamadÄ±! LÃ¼tfen kameranÄ±n etiketini 'MainCamera' yapÄ±n.");
+}
 
-    // Her frame'de kanvasýn daima kameraya doðru bakmasýný saðla
-    void LateUpdate()
-    {
+void LateUpdate()
+{
+    if (cameraTransform != null)
         transform.LookAt(transform.position + cameraTransform.rotation * -Vector3.forward, cameraTransform.rotation * Vector3.up);
-    }
+}
+
 }

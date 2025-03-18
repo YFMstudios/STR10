@@ -47,14 +47,68 @@ public class Abilities : MonoBehaviourPun
 
         abilityImage1.fillAmount = 0;
         abilityImage2.fillAmount = 0;
-        abilityText1.text = "";
-        abilityText2.text = "";
+        abilityText1.text = "abilityText1";
+        abilityText2.text = "abilityText2";
 
-        ability1Skillshot.enabled = false;
-        ability2RangeIndicator.enabled = false;
+        // Skillshot Image bulma
+        if (ability1Skillshot == null)
+        {
+            ability1Skillshot = GetComponentInChildren<Canvas>(true)
+                ?.transform.Find("Skillshot Image")?.GetComponent<Image>();
+            if (ability1Skillshot != null)
+                ability1Skillshot.enabled = false;
+            else
+                Debug.LogError("Skillshot Image bulunamadı!");
+        }
+        else
+        {
+            ability1Skillshot.enabled = false;
+        }
 
-        ability1Canvas.enabled = false;
-        ability2Canvas.enabled = false;
+        // Ability2RangeIndicator bulma
+        if (ability2RangeIndicator == null)
+        {
+            ability2RangeIndicator = GetComponentInChildren<Canvas>(true)
+                ?.transform.Find("Ability2RangeIndicator")?.GetComponent<Image>();
+            if (ability2RangeIndicator != null)
+                ability2RangeIndicator.enabled = false;
+            else
+                Debug.LogError("Ability2RangeIndicator bulunamadı!");
+        }
+        else
+        {
+            ability2RangeIndicator.enabled = false;
+        }
+
+        // Ability1Canvas bulma
+        if (ability1Canvas == null)
+        {
+            ability1Canvas = GetComponentInChildren<Canvas>(true)
+                ?.transform.Find("Ability1Canvas")?.GetComponent<Canvas>();
+            if (ability1Canvas != null)
+                ability1Canvas.enabled = false;
+            else
+                Debug.LogError("Ability1Canvas bulunamadı!");
+        }
+        else
+        {
+            ability1Canvas.enabled = false;
+        }
+
+        // Ability2Canvas bulma
+        if (ability2Canvas == null)
+        {
+            ability2Canvas = GetComponentInChildren<Canvas>(true)
+                ?.transform.Find("Ability2Canvas")?.GetComponent<Canvas>();
+            if (ability2Canvas != null)
+                ability2Canvas.enabled = false;
+            else
+                Debug.LogError("Ability2Canvas bulunamadı!");
+        }
+        else
+        {
+            ability2Canvas.enabled = false;
+        }
     }
 
     void Update()
@@ -63,10 +117,11 @@ public class Abilities : MonoBehaviourPun
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        // Yeteneği kullanan karakter Player da olabilir Enemy de
+        // Input ve Canvas işlemleri
         Ability1Input();
         Ability2Input();
 
+        // Cooldown işlemleri
         AbilityCooldown(ability1Cooldown, abilityManaCost,
                         ref currentAbility1Cooldown, ref isAbility1Cooldown,
                         abilityImage1, abilityText1);
@@ -75,6 +130,7 @@ public class Abilities : MonoBehaviourPun
                         ref currentAbility2Cooldown, ref isAbility2Cooldown,
                         abilityImage2, abilityText2);
 
+        // Canvasları takip ettir
         Ability1Canvas();
         Ability2Canvas();
     }
@@ -82,7 +138,6 @@ public class Abilities : MonoBehaviourPun
     #region ABILITY 1
     private void Ability1Canvas()
     {
-        // Ability1 skillshot gösterimi açık ise, mouse'u takip ettiriyoruz
         if (ability1Skillshot.enabled)
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
@@ -91,55 +146,53 @@ public class Abilities : MonoBehaviourPun
             }
 
             Quaternion ab1CanvasRot = Quaternion.LookRotation(position - transform.position);
-            ab1CanvasRot.eulerAngles = new Vector3(0, ab1CanvasRot.eulerAngles.y, ab1CanvasRot.eulerAngles.z);
+            ab1CanvasRot.eulerAngles = new Vector3(0, ab1CanvasRot.eulerAngles.y, 0);
             ability1Canvas.transform.rotation = ab1CanvasRot;
         }
     }
 
     private void Ability1Input()
     {
-        // Ability1 tuşuna basıldıysa ve cooldown yoksa
-        if (Input.GetKeyDown(ability1Key) && !isAbility1Cooldown)
+        // Yeterli mana + cooldown'da değilsek, skillshot modunu aç
+        if (Input.GetKeyDown(ability1Key) 
+            && !isAbility1Cooldown 
+            && manaSystem.CanAffordAbility(abilityManaCost))
         {
-            // Skillshot çizgilerini göster
             ability1Canvas.enabled = true;
             ability1Skillshot.enabled = true;
 
-            // Diğer ability canvas'ı kapat
+            // Diğer yetenek penceresi kapansın
             ability2Canvas.enabled = false;
             ability2RangeIndicator.enabled = false;
 
-            // Mouse görünür olsun
             Cursor.visible = true;
         }
 
-        // Skillshot modu açıkken sol tık yapınca yeteneği "onayla"
+        // Skillshot aktifken sol tık -> Yetenek kullan
         if (ability1Skillshot.enabled && Input.GetMouseButtonDown(0))
         {
-            // Cooldown başlat (yerel)
+            // Cooldown başlat
             isAbility1Cooldown = true;
             currentAbility1Cooldown = ability1Cooldown;
 
-            // Mana düşürmek istersen bu noktada yapabilirsin
-            // manaSystem.UseMana(abilityManaCost);
+            // Mana düşür
+            manaSystem.UseAbility(abilityManaCost);
 
-            // Bu yetenekle ilgili hasar veya görsel efekti
-            // Tüm oyuncular görebilsin diye, RPC ile paylaşabilirsiniz.
+            // Örnek: Herkesin görmesi için bir RPC
             // photonView.RPC("RPC_Ability1Effect", RpcTarget.All, position);
 
-            // Geçici olarak skill UI'ını kapatalım
+            // Canvas kapat
             ability1Canvas.enabled = false;
             ability1Skillshot.enabled = false;
         }
     }
 
     /*
-    // Örneğin Ability1'de hasar veya efekt oluşturmak için bir RPC
+    // Örnek RPC
     [PunRPC]
     private void RPC_Ability1Effect(Vector3 castPosition)
     {
-        // Burada Projectile veya görsel efekt instantiate edebilir,
-        // Yere AoE hasarı verebilirsin vb.
+        // Projectile veya AoE hasar
     }
     */
     #endregion
@@ -147,9 +200,7 @@ public class Abilities : MonoBehaviourPun
     #region ABILITY 2
     private void Ability2Canvas()
     {
-        // Menzil göstergesini ayarlamak için
         int layerMask = ~LayerMask.GetMask("Player");
-
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             if (hit.collider.gameObject != this.gameObject)
@@ -168,42 +219,41 @@ public class Abilities : MonoBehaviourPun
 
     private void Ability2Input()
     {
-        // Ability2 tuşuna basıldıysa, cooldown yoksa ve mana yeterliyse
-        if (Input.GetKeyDown(ability2Key) && !isAbility2Cooldown && manaSystem.CanAffordAbility(ability2ManaCost))
+        if (Input.GetKeyDown(ability2Key)
+            && !isAbility2Cooldown
+            && manaSystem.CanAffordAbility(ability2ManaCost))
         {
             ability2Canvas.enabled = true;
             ability2RangeIndicator.enabled = true;
             Cursor.visible = true;
 
-            // Eski coroutine varsa iptal et
+            // Eski coroutine varsa iptal
             if (ability2TimeoutCoroutine != null)
             {
                 StopCoroutine(ability2TimeoutCoroutine);
             }
 
-            // 7 sn içinde hamle gelmezse, iptal et
+            // 7 sn içinde hamle gelmezse iptal
             ability2TimeoutCoroutine = StartCoroutine(Ability2Timeout());
         }
 
         // Canvas açıkken sol tık -> Yeteneği kullan
         if (ability2Canvas.enabled && Input.GetMouseButtonDown(0))
         {
-            // Local cooldown başlat
             isAbility2Cooldown = true;
             currentAbility2Cooldown = ability2Cooldown;
 
-            // Mana düşürülebilir
-            // manaSystem.UseMana(ability2ManaCost);
+            // Mana düş
+            manaSystem.UseAbility(ability2ManaCost);
 
-            // **Hasar veya etkiyi herkesin görmesi için bir RPC yolluyoruz**
+            // Hasarı veya etkiyi herkese yolla
             photonView.RPC("RPC_Ability2Damage", RpcTarget.All, position);
 
-            // Canvas'ı kapat
+            // Canvas kapat
             CloseAbility2();
         }
     }
 
-    // 7 saniye bekler, hâlâ kullanılmamışsa iptal
     private IEnumerator Ability2Timeout()
     {
         yield return new WaitForSeconds(7f);
@@ -221,7 +271,7 @@ public class Abilities : MonoBehaviourPun
         ability2TimeoutCoroutine = null;
     }
 
-    // Bu RPC, tüm istemcilerde çalışır
+    // Tüm istemcilerde çalışır
     [PunRPC]
     private void RPC_Ability2Damage(Vector3 abilityCenter)
     {
@@ -233,7 +283,6 @@ public class Abilities : MonoBehaviourPun
             ObjectiveStats enemyStats = hitCollider.GetComponent<ObjectiveStats>();
             if (enemyStats != null)
             {
-                // Hasarı tüm istemcilerde uygular
                 enemyStats.TakeDamage(65);
             }
         }
@@ -268,7 +317,7 @@ public class Abilities : MonoBehaviourPun
         }
         else
         {
-            // Cooldown yokken mana durumunu kontrol ediyoruz
+            // Cooldown yokken mana durumunu kontrol
             if (manaSystem.CanAffordAbility(abilityManaCost))
             {
                 // Yeterli mana varsa
@@ -284,7 +333,7 @@ public class Abilities : MonoBehaviourPun
             }
             else
             {
-                // Mana yoksa renk farklı olabilir
+                // Mana yoksa renk başka
                 if (skillImage != null)
                 {
                     skillImage.color = Color.blue;

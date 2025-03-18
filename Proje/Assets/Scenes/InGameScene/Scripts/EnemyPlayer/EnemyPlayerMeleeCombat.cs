@@ -1,123 +1,89 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-[RequireComponent(typeof(EnemyPlayerMovement)), RequireComponent(typeof(Stats))]
-public class EnemyPlayerMeleeCombat : MonoBehaviour
+[RequireComponent(typeof(EnemyPlayerMovement)), RequireComponent(typeof(Stats)), RequireComponent(typeof(PhotonView))]
+public class EnemyPlayerMeleeCombat : MonoBehaviourPun
 {
-    private EnemyPlayerMovement moveScript;        // Hareket script bileşeni
-    private Stats stats;                // Oyuncu istatistikleri bileşeni
-    private Animator anim;              // Animator bileşeni
+    private EnemyPlayerMovement moveScript;
+    private Stats stats;
+    private Animator anim;
 
     [Header("Target")]
-    public GameObject targetEnemy;      // Hedeflenen düşman objesi
+    public GameObject targetEnemy;
 
     [Header("Melee Attack Variables")]
-    public bool performMeleeAttack = true;  // Melee saldırı yapılıyor mu?
-    private float attackInterval;           // Saldırı aralığı
-    private float nextAttackTime = 0;       // Bir sonraki saldırı zamanı
+    public bool performMeleeAttack = true;
+    private float attackInterval;
+    private float nextAttackTime = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
-        moveScript = GetComponent<EnemyPlayerMovement>();   // Hareket script bileşenini al
-        stats = GetComponent<Stats>();           // Oyuncu istatistikleri bileşenini al
-        anim = GetComponent<Animator>();         // Animator bileşenini al
+        moveScript = GetComponent<EnemyPlayerMovement>();
+        stats = GetComponent<Stats>();
+        anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        attackInterval = stats.attackSpeed / ((500 + stats.attackSpeed) * 0.01f);  // Saldırı aralığını hesapla
+        if (!photonView.IsMine)
+            return;
 
-        targetEnemy = moveScript.targetEnemy;  // Hedef düşmanı güncelle (Movement scriptinden alınan)
+        attackInterval = stats.attackSpeed / ((500 + stats.attackSpeed) * 0.01f);
+        targetEnemy = moveScript.targetEnemy;
 
-        if (targetEnemy != null)
-        {
-            Debug.Log("Target enemy found: " + targetEnemy.name); // Hedef doğru şekilde alınıyor mu kontrol et
-        }
-        else
-        {
-            Debug.LogWarning("Target enemy is null!");
-        }
-
-        // Eğer hedeflenen düşman varsa, melee saldırı yapılabiliyorsa ve saldırı zamanı geldiyse
         if (targetEnemy != null && performMeleeAttack && Time.time > nextAttackTime)
         {
-            // Mesafeyi hesapla
             float distance = Vector3.Distance(transform.position, targetEnemy.transform.position);
 
-            // Debug: Mesafeyi yazdır
-            Debug.Log("Mesafe: " + distance + " StoppingDistance: 4");
-
-            // Eğer mesafe 4'e eşit ya da küçükse
-            if (distance <= 3.5f)  // Mesafeyi 4 olarak belirledik
+            if (distance <= 3.5f)
             {
-                Debug.Log("Yeterli mesafeye gelindi, saldırı başlayacak.");
                 StartCoroutine(MeleeAttackInterval());
-            }
-            else
-            {
-                Debug.Log("Hedefe yaklaşılacak. Mesafe: " + distance);
             }
         }
     }
 
-
-
-
-    // Melee saldırı aralığını yöneten Coroutine
     private IEnumerator MeleeAttackInterval()
     {
-        performMeleeAttack = false;    // Melee saldırı yapma iznini kapat
-
-        // Saldırı animasyonunu tetikle
+        performMeleeAttack = false;
         anim.SetBool("isAttacking", true);
 
-        // Saldırı hızı/Aralık değerine göre bekle
         yield return new WaitForSeconds(attackInterval);
 
-        // Eğer hedef düşman hala hayattaysa
         if (targetEnemy == null)
         {
-            // Animasyon bool'unu kapat ve tekrar saldırı yapabilme iznini aç
             anim.SetBool("isAttacking", false);
             performMeleeAttack = true;
         }
     }
 
-    // Animasyon eventinde çağrılan fonksiyon
+    // Animasyon event'inde çağrılır
     private void MeleeAttack()
     {
-        Debug.Log("MeleeAttack çağrıldı! Hedef: " + targetEnemy.name);
+        if (!photonView.IsMine)
+            return;
 
         if (targetEnemy != null)
         {
-            // Eğer hedef düşman bir minyon veya başka bir oyuncu ise
             Stats enemyStats = targetEnemy.GetComponent<Stats>();
             if (enemyStats != null)
             {
-                enemyStats.TakeDamage(gameObject, stats.damage);  // Kendi hasarını düşmana uygula
+                // Lokal TakeDamage çağırarak, Stats içindeki RPC_ApplyDamage tetiklenir.
+                enemyStats.TakeDamage(stats.damage);
             }
-            // Eğer hedef bir minyon ise, ObjectiveStats kontrol et
             else
             {
                 ObjectiveStats enemyObjectiveStats = targetEnemy.GetComponent<ObjectiveStats>();
                 if (enemyObjectiveStats != null)
                 {
-                    enemyObjectiveStats.TakeDamage(stats.damage);  // Minyon veya başka bir objeye hasar uygula
+                    enemyObjectiveStats.TakeDamage(stats.damage);
                 }
             }
         }
 
-        // Saldırı aralığını güncelle
         nextAttackTime = Time.time + attackInterval;
-
-        // Saldırı animasyonunu durdur
         anim.SetBool("isAttacking", false);
-
-        // Bir sonraki saldırıya hazır ol
         performMeleeAttack = true;
     }
-
 }

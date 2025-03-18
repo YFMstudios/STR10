@@ -2903,6 +2903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa77ac6dd3693c741857e8ba57a32c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterType: 0
   abilityImage1: {fileID: 0}
   abilityText1: {fileID: 0}
   ability1Key: 49
@@ -3030,7 +3031,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 1
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
@@ -3073,16 +3074,16 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters:
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Speed
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: isAttacking
   - Type: 9
     SynchronizeType: 0
     Name: Ezreal Q
   m_SynchronizeLayers:
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 0
 --- !u!114 &-8625690560451914442
 MonoBehaviour:
