@@ -1,71 +1,89 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class MinionRangedCombat : MonoBehaviour
+public class MinionRangedCombat : MonoBehaviourPunCallbacks
 {
-    public GameObject projectilePrefab;        // Ateşlenecek mermi prefab'ı
-    public Transform projectileSpawnPoint;     // Mermi spawn noktası
-    public float attackCooldown = 1.0f;        // Saldırı aralığı (cooldown)
+    [Header("Projectile Settings (Koddan Belirliyoruz)")]
+    // Burada "Allied" yani dost menzilli minyonun mermisini referanslıyoruz:
+    private const string ALLY_PROJECTILE_PATH = "Projectiles/AllyRangedMinionProjectile";
 
-    private float attackRange;                 // Saldırı menzili
-    private float attackDamage;                // Saldırı hasarı
-    private float lastAttackTime;              // Son saldırı zamanı
+    public Transform projectileSpawnPoint; // Mermi çıkış noktası
+    public float attackCooldown = 1.0f;    // Saldırı süresi
 
-    private ObjectiveStats stats;              // Obje üzerindeki istatistikler bileşeni
-    private MinionAI minionAI;                 // Minion hareket ve hedef yönetimi bileşeni
-    private Animator animator;                 // Animator bileşeni
+    private float attackRange;     
+    private float attackDamage;    
+    private float lastAttackTime;
+
+    private ObjectiveStats stats;  
+    private MinionAI minionAI;     
+    private Animator animator;
 
     private void Start()
     {
-        stats = GetComponent<ObjectiveStats>();        // Obje üzerindeki istatistikler bileşeni alınır
-        minionAI = GetComponent<MinionAI>();           // Minion hareket ve hedef yönetimi bileşeni alınır
-        animator = GetComponent<Animator>();           // Animator bileşeni alınır
+        stats = GetComponent<ObjectiveStats>();
+        minionAI = GetComponent<MinionAI>();
+        animator = GetComponent<Animator>();
 
-        attackRange = minionAI.stopDistance + 0.5f;     // Saldırı menzili minion hareket bileşeninden alınır
-        attackDamage = stats.damage;                   // Saldırı hasarı istatistikler bileşeninden alınır
+        // Bu minyonun menzili ve hasarı
+        attackRange = minionAI.stopDistance + 0.5f;
+        attackDamage = stats.damage;
     }
 
     private void Update()
     {
+        // Sadece Master Client saldırı hesaplasın
+        if (!PhotonNetwork.IsMasterClient) 
+        {
+            return;
+        }
+
+        // Hedef menzil içindeyse ve cooldown dolmuşsa Attack()
         if (Time.time >= lastAttackTime + attackCooldown && IsTargetInRange())
         {
-            Attack(); // Saldırı gerçekleştir
+            Attack();
         }
         else if (!IsTargetInRange())
         {
-            minionAI.StopCombat(); // Hedefte değilse savaşı durdur
-            animator.SetBool("isAttacking", false); // Saldırı animasyonunu durdur
-            animator.SetBool("isWalking", true);   // Yürüme animasyonunu başlat
+            minionAI.StopCombat();
+            animator.SetBool("isAttacking", false);
+            animator.SetBool("isWalking", true);
         }
     }
 
     private bool IsTargetInRange()
     {
-        // Minion'un hedefi var mı ve hedef minion'un saldırı menzilinde mi kontrol eder
         return minionAI.currentTarget != null &&
                Vector3.Distance(transform.position, minionAI.currentTarget.position) <= attackRange;
     }
 
     private void Attack()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            lastAttackTime = Time.time; // Son saldırı zamanını güncelle
-            minionAI.StartCombat();    // Minion savaşı başlatır
+            lastAttackTime = Time.time;
+            minionAI.StartCombat();
 
-            // Saldırı animasyonunu tetikle
             animator.SetBool("isAttacking", true);
             animator.SetBool("isWalking", false);
 
-            // ProjectilePrefab'ten yeni bir mermi (projectile) oluştur
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-            MinionRangedProjectile projectileScript = projectile.GetComponent<MinionRangedProjectile>();
-            projectileScript.SetTarget(minionAI.currentTarget.gameObject, attackDamage); // Mermiye hedef ve saldırı hasarı ata
+            // DOĞRUDAN Resources içindeki prefab'ı ağ üzerinden oluşturuyoruz
+            GameObject projectile = PhotonNetwork.Instantiate(
+                ALLY_PROJECTILE_PATH, 
+                projectileSpawnPoint.position, 
+                Quaternion.identity
+            );
 
-            // Eğer hedef oyuncuysa hasar verme işlemi
+            // Mermi script'ine hedef ve hasar bilgisini iletiyoruz
+            MinionRangedProjectile projectileScript = projectile.GetComponent<MinionRangedProjectile>();
+            projectileScript.SetTarget(minionAI.currentTarget.gameObject, attackDamage);
+
+            // İsterseniz, projectile çarpmasını beklemeden anında hasar da verebilirsiniz:
             if (minionAI.currentTarget.CompareTag("Enemy"))
             {
-                Stats playerStats = minionAI.currentTarget.GetComponent<Stats>();
-                playerStats?.TakeDamage(gameObject, attackDamage); // Null check ile hasar verir
+                Stats enemyStats = minionAI.currentTarget.GetComponent<Stats>();
+                enemyStats?.TakeDamage(gameObject, attackDamage);
             }
         }
     }

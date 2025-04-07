@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -10,87 +8,82 @@ public class NextGame : MonoBehaviourPunCallbacks
 {
     private string opponentName; // Rakibin ismi
 
-    
-
     // Butona tıklandığında çalışacak olan fonksiyon
     public void goWarScene()
     {
-        // Debug: Single-player kontrolü yapılırken
         Debug.Log("Single-player kontrolü başlatılıyor...");
 
-        // Öncelikle Single-player kontrolü yapılır
         if (ScreenTransitions2.ScreenNavigator.previousScreen == "Simple" ||
             ScreenTransitions2.ScreenNavigator.previousScreen == "Mid" ||
             ScreenTransitions2.ScreenNavigator.previousScreen == "Hard")
         {
-            // Single-player modunda, direkt 7. sahneye geçiş yap
             Debug.Log("Single-player modunda. 7. ekrana yönlendiriliyor...");
             GoToWarScene();
-            return; // Single-player kontrolü sağlandıysa geri kalan işlemler yapılmaz
+            return;
         }
 
-        // Eğer Single-player değilse, mevcut multiplayer işlemleri devam eder
-        Debug.Log("Multiplayer modunda. Rakip kontrolü ve diğer işlemler başlatılıyor...");
+        Debug.Log("Multiplayer modunda. Rakip kontrolü ve rol atamaları başlatılıyor...");
 
-        // RegionClickHandler'ın opponentName özelliğinin null olup olmadığını kontrol et
-        if (RegionClickHandler.opponentName != null)
+        opponentName = RegionClickHandler.opponentName;
+
+        if (string.IsNullOrEmpty(opponentName))
         {
-            opponentName = RegionClickHandler.opponentName;
-            Debug.Log("Opponent Name (Savunan Kişi): " + opponentName);
+            Debug.LogWarning("Rakip adı null ancak yine de 7. sahneye geçiyoruz...");
         }
         else
         {
-            Debug.LogError("Rakip adı null! RegionClickHandler'ı kontrol edin.");
-            return; // opponentName null ise fonksiyonu erken sonlandırıyoruz
+            Debug.Log("Opponent Name (Savunan Kişi): " + opponentName);
+
+            // Roller burada atanıyor
+            AssignPlayerRoles(opponentName);
         }
 
-        // Oda bilgilerine war özelliğini opponentName ile ekliyoruz
-        Debug.Log("War bilgileri odada güncelleniyor...");
-        SetWarInfo(opponentName);
-
-        // War durumu her iki oyuncu için true olarak ayarlanıyor
-        Debug.Log("War durumu odada güncelleniyor...");
-        PhotonNetwork.Disconnect();
         GoToWarScene();
     }
 
-    // Oda bilgilerine war özelliğini opponentName ile ekliyoruz
-    private void SetWarInfo(string opponentName)
+    private void AssignPlayerRoles(string defenderName)
     {
-        Debug.Log("SetWarInfo fonksiyonu çağrıldı. opponentName: " + opponentName);
-
-        ExitGames.Client.Photon.Hashtable warInfo = new ExitGames.Client.Photon.Hashtable
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            { "opponentName", opponentName }
-        };
+            if (player.NickName == PhotonNetwork.LocalPlayer.NickName)
+            {
+                // Bu butona basan oyuncuyu attacker olarak ayarla
+                player.SetCustomProperties(new Hashtable { { "Role", "attacker" } });
+                Debug.Log(player.NickName + " rolü: attacker");
+            }
+            else if (player.NickName == defenderName)
+            {
+                // Rakip olan oyuncuyu defender olarak ayarla
+                player.SetCustomProperties(new Hashtable { { "Role", "defender" } });
+                Debug.Log(player.NickName + " rolü: defender");
+            }
+            else
+            {
+                // Diğer tüm oyuncuları spectator yap
+                player.SetCustomProperties(new Hashtable { { "Role", "spectator" } });
+                Debug.Log(player.NickName + " rolü: spectator");
+            }
+        }
 
-        // Oda bilgilerini güncelliyoruz
-        PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable
+        // Ek olarak, savaş bilgilerini oda özelliklerine yazabilirsin:
+        PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
         {
-            { "war", warInfo } // 'war' bilgisini güncelle
+            { "war", new Hashtable { { "opponentName", defenderName } } }
         });
 
-        // Debug: War bilgisi güncellendi
-        Debug.Log("War bilgileri odada güncellendi. opponentName: " + opponentName);
+        Debug.Log("War bilgileri odada güncellendi. opponentName: " + defenderName);
     }
 
-    // 7. Ekrana gitme fonksiyonu
     private void GoToWarScene()
     {
         try
         {
-            // Debug: Sahne yükleniyor
             Debug.Log("7. sahneye yönlendiriliyor...");
-            
-            // Sahne yükleniyor
-            SceneManager.LoadScene(7); // 7. sahne
+            SceneManager.LoadScene(7);
         }
         catch (System.Exception e)
         {
-            // Eğer sahne yüklenirken bir hata olursa
             Debug.LogError("Sahne yüklenirken hata oluştu: " + e.Message);
         }
     }
-
-    
 }

@@ -2,84 +2,80 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
-public class EnemyPlayerHighlightManager : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(PhotonTransformView))]
+public class EnemyPlayerHighlightManager : MonoBehaviourPun
 {
-    private Transform highlightedObj;    // Üzerine gelinen objeyi temsil eden transform
-    private Transform selectedObj;       // Seçilen objeyi temsil eden transform
-    public LayerMask selectableLayer;    // Hover ve seçim işlemlerinin yapılacağı katman maskesi
+    private Transform highlightedObj;    // Üzerine gelinen obje
+    private Transform selectedObj;       // Seçilen obje
+    public LayerMask selectableLayer;    // Seçilebilir objelerin katman maskesi
 
-    private Outline highlightOutline;    // Objeye eklenen kontur bileşeni
-    private RaycastHit hit;              // Raycast sonucunu tutacak değişken
+    private Outline highlightOutline;    // Kontur bileşeni
+    private RaycastHit hit;              // Raycast sonucu
 
-    // Update is called once per frame
     void Update()
     {
-        HoverHighlight();   // Her güncelleme çerçevesinde hover (üzerine gelme) işlemi yap
+        if (!photonView.IsMine)
+            return;
+
+        HoverHighlight();
     }
 
-    // Fare imleci ile üzerine gelinen objeyi vurgulayan fonksiyon
-    public void HoverHighlight()
+    void HoverHighlight()
     {
         if (highlightedObj != null)
         {
             if (highlightOutline != null)
-            {
-                highlightOutline.enabled = false; // Eğer önceki vurgulanan obje varsa konturunu kapat
-            }
-            highlightedObj = null; // Önceki objeyi temizle
+                highlightOutline.enabled = false;
+
+            highlightedObj = null;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // Fare imlecinin dünya koordinatlarındaki pozisyonunu al
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit, selectableLayer))
+        if (!EventSystem.current.IsPointerOverGameObject() && Physics.Raycast(ray, out hit, Mathf.Infinity, selectableLayer))
         {
-            highlightedObj = hit.transform; // Çarpılan objeyi highlightedObj olarak ayarla
+            highlightedObj = hit.transform;
 
             if ((highlightedObj.CompareTag("Player") || highlightedObj.CompareTag("AllyMinion") || highlightedObj.CompareTag("AllyTurret")) && highlightedObj != selectedObj)
             {
-                highlightOutline = highlightedObj.GetComponent<Outline>(); // Kontur bileşenini al
-                if (highlightOutline != null) // Kontur bileşeni varsa
-                {
-                    highlightOutline.enabled = true; // Konturu aktif et
-                }
+                highlightOutline = highlightedObj.GetComponent<Outline>();
+
+                if (highlightOutline != null)
+                    highlightOutline.enabled = true;
             }
             else
             {
-                highlightedObj = null; // Eğer obje uygun değilse null olarak ayarla
+                highlightedObj = null;
             }
         }
     }
 
-
-    // Seçilen objeyi vurgulayan fonksiyon
     public void SelectedHighlight()
     {
-        if (highlightedObj != null)
+        if (highlightedObj != null && (highlightedObj.CompareTag("Player") || highlightedObj.CompareTag("AllyMinion") || highlightedObj.CompareTag("AllyTurret")))
         {
-            if (highlightedObj.CompareTag("Player") || highlightedObj.CompareTag("AllyMinion") || highlightedObj.CompareTag("AllyTurret"))
-            {
-                if (selectedObj != null)
-                {
-                    selectedObj.GetComponent<Outline>().enabled = false;  // Önceki seçili objenin konturunu kapat
-                }
+            if (selectedObj != null && selectedObj.GetComponent<Outline>() != null)
+                selectedObj.GetComponent<Outline>().enabled = false;
 
-                selectedObj = hit.transform;  // Yeni seçilen objeyi güncelle
-                selectedObj.GetComponent<Outline>().enabled = true;  // Yeni seçilen objenin konturunu aç
+            selectedObj = highlightedObj;
+            selectedObj.GetComponent<Outline>().enabled = true;
 
-                highlightOutline.enabled = true;  // Vurgu konturunu aç
-                highlightedObj = null;  // Vurgulanmış objeyi temizle
-            }
+            if (highlightOutline != null)
+                highlightOutline.enabled = true;
+
+            highlightedObj = null;
         }
     }
 
-    // Vurgulamayı kaldıran fonksiyon
     public void DeselectHighlight()
     {
         if (selectedObj != null)
         {
-            selectedObj.GetComponent<Outline>().enabled = false;  // Seçili objenin konturunu kapat
-            selectedObj = null;  // Seçili objeyi temizle
+            selectedObj.GetComponent<Outline>().enabled = false;
+            selectedObj = null;
         }
     }
 }

@@ -44,15 +44,15 @@ MonoBehaviour:
   - BroadcastInGameMessage
   - SetWarStatusRPC
   - StartWarForPlayers
-<<<<<<< HEAD
-=======
   - RPC_SpawnMinionLocally
   - RPC_HandleDeath
   - RPC_TakeDamageAll
   - RPC_Ability2Damage
   - RPC_ApplyDamage
   - RPC_BecomeInvisible
->>>>>>> main
+  - AttackTarget
+  - SetOwnership
+  - BroadcastKingdom
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

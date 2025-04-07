@@ -27,7 +27,7 @@ public class Stats : MonoBehaviourPun
 
         if (healthUI != null)
         {
-            healthUI.start3DSlider(health);
+            healthUI.Start3DSlider(health);
             healthUI.Update2DSlider(health, currentHealth);
         }
     }
@@ -115,8 +115,9 @@ public class Stats : MonoBehaviourPun
             healthUI.Update2DSlider(health, 0);
         }
 
+        WarController.playerIsDead = true;
         // Photon ile yok edelim (tüm istemcilerde silinsin)
-        PhotonNetwork.Destroy(gameObject);
+       // PhotonNetwork.Destroy(gameObject);
     }
 
     // Hasar geçişini yapan Coroutine
@@ -145,6 +146,6 @@ public class Stats : MonoBehaviourPun
         if (healthUI == null) return;
 
         healthUI.Update2DSlider(health, currentHealth);
-        healthUI.update3DSlider(currentHealth);
+        healthUI.Update3DSlider(currentHealth);
     }
 }

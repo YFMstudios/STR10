@@ -1,56 +1,63 @@
+using Photon.Pun;
 using UnityEngine;
 
-public class MinionMeleeDefenceCombat : MonoBehaviour
+public class MinionMeleeDefenceCombat : MonoBehaviourPunCallbacks
 {
-    private float attackRange = 1.0f;        // Sald�r� menzili
-    private float attackDamage = 10.0f;      // Sald�r� hasar�
-    public float attackCooldown = 1.0f;      // Sald�r� aral���
+    private float attackRange = 1.0f;        
+    private float attackDamage = 10.0f;      
+    public float attackCooldown = 1.0f;      
 
-    private float lastAttackTime;            // Son sald�r� zaman�
-    private bool isAttacking = false;        // Sald�r� durumu
+    private float lastAttackTime;            
+    private bool isAttacking = false;        
 
-    private ObjectiveStats stats;            // Hedefin istatistik bilgileri
-    private MinionAIDefence minionAI;               // Minion AI bile�eni
+    private ObjectiveStats stats;            
+    private MinionAIDefence minionAI;               
 
     private void Start()
     {
-        stats = GetComponent<ObjectiveStats>(); // ObjectiveStats bile�eni al�n�r
-        minionAI = GetComponent<MinionAIDefence>();   // MinionAI bile�eni al�n�r
+        stats = GetComponent<ObjectiveStats>();
+        minionAI = GetComponent<MinionAIDefence>();
 
-        attackRange = minionAI.stopDistance + 0.5f; // Sald�r� menzili, durma mesafesine eklenir
-        attackDamage = stats.damage;                // Sald�r� hasar�, ObjectiveStats bile�eninden al�n�r
+        attackRange = minionAI.stopDistance + 0.5f; 
+        attackDamage = stats.damage;
     }
 
     private void Update()
     {
+        // Saldırı mantığı sadece Master Client'ta işlesin
+        if (!PhotonNetwork.IsMasterClient) return;
+
         if (isAttacking && Time.time - lastAttackTime >= attackCooldown)
         {
             isAttacking = false;
-            minionAI.StopCombat(); // Sald�r� aral��� sonunda sava�� durdur
+            minionAI.StopCombat();
         }
 
         if (minionAI.currentTarget != null && !isAttacking && IsTargetInRange())
         {
-            Attack(); // Hedef sald�r� menzilinde ve sald�r� durumunda ise sald�r� yap
+            Attack();
         }
     }
 
     private bool IsTargetInRange()
     {
         float distanceToTarget = Vector3.Distance(transform.position, minionAI.currentTarget.position);
-        return distanceToTarget <= attackRange; // Hedef sald�r� menzili i�inde mi kontrol�
+        return distanceToTarget <= attackRange;
     }
 
     private void Attack()
     {
+        // Tekrar kontrol edelim
+        if (!PhotonNetwork.IsMasterClient) return;
+
         lastAttackTime = Time.time;
         isAttacking = true;
-        minionAI.StartCombat(); // Sald�r�y� ba�lat ve sava� durumunu g�ncelle
+        minionAI.StartCombat();
 
         ObjectiveStats targetStats = minionAI.currentTarget.GetComponent<ObjectiveStats>();
         if (targetStats != null)
         {
-            targetStats.TakeDamage(attackDamage); // Hedefin can�n� d���r
+            targetStats.TakeDamage(attackDamage);
         }
     }
 }

@@ -2,123 +2,146 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
-public class EnemyPlayerMovement : MonoBehaviour
+[RequireComponent(typeof(PhotonView))]
+public class EnemyPlayerMovement : MonoBehaviourPun
 {
-    public NavMeshAgent agent;                  // NavMeshAgent bileşeni
-    public float rotateSpeedMovement = 0.05f;   // Hareket sırasında dönüş hızı
-    private float rotateVelocity;               // Dönüş hızı için geçici değişken
+    public NavMeshAgent agent;
+    public float rotateSpeedMovement = 0.05f;
+    private float rotateVelocity;
 
-    public Animator anim;                       // Animator bileşeni
-    float motionSmoothTime = 0.1f;              // Animasyon geçiş süresi
+    public Animator anim;
+    float motionSmoothTime = 0.1f;
 
     [Header("Enemy Targeting")]
-    public GameObject targetEnemy;              // Hedeflenen düşman objesi
-    public float stoppingDistance;              // Durdurma mesafesi
-    private EnemyPlayerHighlightManager hmScript;          // HighlightManager bileşeni
+    public GameObject targetEnemy;
+    public float stoppingDistance;
+    private EnemyPlayerHighlightManager hmScript;
 
     void Start()
     {
-        agent = gameObject.GetComponent<NavMeshAgent>();  // NavMeshAgent bileşenini al
-        hmScript = GetComponent<EnemyPlayerHighlightManager>();      // HighlightManager bileşenini al
+        agent = GetComponent<NavMeshAgent>();
+        hmScript = GetComponent<EnemyPlayerHighlightManager>();
+        
+        // Eğer bu karakter bana ait değilse:
+        if (!photonView.IsMine)
+        {
+            // Eski yaklaşım “agent.enabled = false;” olabilir.
+            // Ama eğer uzaktaki hareketleri de göreceksek, agent açık kalabilir.
+            // Tercihe göre kapatabilir veya açık bırakabilirsiniz:
+            // agent.enabled = false;
+            return;
+        }
+
+        // Bu noktada karakter bana ait; agent'ı etkin kılıyoruz
+        agent.enabled = true;
+
+        // --- ÖNEMLİ KISIM: Karakter NavMesh üzerinde mi? ---
+        // Bazen spawn noktası çok kenarda veya hafif havada kalırsa agent navmesh’e oturmuyor.
+        // Bu yüzden yakın bir konumda NavMesh varsa oraya warp ediyoruz.
+        if (!agent.isOnNavMesh)
+        {
+            // 5f yarıçap kadar alanda en yakın navmesh noktasını bulmaya çalış
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            {
+                agent.Warp(hit.position);
+            }
+            else
+            {
+                Debug.LogError("NavMesh üzerinde yer bulunamadı! Spawn noktası geçersiz olabilir.");
+            }
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Animation();    // Animasyonları güncelle
-        Move();         // Hareketi yönet
+        // Agent bana ait değilse, input kodları devre dışı
+        if (!photonView.IsMine) return;
+
+        Animation();
+        Move();
     }
 
-    // Animasyonu güncelleyen fonksiyon
     public void Animation()
     {
-        float speed = agent.velocity.magnitude / agent.speed;  // Hızı hesapla
-        anim.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);  // Animasyon parametresini güncelle
+        float speed = agent.velocity.magnitude / agent.speed;
+        anim.SetFloat("Speed", speed, motionSmoothTime, Time.deltaTime);
     }
 
-    // Hareketi yöneten fonksiyon
     public void Move()
     {
-        if (Input.GetMouseButtonDown(1))    // Fare sağ tuşa basıldıysa
+        if (Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
-
-            // Fare pozisyonundan Raycast yaparak nesneyi tespit et
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                if (hit.collider.tag == "Ground")   // Eğer tıklanan zemin ise
+                if (hit.collider.CompareTag("Ground"))
                 {
-                    MoveToPosition(hit.point);      // Belirlenen noktaya hareket et
+                    MoveToPosition(hit.point);
                 }
-                else if (hit.collider.CompareTag("Player") || hit.collider.CompareTag("AllyMinion") || hit.collider.CompareTag("AllyTurret"))
+                else if (hit.collider.CompareTag("Player") ||
+                         hit.collider.CompareTag("AllyMinion") ||
+                         hit.collider.CompareTag("AllyTurret"))
                 {
                     MoveTowardsEnemy(hit.collider.gameObject);
                 }
-
             }
         }
 
-        // Eğer hedeflenen düşman varsa
         if (targetEnemy != null)
         {
-            // Oyuncu düşmandan belirli bir mesafede ise
             if (Vector3.Distance(transform.position, targetEnemy.transform.position) > stoppingDistance)
             {
-                agent.SetDestination(targetEnemy.transform.position);  // Düşmanın konumuna git
+                agent.SetDestination(targetEnemy.transform.position);
             }
         }
     }
 
-    // Belirli bir noktaya hareket etmeyi sağlayan fonksiyon
     public void MoveToPosition(Vector3 position)
     {
-        agent.SetDestination(position);         // Belirlenen noktaya git
-        agent.stoppingDistance = 0;             // Durma mesafesini sıfırla
+        // Agent navmesh üzerinde mi kontrol edebiliriz:
+        if (!agent.isOnNavMesh) return;
 
-        Rotation(position);                     // Rotasyonu ayarla
+        agent.SetDestination(position);
+        agent.stoppingDistance = 0;
+        Rotation(position);
 
-        // Eğer hedeflenen düşman varsa ve seçiliyse, vurguyu kaldır
         if (targetEnemy != null)
         {
             hmScript.DeselectHighlight();
             targetEnemy = null;
         }
-        // Aksi takdirde, hedef düşmanı sıfırla
-        else if (position.y >= 0.1f)
-        {
-            targetEnemy = null;
-        }
     }
 
-    // Düşmana doğru hareket etmeyi sağlayan fonksiyon
     public void MoveTowardsEnemy(GameObject enemy)
     {
-        targetEnemy = enemy;                    // Hedeflenen düşmanı ayarla
-        agent.SetDestination(targetEnemy.transform.position);  // Düşmanın konumuna git
-        agent.stoppingDistance = stoppingDistance;  // Durma mesafesini ayarla
+        if (!agent.isOnNavMesh) return;
 
-        Rotation(targetEnemy.transform.position);  // Rotasyonu ayarla
-        hmScript.SelectedHighlight();            // Düşmana vurgu ekle
+        targetEnemy = enemy;
+        agent.SetDestination(targetEnemy.transform.position);
+        agent.stoppingDistance = stoppingDistance;
+        Rotation(targetEnemy.transform.position);
+        hmScript.SelectedHighlight();
     }
 
-    // Belirli bir noktaya doğru rotasyonu ayarlayan fonksiyon
     public void Rotation(Vector3 lookAtPosition)
     {
-        Quaternion rotationToLookAt = Quaternion.LookRotation(lookAtPosition - transform.position);  // Belirli noktaya bakacak rotasyonu hesapla
-        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationToLookAt.eulerAngles.y,
-            ref rotateVelocity, rotateSpeedMovement * (Time.deltaTime * 5));  // Y ekseninde dönüşü pürüzsüz yap
+        Quaternion rotationToLookAt = Quaternion.LookRotation(lookAtPosition - transform.position);
+        float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y,
+                                                rotationToLookAt.eulerAngles.y,
+                                                ref rotateVelocity,
+                                                rotateSpeedMovement * (Time.deltaTime * 5));
 
-        transform.eulerAngles = new Vector3(0, rotationY, 0);  // Rotasyonu uygula
+        transform.eulerAngles = new Vector3(0, rotationY, 0);
     }
 
-    //NEWLY ADDED
     public void StopMovement()
     {
         if (agent != null)
         {
-            agent.isStopped = true; // Stop the NavMeshAgent from moving
-            agent.velocity = Vector3.zero; // Immediately stop any current movement
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
         }
     }
 
@@ -126,7 +149,7 @@ public class EnemyPlayerMovement : MonoBehaviour
     {
         if (agent != null)
         {
-            agent.isStopped = false; // Allow the NavMeshAgent to move again
+            agent.isStopped = false;
         }
     }
 }

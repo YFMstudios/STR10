@@ -40,7 +40,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
         createDefaultPanel();
         InitializeRegionColors();
         InitializeKingdomRegions();
-        getPlayerData.SetRegionHandler(this);
+        //getPlayerData.SetRegionHandler(this);
         // Her bölge görseliyle, üzerine yazılacak TMP bileşenini eşleştiriyoruz.
         regionToTMPText.Add(LexionLinePNGImage, LexionTMP);
         regionToTMPText.Add(AlfgardLinePNGImage, AlfgardTMP);
@@ -90,7 +90,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
                 }
             }
         }
-      
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -187,7 +187,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
             Debug.LogWarning($"Fetih işlemi başarısız: {conqueringKingdom} veya {conqueredKingdom} geçerli değil.");
         }
 
-        
+
 
     }
 

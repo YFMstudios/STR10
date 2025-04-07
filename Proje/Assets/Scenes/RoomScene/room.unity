@@ -2253,9 +2253,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameInputField: {fileID: 948906206}
-  kingdomButton: {fileID: 0}
-  inputPanel: {fileID: 0}
-  enterButton: {fileID: 0}
+  kingdomButton: {fileID: 6660092}
+  inputPanel: {fileID: 1603714028}
+  enterButton: {fileID: 2036518556}
 --- !u!1 &985562360
 GameObject:
   m_ObjectHideFlags: 0

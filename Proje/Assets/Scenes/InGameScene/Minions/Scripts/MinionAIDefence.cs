@@ -1,57 +1,74 @@
+using Photon.Pun;              // PhotonNetwork, MonoBehaviourPunCallbacks, vb.
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MinionAIDefence : MonoBehaviour
+public class MinionAIDefence : MonoBehaviourPunCallbacks
 {
-    public Transform currentTarget;             // Mevcut hedef
-    public string enemyMinionTag;               // Düşman minion etiketi
-    public string playerTag;                    // Oyuncu etiketi
-    public float stopDistance = 2.0f;           // Hedefe yaklaşma mesafesi
-    public float aggroRange = 5.0f;             // Hedef arama menzili
-    public float targetSwitchInterval = 2.0f;   // Hedef değiştirme aralığı
-    public float rotationSpeed = 5f;            // Hedefe dönme hızı
+    [Header("Tags & Targets")]
+    public Transform currentTarget;             
+    public string enemyMinionTag;               
+    public string playerTag;                    
 
-    private NavMeshAgent agent;                 // NavMesh Agent bileşeni
+    [Header("Movement & AI")]
+    public float stopDistance = 2.0f;           
+    public float aggroRange = 5.0f;             
+    public float targetSwitchInterval = 2.0f;   
+    public float rotationSpeed = 5f;            
+
+    [Header("Combat")]
+    private float attackCooldown = 1f;          
+    private float lastAttackTime;               
+    public bool IsInCombat { get; private set; }
+
+    private NavMeshAgent agent;                 
     private Animator animator;
-    public bool IsInCombat { get; private set; } // Savaş durumu kontrolü
-
-    private float attackCooldown = 1f;          // Saldırı için bekleme süresi
-    private float lastAttackTime;               // Son saldırı zamanı
 
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>(); // NavMesh Agent bileşeni alınır
-        animator = GetComponent<Animator>(); // Animator bileşeni alınıyor
-        InvokeRepeating(nameof(FindAndSetTarget), 0f, targetSwitchInterval); // Hedef belirleme metodu belirli aralıklarla çağrılır
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
+        // Hedef belirleme işlemi yalnızca Master Client'ta çalışsın
+        if (PhotonNetwork.IsMasterClient)
+        {
+            InvokeRepeating(nameof(FindAndSetTarget), 0f, targetSwitchInterval);
+        }
     }
 
     private void Update()
     {
+        // AI davranışlarını sadece Master Client işlesin
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
         if (currentTarget != null)
         {
             if (!IsInCombat)
             {
-                MoveTowardsTarget(); // Hedefe doğru hareket et
+                MoveTowardsTarget();
             }
-            RotateTowardsTarget(); // Hedefe doğru dön
+            RotateTowardsTarget();
         }
     }
 
     private void MoveTowardsTarget()
     {
-        if (Vector3.Distance(transform.position, currentTarget.position) > stopDistance)
+        float distance = Vector3.Distance(transform.position, currentTarget.position);
+
+        if (distance > stopDistance)
         {
             agent.isStopped = false;
             agent.SetDestination(currentTarget.position);
 
-            // Yürüme animasyonunu tetikleyin
             animator.SetBool("isWalking", true);
             animator.SetBool("isAttacking", false);
         }
         else
         {
             agent.isStopped = true;
-            Attack(); // Hedefe ulaşıldığında saldır
+            Attack(); 
         }
     }
 
@@ -68,27 +85,26 @@ public class MinionAIDefence : MonoBehaviour
     public void StartCombat()
     {
         IsInCombat = true;
-        agent.isStopped = true; // Savaş durumunda hareket durdurulur
+        agent.isStopped = true; 
 
-        // Saldırı animasyonunu tetikleyin
         animator.SetBool("isWalking", false);
         animator.SetBool("isAttacking", true);
 
-        Attack(); // Hedefe ulaştığında saldırıyı başlat
+        Attack();
     }
 
     public void StopCombat()
     {
         IsInCombat = false;
-        agent.isStopped = false; // Savaş bittiğinde hareket devam eder
+        agent.isStopped = false; 
 
-        // Animasyonları sıfırlayın
         animator.SetBool("isWalking", false);
         animator.SetBool("isAttacking", false);
     }
 
     private void FindAndSetTarget()
     {
+        // Master Client en yakın düşmanı arar
         Transform closestEnemyMinion = FindClosestWithTagInRadius(enemyMinionTag, aggroRange);
         Transform closestPlayer = FindClosestWithTag(playerTag);
 
@@ -157,25 +173,34 @@ public class MinionAIDefence : MonoBehaviour
 
     private void Attack()
     {
+        // Saldırı ve hasar uygulaması da sadece Master Client'ta yürüsün
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            return;
+        }
+
         if (Time.time >= lastAttackTime + attackCooldown)
         {
             lastAttackTime = Time.time;
-
             float damage = 2f;
-            if (currentTarget.CompareTag(playerTag)) // Eğer hedef oyuncuysa
+
+            if (currentTarget != null)
             {
-                Stats playerStats = currentTarget.GetComponent<Stats>();
-                if (playerStats != null)
+                if (currentTarget.CompareTag(playerTag))
                 {
-                    playerStats.TakeDamage(gameObject, damage);
+                    Stats playerStats = currentTarget.GetComponent<Stats>();
+                    if (playerStats != null)
+                    {
+                        playerStats.TakeDamage(gameObject, damage);
+                    }
                 }
-            }
-            else if (currentTarget.CompareTag(enemyMinionTag)) // Eğer hedef düşman minion ise
-            {
-                ObjectiveStats minionStats = currentTarget.GetComponent<ObjectiveStats>();
-                if (minionStats != null)
+                else if (currentTarget.CompareTag(enemyMinionTag))
                 {
-                    minionStats.TakeDamage(damage);
+                    ObjectiveStats minionStats = currentTarget.GetComponent<ObjectiveStats>();
+                    if (minionStats != null)
+                    {
+                        minionStats.TakeDamage(damage);
+                    }
                 }
             }
         }

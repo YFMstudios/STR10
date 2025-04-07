@@ -1,37 +1,55 @@
+using Photon.Pun;               // PhotonNetwork, MonoBehaviourPunCallbacks vb.
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MinionAI : MonoBehaviour
+public class MinionAI : MonoBehaviourPunCallbacks
 {
+    [Header("Target & Tags")]
     public Transform currentTarget;
     public string enemyTag;
     public string enemyMinionTag;
     public string turretTag;
+
+    [Header("Movement & AI")]
     public float stopDistance = 2.0f;
     public float aggroRange = 5.0f;
     public float targetSwitchInterval = 2.0f;
     public float rotationSpeed = 5f;
+
+    [Header("Combat")]
     public float attackCooldown = 1f;
     private float lastAttackTime;
 
     private NavMeshAgent agent;
-    private Animator animator; // Animator bileşeni
+    private Animator animator;
+
     public bool IsInCombat { get; private set; }
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); // Animator bileşeni alınıyor
-        InvokeRepeating(nameof(FindAndSetTarget), 0f, targetSwitchInterval);
+        animator = GetComponent<Animator>();
+
+        // Belirli aralıklarla hedef arama fonksiyonunu sadece Master Client tetikleyecek
+        if (PhotonNetwork.IsMasterClient)
+        {
+            InvokeRepeating(nameof(FindAndSetTarget), 0f, targetSwitchInterval);
+        }
     }
 
     private void Update()
     {
+        // Sadece Master Client yapay zekâ hareketi ve saldırı mantığını işlesin
+        if (!PhotonNetwork.IsMasterClient) 
+        {
+            return; 
+        }
+
         if (currentTarget != null)
         {
             if (!IsInCombat)
             {
-                MoveTowardsTarget(); // Hedefe doğru hareket etme
+                MoveTowardsTarget();
             }
             RotateTowardsTarget();
         }
@@ -39,26 +57,27 @@ public class MinionAI : MonoBehaviour
 
     private void MoveTowardsTarget()
     {
-        // Mevcut hedefe doğru hareket etme
-        if (Vector3.Distance(transform.position, currentTarget.position) > stopDistance)
+        float distance = Vector3.Distance(transform.position, currentTarget.position);
+
+        if (distance > stopDistance)
         {
             agent.isStopped = false;
             agent.SetDestination(currentTarget.position);
 
-            // Yürüme animasyonunu tetikleyin
+            // "Yürüme" animasyonu
             animator.SetBool("isWalking", true);
             animator.SetBool("isAttacking", false);
         }
         else
         {
+            // Hedefe ulaştı, dövüş/ saldırı başlasın
             agent.isStopped = true;
-            StartCombat(); // Hedefe ulaştığında savaşı başlat
+            StartCombat();
         }
     }
 
     private void RotateTowardsTarget()
     {
-        // Hedefe doğru dönme
         Vector3 directionToTarget = (currentTarget.position - transform.position).normalized;
         if (directionToTarget != Vector3.zero)
         {
@@ -69,36 +88,35 @@ public class MinionAI : MonoBehaviour
 
     public void StartCombat()
     {
-        // Savaşı başlatma
         IsInCombat = true;
         agent.isStopped = true;
 
-        // Saldırı animasyonunu tetikleyin
+        // "Saldırı" animasyonu
         animator.SetBool("isWalking", false);
         animator.SetBool("isAttacking", true);
 
-        Attack(); // Hedefe ulaştığında saldırıyı başlat
+        // Hedefe ulaştığı gibi ilk saldırıyı yapabilir
+        Attack();
     }
 
     public void StopCombat()
     {
-        // Savaşı durdurma
         IsInCombat = false;
         agent.isStopped = false;
 
-        // Animasyonları sıfırlayın
         animator.SetBool("isWalking", false);
         animator.SetBool("isAttacking", false);
     }
 
     private void FindAndSetTarget()
     {
+        // Master Client tüm düşmanları / minyonları / kuleleri bulup en yakın hedefi seçiyor
         Transform closestEnemy = FindClosestWithTagInRadius(enemyTag, aggroRange);
         Transform closestEnemyMinion = FindClosestWithTagInRadius(enemyMinionTag, aggroRange);
         Transform closestTurret = FindClosestWithTagInRadius(turretTag, aggroRange);
 
-        Transform[] targets = new Transform[] { closestEnemyMinion, closestTurret, closestEnemy };
-        currentTarget = GetClosestTarget(targets);
+        Transform[] possibleTargets = new Transform[] { closestEnemyMinion, closestTurret, closestEnemy };
+        currentTarget = GetClosestTarget(possibleTargets);
     }
 
     private Transform GetClosestTarget(Transform[] targets)
@@ -107,15 +125,15 @@ public class MinionAI : MonoBehaviour
         float closestDistance = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
 
-        foreach (Transform target in targets)
+        foreach (Transform t in targets)
         {
-            if (target != null)
+            if (t != null)
             {
-                float distance = Vector3.Distance(currentPosition, target.position);
+                float distance = Vector3.Distance(currentPosition, t.position);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestTarget = target;
+                    closestTarget = t;
                 }
             }
         }
@@ -144,39 +162,48 @@ public class MinionAI : MonoBehaviour
                 closestObject = obj.transform;
             }
         }
-
         return closestObject;
     }
 
     private void Attack()
     {
+        // Yalnızca Master Client hasar vermeli (çifte hasar, tutarsızlık olmasın diye)
+        if (!PhotonNetwork.IsMasterClient) 
+        {
+            return;
+        }
+
         if (Time.time >= lastAttackTime + attackCooldown)
         {
             lastAttackTime = Time.time;
-
             float damage = 2f;
-            if (currentTarget.CompareTag("EnemyMinion"))
+
+            if (currentTarget != null)
             {
-                ObjectiveStats minionStats = currentTarget.GetComponent<ObjectiveStats>();
-                if (minionStats != null)
+                if (currentTarget.CompareTag("EnemyMinion"))
                 {
-                    minionStats.TakeDamage(damage);
+                    ObjectiveStats minionStats = currentTarget.GetComponent<ObjectiveStats>();
+                    if (minionStats != null)
+                    {
+                        minionStats.TakeDamage(damage);
+                    }
                 }
-            }
-            else if (currentTarget.CompareTag("EnemyTurret"))
-            {
-                ObjectiveStats turretStats = currentTarget.GetComponent<ObjectiveStats>();
-                if (turretStats != null)
+                else if (currentTarget.CompareTag("EnemyTurret"))
                 {
-                    turretStats.TakeDamage(damage);
+                    ObjectiveStats turretStats = currentTarget.GetComponent<ObjectiveStats>();
+                    if (turretStats != null)
+                    {
+                        turretStats.TakeDamage(damage);
+                    }
                 }
-            }
-            else if (currentTarget.CompareTag("Enemy"))
-            {
-                Stats enemyStats = currentTarget.GetComponent<Stats>();
-                if (enemyStats != null)
+                else if (currentTarget.CompareTag("Enemy"))
                 {
-                    enemyStats.TakeDamage(gameObject, damage);
+                    Stats enemyStats = currentTarget.GetComponent<Stats>();
+                    if (enemyStats != null)
+                    {
+                        // Örnek: enemyStats.TakeDamage(gameObject, damage);
+                        enemyStats.TakeDamage(gameObject, damage);
+                    }
                 }
             }
         }

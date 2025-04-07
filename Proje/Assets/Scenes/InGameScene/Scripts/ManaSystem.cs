@@ -82,8 +82,8 @@ public class ManaSystem : MonoBehaviourPun, IPunObservable
             manaBar3d.value = currentMana / maxMana;
         }
 
-        // Sadece local player ise 2D barı güncelle
-        if (photonView.IsMine && gameObject.CompareTag("Player"))
+        // Sadece local player veya enemy ise 2D barı güncelle
+        if (photonView.IsMine && (gameObject.CompareTag("Player") || gameObject.CompareTag("Enemy")))
         {
             if (manaBar2d != null)
             {

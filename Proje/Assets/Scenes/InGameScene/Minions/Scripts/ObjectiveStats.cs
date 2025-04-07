@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Photon.Pun;  // <-- Photon eklendi
 
-public class ObjectiveStats : MonoBehaviour
+public class ObjectiveStats : MonoBehaviourPunCallbacks
 {
     [Header("Base Stats")]
     public float health;
@@ -27,55 +28,46 @@ public class ObjectiveStats : MonoBehaviour
         healthUII = GetComponent<HealthUII>();
         currentHealth = health;
         targetHealth = health;
-
+        WarController.castleIsDestroy = false;
         healthUII.Start3DSlider(health);
 
-        // Animator referansını al
         animator = GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Master Client bu metodu doğrudan çağırarak hasar uygular.
+    /// Diğer istemciler buraya doğrudan girmeyecek.
+    /// </summary>
     public void TakeDamage(float damageAmount)
     {
-        // Hasarı biriktir
+        // Sadece Master Client bu kodu çalıştırsın
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        // Tüm istemcilerde hasar sürecini başlatmak için RPC
+        photonView.RPC(nameof(RPC_TakeDamageAll), RpcTarget.All, damageAmount);
+    }
+
+    /// <summary>
+    /// Tüm istemciler: Hasarı local olarak uygular, Lerp başlatır.
+    /// </summary>
+    [PunRPC]
+    private void RPC_TakeDamageAll(float damageAmount)
+    {
         accumulatedDamage += damageAmount;
 
         // Eğer coroutine çalışmıyorsa başlat
-        if (damageCoroutine == null)
-        {
-            StartLerpHealth();
-        }
-    }
-
-    private void HandleDeath()
-    {
-        // Ölüm animasyonunu başlat
-        if (animator != null)
-        {
-            animator.SetTrigger("isDead");
-        }
-
-        // Karakteri yok etmeden önce animasyonun bitmesini bekleyin
-        if (gameObject.CompareTag("EnemyTurret"))
-        {
-            Destroy(gameObject, 1f);  // 1 saniye animasyon süresi
-        }
-        else
-        {
-            Destroy(gameObject, 3f);  // 1 saniye animasyon süresi
-        }
-    }
-
-    private void StartLerpHealth()
-    {
         if (damageCoroutine == null)
         {
             damageCoroutine = StartCoroutine(LerpHealth());
         }
     }
 
+    /// <summary>
+    /// Tüm istemciler: Biriken hasarı sağlık çubuğuna animasyonla uygular.
+    /// </summary>
     private IEnumerator LerpHealth()
     {
-        while (accumulatedDamage > 0) // Biriken hasar bitene kadar işlem yap
+        while (accumulatedDamage > 0)
         {
             float elapsedTime = 0;
             float initialHealth = currentHealth;
@@ -84,13 +76,19 @@ public class ObjectiveStats : MonoBehaviour
             targetHealth -= accumulatedDamage;
             accumulatedDamage = 0; // Biriken hasar sıfırlanır
 
+            // Eğer sağlık 0 (veya altı) olduysa
             if (targetHealth <= 0)
             {
                 targetHealth = 0;
-                HandleDeath();
-                break;
+                // Sadece Master Client "gerçek ölümü" tetikler
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    photonView.RPC(nameof(RPC_HandleDeath), RpcTarget.All);
+                }
+                break; // Lerp'i de sonlandır
             }
 
+            // Lerp animasyonu
             while (elapsedTime < damageLerpDuration)
             {
                 currentHealth = Mathf.Lerp(initialHealth, targetHealth, elapsedTime / damageLerpDuration);
@@ -103,7 +101,30 @@ public class ObjectiveStats : MonoBehaviour
             UpdateHealthUI();
         }
 
-        damageCoroutine = null; // Coroutine tamamlanır
+        damageCoroutine = null;
+    }
+
+    /// <summary>
+    /// Tüm istemcilerde ölüm animasyonunu oynatır ve Destroy işlemini yapar.
+    /// </summary>
+    [PunRPC]
+    private void RPC_HandleDeath()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("isDead");
+        }
+
+        WarController.castleIsDestroy = true;
+        // Bu obje kuleyse 1 saniye sonra, minyon vs. ise 3 saniye sonra yok ediyoruz
+        if (gameObject.CompareTag("EnemyTurret"))
+        {
+            Destroy(gameObject, 1f);
+        }
+        else
+        {
+            Destroy(gameObject, 3f);
+        }
     }
 
     private void UpdateHealthUI()
