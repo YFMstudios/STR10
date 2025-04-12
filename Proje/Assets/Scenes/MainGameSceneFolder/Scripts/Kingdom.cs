@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Kingdom : MonoBehaviour 
+public class Kingdom : MonoBehaviour
 {
     public static Kingdom[] kingdoms = new Kingdom[6];
     public static Kingdom myKingdom = new Kingdom();
@@ -43,7 +43,7 @@ public class Kingdom : MonoBehaviour
         this.soldierAmount = soldierAmount;
         this.flag = flag; // Bayrak �zelli�i i�in atama eklendi
     }
-     public Kingdom() { }
+    public Kingdom() { }
 
     public static void CreateKingdoms()
     {
@@ -54,56 +54,65 @@ public class Kingdom : MonoBehaviour
         Sprite arianopolFlag = Resources.Load<Sprite>("Flags/arianopolFlag");
         Sprite dhamuronFlag = Resources.Load<Sprite>("Flags/dhamuronFlag");
         Sprite lexionFlag = Resources.Load<Sprite>("Flags/lexionFlag");
-        Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephyrionFlag");
+        Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephrionFlag");
 
         kingdoms[0] = new Kingdom("Arianopol", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, arianopolFlag);
         kingdoms[1] = new Kingdom("Alfgard", 0, 75000, 35000, 75000, 55000, 35000, 0, 0, alfgardFlag);
         kingdoms[2] = new Kingdom("Akhadzria", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, akhadzriaFlag);
         kingdoms[3] = new Kingdom("Dhamuron", 0, 75000, 35000, 75000, 55000, 35000, 0, 0, dhamuronFlag);
         kingdoms[4] = new Kingdom("Lexion", 0, 75000, 35000, 75000, 55000, 35000, 0, 0, lexionFlag);
-        kingdoms[5] = new Kingdom("Zephyrion", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, zephyrionFlag);
+        kingdoms[5] = new Kingdom("Zephrion", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, zephyrionFlag);
 
 
 
     }
 
-
+    public static int returnsKingdomNumbers(string kingdom)
+    {
+        if (kingdom == "Arianopol") return 0;
+        else if (kingdom == "Alfgard") return 1;
+        else if (kingdom == "Akhadzria") return 2;
+        else if (kingdom == "Dhamuron") return 3;
+        else if (kingdom == "Lexion") return 4;
+        else if (kingdom == "Zephrion") return 5;
+        else return -1;
+    }
 
 
     public void findOwner()
     {
-        if(GetVariableFromHere.currentSpriteNum == 2)
+        Debug.Log("Seçilen Krallık = " + GetVariableFromHere.currentSpriteNum);
+        if (GetVariableFromHere.currentSpriteNum == 2)
         {
             kingdoms[2].owner = 1;
-           // myKingdom = kingdoms[2];
         }
-        else if(GetVariableFromHere.currentSpriteNum == 3)
+        else if (GetVariableFromHere.currentSpriteNum == 3)
         {
             kingdoms[1].owner = 1;
-           // myKingdom = kingdoms[1];
         }
-        else if(GetVariableFromHere.currentSpriteNum == 4)
+        else if (GetVariableFromHere.currentSpriteNum == 4)
         {
             kingdoms[0].owner = 1;
-           // myKingdom = kingdoms[0];
         }
-        else if(GetVariableFromHere.currentSpriteNum == 5)
+        else if (GetVariableFromHere.currentSpriteNum == 5)
         {
             kingdoms[3].owner = 1;
-           // myKingdom = kingdoms[3];
+        }
+        else if (GetVariableFromHere.currentSpriteNum == 6)
+        {
+            kingdoms[4].owner = 1;
         }
         else
         {
-            kingdoms[4].owner = 1;
-           // myKingdom = kingdoms[4];
+            kingdoms[5].owner = 1;
         }
     }
 
-    
+
 
     void Awake()
     {
         CreateKingdoms();
-        findOwner();        
+        findOwner();
     }
 }

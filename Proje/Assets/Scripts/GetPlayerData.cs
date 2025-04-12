@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GetPlayerData", menuName = "ScriptableObjects/GetPlayerData", order = 1)]
 public class GetPlayerData : ScriptableObject
 {
-    public int currentSoldierAmount;  
+    public int currentSoldierAmount;
     public int currentArcherAmount;
 
     public int CastleLevel = 0;
@@ -14,12 +14,14 @@ public class GetPlayerData : ScriptableObject
     public int TrapOneLevel = 0;
     public int TrapTwoLevel = 0;
     public int TrapThreeLevel = 0;
-    
+
     public bool TowerOneIsBuilded = false;//Kule1 �n�a Edildi Mi?
     public bool TowerTwoIsBuilded = false;//Kule2 �n�a Edildi Mi?
     public bool TrapOneIsBuilded = false;//Tuzak1 �n�a Edildi Mi?
     public bool TrapTwoIsBuilded = false;//Tuzak2 �n�a Edildi Mi?
     public bool TrapThreeIsBuilded = false;//Tuzak3 �n�a Edildi Mi?
+
+    private RegionClickHandler regionClickHandler;
 
     //----------------------------------- B�NA AKTF�LE�T�RME FONKS�YONLARI --------------------------------------------------------------//
     public void ActiveTowerOne()
@@ -30,7 +32,7 @@ public class GetPlayerData : ScriptableObject
 
     public void ActiveTowerTwo()
     {
-        TowerTwoIsBuilded=true;
+        TowerTwoIsBuilded = true;
         Debug.Log("MainGame'de TowerTwo �n�a Edildi. InGame'de aktifle�tirilmesi bekleniyor.");
     }
 
@@ -77,16 +79,16 @@ public class GetPlayerData : ScriptableObject
     public void UpgradeTowerOneStats(int level)
     {
         TowerOneLevel = level;
-        if(TowerOneLevel == 1) 
+        if (TowerOneLevel == 1)
         {
             Debug.Log("TowerOne Bina Seviyesi = 1");
         }
 
-        else if(TowerOneLevel == 2)
+        else if (TowerOneLevel == 2)
         {
             Debug.Log("TowerOne Bina Seviyesi 2 Oldu. Bina Stat'slar�n�n artt�r�lmas� bekleniyor.");
         }
-        else if(TowerOneLevel == 3)
+        else if (TowerOneLevel == 3)
         {
             Debug.Log("TowerOne Bina Seviyesi 3 Oldu. Bina Stat'slar�n�n artt�r�lmas� bekleniyor.");
         }
@@ -121,7 +123,7 @@ public class GetPlayerData : ScriptableObject
     public void UpgradeTrapOneStats(int level)
     {
         TrapOneLevel = level;
-        if(TrapOneLevel == 1)
+        if (TrapOneLevel == 1)
         {
             Debug.Log("TrapOne Bina Seviyesi = 1");
         }
@@ -180,12 +182,21 @@ public class GetPlayerData : ScriptableObject
             Debug.Log("Ar�za Var");
         }
     }
-    
+
     //------------------------------------------------------------------------------------------------------------------------
-    public void UpdateSoldierAmount(float savasciSayisi, float okcuSayisi )
+    public void UpdateSoldierAmount(float savasciSayisi, float okcuSayisi)
     {
         currentSoldierAmount = (int)savasciSayisi;
         currentArcherAmount = (int)okcuSayisi;
+    }
+
+    public void SetRegionHandler(RegionClickHandler handler)
+    {
+        regionClickHandler = handler;
+    }
+    public void conquerKingdom(string conqueringKingdom, string conqueredKingdom)
+    {
+        regionClickHandler.ConquerKingdom(conqueringKingdom, conqueredKingdom);
     }
 
 }

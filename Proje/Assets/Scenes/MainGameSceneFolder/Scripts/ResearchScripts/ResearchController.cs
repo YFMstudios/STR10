@@ -9,7 +9,6 @@ public class ResearchController : MonoBehaviour
 
     public Image[] lockItems = new Image[18];
     public ProgressBarController progressBarController;
-    public ObjectiveStats objectiveStats;
 
     public void OpenResearchUnit(int buildLevel)
     {
@@ -195,7 +194,7 @@ public class ResearchController : MonoBehaviour
         }
         else if (researchedLevel == 6)
         {
-            objectiveStats.damage = 10000f;
+            Debug.Log("Karakterin Damage'ini arttýr.");
         }
         else if ((researchedLevel == 7))
         {

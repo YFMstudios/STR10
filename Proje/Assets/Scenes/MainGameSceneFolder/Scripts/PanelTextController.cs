@@ -88,16 +88,16 @@ public class PanelTextController : MonoBehaviour//Bozulan
         }
         else
         {
-            Debug.Log("Se�ili Krall�k Bulunmuyor");
-            kingdomName.text = "Alfgard";
-            imageComponent.sprite = Kingdom.Kingdoms[1].Flag;
-            foodAmount.text = Kingdom.Kingdoms[1].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[1].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[1].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[1].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[1].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[1].WarPower.ToString();
-            Kingdom.myKingdom = Kingdom.Kingdoms[1];
+            
+            kingdomName.text = "Zephrion";
+            imageComponent.sprite = Kingdom.Kingdoms[5].Flag;
+            foodAmount.text = Kingdom.Kingdoms[5].FoodAmount.ToString();
+            stoneAmount.text = Kingdom.Kingdoms[5].StoneAmount.ToString();
+            goldAmount.text = Kingdom.Kingdoms[5].GoldAmount.ToString();
+            woodAmount.text = Kingdom.Kingdoms[5].WoodAmount.ToString();
+            ironAmount.text = Kingdom.Kingdoms[5].IronAmount.ToString();
+            warPower.text = Kingdom.Kingdoms[5].WarPower.ToString();
+            Kingdom.myKingdom = Kingdom.Kingdoms[5];
         }
     }
 

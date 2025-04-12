@@ -38,7 +38,7 @@ public class KingdomResourceUpdater : MonoBehaviour
         {
             Debug.Log("Seçili Krallık Bulunmuyor");
             // Varsayılan olarak Alfgard'ın kaynakları
-            UpdatePhotonProperties(Kingdom.Kingdoms[1]);
+            UpdatePhotonProperties(Kingdom.Kingdoms[5]);
         }
     }
 

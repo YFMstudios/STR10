@@ -1666,7 +1666,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1862139266}
+  m_Father: {fileID: 92424833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3758,6 +3758,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &84412075
 GameObject:
   m_ObjectHideFlags: 0
@@ -4474,6 +4475,12 @@ RectTransform:
   - {fileID: 195365617}
   - {fileID: 954679259}
   - {fileID: 1819740956}
+  - {fileID: 29222201}
+  - {fileID: 436858304}
+  - {fileID: 1294800182}
+  - {fileID: 361135385}
+  - {fileID: 2130372193}
+  - {fileID: 193385885}
   m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -6472,7 +6479,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1807905811}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &141046413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7847,7 +7853,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1862139266}
+  m_Father: {fileID: 92424833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -10.636}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8093,6 +8099,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &203434834
 GameObject:
   m_ObjectHideFlags: 0
@@ -12568,7 +12575,6 @@ MonoBehaviour:
   - {fileID: 1763564669}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &322764927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13122,7 +13128,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!1 &331061185
 GameObject:
   m_ObjectHideFlags: 0
@@ -14645,7 +14650,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1862139266}
+  m_Father: {fileID: 92424833}
   m_LocalEulerAnglesHint: {x: -1.274, y: 3.582, z: 19.554}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17132,6 +17137,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &408083855
 GameObject:
   m_ObjectHideFlags: 0
@@ -17876,7 +17882,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1862139266}
+  m_Father: {fileID: 92424833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 79.813}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -18068,50 +18074,6 @@ RectTransform:
   m_AnchoredPosition: {x: 107.08035, y: -69.00003}
   m_SizeDelta: {x: 1831.292, y: 539.693}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &443030150
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 443030151}
-  - component: {fileID: 443030152}
-  m_Layer: 0
-  m_Name: ProductionController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &443030151
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 443030150}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.1922793, y: 2.55002, z: 1226.5383}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &443030152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 443030150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 727fa439c9a7ad942b2c84e7667252e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &443561892
 GameObject:
   m_ObjectHideFlags: 0
@@ -18900,7 +18862,6 @@ MonoBehaviour:
   - {fileID: 1933665711}
   - {fileID: 1547663207}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!1 &454413858
 GameObject:
   m_ObjectHideFlags: 0
@@ -19216,7 +19177,6 @@ MonoBehaviour:
   - {fileID: 1324317629}
   - {fileID: 1582282872}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!1 &463344804
 GameObject:
   m_ObjectHideFlags: 0
@@ -21431,7 +21391,6 @@ MonoBehaviour:
   - {fileID: 1933665711}
   - {fileID: 1547663207}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!1 &501546083
 GameObject:
   m_ObjectHideFlags: 0
@@ -24081,7 +24040,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &553522319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25311,7 +25269,6 @@ MonoBehaviour:
   - {fileID: 853090837}
   - {fileID: 1143580025}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &578889568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37856,7 +37813,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &949062700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38181,6 +38137,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &956970806
 GameObject:
   m_ObjectHideFlags: 0
@@ -39309,7 +39266,6 @@ MonoBehaviour:
   - {fileID: 853090837}
   - {fileID: 1143580025}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &987102846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42502,7 +42458,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1807905811}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &1047381719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42920,7 +42875,6 @@ MonoBehaviour:
   - {fileID: 651943183}
   - {fileID: 24643098}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &1061333110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52168,7 +52122,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1862139266}
+  m_Father: {fileID: 92424833}
   m_LocalEulerAnglesHint: {x: 2.673, y: 2.703, z: -44.653}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -53995,7 +53949,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &1339351562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54962,6 +54915,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1352198003
 GameObject:
   m_ObjectHideFlags: 0
@@ -55267,6 +55221,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1361373415
 GameObject:
   m_ObjectHideFlags: 0
@@ -55359,6 +55314,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1361373415}
   m_CullTransparentMesh: 1
+--- !u!1 &1362423202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1362423204}
+  - component: {fileID: 1362423203}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1362423203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362423202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e2df110b2910434d844b84c02220d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AlfgardTMP: {fileID: 29222202}
+  LexionTMP: {fileID: 436858305}
+  AkhadzriaTMP: {fileID: 1294800183}
+  DhamuronTMP: {fileID: 361135386}
+  ZephrionTMP: {fileID: 2130372194}
+  ArianopolTMP: {fileID: 193385886}
+--- !u!4 &1362423204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362423202}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.796072, y: 9.095654, z: -9.484869}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1366575974
 GameObject:
   m_ObjectHideFlags: 0
@@ -65554,7 +65559,6 @@ MonoBehaviour:
   - {fileID: 1582282872}
   - {fileID: 651943183}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!1 &1603951113
 GameObject:
   m_ObjectHideFlags: 0
@@ -67402,7 +67406,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &1634347157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73873,7 +73876,6 @@ MonoBehaviour:
   - {fileID: 1763564669}
   - {fileID: 1807905811}
   progressBarController: {fileID: 250818655}
-  objectiveStats: {fileID: 0}
 --- !u!4 &1774118554
 Transform:
   m_ObjectHideFlags: 0
@@ -75741,6 +75743,7 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1819934894
 GameObject:
   m_ObjectHideFlags: 0
@@ -77530,7 +77533,6 @@ MonoBehaviour:
   - {fileID: 1763564669}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &1852564936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78056,12 +78058,6 @@ RectTransform:
   - {fileID: 407858641}
   - {fileID: 1823880907}
   - {fileID: 525614391}
-  - {fileID: 29222201}
-  - {fileID: 436858304}
-  - {fileID: 1294800182}
-  - {fileID: 361135385}
-  - {fileID: 2130372193}
-  - {fileID: 193385885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -87057,7 +87053,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &2027061335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90460,7 +90455,6 @@ MonoBehaviour:
   - {fileID: 853090837}
   - {fileID: 1143580025}
   progressBarController: {fileID: 0}
-  objectiveStats: {fileID: 0}
 --- !u!114 &2106145721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91428,7 +91422,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1862139266}
+  m_Father: {fileID: 92424833}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -92215,7 +92209,6 @@ SceneRoots:
   - {fileID: 878360002}
   - {fileID: 1862139266}
   - {fileID: 1990304893}
-  - {fileID: 443030151}
   - {fileID: 1775391629}
   - {fileID: 1541301068}
   - {fileID: 357396444}
@@ -92224,3 +92217,4 @@ SceneRoots:
   - {fileID: 1581388795}
   - {fileID: 1735794292}
   - {fileID: 617837872}
+  - {fileID: 1362423204}
