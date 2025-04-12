@@ -1666,7 +1666,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92424833}
+  m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3758,7 +3758,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &84412075
 GameObject:
   m_ObjectHideFlags: 0
@@ -4475,12 +4474,6 @@ RectTransform:
   - {fileID: 195365617}
   - {fileID: 954679259}
   - {fileID: 1819740956}
-  - {fileID: 29222201}
-  - {fileID: 436858304}
-  - {fileID: 1294800182}
-  - {fileID: 361135385}
-  - {fileID: 2130372193}
-  - {fileID: 193385885}
   m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -7854,7 +7847,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92424833}
+  m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -10.636}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8100,7 +8093,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &203434834
 GameObject:
   m_ObjectHideFlags: 0
@@ -14653,7 +14645,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92424833}
+  m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: -1.274, y: 3.582, z: 19.554}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17140,7 +17132,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &408083855
 GameObject:
   m_ObjectHideFlags: 0
@@ -17885,7 +17876,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92424833}
+  m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 79.813}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -38190,7 +38181,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &956970806
 GameObject:
   m_ObjectHideFlags: 0
@@ -52178,7 +52168,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92424833}
+  m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 2.673, y: 2.703, z: -44.653}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -54972,7 +54962,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1352198003
 GameObject:
   m_ObjectHideFlags: 0
@@ -55278,7 +55267,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1361373415
 GameObject:
   m_ObjectHideFlags: 0
@@ -75753,7 +75741,6 @@ MonoBehaviour:
   woodAmountText: {fileID: 364913690}
   ironAmountText: {fileID: 1949958081}
   warPowerText: {fileID: 727628280}
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1819934894
 GameObject:
   m_ObjectHideFlags: 0
@@ -78069,6 +78056,12 @@ RectTransform:
   - {fileID: 407858641}
   - {fileID: 1823880907}
   - {fileID: 525614391}
+  - {fileID: 29222201}
+  - {fileID: 436858304}
+  - {fileID: 1294800182}
+  - {fileID: 361135385}
+  - {fileID: 2130372193}
+  - {fileID: 193385885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -91435,7 +91428,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 92424833}
+  m_Father: {fileID: 1862139266}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

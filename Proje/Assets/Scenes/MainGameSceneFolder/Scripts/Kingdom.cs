@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class Kingdom : MonoBehaviour
+public class Kingdom : MonoBehaviour 
 {
     public static Kingdom[] kingdoms = new Kingdom[6];
     public static Kingdom myKingdom = new Kingdom();
@@ -43,7 +43,7 @@ public class Kingdom : MonoBehaviour
         this.soldierAmount = soldierAmount;
         this.flag = flag; // Bayrak �zelli�i i�in atama eklendi
     }
-    public Kingdom() { }
+     public Kingdom() { }
 
     public static void CreateKingdoms()
     {
@@ -67,52 +67,43 @@ public class Kingdom : MonoBehaviour
 
     }
 
-    public static int returnsKingdomNumbers(string kingdom)
-    {
-        if (kingdom == "Arianopol") return 0;
-        else if (kingdom == "Alfgard") return 1;
-        else if (kingdom == "Akhadzria") return 2;
-        else if (kingdom == "Dhamuron") return 3;
-        else if (kingdom == "Lexion") return 4;
-        else if (kingdom == "Zephyrion") return 5;
-        else return -1;
-    }
+
 
 
     public void findOwner()
     {
-        if (GetVariableFromHere.currentSpriteNum == 2)
+        if(GetVariableFromHere.currentSpriteNum == 2)
         {
             kingdoms[2].owner = 1;
-            // myKingdom = kingdoms[2];
+           // myKingdom = kingdoms[2];
         }
-        else if (GetVariableFromHere.currentSpriteNum == 3)
+        else if(GetVariableFromHere.currentSpriteNum == 3)
         {
             kingdoms[1].owner = 1;
-            // myKingdom = kingdoms[1];
+           // myKingdom = kingdoms[1];
         }
-        else if (GetVariableFromHere.currentSpriteNum == 4)
+        else if(GetVariableFromHere.currentSpriteNum == 4)
         {
             kingdoms[0].owner = 1;
-            // myKingdom = kingdoms[0];
+           // myKingdom = kingdoms[0];
         }
-        else if (GetVariableFromHere.currentSpriteNum == 5)
+        else if(GetVariableFromHere.currentSpriteNum == 5)
         {
             kingdoms[3].owner = 1;
-            // myKingdom = kingdoms[3];
+           // myKingdom = kingdoms[3];
         }
         else
         {
             kingdoms[4].owner = 1;
-            // myKingdom = kingdoms[4];
+           // myKingdom = kingdoms[4];
         }
     }
 
-
+    
 
     void Awake()
     {
         CreateKingdoms();
-        findOwner();
+        findOwner();        
     }
 }

@@ -8,33 +8,32 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     public float meleeMinionMoveSpeed;    // Yakın dövüş minion hareket hızı
     public float rangedMinionMoveSpeed;   // Uzak dövüş minion hareket hızı
 
-    // Prefab adlarını kod içinde sabit tanımlıyoruz (Inspector'da görünmeyecek)
     private const string MELEE_MINION_PREFAB = "Minions/MeleeMinion";
     private const string RANGED_MINION_PREFAB = "Minions/RangedMinion";
 
-    public Transform[] spawnPoints;       
+    public Transform[] spawnPoints;
     public float spawnInterval = 20.0f;   // Dalga arası bekleme süresi
     public float delayBetweenMinions;     // Her minyon arasında bekleme süresi
 
-    private int meleeUnitsToSpawn = 10;    
-    private int rangedUnitsToSpawn = 10;   
+    private int meleeUnitsToSpawn = 0;
+    private int rangedUnitsToSpawn = 0;
 
     [Header("ScriptableObject")]
-    public GetPlayerData getPlayerData;   // Asker sayısı bilgisi çekmek için
+    public GetPlayerData getPlayerData;
 
     private void Start()
     {
-        meleeUnitsToSpawn = (int)getPlayerData.currentSoldierAmount;
-        rangedUnitsToSpawn = (int)getPlayerData.currentArcherAmount;
+        // Minyon sayısını başlangıç değerinin 3 katına çıkarıyoruz
+        meleeUnitsToSpawn = (int)getPlayerData.currentSoldierAmount * 3;
+        rangedUnitsToSpawn = (int)getPlayerData.currentArcherAmount * 3;
 
-        // Toplam spawn sayısını kontrol et ve 20'yi aşarsa orantı ile indirgeme yap
+        // Toplam minyon sayısını 60 ile sınırlıyoruz
         int total = meleeUnitsToSpawn + rangedUnitsToSpawn;
-        if (total > 20)
+        if (total > 60)
         {
-            float ratio = 20f / total;
+            float ratio = 60f / total;
             meleeUnitsToSpawn = Mathf.FloorToInt(meleeUnitsToSpawn * ratio);
             rangedUnitsToSpawn = Mathf.FloorToInt(rangedUnitsToSpawn * ratio);
-            total = meleeUnitsToSpawn + rangedUnitsToSpawn; // Artık toplam 20 veya biraz altında olabilir
         }
 
         if (PhotonNetwork.IsMasterClient)
@@ -47,13 +46,18 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     {
         int totalUnitsToSpawn = meleeUnitsToSpawn + rangedUnitsToSpawn;
 
-        while (totalUnitsToSpawn > 0)
-        {
-            int meleeToSpawnThisBatch = Mathf.Min(5, meleeUnitsToSpawn);
-            int rangedToSpawnThisBatch = Mathf.Min(5, rangedUnitsToSpawn);
+        // 6 dalga oluşturmak için toplam minyonları bölüyoruz
+        int waves = 6;
+        int meleePerWave = Mathf.CeilToInt((float)meleeUnitsToSpawn / waves);
+        int rangedPerWave = Mathf.CeilToInt((float)rangedUnitsToSpawn / waves);
 
-            // Melee minyonlar
-            for (int i = 0; i < meleeToSpawnThisBatch; i++)
+        for (int wave = 0; wave < waves; wave++)
+        {
+            int meleeToSpawnThisWave = Mathf.Min(meleePerWave, meleeUnitsToSpawn);
+            int rangedToSpawnThisWave = Mathf.Min(rangedPerWave, rangedUnitsToSpawn);
+
+            // Melee minyonları spawn et
+            for (int i = 0; i < meleeToSpawnThisWave; i++)
             {
                 SpawnMinionForAll(true, meleeMinionMoveSpeed);
                 meleeUnitsToSpawn--;
@@ -61,8 +65,8 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
-            // Ranged minyonlar
-            for (int i = 0; i < rangedToSpawnThisBatch; i++)
+            // Ranged minyonları spawn et
+            for (int i = 0; i < rangedToSpawnThisWave; i++)
             {
                 SpawnMinionForAll(false, rangedMinionMoveSpeed);
                 rangedUnitsToSpawn--;
@@ -70,9 +74,10 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
-            if (totalUnitsToSpawn > 0)
+            // Dalga tamamlandıysa bir sonraki dalgaya kadar bekle
+            if (wave < waves - 1)
             {
-                float waitTime = spawnInterval - delayBetweenMinions * (meleeToSpawnThisBatch + rangedToSpawnThisBatch);
+                float waitTime = spawnInterval - delayBetweenMinions * (meleeToSpawnThisWave + rangedToSpawnThisWave);
                 yield return new WaitForSeconds(waitTime);
             }
         }

@@ -1,32 +1,55 @@
 using UnityEngine;
 using Cinemachine;
 
-public class CameraManager : MonoBehaviour
+public class MultiCharacterCameraSwitcher : MonoBehaviour
 {
-    public CinemachineVirtualCamera cmVirtualCam;  // Sahnedeki vcam referansı
-    // Main Camera üzerinde CinemachineBrain olduğunu varsayıyoruz
-    // Ayrı bir "mainCamera" bileşenine genelde ihtiyaç olmaz.
+    [SerializeField] private CinemachineVirtualCamera character1VCam;
+    [SerializeField] private CinemachineVirtualCamera character2VCam;
 
-    private bool isActive = true;
+  [Header("Main Camera Virtual Camera (Kullanılmayacak)")]
+[SerializeField] private CinemachineVirtualCamera mainVCam;
 
-    void Start()
+void Start()
+{
+    // Main Camera üzerindeki virtual camera'yı pasif hale getir.
+    if (mainVCam != null)
     {
-        // Oyun başlar başlamaz vcam aktif olsun (priority veya gameObject ile)
-        cmVirtualCam.gameObject.SetActive(true);
-        // Priority'yi de isterseniz yükseltebilirsiniz
-        cmVirtualCam.Priority = 10;
+        mainVCam.gameObject.SetActive(false);
+    }
+    
+    // Oyuna başladığında oyuncu kendi karakterini seçiyor.
+    // Burada örneğin varsayılan olarak karakter 1 seçilmiş durumda.
+    ActivateCharacterCamera(1);
+}
+
+// Dışarıdan çağırılarak aktif karakterin virtual camera'sını belirle.
+public void ActivateCharacterCamera(int characterNumber)
+{
+    // Önce tüm karakter virtual cameralarını devre dışı bırak.
+    if (character1VCam != null)
+    {
+        character1VCam.gameObject.SetActive(false);
+    }
+    if (character2VCam != null)
+    {
+        character2VCam.gameObject.SetActive(false);
     }
 
-    void Update()
+    // Seçilen karakterin virtual camera'sını aktif et.
+    if (characterNumber == 1)
     {
-        // Space'e basıldığında vcam'i aç/kapa yapmak isterseniz:
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (character1VCam != null)
         {
-            isActive = !isActive;
-            cmVirtualCam.gameObject.SetActive(isActive);
-
-            // Dilerseniz Priority'yi de 0/10 arası değiştirebilirsiniz
-            // cmVirtualCam.Priority = isActive ? 10 : 0;
+            character1VCam.gameObject.SetActive(true);
         }
     }
+    else if (characterNumber == 2)
+    {
+        if (character2VCam != null)
+        {
+            character2VCam.gameObject.SetActive(true);
+        }
+    }
+}
+
 }

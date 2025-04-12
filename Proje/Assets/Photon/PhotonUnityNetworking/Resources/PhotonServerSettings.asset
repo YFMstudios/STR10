@@ -52,7 +52,7 @@ MonoBehaviour:
   - RPC_BecomeInvisible
   - AttackTarget
   - SetOwnership
-  - BroadcastKingdom
+  - RPC_RespawnCharacter
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

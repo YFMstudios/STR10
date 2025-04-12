@@ -5,17 +5,16 @@ using System.Collections;
 
 public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 {
-    public float meleeMinionMoveSpeed;      
-    public float rangedMinionMoveSpeed;     
+    public float meleeMinionMoveSpeed;
+    public float rangedMinionMoveSpeed;
 
-    // Sabit prefab adları (Inspector'da görünmeyecek)
     private const string ENEMY_MELEE_MINION_PREFAB = "Minions/EnemyMeleeMinion";
     private const string ENEMY_RANGED_MINION_PREFAB = "Minions/EnemyRangedMinion";
 
-    public Transform[] spawnPoints;         
-    public float spawnInterval = 20.0f;     
-    public int minionsPerWave = 10;         // Her dalgada spawn edilecek minyon sayısı (örneğin 10: 5 melee + 5 ranged)
-    public float delayBetweenMinions;       
+    public Transform[] spawnPoints;
+    public float spawnInterval = 20.0f;
+    public int minionsPerWave = 20; // Artık her dalgada 20 minyon olacak
+    public float delayBetweenMinions;
 
     private void Start()
     {
@@ -27,18 +26,23 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 
     private IEnumerator SpawnMinions()
     {
-        int wavesToSpawn = 2; // Sadece 2 dalga spawn edilecek
+        int wavesToSpawn = 6; // Toplamda 6 dalga oluşturuyoruz
+
         for (int wave = 0; wave < wavesToSpawn; wave++)
         {
             for (int i = 0; i < minionsPerWave; i++)
             {
-                bool isMelee = (i < minionsPerWave / 2); // İlk yarısı melee, ikinci yarısı ranged
+                bool isMelee = (i < minionsPerWave / 2);
                 float speed = isMelee ? meleeMinionMoveSpeed : rangedMinionMoveSpeed;
                 SpawnMinionForAll(isMelee, speed);
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
-            float waveDelay = spawnInterval - (delayBetweenMinions * minionsPerWave);
-            yield return new WaitForSeconds(waveDelay);
+
+            if (wave < wavesToSpawn - 1)
+            {
+                float waveDelay = spawnInterval - (delayBetweenMinions * minionsPerWave);
+                yield return new WaitForSeconds(waveDelay);
+            }
         }
     }
 

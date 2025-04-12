@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
-using Photon.Realtime;
 
 [RequireComponent(typeof(PhotonView))]
 public class HealthUI : MonoBehaviourPun
@@ -25,34 +24,20 @@ public class HealthUI : MonoBehaviourPun
         if (healthSlider3D != null)
         {
             healthSlider3D.value = value;
-            CheckDeath(value);
         }
     }
 
     // 2 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (sadece local player veya enemy için)
     public void Update2DSlider(float maxValue, float value)
     {
+        // Eğer obje "Player" veya "Enemy" etiketliyse ve photonView.IsMine ise
         if ((CompareTag("Player") || CompareTag("Enemy")) && photonView.IsMine)
         {
             if (healthSlider2D != null)
             {
                 healthSlider2D.maxValue = maxValue;
                 healthSlider2D.value = value;
-                CheckDeath(value);
             }
-        }
-    }
-
-    // Can 0 olduğunda Player mı yoksa Enemy mi öldü diye yazdır
-    private void CheckDeath(float currentHealth)
-    {
-        if (currentHealth <= 0)
-        {
-            string tagInfo = CompareTag("Player") ? "Player öldü" :
-                             CompareTag("Enemy") ? "Enemy öldü" :
-                             "Bilinmeyen obje öldü";
-
-            Debug.Log(tagInfo);
         }
     }
 }
