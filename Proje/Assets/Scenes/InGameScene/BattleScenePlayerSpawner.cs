@@ -72,7 +72,6 @@ private void PrintRoleBasedInfo()
     Player attacker = FindPlayerByRole("attacker");
     if (attacker != null)
     {
-        // Photon custom property'lerini çek
         attacker.CustomProperties.TryGetValue("PlayerName", out object attackerNameObj);
         attacker.CustomProperties.TryGetValue("Kingdom", out object attackerKingdomObj);
 
@@ -80,6 +79,9 @@ private void PrintRoleBasedInfo()
         string attackerKingdom = (attackerKingdomObj != null) ? attackerKingdomObj.ToString() : "<Krallık Yok>";
 
         Debug.Log($"[Spawner] ATTACKER => Name: {attackerName}, Kingdom: {attackerKingdom}");
+
+        if (WarController.Instance != null)
+            WarController.Instance.Attacker = $"{attackerName} | Kingdom: {attackerKingdom}";
     }
     else
     {
@@ -90,7 +92,6 @@ private void PrintRoleBasedInfo()
     Player defender = FindPlayerByRole("defender");
     if (defender != null)
     {
-        // Photon custom property'lerini çek
         defender.CustomProperties.TryGetValue("PlayerName", out object defenderNameObj);
         defender.CustomProperties.TryGetValue("Kingdom", out object defenderKingdomObj);
 
@@ -98,12 +99,16 @@ private void PrintRoleBasedInfo()
         string defenderKingdom = (defenderKingdomObj != null) ? defenderKingdomObj.ToString() : "<Krallık Yok>";
 
         Debug.Log($"[Spawner] DEFENDER => Name: {defenderName}, Kingdom: {defenderKingdom}");
+
+        if (WarController.Instance != null)
+            WarController.Instance.Defender = $"{defenderName} | Kingdom: {defenderKingdom}";
     }
     else
     {
         Debug.LogWarning("[Spawner] Defender henüz bulunamadı!");
     }
 }
+
 
     // -----------------------------------------------------------------------
     // PhotonTransformViewClassic senkronizasyon ayarları

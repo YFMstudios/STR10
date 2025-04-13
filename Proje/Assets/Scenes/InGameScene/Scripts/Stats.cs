@@ -73,6 +73,13 @@ public class Stats : MonoBehaviourPun
     private void CheckIfCharacterDead()
     {
         Debug.Log($"{gameObject.name} öldü!");
+        
+        // WarController'a haber ver
+        if (CompareTag("Player"))
+        {
+            if (WarController.Instance != null)
+                WarController.Instance.playerOlduMu = true;
+        }
 
         if (healthUI != null)
         {

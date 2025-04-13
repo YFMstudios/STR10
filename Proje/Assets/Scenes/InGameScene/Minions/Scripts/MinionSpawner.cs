@@ -1,4 +1,3 @@
-// ------------------- MinionSpawner.cs -------------------
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -36,6 +35,13 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
         meleeRemaining = meleeUnitsToSpawn;
         rangedRemaining = rangedUnitsToSpawn;
 
+        if (WarController.Instance != null)
+{
+    WarController.Instance.playerkalansavasçı = meleeRemaining;
+    WarController.Instance.playerkalanokçu = rangedRemaining;
+}
+
+
         if (PhotonNetwork.IsMasterClient)
         {
             Debug.Log("[MinionSpawner] MasterClient olduğum için spawn başlatılıyor");
@@ -49,7 +55,7 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
         int meleeLeft = meleeUnitsToSpawn;
         int rangedLeft = rangedUnitsToSpawn;
 
-        int unitsPerWave = 10; // 5 melee + 5 ranged max
+        int unitsPerWave = 10;
         int waves = Mathf.CeilToInt((float)totalUnits / unitsPerWave);
 
         Debug.Log($"[MinionSpawner] Toplam {waves} dalga oluşacak.");
@@ -136,6 +142,14 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
             rangedRemaining--;
             Debug.Log($"[MinionSpawner] Ranged kalan: {rangedRemaining}");
         }
+
+        // WarController'a bildir
+        if (WarController.Instance != null)
+{
+    WarController.Instance.playerkalansavasçı = meleeRemaining;
+    WarController.Instance.playerkalanokçu = rangedRemaining;
+}
+
     }
 }
 

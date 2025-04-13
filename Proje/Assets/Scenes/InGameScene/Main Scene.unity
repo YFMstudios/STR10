@@ -330,14 +330,27 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      propertyPath: getPlayerData
+      value: 
+      objectReference: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+    - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: minionsPerWave
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 696488241}
   m_SourcePrefab: {fileID: 100100000, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+--- !u!1 &126257572 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+  m_PrefabInstance: {fileID: 126257571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &182540695
 GameObject:
   m_ObjectHideFlags: 0
@@ -1377,6 +1390,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5339737390301278198, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
   m_PrefabInstance: {fileID: 126257571}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &696488241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126257572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca69c31b62482a54ab131773c092c9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeMinionMoveSpeed: 0
+  rangedMinionMoveSpeed: 0
+  spawnPoints: []
+  spawnInterval: 20
+  delayBetweenMinions: 0
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1001 &722280473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3800,6 +3831,59 @@ MonoBehaviour:
   sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!1 &1492026882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1492026884}
+  - component: {fileID: 1492026883}
+  m_Layer: 0
+  m_Name: WarController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1492026883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492026882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 230f54caf13c4f3488609fe8e8284195, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  Attacker: 
+  Defender: 
+  "playerkalanok\xE7u": 0
+  "playerkalansavas\xE7\u0131": 0
+  "enemykalanok\xE7u": 0
+  "enemykalansavas\xE7\u0131": 0
+  kaleyikildimi: 0
+  playerOlduMu: 0
+--- !u!4 &1492026884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492026882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -33.715836, y: -38.20488, z: 1.2888947}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1504991605 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5852061366576485105, guid: afc4ee5dd130082408388c88dbaaf717, type: 3}
@@ -5375,14 +5459,45 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      propertyPath: getPlayerData
+      value: 
+      objectReference: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+    - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: minionsPerWave
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2112145087}
   m_SourcePrefab: {fileID: 100100000, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+--- !u!1 &2112145086 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+  m_PrefabInstance: {fileID: 2112145085}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2112145087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112145086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca69c31b62482a54ab131773c092c9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeMinionMoveSpeed: 0
+  rangedMinionMoveSpeed: 0
+  spawnPoints: []
+  spawnInterval: 20
+  delayBetweenMinions: 0
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &2130831104
 GameObject:
   m_ObjectHideFlags: 0
@@ -6016,7 +6131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: m_Enabled
@@ -6034,7 +6149,8 @@ PrefabInstance:
       propertyPath: rangedMinionPrefabName
       value: Minions/EnemyRangedMinion
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -7347,3 +7463,4 @@ SceneRoots:
   - {fileID: 1171585653}
   - {fileID: 1416367030}
   - {fileID: 1754323125}
+  - {fileID: 1492026884}
