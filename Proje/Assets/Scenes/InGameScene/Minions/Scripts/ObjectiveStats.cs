@@ -86,20 +86,27 @@ public class ObjectiveStats : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RPC_HandleDeath()
+private void RPC_HandleDeath()
+{
+    if (animator != null)
+        animator.SetTrigger("isDead");
+
+    if (damageCoroutine != null)
     {
-        if (animator != null)
-            animator.SetTrigger("isDead");
-
-        if (damageCoroutine != null)
-        {
-            StopCoroutine(damageCoroutine);
-            damageCoroutine = null;
-        }
-
-        float delay = gameObject.CompareTag("EnemyTurret") ? 1f : 3f;
-        Invoke(nameof(DeactivateObject), delay);
+        StopCoroutine(damageCoroutine);
+        damageCoroutine = null;
     }
+
+    // Eğer bu obje kaleyse, yıkıldı mesajı yaz
+    if (CompareTag("EnemyTurret"))
+    {
+        Debug.Log("Kale yıkıldı!");
+    }
+
+    float delay = CompareTag("EnemyTurret") ? 1f : 3f;
+    Invoke(nameof(DeactivateObject), delay);
+}
+
 
     private void DeactivateObject()
     {

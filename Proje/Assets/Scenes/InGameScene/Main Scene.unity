@@ -1107,7 +1107,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4541624740231659275, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Name
-      value: EnemyTower1 (1)
+      value: EnemyCastle
       objectReference: {fileID: 0}
     - target: {fileID: 4541624740231659275, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
@@ -5823,6 +5823,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4541624740231659275, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5602431477159513071, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5877,11 +5881,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7387591611406288995, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7387591611406288995, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7867750145093388178, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
@@ -6012,7 +6016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8764284995304616237, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       propertyPath: m_Enabled
@@ -6273,11 +6277,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5862723239585819379, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5862723239585819379, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5978361657765425475, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_Layer
@@ -6374,6 +6378,10 @@ PrefabInstance:
     - target: {fileID: 8506332207694355565, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506332207694355565, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
