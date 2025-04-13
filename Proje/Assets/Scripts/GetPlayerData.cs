@@ -23,6 +23,8 @@ public class GetPlayerData : ScriptableObject
 
     private RegionClickHandler regionClickHandler;
 
+
+
     //----------------------------------- B�NA AKTF�LE�T�RME FONKS�YONLARI --------------------------------------------------------------//
     public void ActiveTowerOne()
     {

@@ -72,8 +72,8 @@ public class ProgressBarController : MonoBehaviour
     public float time;
     public TextMeshProUGUI kalanZaman;
 
-    public float createdSoldierAmount = 6f;
-    public float createdArcherAmount = 6f;
+    public float createdSoldierAmount = 0f;
+    public float createdArcherAmount = 0f;
 
     private float totalAltin = 0, totalYemek = 0, totalDemir = 0, totalTas = 0, totalKereste = 0;
 
@@ -87,8 +87,9 @@ public class ProgressBarController : MonoBehaviour
         
         buttonText = createUnitButton.GetComponentInChildren<TextMeshProUGUI>();
         healButtonText = healButton.GetComponentInChildren<TextMeshProUGUI>();
-
-        getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);//Default olarak 5'er adet askerler ba�lat�yoruz.(5 Piyade, 5 Ok�u)
+        createdSoldierAmount=0;
+        createdArcherAmount=0;
+        getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);
 
         
     }

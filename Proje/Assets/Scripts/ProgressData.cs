@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ProgressData", menuName = "ScriptableObjects/ProgressData", order = 1)]
 public class ProgressData : ScriptableObject
 {
-    public int createdSoldierAmount;  // Þu anki melee birim sayýsý
-    public int createdArcherAmount;   // Þu anki ranged birim sayýsý
+    public int createdSoldierAmount;  // ï¿½u anki melee birim sayï¿½sï¿½
+    public int createdArcherAmount;   // ï¿½u anki ranged birim sayï¿½sï¿½
 
     public bool IsCastleUpgraded = false;
 }
