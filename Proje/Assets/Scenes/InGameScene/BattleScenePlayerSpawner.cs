@@ -14,39 +14,96 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     public GameObject enemyObject;  // Defender
 
     void Start()
+{
+    // Her istemci (Master veya değil) kod buradan geçer
+    Debug.Log($"[Spawner] Start() -> Nick:{PhotonNetwork.NickName}, IsMaster?: {PhotonNetwork.IsMasterClient}");
+
+    if (playerObject == null || enemyObject == null)
     {
-        // Her istemci (Master veya değil) kod buradan geçer
-        Debug.Log($"[Spawner] Start() -> Nick:{PhotonNetwork.NickName}, IsMaster?: {PhotonNetwork.IsMasterClient}");
-
-        if (playerObject == null || enemyObject == null)
-        {
-            Debug.LogError("[Spawner] Player veya Enemy objeleri inspector'da atamayı unutma!");
-            return;
-        }
-
-        // (1) Transform senkron ayarları (Opsiyonel, Inspector’dan da yapabilirsiniz)
-        SetupTransformSync(playerObject);
-        SetupTransformSync(enemyObject);
-
-        // (2) İlk spawn için ikisini de aktif edelim
-        playerObject.SetActive(true);
-        enemyObject.SetActive(true);
-
-        // (3) Herkes kendi rolünü (attacker/defender) belirlesin
-        AssignAndSpawnPlayerRole();
-
-        // (4) Yalnızca MasterClient respawn coroutineleri yönetsin
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("[Spawner] Ben MasterClient -> respawn coroutine'lerini başlatıyorum");
-            StartCoroutine(CheckRespawnRoutine_Attacker());
-            StartCoroutine(CheckRespawnRoutine_Defender());
-        }
-        else
-        {
-            Debug.Log("[Spawner] MasterClient değilim -> coroutine başlatmıyorum");
-        }
+        Debug.LogError("[Spawner] Player veya Enemy objeleri inspector'da atamayı unutma!");
+        return;
     }
+
+    // (1) Transform senkron ayarları (Opsiyonel, Inspector’dan da yapabilirsiniz)
+    SetupTransformSync(playerObject);
+    SetupTransformSync(enemyObject);
+
+    // (2) İlk spawn için ikisini de aktif edelim
+    playerObject.SetActive(true);
+    enemyObject.SetActive(true);
+
+    // (3) Herkes kendi rolünü (attacker/defender) belirlesin
+    AssignAndSpawnPlayerRole();
+
+    // (4) Yalnızca MasterClient respawn coroutineleri yönetsin
+    if (PhotonNetwork.IsMasterClient)
+    {
+        Debug.Log("[Spawner] Ben MasterClient -> respawn coroutine'lerini başlatıyorum");
+        StartCoroutine(CheckRespawnRoutine_Attacker());
+        StartCoroutine(CheckRespawnRoutine_Defender());
+    }
+    else
+    {
+        Debug.Log("[Spawner] MasterClient değilim -> coroutine başlatmıyorum");
+    }
+
+    // PrintRoleBasedInfo() metodunu direkt çağırmak yerine kısa bir gecikmeyle çalıştırın
+
+    // Start() içinde, AssignAndSpawnPlayerRole() çağrıldıktan sonra:
+StartCoroutine(DelayedPrintInfo());
+
+}
+
+// -----------------------------------------------------------------------
+//  (Opsiyonel) Attacker/Defender kim, PlayerName ve Kingdom nedir?
+// -----------------------------------------------------------------------
+private IEnumerator DelayedPrintInfo()
+{
+    // 2 saniye bekleyip sonra yazdır
+    yield return new WaitForSeconds(2f);
+    PrintRoleBasedInfo();
+}
+
+private void PrintRoleBasedInfo()
+{
+    Debug.Log("[Spawner] PrintRoleBasedInfo() çağrıldı.");
+
+    // Attacker kim?
+    Player attacker = FindPlayerByRole("attacker");
+    if (attacker != null)
+    {
+        // Photon custom property'lerini çek
+        attacker.CustomProperties.TryGetValue("PlayerName", out object attackerNameObj);
+        attacker.CustomProperties.TryGetValue("Kingdom", out object attackerKingdomObj);
+
+        string attackerName = (attackerNameObj != null) ? attackerNameObj.ToString() : "<Bilinmiyor>";
+        string attackerKingdom = (attackerKingdomObj != null) ? attackerKingdomObj.ToString() : "<Krallık Yok>";
+
+        Debug.Log($"[Spawner] ATTACKER => Name: {attackerName}, Kingdom: {attackerKingdom}");
+    }
+    else
+    {
+        Debug.LogWarning("[Spawner] Attacker henüz bulunamadı!");
+    }
+
+    // Defender kim?
+    Player defender = FindPlayerByRole("defender");
+    if (defender != null)
+    {
+        // Photon custom property'lerini çek
+        defender.CustomProperties.TryGetValue("PlayerName", out object defenderNameObj);
+        defender.CustomProperties.TryGetValue("Kingdom", out object defenderKingdomObj);
+
+        string defenderName = (defenderNameObj != null) ? defenderNameObj.ToString() : "<Bilinmiyor>";
+        string defenderKingdom = (defenderKingdomObj != null) ? defenderKingdomObj.ToString() : "<Krallık Yok>";
+
+        Debug.Log($"[Spawner] DEFENDER => Name: {defenderName}, Kingdom: {defenderKingdom}");
+    }
+    else
+    {
+        Debug.LogWarning("[Spawner] Defender henüz bulunamadı!");
+    }
+}
 
     // -----------------------------------------------------------------------
     // PhotonTransformViewClassic senkronizasyon ayarları

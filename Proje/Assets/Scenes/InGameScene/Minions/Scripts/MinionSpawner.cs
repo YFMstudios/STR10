@@ -1,3 +1,4 @@
+// ------------------- MinionSpawner.cs -------------------
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -5,92 +6,98 @@ using System.Collections;
 
 public class MinionSpawner : MonoBehaviourPunCallbacks
 {
-    public float meleeMinionMoveSpeed;    // Yakın dövüş minion hareket hızı
-    public float rangedMinionMoveSpeed;   // Uzak dövüş minion hareket hızı
+    public float meleeMinionMoveSpeed;
+    public float rangedMinionMoveSpeed;
 
     private const string MELEE_MINION_PREFAB = "Minions/MeleeMinion";
     private const string RANGED_MINION_PREFAB = "Minions/RangedMinion";
 
     public Transform[] spawnPoints;
-    public float spawnInterval = 20.0f;   // Dalga arası bekleme süresi
-    public float delayBetweenMinions;     // Her minyon arasında bekleme süresi
-
-    private int meleeUnitsToSpawn = 0;
-    private int rangedUnitsToSpawn = 0;
+    public float spawnInterval = 20.0f;
+    public float delayBetweenMinions;
 
     [Header("ScriptableObject")]
     public GetPlayerData getPlayerData;
 
+    private int meleeUnitsToSpawn;
+    private int rangedUnitsToSpawn;
+    private int meleeRemaining;
+    private int rangedRemaining;
+
     private void Start()
     {
-        // Minyon sayısını başlangıç değerinin 3 katına çıkarıyoruz
-        meleeUnitsToSpawn = (int)getPlayerData.currentSoldierAmount * 3;
-        rangedUnitsToSpawn = (int)getPlayerData.currentArcherAmount * 3;
+        Debug.Log("[MinionSpawner] Start()");
 
-        // Toplam minyon sayısını 60 ile sınırlıyoruz
-        int total = meleeUnitsToSpawn + rangedUnitsToSpawn;
-        if (total > 60)
-        {
-            float ratio = 60f / total;
-            meleeUnitsToSpawn = Mathf.FloorToInt(meleeUnitsToSpawn * ratio);
-            rangedUnitsToSpawn = Mathf.FloorToInt(rangedUnitsToSpawn * ratio);
-        }
+        meleeUnitsToSpawn = getPlayerData.currentSoldierAmount;
+        rangedUnitsToSpawn = getPlayerData.currentArcherAmount;
+
+        Debug.Log($"[MinionSpawner] Toplam Melee: {meleeUnitsToSpawn}, Ranged: {rangedUnitsToSpawn}");
+
+        meleeRemaining = meleeUnitsToSpawn;
+        rangedRemaining = rangedUnitsToSpawn;
 
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("[MinionSpawner] MasterClient olduğum için spawn başlatılıyor");
             StartCoroutine(SpawnMinions());
         }
     }
 
     private IEnumerator SpawnMinions()
     {
-        int totalUnitsToSpawn = meleeUnitsToSpawn + rangedUnitsToSpawn;
+        int totalUnits = meleeUnitsToSpawn + rangedUnitsToSpawn;
+        int meleeLeft = meleeUnitsToSpawn;
+        int rangedLeft = rangedUnitsToSpawn;
 
-        // 6 dalga oluşturmak için toplam minyonları bölüyoruz
-        int waves = 6;
-        int meleePerWave = Mathf.CeilToInt((float)meleeUnitsToSpawn / waves);
-        int rangedPerWave = Mathf.CeilToInt((float)rangedUnitsToSpawn / waves);
+        int unitsPerWave = 10; // 5 melee + 5 ranged max
+        int waves = Mathf.CeilToInt((float)totalUnits / unitsPerWave);
+
+        Debug.Log($"[MinionSpawner] Toplam {waves} dalga oluşacak.");
 
         for (int wave = 0; wave < waves; wave++)
         {
-            int meleeToSpawnThisWave = Mathf.Min(meleePerWave, meleeUnitsToSpawn);
-            int rangedToSpawnThisWave = Mathf.Min(rangedPerWave, rangedUnitsToSpawn);
+            Debug.Log($"[MinionSpawner] Dalga {wave + 1}/{waves} başlıyor.");
 
-            // Melee minyonları spawn et
-            for (int i = 0; i < meleeToSpawnThisWave; i++)
+            int meleeThisWave = Mathf.Min(5, meleeLeft);
+            int rangedThisWave = Mathf.Min(5, rangedLeft);
+
+            for (int i = 0; i < meleeThisWave; i++)
             {
-                SpawnMinionForAll(true, meleeMinionMoveSpeed);
-                meleeUnitsToSpawn--;
-                totalUnitsToSpawn--;
+                GameObject minion = SpawnMinionForAll(true, meleeMinionMoveSpeed);
+                AttachDeathLogic(minion, true);
+                meleeLeft--;
+                Debug.Log($"[MinionSpawner] Melee minion spawn edildi. Kalan: {meleeLeft}");
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
-            // Ranged minyonları spawn et
-            for (int i = 0; i < rangedToSpawnThisWave; i++)
+            for (int i = 0; i < rangedThisWave; i++)
             {
-                SpawnMinionForAll(false, rangedMinionMoveSpeed);
-                rangedUnitsToSpawn--;
-                totalUnitsToSpawn--;
+                GameObject minion = SpawnMinionForAll(false, rangedMinionMoveSpeed);
+                AttachDeathLogic(minion, false);
+                rangedLeft--;
+                Debug.Log($"[MinionSpawner] Ranged minion spawn edildi. Kalan: {rangedLeft}");
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
-            // Dalga tamamlandıysa bir sonraki dalgaya kadar bekle
             if (wave < waves - 1)
             {
-                float waitTime = spawnInterval - delayBetweenMinions * (meleeToSpawnThisWave + rangedToSpawnThisWave);
-                yield return new WaitForSeconds(waitTime);
+                float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
+                Debug.Log($"[MinionSpawner] Dalga arası bekleniyor: {wait} saniye");
+                yield return new WaitForSeconds(wait);
             }
         }
+
+        Debug.Log("[MinionSpawner] Tüm dalgalar tamamlandı.");
     }
 
-    private void SpawnMinionForAll(bool isMelee, float moveSpeed)
+    private GameObject SpawnMinionForAll(bool isMelee, float moveSpeed)
     {
         int spawnIndex = Random.Range(0, spawnPoints.Length);
         Transform chosenPoint = spawnPoints[spawnIndex];
 
         string prefabName = isMelee ? MELEE_MINION_PREFAB : RANGED_MINION_PREFAB;
 
-        if (!PhotonNetwork.IsMasterClient) return;
+        if (!PhotonNetwork.IsMasterClient) return null;
 
         GameObject minion = PhotonNetwork.Instantiate(
             prefabName,
@@ -98,10 +105,58 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
             chosenPoint.rotation
         );
 
+        Debug.Log($"[MinionSpawner] {(isMelee ? "Melee" : "Ranged")} minyon instantiate edildi: {prefabName}");
+
         var agent = minion.GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (agent != null)
         {
             agent.speed = moveSpeed;
+            Debug.Log($"[MinionSpawner] NavMeshAgent hızı ayarlandı: {moveSpeed}");
+        }
+
+        return minion;
+    }
+
+    private void AttachDeathLogic(GameObject minion, bool isMelee)
+    {
+        Debug.Log("[MinionSpawner] Death tracker eklendi.");
+        MinionDeathTracker tracker = minion.AddComponent<MinionDeathTracker>();
+        tracker.Init(this, isMelee);
+    }
+
+    public void DecreaseMinionCount(bool isMelee)
+    {
+        if (isMelee)
+        {
+            meleeRemaining--;
+            Debug.Log($"[MinionSpawner] Melee kalan: {meleeRemaining}");
+        }
+        else
+        {
+            rangedRemaining--;
+            Debug.Log($"[MinionSpawner] Ranged kalan: {rangedRemaining}");
+        }
+    }
+}
+
+public class MinionDeathTracker : MonoBehaviour
+{
+    private MinionSpawner spawner;
+    private bool isMelee;
+
+    public void Init(MinionSpawner spawnerRef, bool isMeleeType)
+    {
+        spawner = spawnerRef;
+        isMelee = isMeleeType;
+        Debug.Log("[MinionDeathTracker] Tracker başlatıldı.");
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("[MinionDeathTracker] Minyon öldü, spawner bilgilendiriliyor.");
+        if (spawner != null)
+        {
+            spawner.DecreaseMinionCount(isMelee);
         }
     }
 }

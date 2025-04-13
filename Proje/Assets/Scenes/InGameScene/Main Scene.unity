@@ -2905,8 +2905,8 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1176192662}
   spawnInterval: 20
-  minionsPerWave: 10
   delayBetweenMinions: 1
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1179806315
 GameObject:
   m_ObjectHideFlags: 0
