@@ -21,10 +21,25 @@ public class GetPlayerData : ScriptableObject
     public bool TrapTwoIsBuilded = false;//Tuzak2 �n�a Edildi Mi?
     public bool TrapThreeIsBuilded = false;//Tuzak3 �n�a Edildi Mi?
 
+      public GameObject trapOneObject;
+    public GameObject trapTwoObject;
+    public GameObject trapThreeObject;
+
     private RegionClickHandler regionClickHandler;
 
+    public void Start(){
+        Trap.trapOneBuildLevel=0;
+        Trap.trapTwoBuildLevel=0;
+        Trap.trapThreeBuildLevel=0;  
 
+        TrapOneIsBuilded=false;
+        TrapTwoIsBuilded=false;
+        TrapThreeIsBuilded=false;
 
+        
+    }
+
+ 
     //----------------------------------- B�NA AKTF�LE�T�RME FONKS�YONLARI --------------------------------------------------------------//
     public void ActiveTowerOne()
     {
@@ -38,23 +53,36 @@ public class GetPlayerData : ScriptableObject
         Debug.Log("MainGame'de TowerTwo �n�a Edildi. InGame'de aktifle�tirilmesi bekleniyor.");
     }
 
-    public void ActiveTrapOne()
+   public void ActiveTrapOne()
     {
         TrapOneIsBuilded = true;
-        Debug.Log("MainGame'de TrapOne �n�a Edildi. InGame'de aktifle�tirilmesi bekleniyor.");
+        if (trapOneObject != null)
+        {
+            trapOneObject.SetActive(true);
+            Debug.Log("TrapOne sahnede aktif edildi.");
+        }
     }
 
     public void ActiveTrapTwo()
     {
         TrapTwoIsBuilded = true;
-        Debug.Log("MainGame'de TrapTwo �n�a Edildi. InGame'de aktifle�tirilmesi bekleniyor.");
+        if (trapTwoObject != null)
+        {
+            trapTwoObject.SetActive(true);
+            Debug.Log("TrapTwo sahnede aktif edildi.");
+        }
     }
 
     public void ActiveTrapThree()
     {
         TrapThreeIsBuilded = true;
-        Debug.Log("MainGame'de TrapThree �n�a Edildi. InGame'de aktifle�tirilmesi bekleniyor.");
+        if (trapThreeObject != null)
+        {
+            trapThreeObject.SetActive(true);
+            Debug.Log("TrapThree sahnede aktif edildi.");
+        }
     }
+
 
     //---------------------------------------B�NA Y�KSELTME FONKS�YONLARI----------------------------------------------------------------
 
