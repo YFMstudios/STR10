@@ -21,6 +21,14 @@ public class ObjectiveStats : MonoBehaviourPunCallbacks
     [Header("ScriptableObject")]
     public ProgressData progressData;
 
+     public TowerManagerInGame towerManagerInGame;
+     public CastleManager castleManager;
+
+    
+    
+       
+    
+
     private void Awake()
     {
         healthUII = GetComponent<HealthUII>();
@@ -31,6 +39,9 @@ public class ObjectiveStats : MonoBehaviourPunCallbacks
             healthUII.Start3DSlider(health);
 
         animator = GetComponent<Animator>();
+
+         towerManagerInGame.SetObjectiveStats(this);
+         castleManager.SetObjectiveStats(this);
     }
 
     public void TakeDamage(float damageAmount)

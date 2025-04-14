@@ -14,17 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSoldierAmount: 0
   currentArcherAmount: 0
-  CastleLevel: 0
+  CastleLevel: 2
   TowerOneLevel: 0
   TowerTwoLevel: 0
-  TrapOneLevel: 1
+  TrapOneLevel: 0
   TrapTwoLevel: 0
   TrapThreeLevel: 0
   TowerOneIsBuilded: 0
   TowerTwoIsBuilded: 0
-  TrapOneIsBuilded: 1
+  TrapOneIsBuilded: 0
   TrapTwoIsBuilded: 0
   TrapThreeIsBuilded: 0
   trapOneObject: {fileID: 0}
   trapTwoObject: {fileID: 0}
   trapThreeObject: {fileID: 0}
+  towerOneObject: {fileID: 0}
+  towerTwoObject: {fileID: 0}

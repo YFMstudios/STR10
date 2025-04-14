@@ -18,6 +18,14 @@ public class Turret : MonoBehaviourPunCallbacks
     // Sabit: Turret'in fırlattığı mermi prefab'ının Resources altındaki yolu
     private const string TURRET_PROJECTILE_PATH = "Projectiles/TurretProjectile";
 
+    public TowerManagerInGame towerManagerInGame;
+
+         public CastleManager castleManager;
+    public void Awake()
+    {
+        towerManagerInGame.SetTurret(this);
+        castleManager.SetTurret(this);
+    }
     private void Start()
     {
         // Turret etiketine göre hedef tag'leri ayarlanır

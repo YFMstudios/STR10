@@ -1304,10 +1304,46 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8361325953673870217, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: damage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8361325953673870217, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: health
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8361325953673870217, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: castleManager
+      value: 
+      objectReference: {fileID: 1723985265}
+    - target: {fileID: 8361325953673870217, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: towerManagerInGame
+      value: 
+      objectReference: {fileID: 1501370575}
     - target: {fileID: 8491698241462915829, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: attackRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: attackDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: castleManager
+      value: 
+      objectReference: {fileID: 1723985265}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: attackCooldown
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: towerManagerInGame
+      value: 
+      objectReference: {fileID: 1501370575}
     - target: {fileID: 9020040584004441759, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -6216,10 +6252,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8361325953673870217, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: castleManager
+      value: 
+      objectReference: {fileID: 1723985265}
+    - target: {fileID: 8361325953673870217, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: towerManagerInGame
+      value: 
+      objectReference: {fileID: 1501370575}
     - target: {fileID: 8491698241462915829, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: castleManager
+      value: 
+      objectReference: {fileID: 1723985265}
+    - target: {fileID: 8728797971029416397, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
+      propertyPath: towerManagerInGame
+      value: 
+      objectReference: {fileID: 1501370575}
     - target: {fileID: 9020040584004441759, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -6557,6 +6609,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 970951584641473618, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
+      propertyPath: castleManager
+      value: 
+      objectReference: {fileID: 1723985265}
+    - target: {fileID: 970951584641473618, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
+      propertyPath: towerManagerInGame
+      value: 
+      objectReference: {fileID: 1501370575}
     - target: {fileID: 3227536028909276823, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -6565,6 +6625,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4541760858072572201, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
+      propertyPath: castleManager
+      value: 
+      objectReference: {fileID: 1723985265}
+    - target: {fileID: 4541760858072572201, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
+      propertyPath: towerManagerInGame
+      value: 
+      objectReference: {fileID: 1501370575}
     - target: {fileID: 4791250174033804069, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_Layer
       value: 7
