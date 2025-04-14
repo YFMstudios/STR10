@@ -25,6 +25,9 @@ public class GetPlayerData : ScriptableObject
     public GameObject trapTwoObject;
     public GameObject trapThreeObject;
 
+    public GameObject towerOneObject;
+    public GameObject towerTwoObject;
+
     private RegionClickHandler regionClickHandler;
 
     public void Start(){
@@ -35,6 +38,12 @@ public class GetPlayerData : ScriptableObject
         TrapOneIsBuilded=false;
         TrapTwoIsBuilded=false;
         TrapThreeIsBuilded=false;
+
+        Tower.towerOneBuildLevel=0;
+        Tower.towerTwoBuildLevel=0;
+
+        TowerOneIsBuilded=false;
+        TowerTwoIsBuilded=false;
 
         
     }

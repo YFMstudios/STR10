@@ -381,6 +381,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 218928065}
+  - {fileID: 1723985264}
+  - {fileID: 1501370574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &182540695
@@ -412,8 +414,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3972104592841364166}
   - {fileID: 1560304134}
+  - {fileID: 3972104592841364166}
   - {fileID: 5785139589738350046}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3872,6 +3874,7 @@ MonoBehaviour:
   damageAmount: 15
   trapVisual: {fileID: 1826823735867886, guid: 84b6dcc9019b86143812a6901fecd619, type: 3}
   activationDistance: 2
+  trapManager: {fileID: 218928066}
 --- !u!114 &1491958018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3964,6 +3967,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1501370573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501370574}
+  - component: {fileID: 1501370575}
+  m_Layer: 0
+  m_Name: TowerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1501370574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501370573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 149554144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1501370575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501370573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306d7c5b6f91f574ab23081f605b5ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  towerOneObject: {fileID: 574495517310868319}
+  towerTwoObject: {fileID: 1032560869}
 --- !u!114 &1504991605 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5852061366576485105, guid: afc4ee5dd130082408388c88dbaaf717, type: 3}
@@ -4364,6 +4414,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1723985263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1723985264}
+  - component: {fileID: 1723985265}
+  m_Layer: 0
+  m_Name: CastleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1723985264
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723985263}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 149554144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1723985265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723985263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa8f13bfe5c0c94990341eb010542b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  CastleObject: {fileID: 1560304133}
 --- !u!1 &1754323123
 GameObject:
   m_ObjectHideFlags: 0
@@ -4508,6 +4604,7 @@ MonoBehaviour:
   damageAmount: 15
   trapVisual: {fileID: 1826823735867886, guid: 84b6dcc9019b86143812a6901fecd619, type: 3}
   activationDistance: 2
+  trapManager: {fileID: 218928066}
 --- !u!114 &1762557802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5289,6 +5386,7 @@ MonoBehaviour:
   damageAmount: 15
   trapVisual: {fileID: 1826823735867886, guid: 84b6dcc9019b86143812a6901fecd619, type: 3}
   activationDistance: 2
+  trapManager: {fileID: 218928066}
 --- !u!114 &2003113623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6020,7 +6118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4541624740231659275, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5602431477159513071, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6076,11 +6174,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7387591611406288995, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7387591611406288995, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7867750145093388178, guid: bf34751bdd4662d4bb185ea79102f6b0, type: 3}
       propertyPath: m_Layer
@@ -6473,11 +6571,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5862723239585819379, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5862723239585819379, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5978361657765425475, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_Layer
@@ -6577,7 +6675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8506332207694355565, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7398,7 +7496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerNames:
-  - EnemyTower1
+  - EnemyCastle
   - EnemyTower2
   - EnemyTower3
   spawnerNames:

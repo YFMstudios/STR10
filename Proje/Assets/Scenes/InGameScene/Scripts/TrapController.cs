@@ -11,6 +11,13 @@ public class TrapController : MonoBehaviour
 
     private Transform playerTransform;
 
+    public TrapManager trapManager;
+
+    public void Awake()
+    {
+          trapManager.SetTrapController(this);
+    } 
+
     private void Start()
     {
         if (trapVisual != null)
@@ -22,6 +29,9 @@ public class TrapController : MonoBehaviour
         {
             playerTransform = player.transform;
         }
+
+       // trapManager.SetTrapController(this);
+
     }
 
     private void Update()

@@ -1424,6 +1424,7 @@ public class BuildBuilder : MonoBehaviour
 
         if (!Castle.wasCastleCreated)
         {
+            castle = new Castle();
             castle = gameObject.AddComponent<Castle>();
 
             if (checkResources(castle))

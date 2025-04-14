@@ -3,7 +3,7 @@ using UnityEngine;
 public class TowerManager : MonoBehaviour
 {
     // Tower ve MinionSpawner eşleştirme (isimlerle çalışıyoruz)
-    public string[] towerNames = { "EnemyTower1", "EnemyTower2", "EnemyTower3" };
+    public string[] towerNames = { "EnemyCastle", "EnemyTower2", "EnemyTower3" };
     public string[] spawnerNames = { "EnemyMinionSpawner1", "EnemyMinionSpawner2", "EnemyMinionSpawner3" };
 
     private int currentSpawnerIndex = 0;
