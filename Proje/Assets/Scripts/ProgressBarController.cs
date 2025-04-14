@@ -87,9 +87,7 @@ public class ProgressBarController : MonoBehaviour
         
         buttonText = createUnitButton.GetComponentInChildren<TextMeshProUGUI>();
         healButtonText = healButton.GetComponentInChildren<TextMeshProUGUI>();
-        createdSoldierAmount=0;
-        createdArcherAmount=0;
-        getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);
+      
 
         
     }
