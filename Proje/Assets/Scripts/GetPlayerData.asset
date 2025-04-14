@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSoldierAmount: 0
   currentArcherAmount: 0
-  CastleLevel: 2
+  CastleLevel: 0
   TowerOneLevel: 0
   TowerTwoLevel: 0
   TrapOneLevel: 0

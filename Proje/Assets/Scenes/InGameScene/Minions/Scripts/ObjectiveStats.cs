@@ -21,28 +21,40 @@ public class ObjectiveStats : MonoBehaviourPunCallbacks
     [Header("ScriptableObject")]
     public ProgressData progressData;
 
-     public TowerManagerInGame towerManagerInGame;
-     public CastleManager castleManager;
+     private TowerManagerInGame towerManagerInGame;
+     private CastleManager castleManager;
 
     
-    
-       
-    
-
-    private void Awake()
-    {
-        healthUII = GetComponent<HealthUII>();
-        currentHealth = health;
-        targetHealth = health;
-
-        if (healthUII != null)
-            healthUII.Start3DSlider(health);
-
-        animator = GetComponent<Animator>();
-
-         towerManagerInGame.SetObjectiveStats(this);
-         castleManager.SetObjectiveStats(this);
+    public void SetTowerManager(TowerManagerInGame towerManager){
+           towerManagerInGame  = towerManager;
     }
+       
+    public void SetCastleManager(CastleManager _castleManager){
+           castleManager  = _castleManager;
+    }
+
+   private void Awake()
+{
+    healthUII = GetComponent<HealthUII>();
+    currentHealth = health;
+    targetHealth = health;
+
+    if (healthUII != null)
+        healthUII.Start3DSlider(health);
+
+    animator = GetComponent<Animator>();
+
+    if (towerManagerInGame != null)
+        towerManagerInGame.SetObjectiveStats(this);
+    else
+        Debug.LogWarning("[ObjectiveStats] towerManagerInGame atanmamış!");
+
+    if (castleManager != null)
+        castleManager.SetObjectiveStats(this);
+    else
+        Debug.LogWarning("[ObjectiveStats] castleManager atanmamış!");
+}
+
 
     public void TakeDamage(float damageAmount)
     {

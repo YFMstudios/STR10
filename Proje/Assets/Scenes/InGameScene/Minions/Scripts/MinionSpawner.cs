@@ -23,8 +23,17 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     private int meleeRemaining;
     private int rangedRemaining;
 
+    public int kalanOkcu;
+    public int kalanSavasci;
+
+        public SoldierController soldierManager;
+
+
+
+
     private void Start()
     {
+
         Debug.Log("[MinionSpawner] Start()");
 
         meleeUnitsToSpawn = getPlayerData.currentSoldierAmount;
@@ -73,6 +82,7 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(minion, true);
                 meleeLeft--;
                 Debug.Log($"[MinionSpawner] Melee minion spawn edildi. Kalan: {meleeLeft}");
+                kalanSavasci = meleeLeft;
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
@@ -82,6 +92,7 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(minion, false);
                 rangedLeft--;
                 Debug.Log($"[MinionSpawner] Ranged minion spawn edildi. Kalan: {rangedLeft}");
+                kalanOkcu = rangedLeft;
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 

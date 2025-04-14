@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Timeline.Actions;
 
 public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 {
@@ -23,8 +24,17 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
     private int meleeRemaining;
     private int rangedRemaining;
 
+       public int kalanOkcu;
+    public int kalanSavasci;
+
+        public SoldierController soldierManager;
+
+
+
+
     private void Start()
     {
+      
         Debug.Log("[EnemySpawner] Start()");
 
         meleeUnitsToSpawn = getPlayerData.currentSoldierAmount;
@@ -74,6 +84,7 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(minion, true);
                 meleeLeft--;
                 Debug.Log($"[EnemySpawner] Melee minion spawn edildi. Kalan: {meleeLeft}");
+                kalanSavasci = meleeLeft;
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
@@ -83,6 +94,7 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(minion, false);
                 rangedLeft--;
                 Debug.Log($"[EnemySpawner] Ranged minion spawn edildi. Kalan: {rangedLeft}");
+                kalanOkcu = rangedLeft;
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 

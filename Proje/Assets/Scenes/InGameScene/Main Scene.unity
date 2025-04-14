@@ -1526,6 +1526,9 @@ MonoBehaviour:
   spawnInterval: 20
   delayBetweenMinions: 0
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kalanOkcu: 0
+  kalanSavasci: 0
+  soldierManager: {fileID: 1624748962}
 --- !u!1001 &722280473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2057,6 +2060,7 @@ GameObject:
   - component: {fileID: 962783917}
   - component: {fileID: 962783916}
   - component: {fileID: 962783915}
+  - component: {fileID: 962783918}
   m_Layer: 5
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -2140,6 +2144,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 962783918}
+        m_TargetAssemblyTypeName: SoldierController, Assembly-CSharp
+        m_MethodName: setSoldierAmount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &962783916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2178,6 +2194,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 962783913}
   m_CullTransparentMesh: 1
+--- !u!114 &962783918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962783913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c44e3ad3c9b284cb2c3d394d6ba8f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerRole: attacker
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!1 &1032560869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8506332207694355565, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
@@ -3056,6 +3086,9 @@ MonoBehaviour:
   spawnInterval: 20
   delayBetweenMinions: 1
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kalanOkcu: 0
+  kalanSavasci: 0
+  soldierManager: {fileID: 1624748962}
 --- !u!1 &1179806315
 GameObject:
   m_ObjectHideFlags: 0
@@ -4439,6 +4472,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4709528127833354, guid: a5b2c973fbd4bcf49b07ded49a003a51, type: 3}
   m_PrefabInstance: {fileID: 1585483437}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1624748961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1624748963}
+  - component: {fileID: 1624748962}
+  m_Layer: 0
+  m_Name: SoldierManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1624748962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624748961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8c44e3ad3c9b284cb2c3d394d6ba8f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerRole: 
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+--- !u!4 &1624748963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1624748961}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 945.83716, y: 675.28577, z: 29.691206}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1632915158 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3224577926457263306, guid: afc4ee5dd130082408388c88dbaaf717, type: 3}
@@ -5712,6 +5791,9 @@ MonoBehaviour:
   spawnInterval: 20
   delayBetweenMinions: 0
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kalanOkcu: 0
+  kalanSavasci: 0
+  soldierManager: {fileID: 1624748962}
 --- !u!1 &2130831104
 GameObject:
   m_ObjectHideFlags: 0
@@ -6577,6 +6659,8 @@ MonoBehaviour:
   defenderSpawnPoint: {fileID: 5002393095043687394}
   playerObject: {fileID: 4660609000826731518}
   enemyObject: {fileID: 5002393095043687395}
+  role: 
+  soldierManager: {fileID: 1624748962}
 --- !u!114 &5002393095043687397 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4724005188980379384, guid: 35683a4b29ac7164bb67ac5e879cf94b, type: 3}
@@ -7188,6 +7272,8 @@ MonoBehaviour:
   defenderSpawnPoint: {fileID: 5002393095043687394}
   playerObject: {fileID: 4660609000826731518}
   enemyObject: {fileID: 5002393095043687395}
+  role: 
+  soldierManager: {fileID: 1624748962}
 --- !u!1001 &8059142760952552256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7216,6 +7302,10 @@ PrefabInstance:
       propertyPath: minionsPerWave
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+      propertyPath: soldierManager
+      value: 
+      objectReference: {fileID: 1624748962}
     - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
       propertyPath: meleeMinionPrefabName
       value: Minions/MeleeMinion
@@ -7711,3 +7801,4 @@ SceneRoots:
   - {fileID: 1754323125}
   - {fileID: 1492026884}
   - {fileID: 149554144}
+  - {fileID: 1624748963}

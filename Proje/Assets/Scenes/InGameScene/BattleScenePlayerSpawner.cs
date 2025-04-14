@@ -13,8 +13,34 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     public GameObject playerObject; // Attacker
     public GameObject enemyObject;  // Defender
 
+    public string role;
+    public SoldierController soldierManager;
+
+    void Awake()
+{
+    if (soldierManager != null)
+    {
+        soldierManager.setBattleScenePlayerSpawner(this);
+    }
+    else
+    {
+        Debug.LogError("[BattleScenePlayerSpawner] SoldierManager atanmadı!");
+    }
+}
+
     void Start()
 {
+    if (soldierManager != null)
+    {
+        MinionSpawner minionSpawner = FindObjectOfType<MinionSpawner>();
+        EnemyMinionSpawner enemyMinionSpawner = FindObjectOfType<EnemyMinionSpawner>();
+
+        if (minionSpawner != null)
+            minionSpawner.soldierManager = soldierManager;
+
+        if (enemyMinionSpawner != null)
+            enemyMinionSpawner.soldierManager = soldierManager;
+    }
     // Her istemci (Master veya değil) kod buradan geçer
     Debug.Log($"[Spawner] Start() -> Nick:{PhotonNetwork.NickName}, IsMaster?: {PhotonNetwork.IsMasterClient}");
 
@@ -52,6 +78,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     // Start() içinde, AssignAndSpawnPlayerRole() çağrıldıktan sonra:
 StartCoroutine(DelayedPrintInfo());
 
+
+
 }
 
 // -----------------------------------------------------------------------
@@ -72,6 +100,7 @@ private void PrintRoleBasedInfo()
     Player attacker = FindPlayerByRole("attacker");
     if (attacker != null)
     {
+        
         attacker.CustomProperties.TryGetValue("PlayerName", out object attackerNameObj);
         attacker.CustomProperties.TryGetValue("Kingdom", out object attackerKingdomObj);
 
@@ -92,6 +121,7 @@ private void PrintRoleBasedInfo()
     Player defender = FindPlayerByRole("defender");
     if (defender != null)
     {
+    
         defender.CustomProperties.TryGetValue("PlayerName", out object defenderNameObj);
         defender.CustomProperties.TryGetValue("Kingdom", out object defenderKingdomObj);
 
@@ -139,34 +169,40 @@ private void PrintRoleBasedInfo()
     // Her istemci hangi rolü (attacker/defender) alacak, obje konumu vs.
     // -----------------------------------------------------------------------
     private void AssignAndSpawnPlayerRole()
-    {
-        Debug.Log($"[Spawner] AssignAndSpawnPlayerRole() => {PhotonNetwork.NickName}");
+{
+    Debug.Log($"[Spawner] AssignAndSpawnPlayerRole() => {PhotonNetwork.NickName}");
 
-        // Odadaki oyuncuları gez, eğer bir tane attacker varsa ben defender olayım
-        bool attackerExists = false;
-        foreach (Player p in PhotonNetwork.PlayerList)
+    bool attackerExists = false;
+    foreach (Player p in PhotonNetwork.PlayerList)
+    {
+        if (p.CustomProperties.TryGetValue("Role", out object existingRole))
         {
-            if (p.CustomProperties.TryGetValue("Role", out object existingRole))
+            if (existingRole != null && existingRole.ToString() == "attacker")
             {
-                if (existingRole != null && existingRole.ToString() == "attacker")
-                {
-                    attackerExists = true;
-                    break;
-                }
+                attackerExists = true;
+                break;
             }
         }
-
-        // Eğer attacker yoksa ben attacker olurum, varsa defender olurum
-        string myRole = attackerExists ? "defender" : "attacker";
-        Debug.Log($"[Spawner] {PhotonNetwork.NickName} => rol: {myRole}");
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(
-            new ExitGames.Client.Photon.Hashtable { { "Role", myRole } }
-        );
-
-        // Seçilen role göre obje spawn
-        SpawnPlayer(myRole);
     }
+
+    string myRole = attackerExists ? "defender" : "attacker";
+    Debug.Log($"[Spawner] {PhotonNetwork.NickName} => rol: {myRole}");
+
+    PhotonNetwork.LocalPlayer.SetCustomProperties(
+        new ExitGames.Client.Photon.Hashtable { { "Role", myRole } }
+    );
+
+    // 🔥 BURASI EKLENECEK: role SoldierController'a yazılsın
+    role = myRole;
+    if (soldierManager != null)
+    {
+        soldierManager.PlayerRole = myRole;
+        Debug.Log("[Spawner] PlayerRole SoldierController'a set edildi: " + myRole);
+    }
+
+    SpawnPlayer(myRole);
+}
+
 
     // -----------------------------------------------------------------------
     // Seçilen role göre objeleri konumlandırıp Ownership veriyoruz
