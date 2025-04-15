@@ -2061,6 +2061,8 @@ GameObject:
   - component: {fileID: 962783916}
   - component: {fileID: 962783915}
   - component: {fileID: 962783918}
+  - component: {fileID: 962783919}
+  - component: {fileID: 962783920}
   m_Layer: 5
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -2143,10 +2145,34 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 0
+      - m_Target: {fileID: 962783919}
+        m_TargetAssemblyTypeName: OwnerShipResetter, Assembly-CSharp
+        m_MethodName: ResetAllRolesAndOwnership
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 962783918}
         m_TargetAssemblyTypeName: SoldierController, Assembly-CSharp
         m_MethodName: setSoldierAmount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 962783919}
+        m_TargetAssemblyTypeName: OwnerShipResetter, Assembly-CSharp
+        m_MethodName: ReturnToLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2208,6 +2234,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerRole: attacker
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+--- !u!114 &962783919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962783913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae8c79cfd357cf4aa71a772818bd560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 4660609000826731518}
+  enemyObject: {fileID: 5002393095043687395}
+  exitPanel1: {fileID: 1280596914}
+  exitPanel2: {fileID: 309873483}
+  lobbySceneIndex: 6
+--- !u!114 &962783920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962783913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 10
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1032560869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8506332207694355565, guid: dae13685778e3294697bd8dbf5e3ab63, type: 3}
@@ -4523,6 +4588,78 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1630462771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1630462773}
+  - component: {fileID: 1630462772}
+  - component: {fileID: 1630462774}
+  m_Layer: 0
+  m_Name: 'OwnerShipResetter '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1630462772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630462771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae8c79cfd357cf4aa71a772818bd560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObject: {fileID: 4660609000826731518}
+  enemyObject: {fileID: 5002393095043687395}
+  exitPanel1: {fileID: 1280596914}
+  exitPanel2: {fileID: 309873483}
+  lobbySceneIndex: 6
+--- !u!4 &1630462773
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630462771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1097.2695, y: 600.95807, z: 6957.987}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1630462774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630462771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 9
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!114 &1632915158 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3224577926457263306, guid: afc4ee5dd130082408388c88dbaaf717, type: 3}
@@ -6668,7 +6805,6 @@ MonoBehaviour:
   defenderVirtualCam: {fileID: 5002393095043687397}
   spectatorVirtualCam: {fileID: 1266505048}
   mainCamera: {fileID: 1171585654}
-  role: 
   soldierManager: {fileID: 1624748962}
 --- !u!114 &5002393095043687397 stripped
 MonoBehaviour:
@@ -7285,7 +7421,6 @@ MonoBehaviour:
   defenderVirtualCam: {fileID: 5002393095043687397}
   spectatorVirtualCam: {fileID: 1266505048}
   mainCamera: {fileID: 1171585654}
-  role: 
   soldierManager: {fileID: 1624748962}
 --- !u!1001 &8059142760952552256
 PrefabInstance:
@@ -7815,3 +7950,4 @@ SceneRoots:
   - {fileID: 1492026884}
   - {fileID: 149554144}
   - {fileID: 1624748963}
+  - {fileID: 1630462773}

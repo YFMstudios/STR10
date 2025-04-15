@@ -38,6 +38,16 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+    // Oyuncudan PlayerName özelliğini çekmek için yardımcı metod
+    private string GetPlayerName(Player player)
+    {
+        if (player != null && player.CustomProperties.TryGetValue("PlayerName", out object playerNameObj))
+        {
+            return playerNameObj.ToString();
+        }
+        return "Bilinmeyen Oyuncu";
+    }
+
     void Start()
     {
         // SoldierManager bağlantıları
@@ -54,7 +64,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         }
 
         // Her istemci (Master veya değil) kod buradan geçer
-        Debug.Log($"[Spawner] Start() -> Nick:{PhotonNetwork.NickName}, IsMaster?: {PhotonNetwork.IsMasterClient}");
+        string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
+        Debug.Log($"[Spawner] Start() -> PlayerName:{playerName}, IsMaster?: {PhotonNetwork.IsMasterClient}");
 
         if (playerObject == null || enemyObject == null)
         {
@@ -103,7 +114,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out object roleObj))
         {
             string playerRole = roleObj.ToString();
-            Debug.Log($"[Spawner] HandlePlayerRoleFromPhoton -> Photon'dan alınan rol: {playerRole}");
+            string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
+            Debug.Log($"[Spawner] HandlePlayerRoleFromPhoton -> Photon'dan alınan rol: {playerRole}, Oyuncu: {playerName}");
 
             // SoldierController'a role bilgisini aktar
             if (soldierManager != null)
@@ -286,7 +298,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     // -----------------------------------------------------------------------
     private void AssignAndSpawnPlayerRole()
     {
-        Debug.Log($"[Spawner] AssignAndSpawnPlayerRole() => {PhotonNetwork.NickName}");
+        string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
+        Debug.Log($"[Spawner] AssignAndSpawnPlayerRole() => Oyuncu: {playerName}");
 
         // Odadaki oyuncu sayısını kontrol et
         if (PhotonNetwork.PlayerList.Length > 2)
@@ -315,7 +328,7 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
             if (attackerExists && defenderExists)
             {
                 string spectatorRole = "spectator";
-                Debug.Log($"[Spawner] {PhotonNetwork.NickName} => rol: {spectatorRole} (izleyici)");
+                Debug.Log($"[Spawner] {playerName} => rol: {spectatorRole} (izleyici)");
 
                 // Photon'a role bilgisini gönder
                 PhotonNetwork.LocalPlayer.SetCustomProperties(
@@ -352,7 +365,7 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         }
 
         string roleToAssign = attackerAlreadyExists ? "defender" : "attacker";
-        Debug.Log($"[Spawner] {PhotonNetwork.NickName} => rol: {roleToAssign}");
+        Debug.Log($"[Spawner] {playerName} => rol: {roleToAssign}");
 
         // Photon'a role bilgisini gönder
         PhotonNetwork.LocalPlayer.SetCustomProperties(
@@ -377,7 +390,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     // -----------------------------------------------------------------------
     private void SetupCameraForSpectator()
     {
-        Debug.Log($"[Spawner] SetupCameraForSpectator() -> {PhotonNetwork.NickName}");
+        string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
+        Debug.Log($"[Spawner] SetupCameraForSpectator() -> Oyuncu: {playerName}");
 
         // Önce tüm kameraları deaktive et
         attackerVirtualCam.gameObject.SetActive(false);
@@ -395,7 +409,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     // -----------------------------------------------------------------------
     private void SetupCameraForRole(string role)
     {
-        Debug.Log($"[Spawner] SetupCameraForRole({role}) -> {PhotonNetwork.NickName}");
+        string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
+        Debug.Log($"[Spawner] SetupCameraForRole({role}) -> Oyuncu: {playerName}");
 
         // Önce tüm kameraları deaktive et
         attackerVirtualCam.gameObject.SetActive(false);
@@ -441,7 +456,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     // -----------------------------------------------------------------------
     private void SpawnPlayer(string role)
     {
-        Debug.Log($"[Spawner] SpawnPlayer({role}) -> {PhotonNetwork.NickName}");
+        string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
+        Debug.Log($"[Spawner] SpawnPlayer({role}) -> Oyuncu: {playerName}");
 
         if (role == "attacker")
         {
@@ -514,7 +530,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 // Attacker'ı yeniden doğur
                 Player attackerOwner = FindPlayerByRole("attacker");
                 int ownerActorNum = (attackerOwner != null) ? attackerOwner.ActorNumber : -1;
-                Debug.Log($"[Spawner] Attacker respawn -> RPC_RespawnCharacter, ownerActorNum={ownerActorNum}");
+                string attackerName = GetPlayerName(attackerOwner);
+                Debug.Log($"[Spawner] Attacker ({attackerName}) respawn -> RPC_RespawnCharacter, ownerActorNum={ownerActorNum}");
 
                 photonView.RPC(nameof(RPC_RespawnCharacter), RpcTarget.All,
                                "attacker", ownerActorNum);
@@ -559,7 +576,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 // [2] Kim defender rolünde? Ona göre ownership devredeceğiz
                 Player defenderOwner = FindPlayerByRole("defender");
                 int ownerActorNum = (defenderOwner != null) ? defenderOwner.ActorNumber : -1;
-                Debug.Log($"[Spawner] Defender respawn -> RPC_RespawnCharacter => ownerActorNum={ownerActorNum}");
+                string defenderName = GetPlayerName(defenderOwner);
+                Debug.Log($"[Spawner] Defender ({defenderName}) respawn -> RPC_RespawnCharacter => ownerActorNum={ownerActorNum}");
 
                 // [3] Tüm istemcilerde enemyObject SetActive(true) yapılsın, can sıfırlansın
                 photonView.RPC(nameof(RPC_RespawnCharacter), RpcTarget.All, "defender", ownerActorNum);
@@ -574,8 +592,9 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_RespawnCharacter(string role, int ownerActorNumber)
     {
+        string playerName = GetPlayerName(PhotonNetwork.LocalPlayer);
         Debug.Log($"[Spawner][RPC_RespawnCharacter] => role={role}, ownerActorNum={ownerActorNumber}, " +
-                  $"Nick:{PhotonNetwork.NickName}, Master?:{PhotonNetwork.IsMasterClient}");
+                  $"PlayerName:{playerName}, Master?:{PhotonNetwork.IsMasterClient}");
 
         // Photon custom property'den oyuncunun rolünü al
         string playerRole = "";
@@ -603,7 +622,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 Player realOwner = PhotonNetwork.CurrentRoom.GetPlayer(ownerActorNumber);
                 if (realOwner != null)
                 {
-                    Debug.Log($"[Spawner][RPC_RespawnCharacter] => TransferOwnership -> {realOwner.NickName}");
+                    string ownerName = GetPlayerName(realOwner);
+                    Debug.Log($"[Spawner][RPC_RespawnCharacter] => TransferOwnership -> {ownerName}");
                     playerObject.GetComponent<PhotonView>().TransferOwnership(realOwner);
                 }
             }
@@ -643,7 +663,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 Player realOwner = PhotonNetwork.CurrentRoom.GetPlayer(ownerActorNumber);
                 if (realOwner != null)
                 {
-                    Debug.Log($"[Spawner][RPC_RespawnCharacter] => TransferOwnership -> {realOwner.NickName}");
+                    string ownerName = GetPlayerName(realOwner);
+                    Debug.Log($"[Spawner][RPC_RespawnCharacter] => TransferOwnership -> {ownerName}");
                     enemyObject.GetComponent<PhotonView>().TransferOwnership(realOwner);
                 }
             }
@@ -690,12 +711,14 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetOwnership(int viewID, Player newOwner)
     {
-        Debug.Log($"[Spawner][SetOwnership] => viewID={viewID}, newOwner={newOwner?.NickName}");
+        string ownerName = GetPlayerName(newOwner);
+        Debug.Log($"[Spawner][SetOwnership] => viewID={viewID}, newOwner={ownerName}");
+        
         PhotonView targetView = PhotonView.Find(viewID);
         if (targetView != null)
         {
             targetView.TransferOwnership(newOwner);
-            Debug.Log($"[Spawner][SetOwnership] => {targetView.gameObject.name} => {newOwner.NickName}");
+            Debug.Log($"[Spawner][SetOwnership] => {targetView.gameObject.name} => {ownerName}");
         }
         else
         {
@@ -714,7 +737,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         if (changedProps.ContainsKey("Role") && targetPlayer.IsLocal)
         {
             string newRole = changedProps["Role"].ToString();
-            Debug.Log($"[Spawner] OnPlayerPropertiesUpdate -> Rol değişimi algılandı: {newRole}");
+            string playerName = GetPlayerName(targetPlayer);
+            Debug.Log($"[Spawner] OnPlayerPropertiesUpdate -> Rol değişimi algılandı: {newRole}, Oyuncu: {playerName}");
 
             // SoldierController'a role bilgisini aktar
             if (soldierManager != null)
@@ -735,6 +759,6 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 SpawnPlayer(newRole);
                 SetupCameraForRole(newRole);
             }
-        }
-    }
+        }
+    }
 }
