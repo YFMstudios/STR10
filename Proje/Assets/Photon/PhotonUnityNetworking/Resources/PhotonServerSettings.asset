@@ -54,6 +54,7 @@ MonoBehaviour:
   - SetOwnership
   - RPC_RespawnCharacter
   - RPC_DecreaseForOwner
+  - RPC_AssignRoleToPlayer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

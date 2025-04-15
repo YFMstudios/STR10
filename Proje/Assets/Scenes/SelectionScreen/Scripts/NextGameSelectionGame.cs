@@ -45,24 +45,34 @@ public class NextGame : MonoBehaviourPunCallbacks
     {
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            if (player.NickName == PhotonNetwork.LocalPlayer.NickName)
+            if (player.CustomProperties.TryGetValue("PlayerName", out object playerNameObj))
             {
-                // Bu butona basan oyuncuyu attacker olarak ayarla
-                player.SetCustomProperties(new Hashtable { { "Role", "attacker" } });
-                Debug.Log(player.NickName + " rolü: attacker");
-            }
-            else if (player.NickName == defenderName)
-            {
-                // Rakip olan oyuncuyu defender olarak ayarla
-                player.SetCustomProperties(new Hashtable { { "Role", "defender" } });
-                Debug.Log(player.NickName + " rolü: defender");
+                string playerName = playerNameObj.ToString();
+
+                if (playerName == PhotonNetwork.LocalPlayer.CustomProperties["PlayerName"].ToString())
+                {
+                    // Bu butona basan oyuncuyu attacker olarak ayarla
+                    player.SetCustomProperties(new Hashtable { { "Role", "attacker" } });
+                    Debug.Log(playerName + " rolü: attacker");
+                }
+                else if (playerName == defenderName)
+                {
+                    // Rakip olan oyuncuyu defender olarak ayarla
+                    player.SetCustomProperties(new Hashtable { { "Role", "defender" } });
+                    Debug.Log(playerName + " rolü: defender");
+                }
+                else
+                {
+                    // Diğer tüm oyuncuları spectator yap
+                    player.SetCustomProperties(new Hashtable { { "Role", "spectator" } });
+                    Debug.Log(playerName + " rolü: spectator");
+                }
             }
             else
             {
-                // Diğer tüm oyuncuları spectator yap
-                player.SetCustomProperties(new Hashtable { { "Role", "spectator" } });
-                Debug.Log(player.NickName + " rolü: spectator");
+                Debug.LogWarning($"Player '{player.ActorNumber}' için PlayerName bulunamadı.");
             }
+
         }
 
         // Ek olarak, savaş bilgilerini oda özelliklerine yazabilirsin:

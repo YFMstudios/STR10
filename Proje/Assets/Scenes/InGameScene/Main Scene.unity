@@ -3042,6 +3042,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f225bad226bd3134b9fb5f8690c2d370, type: 3}
+--- !u!20 &1171585654 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5113711317189135265, guid: f225bad226bd3134b9fb5f8690c2d370, type: 3}
+  m_PrefabInstance: {fileID: 1171585653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1176192662 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5339737390301278198, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
@@ -6659,6 +6664,10 @@ MonoBehaviour:
   defenderSpawnPoint: {fileID: 5002393095043687394}
   playerObject: {fileID: 4660609000826731518}
   enemyObject: {fileID: 5002393095043687395}
+  attackerVirtualCam: {fileID: 2195520207714803655}
+  defenderVirtualCam: {fileID: 5002393095043687397}
+  spectatorVirtualCam: {fileID: 1266505048}
+  mainCamera: {fileID: 1171585654}
   role: 
   soldierManager: {fileID: 1624748962}
 --- !u!114 &5002393095043687397 stripped
@@ -7272,6 +7281,10 @@ MonoBehaviour:
   defenderSpawnPoint: {fileID: 5002393095043687394}
   playerObject: {fileID: 4660609000826731518}
   enemyObject: {fileID: 5002393095043687395}
+  attackerVirtualCam: {fileID: 2195520207714803655}
+  defenderVirtualCam: {fileID: 5002393095043687397}
+  spectatorVirtualCam: {fileID: 1266505048}
+  mainCamera: {fileID: 1171585654}
   role: 
   soldierManager: {fileID: 1624748962}
 --- !u!1001 &8059142760952552256
