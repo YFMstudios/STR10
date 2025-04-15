@@ -41,34 +41,36 @@ public class Stats : MonoBehaviourPun
         photonView.RPC(nameof(RPC_ApplyDamage), RpcTarget.All, damageAmount);
     }
 
-    [PunRPC]
-    private void RPC_ApplyDamage(float damageAmount)
+   [PunRPC]
+private void RPC_ApplyDamage(float damageAmount)
+{
+    if (!gameObject.activeInHierarchy) return;
+
+    targetHealth -= damageAmount;
+
+    if (targetHealth <= 0)
     {
-        if (!gameObject.activeInHierarchy) return;
+        targetHealth = 0;
 
-        targetHealth -= damageAmount;
-
-        if (targetHealth <= 0)
+        if (CompareTag("Player") || CompareTag("Enemy"))
         {
-            targetHealth = 0;
-
-            if (CompareTag("Player") || CompareTag("Enemy"))
-            {
-                CheckIfCharacterDead();
-            }
-            else if (CompareTag("EnemyMinion") || CompareTag("EnemyTurret"))
-            {
-                var handler = GetComponent<EnemyDeathHandler>();
-                if (handler != null) handler.Die();
-                else StartCoroutine(DeactivateAfterDelay());
-            }
+            CheckIfCharacterDead();
         }
-
-        if (damageCoroutine == null && gameObject.activeInHierarchy)
+        else if (CompareTag("EnemyMinion") || CompareTag("EnemyTurret"))
         {
-            damageCoroutine = StartCoroutine(LerpHealth());
+            var handler = GetComponent<EnemyDeathHandler>();
+            if (handler != null) handler.Die();
+            else StartCoroutine(DeactivateAfterDelay());
         }
     }
+
+    // 🔽 BURADA photonView.IsMine KOYMA! HERKES ÇALIŞTIRMALI
+    if (damageCoroutine == null && gameObject.activeInHierarchy)
+    {
+        damageCoroutine = StartCoroutine(LerpHealth());
+    }
+}
+
 
     private void CheckIfCharacterDead()
     {
@@ -120,13 +122,20 @@ public class Stats : MonoBehaviourPun
         damageCoroutine = null;
     }
 
-    private void UpdateHealthUI()
-    {
-        if (healthUI == null) return;
+private void UpdateHealthUI()
+{
+    if (healthUI == null) return;
 
+    // Bu oyuncunun kendisi mi?
+    if ((CompareTag("Player") || CompareTag("Enemy")) && photonView.IsMine)
+    {
         healthUI.Update2DSlider(health, currentHealth);
-        healthUI.Update3DSlider(currentHealth);
     }
+
+    // 3D bar herkes için güncellenir
+    healthUI.Update3DSlider(currentHealth);
+}
+
 
     public void ResetHealthToFull()
     {

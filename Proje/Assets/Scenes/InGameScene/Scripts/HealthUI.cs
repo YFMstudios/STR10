@@ -28,16 +28,13 @@ public class HealthUI : MonoBehaviourPun
     }
 
     // 2 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (sadece local player veya enemy için)
-    public void Update2DSlider(float maxValue, float value)
+   public void Update2DSlider(float maxValue, float value)
+{
+    if (healthSlider2D != null)
     {
-        // Eğer obje "Player" veya "Enemy" etiketliyse ve photonView.IsMine ise
-        if ((CompareTag("Player") || CompareTag("Enemy")) && photonView.IsMine)
-        {
-            if (healthSlider2D != null)
-            {
-                healthSlider2D.maxValue = maxValue;
-                healthSlider2D.value = value;
-            }
-        }
+        healthSlider2D.maxValue = maxValue;
+        healthSlider2D.value = value;
     }
+}
+
 }
