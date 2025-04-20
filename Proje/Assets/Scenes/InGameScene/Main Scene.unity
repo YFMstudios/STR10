@@ -6628,6 +6628,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 191259807858038193, guid: 35683a4b29ac7164bb67ac5e879cf94b, type: 3}
+      propertyPath: targetEnemy
+      value: 
+      objectReference: {fileID: 4660609000826731518}
     - target: {fileID: 2712593179941733816, guid: 35683a4b29ac7164bb67ac5e879cf94b, type: 3}
       propertyPath: sceneViewId
       value: 8
@@ -7155,6 +7159,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3644925902487266920, guid: 262b6990c7603ba42b2c13e80ec185d4, type: 3}
+      propertyPath: targetEnemy
+      value: 
+      objectReference: {fileID: 5002393095043687395}
     - target: {fileID: 4163789608668993203, guid: 262b6990c7603ba42b2c13e80ec185d4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

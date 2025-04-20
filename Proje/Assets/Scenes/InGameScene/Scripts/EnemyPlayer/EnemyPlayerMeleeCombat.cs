@@ -70,7 +70,7 @@ public class EnemyPlayerMeleeCombat : MonoBehaviourPun
             if (enemyStats != null)
             {
                 // Lokal TakeDamage çağırarak, Stats içindeki RPC_ApplyDamage tetiklenir.
-                enemyStats.TakeDamage(stats.damage);
+              enemyStats.TakeDamage(gameObject, stats.damage);   // kaynak objeyi de gönder
             }
             else
             {
