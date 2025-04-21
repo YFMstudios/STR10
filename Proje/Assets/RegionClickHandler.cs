@@ -35,6 +35,8 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 
     public GetPlayerData getPlayerData;
 
+    public GameObject objectToActivate;
+
     void Start()
     {
         createDefaultPanel();
@@ -117,6 +119,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
         }
         UpdateRegionDetails(imageComponent);
         UpdatePhotonPlayerDetails(clickedKingdomName);
+         ActivateObject();
     }
 
     private void ResetKingdomColor(string kingdomName)
@@ -380,6 +383,12 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
         }
         return false;
     }
+
+    private void ActivateObject()
+{
+    if (objectToActivate != null)
+        objectToActivate.SetActive(true);
+}
 }
 
 public class KingdomDetails
@@ -398,4 +407,6 @@ public class KingdomDetails
         RegionImages = regionImages;
         DefaultSprite = defaultSprite;
     }
+
+
 }

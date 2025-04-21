@@ -4074,7 +4074,7 @@ GameObject:
   - component: {fileID: 9045704786742347240}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4255,13 +4255,13 @@ GameObject:
   - component: {fileID: 3359112310869233459}
   - component: {fileID: 191259807858038193}
   - component: {fileID: 7699472219291088463}
-  - component: {fileID: 5274200731792266995}
+  - component: {fileID: 3985985596663753878}
   - component: {fileID: 2712593179941733816}
   - component: {fileID: 3772453940030479637}
   - component: {fileID: 1056974018684603117}
-  - component: {fileID: 621649628528746905}
-  - component: {fileID: 7461366316081936877}
-  - component: {fileID: 7337717366616458075}
+  - component: {fileID: 3510410575502941332}
+  - component: {fileID: 8631150991664759723}
+  - component: {fileID: 6274290637531164765}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -4386,7 +4386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ability1SpawnPoint: {fileID: 1814401224556519876}
-  ability1ProjectilePrefab: {fileID: 4982277851562819475, guid: bf507b3331d611f48a1988ff5a502334, type: 3}
+  ability1ProjectilePrefab: {fileID: 8863378062888302169, guid: ac2e95830b8c2ea4f93f670f99ac9feb, type: 3}
   characterType: 1
   abilityImage1: {fileID: 3449993247987979506}
   abilityText1: {fileID: 3410470317580075315}
@@ -4481,7 +4481,7 @@ MonoBehaviour:
   manaBar2d: {fileID: 3907992208782034279}
   manaBar3d: {fileID: 8582038081988221123}
   manaText2d: {fileID: 7002496917051968337}
---- !u!114 &5274200731792266995
+--- !u!114 &3985985596663753878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4570,7 +4570,7 @@ MonoBehaviour:
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
---- !u!114 &621649628528746905
+--- !u!114 &3510410575502941332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4587,7 +4587,29 @@ MonoBehaviour:
   anim: {fileID: 0}
   targetEnemy: {fileID: 0}
   stoppingDistance: 0
---- !u!114 &7461366316081936877
+--- !u!114 &8631150991664759723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8229698628008648916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487b8cd15459a914a865678d918f1003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityKey: 49
+  cooldown: 15
+  manaCost: 50
+  spawnPoint: {fileID: 1814401224556519876}
+  skillshotPrefab: {fileID: 4982277851562819475, guid: bf507b3331d611f48a1988ff5a502334, type: 3}
+  abilityImageMain: {fileID: 0}
+  abilityImageGreyed: {fileID: 0}
+  abilityText: {fileID: 0}
+  abilityCanvas: {fileID: 48927701069641428}
+  skillshotIndicator: {fileID: 0}
+--- !u!114 &6274290637531164765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4610,28 +4632,6 @@ MonoBehaviour:
   abilityImageGreyed: {fileID: 0}
   abilityText: {fileID: 0}
   screenDarkeningOverlay: {fileID: 0}
---- !u!114 &7337717366616458075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8229698628008648916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 487b8cd15459a914a865678d918f1003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityKey: 49
-  cooldown: 15
-  manaCost: 50
-  spawnPoint: {fileID: 0}
-  skillshotPrefab: {fileID: 8863378062888302169, guid: ac2e95830b8c2ea4f93f670f99ac9feb, type: 3}
-  abilityImageMain: {fileID: 0}
-  abilityImageGreyed: {fileID: 0}
-  abilityText: {fileID: 0}
-  abilityCanvas: {fileID: 0}
-  skillshotIndicator: {fileID: 0}
 --- !u!1 &8460773462809664056
 GameObject:
   m_ObjectHideFlags: 0

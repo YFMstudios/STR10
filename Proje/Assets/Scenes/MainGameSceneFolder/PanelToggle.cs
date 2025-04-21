@@ -1,31 +1,36 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelToggle : MonoBehaviour
 {
-    // Panel GameObject'i buraya atanacak
+    // Panel ve Image GameObject'leri Inspector'dan atanacak
     public GameObject panel;
+    public GameObject imageObject;
 
-    // Panelin ilk durumu (aktif/pasif) kontrol ediliyor
     private void Start()
     {
-        if (panel != null)
-        {
-            panel.SetActive(false); // Panel başlangıçta kapalı olacak
-        }
-        else
+        if (panel == null)
         {
             Debug.LogError("Panel atanmadı! Lütfen paneli Inspector'dan bağlayın.");
+            return;
         }
+        panel.SetActive(false);
+
+        if (imageObject == null)
+        {
+            Debug.LogError("Image atanmadı! Lütfen imageObject'u Inspector'dan bağlayın.");
+            return;
+        }
+        imageObject.SetActive(false);
     }
 
-    // Butona tıklandığında çağrılacak fonksiyon
     public void TogglePanel()
     {
-        if (panel != null)
-        {
-            // Panelin aktiflik durumunu tersine çevir
-            bool isActive = panel.activeSelf;
-            panel.SetActive(!isActive);
-        }
+        // Panelin aktiflik durumunu tersine çevir
+        bool isNowActive = !panel.activeSelf;
+        panel.SetActive(isNowActive);
+
+        // Panel açıldıysa image'i aktif et, kapandıysa pasif yap
+        imageObject.SetActive(isNowActive);
     }
 }

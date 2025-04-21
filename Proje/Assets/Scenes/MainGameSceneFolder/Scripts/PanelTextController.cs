@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PanelTextController : MonoBehaviour//Bozulan
 {
-
+    // Sol üst bayrak Scripti
     public int spriteNum;
     public TMP_Text kingdomName;
     public TMP_Text foodAmount;

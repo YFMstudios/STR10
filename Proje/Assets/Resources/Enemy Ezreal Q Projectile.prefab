@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3972735332571404132}
   - component: {fileID: 1047408543868862771}
   - component: {fileID: 5221816643846489103}
-  - component: {fileID: -5537104579311177514}
-  - component: {fileID: 1933240359292240935}
-  - component: {fileID: 7674882011814066511}
+  - component: {fileID: 6670068424845786975}
+  - component: {fileID: -6358572795731481111}
+  - component: {fileID: -8202204161530967097}
   m_Layer: 0
   m_Name: Enemy Ezreal Q Projectile
   m_TagString: Untagged
@@ -136,7 +136,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-5537104579311177514
+--- !u!114 &6670068424845786975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,11 +155,11 @@ MonoBehaviour:
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 7674882011814066511}
+  - {fileID: -8202204161530967097}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &1933240359292240935
+--- !u!114 &-6358572795731481111
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,7 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 64
---- !u!114 &7674882011814066511
+--- !u!114 &-8202204161530967097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

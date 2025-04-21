@@ -498,21 +498,21 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
 
     public override void OnDisconnected(DisconnectCause cause)
+{
+    // Manuel Disconnect işlemlerini sessize al
+    if (cause == DisconnectCause.DisconnectByClientLogic)
     {
-        Debug.LogError($"Bağlantı kesildi! Sebep: {cause}");
-
-        // Eğer derleme ya da manuel bir sebeple kesildiyse tekrar bağlanmaya gerek olmayabilir
-        if (cause == DisconnectCause.DisconnectByClientLogic)
-        {
-            Debug.LogWarning("Derleme (Recompile) veya manuel kesme nedeniyle bağlantı kesildi, tekrar bağlanılmıyor.");
-            return;
-        }
-
-        // Otomatik yeniden bağlanma
-        if (!PhotonNetwork.IsConnected)
-        {
-            Debug.Log("Bağlantıyı tekrar başlatıyorum...");
-            PhotonNetwork.ConnectUsingSettings();
-        }
+        // Burada sadece coroutine’in yeniden bağlanmasını bekliyorsunuz,
+        // hata loguna hiç gerek yok:
+        return;
     }
+
+    // Gerçek hataları buraya loglayın ve yeniden bağlanın
+    Debug.LogError($"Bağlantı kesildi! Sebep: {cause}");
+    if (!PhotonNetwork.IsConnected)
+    {
+        PhotonNetwork.ConnectUsingSettings();
+    }
+}
+
 }

@@ -4,18 +4,18 @@ using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
-public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
+public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasï¿½
 {
-    //Týklana bölgenin özelliklerini gösteren paneldeki deðerleri deðiþtiren script.
+    //Tï¿½klana bï¿½lgenin ï¿½zelliklerini gï¿½steren paneldeki deï¿½erleri deï¿½iï¿½tiren script.
     public Image FlagImage;
     public Image WarIcon;
-    public Image ObservationImage;//Gözetleme Iconu
+    public Image ObservationImage;//Gï¿½zetleme Iconu
     public Sprite warSprite;
     public Sprite observationSprite;
     public TMP_Text owner;//sahibi
-    public TMP_Text kingdom;//krallýk
+    public TMP_Text kingdom;//krallï¿½k
     public TMP_Text civilization;//medeniyet
-    public TMP_Text numberOfSoldier;//Asker Sayýsý
+    public TMP_Text numberOfSoldier;//Asker Sayï¿½sï¿½
     int selectedKingdom = GetVariableFromHere.currentSpriteNum;
 
     // Start is called before the first frame update
@@ -37,7 +37,7 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
             {
                 if (hit.collider.gameObject.name == "Lexion")
                 {
-                    Debug.Log("Lexiona Týklandý.");
+                    Debug.Log("Lexiona Tï¿½klandï¿½.");
                     FlagImage.sprite = Kingdom.Kingdoms[4].Flag;
                     if (isYourKingdoms("Lexion") == true)
                     {
@@ -52,13 +52,13 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
                         ObservationImage.sprite = observationSprite;
                     }
                     owner.text = "Sahibi: " + findOwner("Lexion");
-                    kingdom.text = "Krallýk:Lexion";
+                    kingdom.text = "Krallï¿½k:Lexion";
                     civilization.text = "Medeniyet:Elf";
-                    numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[4].SoldierAmount.ToString();
+                    numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[4].SoldierAmount.ToString();
                 }
                 if (hit.collider.gameObject.name == "Alfgard")
                 {
-                    Debug.Log("Alfgarda Týklandý.");
+                    Debug.Log("Alfgarda Tï¿½klandï¿½.");
                     FlagImage.sprite = Kingdom.Kingdoms[1].Flag;
                     if (isYourKingdoms("Alfgard") == true)
                     {
@@ -73,26 +73,26 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
                         ObservationImage.sprite = observationSprite;
                     }
                     owner.text = "Sahibi: " + findOwner("Alfgard");
-                    kingdom.text = "Krallýk:Alfgard";
-                    civilization.text = "Medeniyet:Büyücü";
-                    numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[1].SoldierAmount.ToString();
+                    kingdom.text = "Krallï¿½k:Alfgard";
+                    civilization.text = "Medeniyet:Bï¿½yï¿½cï¿½";
+                    numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[1].SoldierAmount.ToString();
                 }
                 if (hit.collider.gameObject.name == "Zephrion")
                 {
-                    Debug.Log("Zephriona Týklandý.");
+                    Debug.Log("Zephriona Tï¿½klandï¿½.");
                     FlagImage.sprite = Kingdom.Kingdoms[5].Flag;
                     WarIcon.enabled = true;
                     ObservationImage.enabled = true;
                     WarIcon.sprite = warSprite;
                     ObservationImage.sprite = observationSprite;
                     owner.text = "Sahibi: Bilgisayar";
-                    kingdom.text = "Krallýk:Zephyrion";
-                    civilization.text = "Medeniyet:Ölüler";
-                    numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[5].SoldierAmount.ToString();
+                    kingdom.text = "Krallï¿½k:Zephyrion";
+                    civilization.text = "Medeniyet:ï¿½lï¿½ler";
+                    numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[5].SoldierAmount.ToString();
                 }
                 if (hit.collider.gameObject.name == "Arianopol")
                 {
-                    Debug.Log("Arianopole Týklandý.");
+                    Debug.Log("Arianopole Tï¿½klandï¿½.");
                     FlagImage.sprite = Kingdom.Kingdoms[0].Flag;
                     if (isYourKingdoms("Arianopol") == true)
                     {
@@ -107,13 +107,13 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
                         ObservationImage.sprite = observationSprite;
                     }
                     owner.text = "Sahibi: " + findOwner("Arianopol");
-                    kingdom.text = "Krallýk:Arianopol";
-                    civilization.text = "Medeniyet:Ýnsan";
-                    numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[0].SoldierAmount.ToString();
+                    kingdom.text = "Krallï¿½k:Arianopol";
+                    civilization.text = "Medeniyet:ï¿½nsan";
+                    numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[0].SoldierAmount.ToString();
                 }
                 if (hit.collider.gameObject.name == "Dhamuron")
                 {
-                    Debug.Log("Dhamurona Týklandý.");
+                    Debug.Log("Dhamurona Tï¿½klandï¿½.");
                     FlagImage.sprite = Kingdom.Kingdoms[3].Flag;
                     if (isYourKingdoms("Dhamuron") == true)
                     {
@@ -128,13 +128,13 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
                         ObservationImage.sprite = observationSprite;
                     }
                     owner.text = "Sahibi: " + findOwner("Dhamuron");
-                    kingdom.text = "Krallýk:Dhamuron";
-                    civilization.text = "Medeniyet:Cüce";
-                    numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[3].SoldierAmount.ToString();
+                    kingdom.text = "Krallï¿½k:Dhamuron";
+                    civilization.text = "Medeniyet:Cï¿½ce";
+                    numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[3].SoldierAmount.ToString();
                 }
                 if (hit.collider.gameObject.name == "Akhadzria")
                 {
-                    Debug.Log("Akhadzria'ya Týklandý.");
+                    Debug.Log("Akhadzria'ya Tï¿½klandï¿½.");
                     FlagImage.sprite = Kingdom.Kingdoms[2].Flag;
                     if (isYourKingdoms("Akhadzria") == true)
                     {
@@ -149,9 +149,9 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
                         ObservationImage.sprite = observationSprite;
                     }
                     owner.text = "Sahibi: " + findOwner("Akhadzria");
-                    kingdom.text = "Krallýk: Akhadzria";
+                    kingdom.text = "Krallï¿½k: Akhadzria";
                     civilization.text = "Medeniyet: Ork";
-                    numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[2].SoldierAmount.ToString();
+                    numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[2].SoldierAmount.ToString();
                 }
             }
         }
@@ -191,45 +191,45 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyasý
             FlagImage.sprite = Kingdom.Kingdoms[2].Flag;
             WarIcon.enabled = false;
             owner.text = "Sahibi: Player";
-            kingdom.text = "Krallýk: Akhadzria";
+            kingdom.text = "Krallï¿½k: Akhadzria";
             civilization.text = "Medeniyet: Ork";
-            numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[2].SoldierAmount.ToString();
+            numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[2].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 3)
         {
             FlagImage.sprite = Kingdom.Kingdoms[1].Flag;
             WarIcon.enabled = false;
             owner.text = "Sahibi: Player";
-            kingdom.text = "Krallýk:Alfgard";
-            civilization.text = "Medeniyet:Büyücü";
-            numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[1].SoldierAmount.ToString();
+            kingdom.text = "Krallï¿½k:Alfgard";
+            civilization.text = "Medeniyet:Bï¿½yï¿½cï¿½";
+            numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[1].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 4)
         {
             FlagImage.sprite = Kingdom.Kingdoms[0].Flag;
             WarIcon.enabled = false;
             owner.text = "Sahibi: Player";
-            kingdom.text = "Krallýk:Arianopol";
-            civilization.text = "Medeniyet:Ýnsan";
-            numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[0].SoldierAmount.ToString();
+            kingdom.text = "Krallï¿½k:Arianopol";
+            civilization.text = "Medeniyet:ï¿½nsan";
+            numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[0].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 5)
         {
             FlagImage.sprite = Kingdom.Kingdoms[3].Flag;
             WarIcon.enabled = false;
             owner.text = "Sahibi: Player";
-            kingdom.text = "Krallýk:Dhamuron";
-            civilization.text = "Medeniyet:Cüce";
-            numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[3].SoldierAmount.ToString();
+            kingdom.text = "Krallï¿½k:Dhamuron";
+            civilization.text = "Medeniyet:Cï¿½ce";
+            numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[3].SoldierAmount.ToString();
         }
         else
         {
             FlagImage.sprite = Kingdom.Kingdoms[4].Flag;
             WarIcon.enabled = false;
             owner.text = "Sahibi: Player";
-            kingdom.text = "Krallýk:Lexion";
+            kingdom.text = "Krallï¿½k:Lexion";
             civilization.text = "Medeniyet:Elf";
-            numberOfSoldier.text = "Asker Sayýsý: " + Kingdom.Kingdoms[4].SoldierAmount.ToString();
+            numberOfSoldier.text = "Asker Sayï¿½sï¿½: " + Kingdom.Kingdoms[4].SoldierAmount.ToString();
         }
     }
 

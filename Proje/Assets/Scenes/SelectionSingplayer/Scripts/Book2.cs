@@ -15,14 +15,14 @@ public class Book2 : MonoBehaviour
     int k = 0;
     GameObject[] pageObjects = new GameObject[6];
     public int currentSpriteNumber = 1;
-    [SerializeField]GameObject SelectButton;
+   
 
 
     private void Start()
     {
         GetVariableFromHere.currentSpriteNum = currentSpriteNumber;
         ButtonLeft.SetActive(false);
-        SelectButton = GameObject.Find("SelectButton");
+      
 
         // PageSprite2'den ba�layarak GameObject'leri bul ve devre d��� b�rak
         for (int i = 0; i < pageObjects.Length; i++)
@@ -41,17 +41,6 @@ public class Book2 : MonoBehaviour
         }
     }
 
-    public void Update()
-    {
-        if((currentSpriteNumber == 1 && SelectButton != false )|| (currentSpriteNumber ==7 && SelectButton != false))
-        {
-            SelectButton.SetActive(false);
-        }
-        else
-        {
-            SelectButton.SetActive(true);
-        }
-    }
 
     public void RotateNext()
     {

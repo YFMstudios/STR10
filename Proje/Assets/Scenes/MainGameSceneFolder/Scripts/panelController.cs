@@ -6,7 +6,7 @@ public class panelController : MonoBehaviour
 {
 
     /*
-    //Panellerin ayný anda sadece birinin açýk olmasý için yazýlmýþ script
+    //Panellerin aynï¿½ anda sadece birinin aï¿½ï¿½k olmasï¿½ iï¿½in yazï¿½lmï¿½ï¿½ script
     public GameObject[] panels = new GameObject[4];
     public bool[] activePanel = new bool[4];
     public GameObject arastirmaPaneli;
@@ -31,7 +31,7 @@ public class panelController : MonoBehaviour
         activePanel[2] = arastirmaPaneli.activeSelf;
         activePanel[3] = karakterPaneli.activeSelf;
 
-        for (int i = 0; i < 4; i++)//Hangi panelin aktif olduðunu buluyoruz.
+        for (int i = 0; i < 4; i++)//Hangi panelin aktif olduï¿½unu buluyoruz.
         {
             if (activePanel[i] == true)
             {
@@ -51,7 +51,7 @@ public class panelController : MonoBehaviour
     }
     */
 
-    //Panellerin ayný anda sadece birinin açýk olmasý için yazýlmýþ script
+    //Panellerin aynï¿½ anda sadece birinin aï¿½ï¿½k olmasï¿½ iï¿½in yazï¿½lmï¿½ï¿½ script
     public GameObject[] panels = new GameObject[4];
     public GameObject arastirmaPaneli;
     public GameObject binalarPaneli;
@@ -68,7 +68,7 @@ public class panelController : MonoBehaviour
 
     public void closeOtherPanels()
     {
-        // Hangi panelin aktif olduðunu buluyoruz
+        // Hangi panelin aktif olduï¿½unu buluyoruz
         GameObject activePanel = null;
         foreach (GameObject panel in panels)
         {
@@ -79,7 +79,7 @@ public class panelController : MonoBehaviour
             }
         }
 
-        // Eðer aktif bir panel varsa, diðer panelleri kapat
+        // Eï¿½er aktif bir panel varsa, diï¿½er panelleri kapat
         if (activePanel != null)
         {
             foreach (GameObject panel in panels)
