@@ -6,6 +6,12 @@ using Photon.Pun;
 
 public class Abilities : MonoBehaviourPun
 {
+
+    [Header("Ability 1 Projectile")]
+public Transform ability1SpawnPoint;          // Q_SpawnPoint
+public GameObject ability1ProjectilePrefab;   // Ezreal_Q_Projectile
+private Animator anim;                        // Animator referansı
+
     public enum CharacterType { Player, Enemy }
     public CharacterType characterType; // **SADECE INSPECTOR'DAN AYARLANACAK**
 
@@ -43,6 +49,9 @@ public class Abilities : MonoBehaviourPun
 
     void Start()
     {
+
+        anim = GetComponent<Animator>();
+
         manaSystem = GetComponent<ManaSystem>();
 
         abilityImage1.fillAmount = 0;
@@ -170,21 +179,31 @@ public class Abilities : MonoBehaviourPun
 
         // Skillshot aktifken sol tık -> Yetenek kullan
         if (ability1Skillshot.enabled && Input.GetMouseButtonDown(0))
-        {
-            // Cooldown başlat
-            isAbility1Cooldown = true;
-            currentAbility1Cooldown = ability1Cooldown;
+{
+    // 1) Cooldown & mana
+    isAbility1Cooldown = true;
+    currentAbility1Cooldown = ability1Cooldown;
+    manaSystem.UseAbility(abilityManaCost);
 
-            // Mana düşür
-            manaSystem.UseAbility(abilityManaCost);
+    // 2) Karakteri fare yönüne çevir
+    Vector3 dir = (position - transform.position).normalized;
+    dir.y = 0;
+    if (dir != Vector3.zero) transform.rotation = Quaternion.LookRotation(dir);
 
-            // Örnek: Herkesin görmesi için bir RPC
-            // photonView.RPC("RPC_Ability1Effect", RpcTarget.All, position);
+    // 3) ANİMASYONU TETİKLE
+    if (anim != null) anim.SetTrigger("Ezreal Q Projectile");   // Animator’da aynı adda Trigger olmalı
 
-            // Canvas kapat
-            ability1Canvas.enabled = false;
-            ability1Skillshot.enabled = false;
-        }
+    // 4) PROJECTILE OLUŞTUR
+    if (ability1ProjectilePrefab != null && ability1SpawnPoint != null)
+        PhotonNetwork.Instantiate(ability1ProjectilePrefab.name,
+                                  ability1SpawnPoint.position,
+                                  ability1SpawnPoint.rotation);
+
+    // 5) Canvas kapat
+    ability1Canvas.enabled = false;
+    ability1Skillshot.enabled = false;
+}
+
     }
 
     /*

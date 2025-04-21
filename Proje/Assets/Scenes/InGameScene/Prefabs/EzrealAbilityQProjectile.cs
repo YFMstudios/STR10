@@ -5,74 +5,61 @@ using Photon.Pun;
 public class EzrealAbilityQProjectile : MonoBehaviourPun
 {
     [Header("Projectile Settings")]
-    public float speed = 10f;         // Merminin hızı
-    public float maxDistance = 100f;  // Max mesafe
-    public float damage = 50f;        // Hasar
-    public LayerMask hitLayers;       // Hangi layer'lara çarpacak?
+    public float  speed       = 10f;
+    public float  maxDistance = 30f;
+    public float  damage      = 50f;
+    public LayerMask hitLayers;
 
-    private Vector3 startPosition;    // Başlangıç konumu
+    private Vector3 spawnPos;
+    private bool    markedForDestroy;
 
+    /*──────────────────────────────────────────────────────────*/
     void Start()
     {
-        startPosition = transform.position;
-
-        // Rigidbody varsa, kinematic yap
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-            rb.isKinematic = true;
+        spawnPos = transform.position;
+        if (TryGetComponent(out Rigidbody rb)) rb.isKinematic = true;
     }
 
     void Update()
     {
-        // Sadece sahibi (IsMine) mermiyi hareket ettirsin
-        if (!photonView.IsMine) return;
+        if (photonView.IsMine)
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
-        MoveProjectile();
-        CheckDistanceTravelled();
-    }
-
-    private void MoveProjectile()
-    {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-    }
-
-    private void CheckDistanceTravelled()
-    {
-        float traveled = Vector3.Distance(startPosition, transform.position);
-        if (traveled >= maxDistance)
+        if (!markedForDestroy &&
+            (transform.position - spawnPos).sqrMagnitude >= maxDistance * maxDistance)
         {
+            NetworkDestroy();
+        }
+    }
+
+    /*──────────────────────── ÇARPIŞMA ───────────────────────*/
+    void OnTriggerEnter(Collider other)
+    {
+        if (markedForDestroy) return;
+
+        if (((1 << other.gameObject.layer) & hitLayers.value) == 0) return;
+
+        /* Stats */
+        if (other.TryGetComponent<Stats>(out Stats stats))
+        {
+            stats.photonView.RPC("RPC_ApplyDamage", RpcTarget.AllBuffered, damage);
+        }
+        /* ObjectiveStats */
+        else if (other.TryGetComponent<ObjectiveStats>(out ObjectiveStats objStats))
+        {
+            objStats.photonView.RPC("RPC_ApplyDamage", RpcTarget.AllBuffered, damage);
+        }
+
+        NetworkDestroy();
+    }
+
+    /*──────────────────────── YOK ETME ───────────────────────*/
+    private void NetworkDestroy()
+    {
+        if (markedForDestroy) return;
+        markedForDestroy = true;
+
+        if (photonView.IsMine || PhotonNetwork.IsMasterClient)
             PhotonNetwork.Destroy(gameObject);
-        }
-    }
-
-    // OnTriggerEnter tetiklenirse hasar ver ve yok ol
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!photonView.IsMine) return;
-
-        // Sadece tanımladığımız layer'lara değerse
-        if (((1 << other.gameObject.layer) & hitLayers.value) == 0)
-        {
-            return; // Bu layer'a çarpmayı umursamıyoruz
-        }
-
-        // "Stats" script'i var mı?
-        Stats targetStats = other.GetComponent<Stats>();
-        if (targetStats != null)
-        {
-            targetStats.TakeDamage(damage);
-        }
-        else
-        {
-            // "ObjectiveStats" script'i var mı?
-            ObjectiveStats targetObjStats = other.GetComponent<ObjectiveStats>();
-            if (targetObjStats != null)
-            {
-                targetObjStats.TakeDamage(damage);
-            }
-        }
-
-        // Herkeste mermiyi yok et
-        PhotonNetwork.Destroy(gameObject);
     }
 }
