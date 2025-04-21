@@ -38,7 +38,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SelectionSingplayer/SelectionSingplayer.unity
     guid: 1f9427f3cd2966244920d5aa3ff304e0
-  - enabled: 1
-    path: Assets/Scenes/EmegiGecenlerScene/EmekScene.unity
-    guid: 683ad315d39d64142817d35ff8350b0c
   m_configObjects: {}

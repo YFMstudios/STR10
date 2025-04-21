@@ -256,6 +256,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 403412071}
   m_CullTransparentMesh: 1
+--- !u!1 &528092321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528092323}
+  - component: {fileID: 528092322}
+  m_Layer: 0
+  m_Name: TimeReseter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &528092322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528092321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3ff372259fd4e4f91b229fecac75db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeController: {fileID: 11400000, guid: febdb0498d2eff54195b5762dc1c3d1c, type: 2}
+--- !u!4 &528092323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528092321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1225.0453, y: 592.2816, z: 2.5037434}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790030636
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +389,6 @@ GameObject:
   - component: {fileID: 806360237}
   - component: {fileID: 806360236}
   - component: {fileID: 806360235}
-  - component: {fileID: 806360238}
   m_Layer: 5
   m_Name: SETTINGS
   m_TagString: Untagged
@@ -415,19 +459,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 806360236}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 806360238}
-        m_TargetAssemblyTypeName: ScreenTransitions, Assembly-CSharp
-        m_MethodName: settingsButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &806360236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,20 +498,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806360233}
   m_CullTransparentMesh: 1
---- !u!114 &806360238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806360233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32da2f1d788d3ef45a6f4d16a50ba62c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceOnButton: {fileID: 0}
-  voiceOffButton: {fileID: 0}
 --- !u!1 &832940574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1838,6 @@ GameObject:
   - component: {fileID: 1738003619}
   - component: {fileID: 1738003618}
   - component: {fileID: 1738003617}
-  - component: {fileID: 1738003620}
   m_Layer: 5
   m_Name: CREDITS
   m_TagString: Untagged
@@ -1891,19 +1908,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1738003618}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1738003620}
-        m_TargetAssemblyTypeName: ScreenTransitions, Assembly-CSharp
-        m_MethodName: creditsButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1738003618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1942,20 +1947,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738003615}
   m_CullTransparentMesh: 1
---- !u!114 &1738003620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738003615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32da2f1d788d3ef45a6f4d16a50ba62c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  voiceOnButton: {fileID: 0}
-  voiceOffButton: {fileID: 0}
 --- !u!1 &1775847723
 GameObject:
   m_ObjectHideFlags: 0
@@ -2848,3 +2839,4 @@ SceneRoots:
   - {fileID: 1028103455}
   - {fileID: 1020319305}
   - {fileID: 1926932193}
+  - {fileID: 528092323}

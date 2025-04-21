@@ -1,48 +1,95 @@
-using System.Collections;
-using System.Collections.Generic;
+// TimerController.cs
 using UnityEngine;
-using TMPro; // TextMeshPro bileşeni için gerekli
+using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class TimerController : MonoBehaviour
 {
-    public TextMeshProUGUI timerText; // TextMeshProUGUI doğru sınıf
-    private float elapsedTime; // Geçen süre
-    private bool isTimerRunning = false; // Zamanlayıcı kontrolü
+    [Header("UI (Inspector'dan atayacaksın)")]
+    [Tooltip("Zamanı yazdırmak için sahnedeki TextMeshProUGUI bileşenini buraya sürükle")]
+    public TextMeshProUGUI timerText;
+
+    [Header("Global Time Data")]
+    [Tooltip("ScriptableObject Asset'in (TimeController.asset) referansını buraya at")]
+    public TimeController timeController;
+
+    private static TimerController instance;
+
+     private void Awake()
+    {
+        // Singleton + kalıcı obje
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Sahne yüklendiğinde callback
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Hata kontrolleri
+        if (timeController == null)
+            Debug.LogError("[TimerController] TimeController asset atanmamış!", this);
+
+        if (timerText == null)
+            Debug.LogError("[TimerController] timerText atanmamış!", this);
+    }
+    
+    private void OnDestroy()
+    {
+        // Leak olmasın diye unbind
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // Yeni eklenen metot:
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    // Örnek: Tag kullanarak
+    var go = GameObject.FindWithTag("TimerText");
+    if (go != null)
+    {
+        timerText = go.GetComponent<TextMeshProUGUI>();
+        UpdateTimerDisplay();
+    }
+    else
+    {
+        Debug.LogWarning($"[TimerController] Bu sahnede TimerText objesi bulunamadı: {scene.name}");
+        // önceki timerText olduğu gibi kalacak
+    }
+}
+
 
     void Start()
     {
-        // Zamanlayıcıyı başlat
-        elapsedTime = 0f;
-        isTimerRunning = true;
-
-        // UI'ı hemen güncelle
-        timerText.text = "00:00:00"; 
+        timeController.isTimerRunning = true;
+        UpdateTimerDisplay();
     }
 
     void Update()
     {
-        if (isTimerRunning)
-        {
-            // Geçen süreyi arttır
-            elapsedTime += Time.deltaTime;
+        // Süre artışı
+        if (timeController.isTimerRunning)
+            timeController.elapsedTime += Time.deltaTime;
 
-            // Saniye, dakika ve saat hesaplamaları
-            int hours = Mathf.FloorToInt(elapsedTime / 3600); // 1 saat = 3600 saniye
-            int minutes = Mathf.FloorToInt((elapsedTime % 3600) / 60); // 1 dakika = 60 saniye
-            int seconds = Mathf.FloorToInt(elapsedTime % 60);
-
-            // TextMeshPro UI'ını güncelle
-            timerText.text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
-        }
+        UpdateTimerDisplay();
     }
 
-    public void StopTimer()
+    private void UpdateTimerDisplay()
     {
-        // Zamanlayıcıyı durdur
-        isTimerRunning = false;
-
-        // Zamanı sıfırla ve UI'ı güncelle
-        elapsedTime = 0f;
-        timerText.text = "00:00:00";
+        if (timerText != null)
+            timerText.text = FormatTime(timeController.elapsedTime);
     }
+
+    private string FormatTime(float t)
+    {
+        int h = Mathf.FloorToInt(t / 3600f);
+        int m = Mathf.FloorToInt((t % 3600f) / 60f);
+        int s = Mathf.FloorToInt(t % 60f);
+        return $"{h:00}:{m:00}:{s:00}";
+    }
+
+
 }
