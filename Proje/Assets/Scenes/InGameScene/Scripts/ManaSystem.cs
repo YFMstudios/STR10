@@ -6,50 +6,40 @@ using Photon.Pun;
 public class ManaSystem : MonoBehaviourPun, IPunObservable
 {
     [Header("Mana Stats")]
-    public float maxMana = 100f;         // Maksimum mana
-    public float startingMana = 100f;    // Başlangıç manası
-    public float manaRegenRate = 5f;     // Saniyelik mana yenileme hızı
+    public float maxMana = 100f;
+    public float startingMana = 100f;
+    public float manaRegenRate = 5f;
 
     [Header("UI References")]
-    public Slider manaBar2d;     // 2D UI için mana çubuğu (yalnızca local)
-    public Slider manaBar3d;     // 3D UI için mana çubuğu (herkes görebilir)
-    public Text manaText2d;      // 2D UI için mana metni (yalnızca local)
+    public Slider manaBar2d;
+    public Text manaText2d;
 
-    private float currentMana;   // Şu anki mana
+    private Mana3DBarUpdater mana3DUpdater;
+    private float currentMana;
 
-private void Start()
-{
-    if (photonView.IsMine)
-        currentMana = startingMana;
-
-    // 3D normalize edilmiş bar
-    if (manaBar3d != null)
-        manaBar3d.maxValue = 1f;
-
-    // 2D bar sadece karakterler için kalacak,
-    // diğer objelerde kapat:
-    if (!CompareTag("Player") && !CompareTag("Enemy"))
+    private void Start()
     {
-        if (manaBar2d != null)   manaBar2d.gameObject.SetActive(false);
-        if (manaText2d != null)  manaText2d.gameObject.SetActive(false);
+        mana3DUpdater = GetComponent<Mana3DBarUpdater>();
+
+        if (photonView.IsMine)
+            currentMana = startingMana;
+
+        if (!CompareTag("Player") && !CompareTag("Enemy"))
+        {
+            if (manaBar2d != null) manaBar2d.gameObject.SetActive(false);
+            if (manaText2d != null) manaText2d.gameObject.SetActive(false);
+        }
+        else if (photonView.IsMine && manaBar2d != null)
+        {
+            manaBar2d.maxValue = 1f;
+            manaBar2d.value = currentMana / maxMana;
+        }
+
+        UpdateManaUI();
     }
-    else if (photonView.IsMine && manaBar2d != null)
-    {
-        // Kendi karakterinin 2D bar’ını normalize edip başta doldur:
-        manaBar2d.maxValue = 1f;
-        manaBar2d.value    = currentMana / maxMana;
-    }
-
-    UpdateManaUI();
-}
-
-
-
-
 
     private void Update()
     {
-        // Mana yenileme işlemini sadece local player yapar
         if (photonView.IsMine)
         {
             RegenerateMana();
@@ -66,60 +56,44 @@ private void Start()
         }
     }
 
-    /// <summary>
-    /// Yetenek maliyetine yetecek mana var mı?
-    /// Bu kontrol de local player tarafından yapılır.
-    /// </summary>
     public bool CanAffordAbility(float abilityCost)
     {
         return currentMana >= abilityCost;
     }
 
-    /// <summary>
-    /// Bir yetenek kullandığımızda local player mana düşürüyor.
-    /// </summary>
     public void UseAbility(float abilityCost)
     {
-        if (!photonView.IsMine) return; // Sadece local karakter mana harcar
+        if (!photonView.IsMine) return;
 
         currentMana -= abilityCost;
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
-
         UpdateManaUI();
     }
 
-    /// <summary>
-    /// 2D/3D mana barlarını günceller.
-    /// 2D bar sadece local player için, 3D bar ise herkes için.
-    /// </summary>
-private void UpdateManaUI()
-{
-    // — 3D bar (herkes için)
-    if (manaBar3d != null)
-        manaBar3d.value = currentMana / maxMana;
-
-    // Hem yerel oyuncu hem düşman için
-    if (CompareTag("Enemy") || photonView.IsMine)
+    private void UpdateManaUI()
     {
-        if (manaBar2d != null)
-            manaBar2d.value = currentMana / maxMana;
-        if (manaText2d != null && photonView.IsMine) // Metin sadece yerel oyuncu için
-            manaText2d.text = $"{Mathf.RoundToInt(currentMana)} / {maxMana}";
-    }
-}
+        // ✅ 3D bar HERKES için güncellenir
+        if (mana3DUpdater != null)
+            mana3DUpdater.SetMana(currentMana, maxMana);
 
+        // ✅ 2D bar SADECE yerel oyuncuda çalışır
+        if (photonView.IsMine)
+        {
+            if (manaBar2d != null)
+                manaBar2d.value = currentMana / maxMana;
 
-    /// <summary>
-    /// Photon'un serialize metodu: Her karede veri senkronu yaparız.
-    /// Local player “currentMana” bilgisini yazar, remote oyuncular okur.
-    /// </summary>
+            if (manaText2d != null)
+                manaText2d.text = $"{Mathf.RoundToInt(currentMana)} / {maxMana}";
+        }
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsWriting) // Eğer local player isek, manamızı gönderiyoruz
+        if (stream.IsWriting)
         {
             stream.SendNext(currentMana);
         }
-        else // Remote player isek, mana değerini alıyoruz
+        else
         {
             currentMana = (float)stream.ReceiveNext();
             UpdateManaUI();
