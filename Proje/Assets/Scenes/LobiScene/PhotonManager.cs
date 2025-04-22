@@ -189,19 +189,21 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         // Oda ismi ve rastgele sayıyı birleştir
         string fullRoomName = $"{roomName}_{roomNumber}";
 
-        RoomOptions roomOptions = new RoomOptions
-        {
-            MaxPlayers = 6,           // Maksimum 6 oyuncu
-            IsVisible = true,         // Oda herkes tarafından görülebilir
-            IsOpen = true,            // Oda yeni oyunculara açık
-            PlayerTtl = 0,            // Oyuncu odadan çıkar çıkmaz bilgileri sıfırlanır
-            EmptyRoomTtl = 300000,    // Oda boş kaldıktan sonra 5 dakika açık kalır
-            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
-            {
-                { "war", null }       // 'war' bilgisi oda özelliklerine ekleniyor (başlangıçta null olarak)
-            },
-            CustomRoomPropertiesForLobby = new string[] { "war" } // lobby'de 'war' bilgisini görmek için
-        };
+       RoomOptions roomOptions = new RoomOptions
+{
+    MaxPlayers = 6,
+    IsVisible = true, // Photon’un yerleşik özelliği, bu kalabilir
+    IsOpen = true,
+    PlayerTtl = 0,
+    EmptyRoomTtl = 300000,
+    CustomRoomProperties = new ExitGames.Client.Photon.Hashtable
+    {
+        { "war", null },
+        { "isVisibility", true } // Bizim kendi görünürlük kontrolümüz
+    },
+    CustomRoomPropertiesForLobby = new string[] { "war", "isVisibility" }
+};
+
 
         PhotonNetwork.CreateRoom(fullRoomName, roomOptions);
         Debug.Log($"Oda oluşturma isteği gönderildi: {fullRoomName}");
@@ -274,15 +276,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
 
     // Odaları listeleme ve UI ile gösterme
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        Debug.Log("Oda listesi güncellendi.");
+ public override void OnRoomListUpdate(List<RoomInfo> roomList)
+{
+    Debug.Log("Oda listesi güncellendi.");
 
-        foreach (RoomInfo roomInfo in roomList)
+    foreach (RoomInfo roomInfo in roomList)
+    {
+        // ❗️Sadece isVisibility true olanlar gösterilsin
+        if (roomInfo.CustomProperties.TryGetValue("isVisibility", out object isVisible) && isVisible is bool && (bool)isVisible)
         {
             if (roomInfo.RemovedFromList)
             {
-                // Oda listeden kaldırıldıysa, cachedRoomList'ten çıkar
                 int index = cachedRoomList.FindIndex(r => r.Name == roomInfo.Name);
                 if (index != -1)
                 {
@@ -291,7 +295,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                // Oda yeni eklenmiş veya güncellenmişse, cachedRoomList'e ekle veya güncelle
                 int index = cachedRoomList.FindIndex(r => r.Name == roomInfo.Name);
                 if (index == -1)
                 {
@@ -303,9 +306,20 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 }
             }
         }
-
-        RefreshCachedRoomList();
+        else
+        {
+            int index = cachedRoomList.FindIndex(r => r.Name == roomInfo.Name);
+            if (index != -1)
+            {
+                cachedRoomList.RemoveAt(index);
+            }
+        }
     }
+
+    RefreshCachedRoomList();
+}
+
+
 
     /// <summary>
     /// Kullanıcının butona basıp oda listesini manuel yenilemek istediğinde çağrılır.
