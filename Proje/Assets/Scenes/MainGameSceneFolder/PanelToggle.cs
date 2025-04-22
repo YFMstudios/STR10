@@ -1,36 +1,46 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PanelToggle : MonoBehaviour
 {
-    // Panel ve Image GameObject'leri Inspector'dan atanacak
     public GameObject panel;
     public GameObject imageObject;
+    public GameObject alternatePanel;
+
+   public static bool canToggle = true;
 
     private void Start()
     {
-        if (panel == null)
-        {
-            Debug.LogError("Panel atanmadı! Lütfen paneli Inspector'dan bağlayın.");
-            return;
-        }
-        panel.SetActive(false);
-
-        if (imageObject == null)
-        {
-            Debug.LogError("Image atanmadı! Lütfen imageObject'u Inspector'dan bağlayın.");
-            return;
-        }
-        imageObject.SetActive(false);
+        panel?.SetActive(false);
+        imageObject?.SetActive(false);
+        alternatePanel?.SetActive(false);
     }
 
     public void TogglePanel()
     {
-        // Panelin aktiflik durumunu tersine çevir
-        bool isNowActive = !panel.activeSelf;
-        panel.SetActive(isNowActive);
+        if (!canToggle) return;
 
-        // Panel açıldıysa image'i aktif et, kapandıysa pasif yap
-        imageObject.SetActive(isNowActive);
+        canToggle = false;
+        Invoke(nameof(ResetToggle), 60f);
+
+        // Burada başka hiçbir şeye dokunmadım
+        panel.SetActive(false);
+        imageObject.SetActive(false);
+        alternatePanel.SetActive(false);
+
+        int randomValue = Random.Range(1, 11);
+        if (randomValue > 6)
+        {
+            panel.SetActive(true);
+            imageObject.SetActive(true);
+        }
+        else
+        {
+            alternatePanel.SetActive(true);
+        }
+    }
+
+    private void ResetToggle()
+    {
+        canToggle = true;
     }
 }
