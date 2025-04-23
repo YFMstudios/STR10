@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 49752309}
   - component: {fileID: 49752308}
   - component: {fileID: 49752307}
+  - component: {fileID: 49752306}
   m_Layer: 5
   m_Name: VoiceOnButton
   m_TagString: Untagged
@@ -161,6 +162,21 @@ RectTransform:
   m_AnchoredPosition: {x: 720, y: 360}
   m_SizeDelta: {x: 60, y: 56.509}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &49752306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 49752304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab586479d5c697b4689ce651f8b72263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  voiceOffButton: {fileID: 545166357}
+  voiceOnButton: {fileID: 49752304}
 --- !u!114 &49752307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +235,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 49752306}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
         m_MethodName: UnmuteSound
         m_Mode: 1
@@ -698,6 +714,7 @@ GameObject:
   - component: {fileID: 545166361}
   - component: {fileID: 545166360}
   - component: {fileID: 545166359}
+  - component: {fileID: 545166358}
   m_Layer: 5
   m_Name: VoiceOffButton
   m_TagString: Untagged
@@ -705,6 +722,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &545166358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545166357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab586479d5c697b4689ce651f8b72263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  voiceOffButton: {fileID: 545166357}
+  voiceOnButton: {fileID: 49752304}
 --- !u!114 &545166359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,7 +781,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 545166358}
         m_TargetAssemblyTypeName: AudioController, Assembly-CSharp
         m_MethodName: MuteSound
         m_Mode: 1
@@ -897,8 +929,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32da2f1d788d3ef45a6f4d16a50ba62c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voiceOnButton: {fileID: 49752304}
-  voiceOffButton: {fileID: 545166357}
+  voiceOnButton: {fileID: 0}
+  voiceOffButton: {fileID: 0}
 --- !u!114 &622378218
 MonoBehaviour:
   m_ObjectHideFlags: 0

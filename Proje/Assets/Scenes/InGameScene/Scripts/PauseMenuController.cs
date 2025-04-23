@@ -39,7 +39,6 @@ public class PauseMenuController : MonoBehaviour
 
     public void QuitGame()
     {
-        
 #if UNITY_EDITOR
         // Oyun Unity Editör içindeyse Play Mode'dan çık
         UnityEditor.EditorApplication.isPlaying = false;

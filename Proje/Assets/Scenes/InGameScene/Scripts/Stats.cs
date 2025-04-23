@@ -16,24 +16,17 @@ public class Stats : MonoBehaviourPun
     private Coroutine damageCoroutine;
 
     private HealthUI healthUI;
-    private Health3DBarUpdater health3DUpdater;
 
     private void Awake()
     {
         healthUI = GetComponent<HealthUI>();
-        health3DUpdater = GetComponent<Health3DBarUpdater>();
-
         currentHealth = health;
         targetHealth = health;
 
-        if (health3DUpdater != null)
+        if (healthUI != null)
         {
-            health3DUpdater.SetHealth(currentHealth, health); // 3D bar'ı başlat
-        }
-
-        if (healthUI != null && photonView.IsMine)
-        {
-            healthUI.Update2DSlider(health, currentHealth); // sadece kendi ekranında 2D
+            healthUI.Start3DSlider(health);
+            healthUI.Update2DSlider(health, currentHealth);
         }
     }
 
@@ -48,52 +41,51 @@ public class Stats : MonoBehaviourPun
         photonView.RPC(nameof(RPC_ApplyDamage), RpcTarget.All, damageAmount);
     }
 
-    [PunRPC]
-    private void RPC_ApplyDamage(float damageAmount)
+   [PunRPC]
+private void RPC_ApplyDamage(float damageAmount)
+{
+    if (!gameObject.activeInHierarchy) return;
+
+    targetHealth -= damageAmount;
+
+    if (targetHealth <= 0)
     {
-        if (!gameObject.activeInHierarchy) return;
+        targetHealth = 0;
 
-        targetHealth -= damageAmount;
-
-        if (targetHealth <= 0)
+        if (CompareTag("Player") || CompareTag("Enemy"))
         {
-            targetHealth = 0;
-
-            if (CompareTag("Player") || CompareTag("Enemy"))
-            {
-                CheckIfCharacterDead();
-            }
-            else if (CompareTag("EnemyMinion") || CompareTag("EnemyTurret"))
-            {
-                var handler = GetComponent<EnemyDeathHandler>();
-                if (handler != null) handler.Die();
-                else StartCoroutine(DeactivateAfterDelay());
-            }
+            CheckIfCharacterDead();
         }
-
-        if (damageCoroutine == null && gameObject.activeInHierarchy)
+        else if (CompareTag("EnemyMinion") || CompareTag("EnemyTurret"))
         {
-            damageCoroutine = StartCoroutine(LerpHealth());
+            var handler = GetComponent<EnemyDeathHandler>();
+            if (handler != null) handler.Die();
+            else StartCoroutine(DeactivateAfterDelay());
         }
     }
+
+    // 🔽 BURADA photonView.IsMine KOYMA! HERKES ÇALIŞTIRMALI
+    if (damageCoroutine == null && gameObject.activeInHierarchy)
+    {
+        damageCoroutine = StartCoroutine(LerpHealth());
+    }
+}
+
 
     private void CheckIfCharacterDead()
     {
         Debug.Log($"{gameObject.name} öldü!");
-
-        if (CompareTag("Player") && WarController.Instance != null)
+        
+        // WarController'a haber ver
+        if (CompareTag("Player"))
         {
-            WarController.Instance.playerOlduMu = true;
+            if (WarController.Instance != null)
+                WarController.Instance.playerOlduMu = true;
         }
 
-        if (healthUI != null && photonView.IsMine)
+        if (healthUI != null)
         {
             healthUI.Update2DSlider(health, 0);
-        }
-
-        if (health3DUpdater != null)
-        {
-            health3DUpdater.SetHealth(0, health);
         }
 
         if (damageCoroutine != null)
@@ -108,7 +100,7 @@ public class Stats : MonoBehaviourPun
     private IEnumerator DeactivateAfterDelay()
     {
         yield return new WaitForSeconds(3f);
-        gameObject.SetActive(false);
+        gameObject.SetActive(false); // BattleScenePlayerSpawner buradan tekrar doğuracak
     }
 
     private IEnumerator LerpHealth()
@@ -130,27 +122,34 @@ public class Stats : MonoBehaviourPun
         damageCoroutine = null;
     }
 
-    private void UpdateHealthUI()
-    {
-        if (photonView.IsMine && healthUI != null)
-            healthUI.Update2DSlider(health, currentHealth);
+private void UpdateHealthUI()
+{
+    if (healthUI == null) return;
 
-        if (health3DUpdater != null)
-            health3DUpdater.SetHealth(currentHealth, health);
+    // Bu oyuncunun kendisi mi?
+    if ((CompareTag("Player") || CompareTag("Enemy")) && photonView.IsMine)
+    {
+        healthUI.Update2DSlider(health, currentHealth);
     }
+
+    // 3D bar herkes için güncellenir
+    healthUI.Update3DSlider(currentHealth);
+}
+
 
     public void ResetHealthToFull()
     {
         currentHealth = health;
         targetHealth = health;
 
-        if (photonView.IsMine && healthUI != null)
+        if (healthUI != null)
+        {
             healthUI.Update2DSlider(health, currentHealth);
-
-        if (health3DUpdater != null)
-            health3DUpdater.SetHealth(currentHealth, health);
+            healthUI.Update3DSlider(currentHealth);
+        }
     }
 
+    // Minyonların hedef alabilmesi için dışarıdan kontrol imkanı
     public bool IsDead()
     {
         return targetHealth <= 0;

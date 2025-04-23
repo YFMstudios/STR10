@@ -45,10 +45,7 @@ public class PlayerInfoManager : MonoBehaviourPunCallbacks
     }
 
     public void OnKingdomButtonPressed()
-    
-    {// Oyunun başlangıcında bir kere çalıştır (örn: Main Menu'de)
-PhotonNetwork.AutomaticallySyncScene = false;
-
+    {
         SceneManager.LoadScene(4);
         kingdomButton.gameObject.SetActive(false);
     }

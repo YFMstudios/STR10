@@ -6,33 +6,24 @@ using Photon.Pun;
 public class ManaSystem : MonoBehaviourPun, IPunObservable
 {
     [Header("Mana Stats")]
-    public float maxMana = 100f;
-    public float startingMana = 100f;
-    public float manaRegenRate = 5f;
+    public float maxMana = 100f;         // Maksimum mana
+    public float startingMana = 100f;    // Başlangıç manası
+    public float manaRegenRate = 5f;     // Saniyelik mana yenileme hızı
 
     [Header("UI References")]
-    public Slider manaBar2d;
-    public Text manaText2d;
+    public Slider manaBar2d;     // 2D UI için mana çubuğu (yalnızca local)
+    public Slider manaBar3d;     // 3D UI için mana çubuğu (herkes görebilir)
+    public Text manaText2d;      // 2D UI için mana metni (yalnızca local)
 
-    private Mana3DBarUpdater mana3DUpdater;
-    private float currentMana;
+    private float currentMana;   // Şu anki mana
 
     private void Start()
     {
-        mana3DUpdater = GetComponent<Mana3DBarUpdater>();
-
+        // Sadece local player “startingMana” ayarlayacak.
+        // Remote oyuncular OnPhotonSerializeView’den değer alacak.
         if (photonView.IsMine)
+        {
             currentMana = startingMana;
-
-        if (!CompareTag("Player") && !CompareTag("Enemy"))
-        {
-            if (manaBar2d != null) manaBar2d.gameObject.SetActive(false);
-            if (manaText2d != null) manaText2d.gameObject.SetActive(false);
-        }
-        else if (photonView.IsMine && manaBar2d != null)
-        {
-            manaBar2d.maxValue = 1f;
-            manaBar2d.value = currentMana / maxMana;
         }
 
         UpdateManaUI();
@@ -40,6 +31,7 @@ public class ManaSystem : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
+        // Mana yenileme işlemini sadece local player yapar
         if (photonView.IsMine)
         {
             RegenerateMana();
@@ -56,44 +48,65 @@ public class ManaSystem : MonoBehaviourPun, IPunObservable
         }
     }
 
+    /// <summary>
+    /// Yetenek maliyetine yetecek mana var mı?
+    /// Bu kontrol de local player tarafından yapılır.
+    /// </summary>
     public bool CanAffordAbility(float abilityCost)
     {
         return currentMana >= abilityCost;
     }
 
+    /// <summary>
+    /// Bir yetenek kullandığımızda local player mana düşürüyor.
+    /// </summary>
     public void UseAbility(float abilityCost)
     {
-        if (!photonView.IsMine) return;
+        if (!photonView.IsMine) return; // Sadece local karakter mana harcar
 
         currentMana -= abilityCost;
         currentMana = Mathf.Clamp(currentMana, 0f, maxMana);
+
         UpdateManaUI();
     }
 
+    /// <summary>
+    /// 2D/3D mana barlarını günceller.
+    /// 2D bar sadece local player için, 3D bar ise herkes için.
+    /// </summary>
     private void UpdateManaUI()
     {
-        // ✅ 3D bar HERKES için güncellenir
-        if (mana3DUpdater != null)
-            mana3DUpdater.SetMana(currentMana, maxMana);
+        // 3D bar (herkes görsün)
+        if (manaBar3d != null)
+        {
+            manaBar3d.value = currentMana / maxMana;
+        }
 
-        // ✅ 2D bar SADECE yerel oyuncuda çalışır
-        if (photonView.IsMine)
+        // Sadece local player veya enemy ise 2D barı güncelle
+        if (photonView.IsMine && (gameObject.CompareTag("Player") || gameObject.CompareTag("Enemy")))
         {
             if (manaBar2d != null)
+            {
                 manaBar2d.value = currentMana / maxMana;
-
+            }
             if (manaText2d != null)
-                manaText2d.text = $"{Mathf.RoundToInt(currentMana)} / {maxMana}";
+            {
+                manaText2d.text = Mathf.RoundToInt(currentMana) + " / " + maxMana;
+            }
         }
     }
 
+    /// <summary>
+    /// Photon'un serialize metodu: Her karede veri senkronu yaparız.
+    /// Local player “currentMana” bilgisini yazar, remote oyuncular okur.
+    /// </summary>
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.IsWriting)
+        if (stream.IsWriting) // Eğer local player isek, manamızı gönderiyoruz
         {
             stream.SendNext(currentMana);
         }
-        else
+        else // Remote player isek, mana değerini alıyoruz
         {
             currentMana = (float)stream.ReceiveNext();
             UpdateManaUI();

@@ -200,47 +200,35 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
         return regionOwnership.ContainsKey(imageComponent) ? regionOwnership[imageComponent] : "Unknown";
     }
 
-private void UpdateRegionDetails(Image imageComponent)
-{
-    string kingdomName = GetKingdomByRegion(imageComponent);
-
-    if (kingdomDetails.ContainsKey(kingdomName))
+    private void UpdateRegionDetails(Image imageComponent)
     {
-        KingdomDetails details = kingdomDetails[kingdomName];
-        FlagImage.sprite = Resources.Load<Sprite>($"Flags/{kingdomName}Flag");
-        bool isPlayerOwned = isYourKingdoms(kingdomName);
-        WarIcon.enabled = !isPlayerOwned;
+        string kingdomName = GetKingdomByRegion(imageComponent);
 
-        if (!isPlayerOwned)
+        if (kingdomDetails.ContainsKey(kingdomName))
         {
-            WarIcon.sprite = warSprite;
+            KingdomDetails details = kingdomDetails[kingdomName];
+            FlagImage.sprite = Resources.Load<Sprite>($"Flags/{kingdomName}Flag");
+            bool isPlayerOwned = isYourKingdoms(kingdomName);
+            WarIcon.enabled = !isPlayerOwned;
+            ObservationImage.enabled = !isPlayerOwned;
 
-            if (PanelToggle.canToggle)
+            if (!isPlayerOwned)
             {
-                ObservationImage.enabled = true;
+                WarIcon.sprite = warSprite;
                 ObservationImage.sprite = observationSprite;
             }
-            else
-            {
-                ObservationImage.enabled = false;
-            }
+
+            owner.text = $"Sahibi: {findOwner(kingdomName)}";
+            kingdom.text = $"Krallık: {kingdomName}";
+            civilization.text = $"Medeniyet: {details.CivilizationName}";
+            // Asker sayısı kısmı, ilgili indekse göre güncelleniyor
+            // numberOfSoldier.text = $"Asker Sayısı: {Kingdom.Kingdoms[kingdomNameToKingdomID(kingdomName)].SoldierAmount}";
         }
         else
         {
-            ObservationImage.enabled = false;
+            Debug.LogWarning("Bölge için eşleşme bulunamadı.");
         }
-
-        owner.text = $"Sahibi: {findOwner(kingdomName)}";
-        kingdom.text = $"Krallık: {kingdomName}";
-        civilization.text = $"Medeniyet: {details.CivilizationName}";
-        // numberOfSoldier.text = $"Asker Sayısı: {Kingdom.Kingdoms[kingdomNameToKingdomID(kingdomName)].SoldierAmount}";
     }
-    else
-    {
-        Debug.LogWarning("Bölge için eşleşme bulunamadı.");
-    }
-}
-
 
     public int kingdomNameToKingdomID(string kingdomName)
     {

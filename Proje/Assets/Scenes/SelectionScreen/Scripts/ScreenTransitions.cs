@@ -100,7 +100,7 @@ public void hardButton()
 
     public void creditsButton()
     {
-         SceneManager.LoadScene(11);
+        
     }
     public void quitGame()
     {
