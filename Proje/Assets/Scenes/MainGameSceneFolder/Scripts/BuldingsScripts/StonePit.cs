@@ -11,11 +11,11 @@ public class StonePit : Building
     // Ekstra özellikler
 
     public static int stoneProductionRate;
-    public static int goldProductionRateStonePit ;
-    public static bool canIStartProduction;
+    public static int goldProductionRateStonePit = 1;
+    public static bool canIStartProduction = false;
 
-    public static int buildLevel;
-    public static bool wasStonePitCreated;
+    public static int buildLevel = 0;
+    public static bool wasStonePitCreated = false;
 
     // Kurucu yöntem
     public StonePit()

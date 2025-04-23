@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Castle : Building
 {
-    public static int buildLevel;
-    public static bool wasCastleCreated;
+    public static int buildLevel = 1;
+    public static bool wasCastleCreated = false;
 
     public Castle()
     {

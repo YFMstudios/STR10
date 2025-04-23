@@ -7,13 +7,13 @@ using UnityEngine;
 public class Warehouse : Building
 {
 
-    public static int buildLevel;
-    public static bool wasWarehouseCreated;
+    public static int buildLevel = 0;
+    public static bool wasWarehouseCreated = false;
 
-    public static int foodCapacity;
-    public static int ironCapacity;
-    public static int timberCapacity;
-    public static int stoneCapacity;
+    public static int foodCapacity = 101000;
+    public static int ironCapacity = 101000;
+    public static int timberCapacity = 101000;
+    public static int stoneCapacity = 100100;
 
 
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Barracks : Building
 {
-    public static int buildLevel;
-    public static bool wasBarracksCreated;
+    public static int buildLevel = 0;
+    public static bool wasBarracksCreated = false;
 
     public Barracks()
     {

@@ -80,109 +80,6 @@ public class ProgressBarController : MonoBehaviour
     [Header("ScriptableObject")]
     public GetPlayerData getPlayerData;
 
-    // Awake fonksiyonu (ProgressBarController sınıfına)
-    private void Awake()
-    {
-        // Oyun başlatıldığında çağrılır
-        Debug.Log("ProgressBarController Awake çağrıldı");
-
-        // İnşaat durumunu sıfırla (oyun her açıldığında sıfırlamak için)
-        isStonePitBuildingActive = false;
-        isSawmillBuildingActive = false;
-        isFarmBuildActive = false;
-        isAnyTrapActive = false;
-        isBlacksmithBuildingActive = false;
-        isLabBuildActive = false;
-        isBarracksBuildActive = false;
-        isHospitalBuildActive = false;
-        isCastleBuildingActive = false;
-        isTowerBuildingActive = false;
-
-        // 1 saniye sonra ilerleme çubuklarını bulmayı dene
-        Invoke("FindProgressBars", 1.0f);
-    }
-
-    private void FindProgressBars()
-    {
-        // Stonepit
-        buildStonepitBar = GameObject.Find("BuildStonepitBar");
-        if (buildStonepitBar != null)
-        {
-            Debug.Log("Stonepit ilerleme çubuğu bulundu: " + buildStonepitBar.name);
-            buildStonepitBar.transform.localScale = new Vector3(0, buildStonepitBar.transform.localScale.y, buildStonepitBar.transform.localScale.z);
-        }
-
-        // Sawmill
-        buildSawmillBar = GameObject.Find("BuildSawmillBar");
-        if (buildSawmillBar != null)
-        {
-            Debug.Log("Sawmill ilerleme çubuğu bulundu: " + buildSawmillBar.name);
-            buildSawmillBar.transform.localScale = new Vector3(0, buildSawmillBar.transform.localScale.y, buildSawmillBar.transform.localScale.z);
-        }
-
-        // Warehouse
-        buildWareHouseBar = GameObject.Find("BuildWareHouseBar");
-        if (buildWareHouseBar != null)
-        {
-            Debug.Log("Warehouse ilerleme çubuğu bulundu: " + buildWareHouseBar.name);
-            buildWareHouseBar.transform.localScale = new Vector3(0, buildWareHouseBar.transform.localScale.y, buildWareHouseBar.transform.localScale.z);
-        }
-
-        // Farm
-        buildFarmBar = GameObject.Find("BuildFarmBar");
-        if (buildFarmBar != null)
-        {
-            Debug.Log("Farm ilerleme çubuğu bulundu: " + buildFarmBar.name);
-            buildFarmBar.transform.localScale = new Vector3(0, buildFarmBar.transform.localScale.y, buildFarmBar.transform.localScale.z);
-        }
-        buildBlacksmithBar = GameObject.Find("BuildBlacksmithBar");
-        if (buildBlacksmithBar != null)
-        {
-            Debug.Log("Blacksmith ilerleme çubuğu bulundu: " + buildBlacksmithBar.name);
-            buildBlacksmithBar.transform.localScale = new Vector3(0, buildBlacksmithBar.transform.localScale.y, buildBlacksmithBar.transform.localScale.z);
-        }
-        buildLabBar = GameObject.Find("BuildLabBar");
-        if (buildLabBar != null)
-        {
-            Debug.Log("Lab ilerleme çubuğu bulundu: " + buildLabBar.name);
-            buildLabBar.transform.localScale = new Vector3(0, buildBlacksmithBar.transform.localScale.y, buildBlacksmithBar.transform.localScale.z);
-        }
-        buildBarracksBar = GameObject.Find("BuildBarracksBar");
-        if (buildBarracksBar != null)
-        {
-            Debug.Log("Barracks ilerleme çubuğu bulundu: " + buildBarracksBar.name);
-            buildBarracksBar.transform.localScale = new Vector3(0, buildBarracksBar.transform.localScale.y, buildBarracksBar.transform.localScale.z);
-        }
-        buildHospitalBar = GameObject.Find("BuildHospitalBar");
-        if (buildHospitalBar != null)
-        {
-            Debug.Log("Hospital ilerleme çubuğu bulundu: " + buildHospitalBar.name);
-            buildHospitalBar.transform.localScale = new Vector3(0, buildHospitalBar.transform.localScale.y, buildHospitalBar.transform.localScale.z);
-        }
-        upgradeCastleBar = GameObject.Find("UpgradeCastleBar");
-        if (upgradeCastleBar != null)
-        {
-            Debug.Log("Castle ilerleme çubuğu bulundu: " + upgradeCastleBar.name);
-            upgradeCastleBar.transform.localScale = new Vector3(0, upgradeCastleBar.transform.localScale.y, upgradeCastleBar.transform.localScale.z);
-        }
-        buildTowerBar = GameObject.Find("BuildTowerBar");
-        if (buildTowerBar != null)
-        {
-            Debug.Log("Tower ilerleme çubuğu bulundu: " + buildTowerBar.name);
-            buildTowerBar.transform.localScale = new Vector3(0, buildTowerBar.transform.localScale.y, buildTowerBar.transform.localScale.z);
-        }
-
-        buildTrapBar = GameObject.Find("BuildTrapBar");
-        if (buildTrapBar != null)
-        {
-            Debug.Log("Trap ilerleme çubuğu bulundu: " + buildTrapBar.name);
-            buildTrapBar.transform.localScale = new Vector3(0, buildTrapBar.transform.localScale.y, buildTrapBar.transform.localScale.z);
-        }
-    }
-
-
-
-
     void Start()
     {
         // Ba�lang��ta zaman s�f�rlanabilir.
@@ -194,104 +91,6 @@ public class ProgressBarController : MonoBehaviour
 
         
     }
-
-    // Update fonksiyonu ekleyelim (ProgressBarController sınıfına)
-    private void Update()
-    {
-        if (isStonePitBuildingActive && buildStonepitBar != null)
-        {
-            if (!buildStonepitBar.activeInHierarchy)
-            {
-                Debug.LogWarning("StonePit ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildStonepitBar.SetActive(true);
-            }
-        }
-
-        if (isSawmillBuildingActive && buildSawmillBar != null)
-        {
-            if (!buildSawmillBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Sawmill ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildSawmillBar.SetActive(true);
-            }
-        }
-
-        if (isWareHouseBuildingActive && buildWareHouseBar != null)
-        {
-            if (!buildWareHouseBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Warehouse ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildWareHouseBar.SetActive(true);
-            }
-        }
-
-        if (isFarmBuildActive && buildFarmBar != null)
-        {
-            if (!buildFarmBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Farm ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildFarmBar.SetActive(true);
-            }
-        }
-        if (isBlacksmithBuildingActive && buildBlacksmithBar != null)
-        {
-            if (!buildBlacksmithBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Blacksmith ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildBlacksmithBar.SetActive(true);
-            }
-        }
-        if (isLabBuildActive && buildLabBar != null)
-        {
-            if (!buildLabBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Lab ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildLabBar.SetActive(true);
-            }
-        }
-        if (isBarracksBuildActive && buildBarracksBar != null)
-        {
-            if (!buildBarracksBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Barracks ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildBarracksBar.SetActive(true);
-            }
-        }
-        if (isHospitalBuildActive && buildHospitalBar != null)
-        {
-            if (!buildHospitalBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Hospital ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildHospitalBar.SetActive(true);
-            }
-        }
-        if (isCastleBuildingActive && upgradeCastleBar != null)
-        {
-            if (!upgradeCastleBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Castle ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                upgradeCastleBar.SetActive(true);
-            }
-        }
-        if (isTowerBuildingActive && buildTowerBar != null)
-        {
-            if (!buildTowerBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Tower ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildTowerBar.SetActive(true);
-            }
-        }
-        if (isAnyTrapActive && buildTrapBar != null)
-        {
-            if (!buildTrapBar.activeInHierarchy)
-            {
-                Debug.LogWarning("Trap ilerleme çubuğu aktif değil! Aktif hale getiriliyor.");
-                buildTrapBar.SetActive(true);
-            }
-        }
-    }
-
-
 
     public void CreateUnits()
     {
@@ -433,12 +232,8 @@ public class ProgressBarController : MonoBehaviour
     }
     void ResetProgressBar(GameObject gameObject)
     {
-        Debug.Log("ResetProgressBar çağrıldı: " + gameObject.name + " için");
-        Debug.Log("Sıfırlamadan önce - Ölçek: " + gameObject.transform.localScale);
-
         gameObject.transform.localScale = new Vector3(0, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-
-        Debug.Log("Sıfırlamadan sonra - Ölçek: " + gameObject.transform.localScale);
+        // �sterseniz progress bar'� yeniden kullanmak i�in ba�ka i�lemler de yapabilirsiniz
     }
     void OnProgressComplete()
     {
@@ -528,1307 +323,546 @@ public class ProgressBarController : MonoBehaviour
 
     public IEnumerator WarehouseIsFinished(Warehouse warehouse, System.Action<bool> onCompletion)
     {
-        Debug.Log("WarehouseIsFinished başlatıldı. İnşa süresi: " + warehouse.buildTime);
-
-        // İlerleme çubuğunu sahnede bul (eğer daha önce atanmadıysa)
-        if (buildWareHouseBar == null)
-        {
-            buildWareHouseBar = GameObject.Find("BuildWareHouseBar");
-            if (buildWareHouseBar != null)
-            {
-                Debug.Log("buildWareHouseBar bulundu: " + buildWareHouseBar.name);
-            }
-            else
-            {
-                Debug.LogError("BuildWareHouseBar objesi bulunamadı!");
-            }
-        }
-
-        // Yeni inşaata izin verilip verilmediğini kontrol et
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        string panelName = "WareHouseBuildingProcessPanel";
         wareHousePanelController.cancelWarehouseButton.gameObject.SetActive(true);
-        wareHousePanelController.isBuildCanceled = false;
-
-        // İlerleme çubuğunu sıfırla
-        if (buildWareHouseBar != null)
-        {
-            buildWareHouseBar.transform.localScale = new Vector3(0, buildWareHouseBar.transform.localScale.y, buildWareHouseBar.transform.localScale.z);
-        }
-
+        wareHousePanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
+        string panelName = "WareHouseBuildingProcessPanel";
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildWareHouseBar, 1, warehouse.buildTime).setOnComplete(() => ResetProgressBar(buildWareHouseBar));
         panelManager.CreatePanel(panelName, warehouse.buildingName, warehouse.buildTime, "Building");
-        Debug.Log("Panel oluşturuldu: " + panelName);
 
         isWareHouseBuildingActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < warehouse.buildTime)
         {
-            if (wareHousePanelController.isBuildCanceled)
+            if (wareHousePanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("Depo inşaatı iptal edildi.");
-                if (buildWareHouseBar != null)
-                {
-                    buildWareHouseBar.transform.localScale = new Vector3(0, buildWareHouseBar.transform.localScale.y, buildWareHouseBar.transform.localScale.z);
-                }
-
-                onCompletion(false);
+                LeanTween.cancel(buildWareHouseBar); // Animasyonu iptal et
+                ResetProgressBar(buildWareHouseBar); // ProgressBar'� s�f�rla
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+               
                 isWareHouseBuildingActive = false;
-                yield break;
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-
-            // İlerleme çubuğunu güncelle
-            if (buildWareHouseBar != null)
-            {
-                float progress = elapsedTime / warehouse.buildTime;
-                buildWareHouseBar.transform.localScale = new Vector3(progress, buildWareHouseBar.transform.localScale.y, buildWareHouseBar.transform.localScale.z);
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("Warehouse progress: %" + (progress * 100f).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
-        }
-
-        // Tamamlandığında
-        Debug.Log("Depo inşaatı başarıyla tamamlandı.");
-
-        if (buildWareHouseBar != null)
-        {
-            buildWareHouseBar.transform.localScale = new Vector3(1f, buildWareHouseBar.transform.localScale.y, buildWareHouseBar.transform.localScale.z);
-        }
-
-        wareHousePanelController.cancelWarehouseButton.gameObject.SetActive(false);
-        isWareHouseBuildingActive = false;
-        panelManager.DestroyPanel(panelName);
-
-        onCompletion(true);
-
-        // Kısa bir gecikmeden sonra sıfırla
-        yield return new WaitForSeconds(0.2f);
-        if (buildWareHouseBar != null)
-        {
-            buildWareHouseBar.transform.localScale = new Vector3(0f, buildWareHouseBar.transform.localScale.y, buildWareHouseBar.transform.localScale.z);
-            Debug.Log("Depo inşaatı tamamlandıktan sonra çubuk sıfırlandı.");
-        }
-    }
-
-
-
-    // ProgressBarController.cs dosyasında yapılacak değişiklikler
-    // Sadece ProgressBarController.cs dosyasında StonePitIsFinished fonksiyonunda değişiklik yapacağız
-    // Diğer kodlara dokunmuyoruz
-
-    public IEnumerator StonePitIsFinished(StonePit stonepit, System.Action<bool> onCompletion)
-    {
-        Debug.Log("StonePitIsFinished başlatıldı. İnşa süresi: " + stonepit.buildTime);
-
-        // İlerleme çubuğunu yeniden bul (referansı güncelle)
-        buildStonepitBar = GameObject.Find("BuildStonepitBar"); // İlerleme çubuğunuzun tam adını buraya yazın
-
-        if (buildStonepitBar == null)
-        {
-            Debug.LogError("BuildStonepitBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ı tarayarak bulmayı deneyelim
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("BuildStonepitBar"); // Doğru hiyerarşi yolunu yazın
-                if (bar != null)
-                {
-                    buildStonepitBar = bar.gameObject;
-                    Debug.Log("BuildStonepitBar bulundu: " + buildStonepitBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildStonepitBar başarıyla bulundu: " + buildStonepitBar.name);
-        }
-
-        // Yeni inşaata izin verilip verilmediğini kontrol et
-        if (!constructionController.CanStartNewConstruction())
-        {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false); // Başarısızlık durumunu bildir
-            yield break; // Coroutine sonlandır
-        }
-
-        Debug.Log("İnşaata izin verildi - StonePit inşaatına devam ediliyor");
-
-        string panelName = "StonepitBuildingProcessPanel";
-        stonepitPanelController.cancelStonepitButton.gameObject.SetActive(true);
-        stonepitPanelController.isBuildCanceled = false; // İptal durumu sıfırla
-
-        // Önce ilerleme çubuğunu sıfırla
-        if (buildStonepitBar != null)
-        {
-            buildStonepitBar.transform.localScale = new Vector3(0, buildStonepitBar.transform.localScale.y, buildStonepitBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildStonepitBar.transform.localScale);
-        }
-
-        panelManager.CreatePanel(panelName, stonepit.buildingName, stonepit.buildTime, "Building");
-        Debug.Log("Panel oluşturuldu: " + panelName);
-
-        isStonePitBuildingActive = true;
-        float elapsedTime = 0f; // Geçen zamanı takip et
-
-        // Her karedeki ilerleme çubuğu durumunu loglayalım
-        float nextLogTime = 0.5f;
-
-        while (elapsedTime < stonepit.buildTime)
-        {
-            if (stonepitPanelController.isBuildCanceled) // Eğer iptal edilirse
-            {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                // İlerleme çubuğunu sıfırla
-                if (buildStonepitBar != null)
-                {
-                    buildStonepitBar.transform.localScale = new Vector3(0, buildStonepitBar.transform.localScale.y, buildStonepitBar.transform.localScale.z);
-                }
-                onCompletion(false); // Başarısızlık durumunu bildir
-                isStonePitBuildingActive = false;
-                yield break; // Coroutine sonlandır
-            }
-
-            elapsedTime += Time.deltaTime; // Geçen süreyi artır
-
-            // İlerleme çubuğunu manuel olarak güncelle
-            if (buildStonepitBar != null)
-            {
-                float progress = elapsedTime / stonepit.buildTime;
-                // X ekseni boyunca scale'i güncelle, diğer eksenler aynı kalsın
-                buildStonepitBar.transform.localScale = new Vector3(
-                    progress,
-                    buildStonepitBar.transform.localScale.y,
-                    buildStonepitBar.transform.localScale.z
-                );
-
-                // Progress bar'ın mevcut durumunu belirli aralıklarla logla
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildStonepitBar.transform.localScale +
-                             ", Aktif=" + buildStonepitBar.activeInHierarchy +
-                             ", İlerleme=%" + (progress * 100).ToString("F1"));
-
-                    nextLogTime += 0.5f; // Her 0.5 saniyede bir logla
-                }
-            }
-
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
             yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        // İnşaat tamamlandığında
-        Debug.Log("İnşaat başarıyla tamamlandı");
+        // �ptal edilmeden tamamland�ysa
+        wareHousePanelController.cancelWarehouseButton.gameObject.SetActive(false);
+        isWareHouseBuildingActive = false;
+        panelManager.DestroyPanel("WarehouseBuildingProcessPanel");
 
-        // İlerleme çubuğunun tam dolu olduğundan emin ol
-        if (buildStonepitBar != null)
-        {
-            buildStonepitBar.transform.localScale = new Vector3(1f, buildStonepitBar.transform.localScale.y, buildStonepitBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildStonepitBar.transform.localScale);
-        }
 
-        stonepitPanelController.cancelStonepitButton.gameObject.SetActive(false);
-        isStonePitBuildingActive = false;
-
-        // Panel'i yok et
-        panelManager.DestroyPanel("StonepitBuildingProcessPanel");
-        Debug.Log("Panel yok edildi ve durum sıfırlandı");
-
-        // Callback'i çağırarak inşaatın tamamlandığını bildir
-        onCompletion(true);
-
-        // İnşaat tamamlandıktan sonra yarım saniye bekle ve ilerleme çubuğunu sıfırla
-        
-
-        // İnşaat tamamlandıktan sonra ilerleme çubuğunu sıfırla
-        if (buildStonepitBar != null)
-        {
-            buildStonepitBar.transform.localScale = new Vector3(0f, buildStonepitBar.transform.localScale.y, buildStonepitBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
 
 
-
-
-    public IEnumerator SawmillIsFinished(Sawmill sawmill, System.Action<bool> onCompletion)
+    public IEnumerator StonePitIsFinished(StonePit stonepit, System.Action<bool> onCompletion)
     {
-        Debug.Log("SawmillIsFinished başlatıldı. İnşa süresi: " + sawmill.buildTime);
-
-        // İlerleme çubuğunu bul
-        buildSawmillBar = GameObject.Find("BuildSawmillBar");
-
-        if (buildSawmillBar == null)
-        {
-            Debug.LogError("BuildSawmillBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ları tara
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("BuildSawmillBar");
-                if (bar != null)
-                {
-                    buildSawmillBar = bar.gameObject;
-                    Debug.Log("BuildSawmillBar bulundu: " + buildSawmillBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildSawmillBar başarıyla bulundu: " + buildSawmillBar.name);
-        }
-
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
+        string panelName = "StonepitBuildingProcessPanel";
+        stonepitPanelController.cancelStonepitButton.gameObject.SetActive(true);
+        stonepitPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
 
-        Debug.Log("İnşaata izin verildi - Sawmill inşaatına devam ediliyor");
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildStonepitBar, 1, stonepit.buildTime).setOnComplete(() => ResetProgressBar(buildStonepitBar));
+        panelManager.CreatePanel(panelName,stonepit.buildingName,stonepit.buildTime, "Building");
+        isStonePitBuildingActive = true;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
-        string panelName = "SawmillBuildingProcessPanel";
-        sawmillPanelController.cancelSawmillButton.gameObject.SetActive(true);
-        sawmillPanelController.isBuildCanceled = false;
-
-        // Progress bar sıfırla
-        if (buildSawmillBar != null)
+        while (elapsedTime < stonepit.buildTime)
         {
-            buildSawmillBar.transform.localScale = new Vector3(0, buildSawmillBar.transform.localScale.y, buildSawmillBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildSawmillBar.transform.localScale);
+            if (stonepitPanelController.isBuildCanceled) // E�er iptal edilirse
+            {
+                LeanTween.cancel(buildStonepitBar); // Animasyonu iptal et
+                ResetProgressBar(buildStonepitBar); // ProgressBar'� s�f�rla
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                isStonePitBuildingActive = false;
+                yield break; // Coroutine sonland�r
+            }
+
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        panelManager.CreatePanel(panelName, sawmill.buildingName, sawmill.buildTime, "Building");
+        // �ptal edilmeden tamamland�ysa
+        stonepitPanelController.cancelStonepitButton.gameObject.SetActive(false);
+        isStonePitBuildingActive = false;
+        panelManager.DestroyPanel("StonepitBuildingProcessPanel");
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
+    }
 
+    
+    public IEnumerator SawmillIsFinished(Sawmill sawmill, System.Action<bool> onCompletion)
+    {
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
+        if (!constructionController.CanStartNewConstruction())
+        {
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
+        }
+
+        sawmillPanelController.cancelSawmillButton.gameObject.SetActive(true);
+        sawmillPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
+
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildSawmillBar, 1, sawmill.buildTime).setOnComplete(() => ResetProgressBar(buildSawmillBar));
+        string panelName = "SawmillBuildingProcessPanel";
+        panelManager.CreatePanel(panelName, sawmill.buildingName, sawmill.buildTime, "Building");
         isSawmillBuildingActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < sawmill.buildTime)
         {
-            if (sawmillPanelController.isBuildCanceled)
+          
+            if (sawmillPanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (buildSawmillBar != null)
-                {
-                    buildSawmillBar.transform.localScale = new Vector3(0, buildSawmillBar.transform.localScale.y, buildSawmillBar.transform.localScale.z);
-                }
-                onCompletion(false);
+                LeanTween.cancel(buildSawmillBar); // Animasyonu iptal et
+                ResetProgressBar(buildSawmillBar); // ProgressBar'� s�f�rla
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                //DestroyProcess();
                 isSawmillBuildingActive = false;
-                yield break;
+                Debug.Log(" Coroutine Sonland�");
+                
+                yield break; // Coroutine sonland�r
             }
-
-            elapsedTime += Time.deltaTime;
-
-            if (buildSawmillBar != null)
-            {
-                float progress = elapsedTime / sawmill.buildTime;
-                buildSawmillBar.transform.localScale = new Vector3(
-                    progress,
-                    buildSawmillBar.transform.localScale.y,
-                    buildSawmillBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildSawmillBar.transform.localScale +
-                             ", Aktif=" + buildSawmillBar.activeInHierarchy +
-                             ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+          
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        Debug.Log("İnşaat başarıyla tamamlandı");
-
-        if (buildSawmillBar != null)
-        {
-            buildSawmillBar.transform.localScale = new Vector3(1f, buildSawmillBar.transform.localScale.y, buildSawmillBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildSawmillBar.transform.localScale);
-        }
-
+        // �ptal edilmeden tamamland�ysa
+        Debug.Log("Tamamland�");
         sawmillPanelController.cancelSawmillButton.gameObject.SetActive(false);
         isSawmillBuildingActive = false;
-
         panelManager.DestroyPanel("SawmillBuildingProcessPanel");
         sawmillPanelController.refreshSawmill();
-        onCompletion(true);
-
-        if (buildSawmillBar != null)
-        {
-            buildSawmillBar.transform.localScale = new Vector3(0f, buildSawmillBar.transform.localScale.y, buildSawmillBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        //DestroyProcess();
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
-
-
+    
+   
 
     public IEnumerator FarmIsFinished(Farm farm, System.Action<bool> onCompletion)
     {
-        Debug.Log("FarmIsFinished başlatıldı. İnşa süresi: " + farm.buildTime);
-
-        // İlerleme çubuğunu sahnede bul
-        if (buildFarmBar == null)
-        {
-            buildFarmBar = GameObject.Find("BuildFarmBar");
-            if (buildFarmBar != null)
-            {
-                Debug.Log("buildFarmBar bulundu: " + buildFarmBar.name);
-            }
-            else
-            {
-                Debug.LogError("BuildFarmBar objesi bulunamadı!");
-            }
-        }
-
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        string panelName = "FarmBuildingProcessPanel";
         farmPanelController.cancelFarmButton.gameObject.SetActive(true);
-        farmPanelController.isBuildCanceled = false;
+        farmPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
 
-        // ProgressBar’ı sıfırla
-        if (buildFarmBar != null)
-        {
-            buildFarmBar.transform.localScale = new Vector3(0, buildFarmBar.transform.localScale.y, buildFarmBar.transform.localScale.z);
-        }
-
-        panelManager.CreatePanel(panelName, farm.buildingName, farm.buildTime, "Building");
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildFarmBar, 1, farm.buildTime).setOnComplete(() => ResetProgressBar(buildFarmBar));
         isFarmBuildActive = true;
 
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+        string panelName = "FarmBuildingProcessPanel";
+        panelManager.CreatePanel(panelName, farm.buildingName, farm.buildTime, "Building");
+
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < farm.buildTime)
         {
-            if (farmPanelController.isBuildCanceled)
+            Debug.Log("SawmillIsFinished adl� IEnumarator'un i�indeki while d�ng�s�ndeyim.");
+            if (farmPanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("Farm inşaatı kullanıcı tarafından iptal edildi.");
-                if (buildFarmBar != null)
-                {
-                    buildFarmBar.transform.localScale = new Vector3(0, buildFarmBar.transform.localScale.y, buildFarmBar.transform.localScale.z);
-                }
-
-                onCompletion(false);
+                LeanTween.cancel(buildFarmBar); // Animasyonu iptal et
+                ResetProgressBar(buildFarmBar); // ProgressBar'� s�f�rla
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
                 isFarmBuildActive = false;
-                yield break;
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-
-            // İlerleme çubuğunu güncelle
-            if (buildFarmBar != null)
-            {
-                float progress = elapsedTime / farm.buildTime;
-                buildFarmBar.transform.localScale = new Vector3(progress, buildFarmBar.transform.localScale.y, buildFarmBar.transform.localScale.z);
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("Farm ilerleme: %" + (progress * 100f).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        // Tamamlandığında
-        Debug.Log("Farm inşaatı başarıyla tamamlandı.");
-
-        if (buildFarmBar != null)
-        {
-            buildFarmBar.transform.localScale = new Vector3(1f, buildFarmBar.transform.localScale.y, buildFarmBar.transform.localScale.z);
-        }
-
+        // �ptal edilmeden tamamland�ysa
+        Debug.Log("Coroutine Bitti");
         farmPanelController.cancelFarmButton.gameObject.SetActive(false);
         isFarmBuildActive = false;
-        panelManager.DestroyPanel(panelName);
+        panelManager.DestroyPanel("FarmBuildingProcessPanel");
         farmPanelController.refreshFarm();
-
-        onCompletion(true);
-
-        // Scale sıfırla (görsel temizliği için)
-        yield return new WaitForSeconds(0.2f);
-        if (buildFarmBar != null)
-        {
-            buildFarmBar.transform.localScale = new Vector3(0f, buildFarmBar.transform.localScale.y, buildFarmBar.transform.localScale.z);
-            Debug.Log("Farm inşaatı tamamlandıktan sonra çubuk sıfırlandı.");
-        }
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
 
 
 
     public IEnumerator BlacksmithIsFinished(Blacksmith blacksmith, System.Action<bool> onCompletion)
     {
-        Debug.Log("BlacksmithIsFinished başlatıldı. İnşa süresi: " + blacksmith.buildTime);
-
-        // İlerleme çubuğunu bul
-        buildBlacksmithBar = GameObject.Find("BuildBlacksmithBar");
-
-        if (buildBlacksmithBar == null)
-        {
-            Debug.LogError("BuildBlacksmithBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ları tara
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("BuildBlacksmithBar");
-                if (bar != null)
-                {
-                    buildBlacksmithBar = bar.gameObject;
-                    Debug.Log("BuildBlacksmithBar bulundu: " + buildBlacksmithBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildBlacksmithBar başarıyla bulundu: " + buildBlacksmithBar.name);
-        }
-
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("İnşaata izin verildi - Blacksmith inşaatına devam ediliyor");
+        blacksmithPanelController.cancelBlacksmithButton.gameObject.SetActive(true);
+        blacksmithPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
+
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildBlacksmithBar, 1, blacksmith.buildTime).setOnComplete(() => ResetProgressBar(buildBlacksmithBar));
+        isBlacksmithBuildingActive = true;
 
         string panelName = "BlacksmithBuildingProcessPanel";
-        blacksmithPanelController.cancelBlacksmithButton.gameObject.SetActive(true);
-        blacksmithPanelController.isBuildCanceled = false;
-
-        // Progress bar sıfırla
-        if (buildBlacksmithBar != null)
-        {
-            buildBlacksmithBar.transform.localScale = new Vector3(0, buildBlacksmithBar.transform.localScale.y, buildBlacksmithBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildBlacksmithBar.transform.localScale);
-        }
-
         panelManager.CreatePanel(panelName, blacksmith.buildingName, blacksmith.buildTime, "Building");
 
-        isBlacksmithBuildingActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
-        Time.timeScale = 1;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < blacksmith.buildTime)
         {
-            Debug.Log("While Döngüsünün İçeriisindeyim");
-            if (blacksmithPanelController.isBuildCanceled)
+            if (blacksmithPanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (buildBlacksmithBar != null)
-                {
-                    buildBlacksmithBar.transform.localScale = new Vector3(0, buildBlacksmithBar.transform.localScale.y, buildBlacksmithBar.transform.localScale.z);
-                }
-                onCompletion(false);
+                LeanTween.cancel(buildBlacksmithBar); // Animasyonu iptal et
+                ResetProgressBar(buildBlacksmithBar); // ProgressBar'� s�f�rla
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
                 isBlacksmithBuildingActive = false;
-                yield break;
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-            Debug.Log("elapsedTime += Time.deltaTime; Satırı çalıştırıldı.ElapsedTime : " + elapsedTime);
-            if (buildBlacksmithBar != null)
-            {
-                Debug.Log("İf'in içerisine girdim. buildBlacksmith Barı Null Değil.");
-                float progress = elapsedTime / blacksmith.buildTime;
-                buildBlacksmithBar.transform.localScale = new Vector3(
-                    progress,
-                    buildBlacksmithBar.transform.localScale.y,
-                    buildBlacksmithBar.transform.localScale.z                
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildBlacksmithBar.transform.localScale +
-                             ", Aktif=" + buildBlacksmithBar.activeInHierarchy +
-                             ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        Debug.Log("İnşaat başarıyla tamamlandı");
-
-        if (buildBlacksmithBar != null)
-        {
-            buildBlacksmithBar.transform.localScale = new Vector3(1f, buildBlacksmithBar.transform.localScale.y, buildBlacksmithBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildBlacksmithBar.transform.localScale);
-        }
-
+        // �ptal edilmeden tamamland�ysa
         blacksmithPanelController.cancelBlacksmithButton.gameObject.SetActive(false);
         isBlacksmithBuildingActive = false;
-
         panelManager.DestroyPanel("BlacksmithBuildingProcessPanel");
-        blacksmithPanelController.refreshBlacksmith(); // refresh fonksiyonun varsa
-        onCompletion(true);
 
-        if (buildBlacksmithBar != null)
-        {
-            buildBlacksmithBar.transform.localScale = new Vector3(0f, buildBlacksmithBar.transform.localScale.y, buildBlacksmithBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
-
-
 
 
     public IEnumerator LabIsFinished(Lab lab, System.Action<bool> onCompletion)
     {
-        Debug.Log("LabIsFinished başlatıldı. İnşa süresi: " + lab.buildTime);
-
-        // İlerleme çubuğunu bul
-        buildLabBar = GameObject.Find("BuildLabBar");
-
-        if (buildLabBar == null)
-        {
-            Debug.LogError("BuildLabBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ları tara
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("BuildLabBar");
-                if (bar != null)
-                {
-                    buildLabBar = bar.gameObject;
-                    Debug.Log("BuildLabBar bulundu: " + buildLabBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildLabBar başarıyla bulundu: " + buildLabBar.name);
-        }
-
-        // Araştırma sırasında bina yükseltmesi kontrolü
+        // Ara�t�rma s�ras�nda bina y�kseltmesine izin verilmez
         if (ResearchButtonEvents.isAnyResearchActive)
         {
-            Debug.Log("Araştırma sırasında bina yükseltmesi yapamazsınız.");
-            onCompletion(false); // Başarısızlık durumunu bildir
-            yield break; // Coroutine sonlandır
+            Debug.Log("Ara�t�rma s�ras�nda bina y�kseltmesi yapamazs�n�z.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("İnşaata izin verildi - Lab inşaatına devam ediliyor");
+        labPanelController.cancelLabButton.gameObject.SetActive(true);
+        labPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
+
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildLabBar, 1, lab.buildTime).setOnComplete(() => ResetProgressBar(buildLabBar));
+        isLabBuildActive = true;
 
         string panelName = "LabBuildingProcessPanel";
-        labPanelController.cancelLabButton.gameObject.SetActive(true);
-        labPanelController.isBuildCanceled = false;
-
-        // Progress bar sıfırla
-        if (buildLabBar != null)
-        {
-            buildLabBar.transform.localScale = new Vector3(0, buildLabBar.transform.localScale.y, buildLabBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildLabBar.transform.localScale);
-        }
-
         panelManager.CreatePanel(panelName, lab.buildingName, lab.buildTime, "Building");
 
-        isLabBuildActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < lab.buildTime)
         {
-            if (labPanelController.isBuildCanceled)
+            if (labPanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (buildLabBar != null)
-                {
-                    buildLabBar.transform.localScale = new Vector3(0, buildLabBar.transform.localScale.y, buildLabBar.transform.localScale.z);
-                }
-                onCompletion(false);
+                LeanTween.cancel(buildLabBar); // Animasyonu iptal et
                 isLabBuildActive = false;
-                yield break;
+                ResetProgressBar(buildLabBar); // ProgressBar'� s�f�rla
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-
-            if (buildLabBar != null)
-            {
-                float progress = elapsedTime / lab.buildTime;
-                buildLabBar.transform.localScale = new Vector3(
-                    progress,
-                    buildLabBar.transform.localScale.y,
-                    buildLabBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildLabBar.transform.localScale +
-                             ", Aktif=" + buildLabBar.activeInHierarchy +
-                             ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        Debug.Log("İnşaat başarıyla tamamlandı");
-
-        if (buildLabBar != null)
-        {
-            buildLabBar.transform.localScale = new Vector3(1f, buildLabBar.transform.localScale.y, buildLabBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildLabBar.transform.localScale);
-        }
-
-        labPanelController.cancelLabButton.gameObject.SetActive(false);
+        // �ptal edilmeden tamamland�ysa
         isLabBuildActive = false;
-
         panelManager.DestroyPanel("LabBuildingProcessPanel");
-        labPanelController.refreshLab();
-        onCompletion(true);
-
-        if (buildLabBar != null)
-        {
-            buildLabBar.transform.localScale = new Vector3(0f, buildLabBar.transform.localScale.y, buildLabBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        labPanelController.cancelLabButton.gameObject.SetActive(false);
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
 
 
     public IEnumerator BarracksIsFinished(Barracks barracks, System.Action<bool> onCompletion)
     {
-        // Asker üretimi kontrolü
+        // Asker �retimi kontrol�
         if (isUnitCreationActive)
         {
-            Debug.Log("Asker üretimi yaparken bina yükseltmesi yapılamaz.");
-            onCompletion(false); // Başarısızlık durumunu bildir
-            yield break; // Coroutine sonlandır
+            Debug.Log("Asker �retimi yaparken bina y�kseltemezsiniz.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("BarracksIsFinished başlatıldı. İnşa süresi: " + barracks.buildTime);
-
-        // İlerleme çubuğunu bul
-        buildBarracksBar = GameObject.Find("BuildBarracksBar");
-
-        if (buildBarracksBar == null)
-        {
-            Debug.LogError("BuildBarracksBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ları tara
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("BuildBarracksBar");
-                if (bar != null)
-                {
-                    buildBarracksBar = bar.gameObject;
-                    Debug.Log("BuildBarracksBar bulundu: " + buildBarracksBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildBarracksBar başarıyla bulundu: " + buildBarracksBar.name);
-        }
-
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("İnşaata izin verildi - Barracks inşaatına devam ediliyor");
+        barracksPanelController.cancelBarracksButton.gameObject.SetActive(true);
+        barracksPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
+
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildBarracksBar, 1, barracks.buildTime).setOnComplete(() => ResetProgressBar(buildBarracksBar));
+        isBarracksBuildActive = true;
 
         string panelName = "BarracksBuildingProcessPanel";
-        barracksPanelController.cancelBarracksButton.gameObject.SetActive(true);
-        barracksPanelController.isBuildCanceled = false;
-
-        // Progress bar sıfırla
-        if (buildBarracksBar != null)
-        {
-            buildBarracksBar.transform.localScale = new Vector3(0, buildBarracksBar.transform.localScale.y, buildBarracksBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildBarracksBar.transform.localScale);
-        }
-
         panelManager.CreatePanel(panelName, barracks.buildingName, barracks.buildTime, "Building");
 
-        isBarracksBuildActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < barracks.buildTime)
         {
-            if (barracksPanelController.isBuildCanceled)
+            if (barracksPanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (buildBarracksBar != null)
-                {
-                    buildBarracksBar.transform.localScale = new Vector3(0, buildBarracksBar.transform.localScale.y, buildBarracksBar.transform.localScale.z);
-                }
-                onCompletion(false);
+                LeanTween.cancel(buildBarracksBar); // Animasyonu iptal et
+                ResetProgressBar(buildBarracksBar); // ProgressBar'� s�f�rla
                 isBarracksBuildActive = false;
-                yield break;
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-
-            if (buildBarracksBar != null)
-            {
-                float progress = elapsedTime / barracks.buildTime;
-                buildBarracksBar.transform.localScale = new Vector3(
-                    progress,
-                    buildBarracksBar.transform.localScale.y,
-                    buildBarracksBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildBarracksBar.transform.localScale +
-                             ", Aktif=" + buildBarracksBar.activeInHierarchy +
-                             ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        Debug.Log("İnşaat başarıyla tamamlandı");
-
-        if (buildBarracksBar != null)
-        {
-            buildBarracksBar.transform.localScale = new Vector3(1f, buildBarracksBar.transform.localScale.y, buildBarracksBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildBarracksBar.transform.localScale);
-        }
-
-        barracksPanelController.cancelBarracksButton.gameObject.SetActive(false);
+        // �ptal edilmeden tamamland�ysa
         isBarracksBuildActive = false;
-
         panelManager.DestroyPanel("BarracksBuildingProcessPanel");
-        barracksPanelController.refreshBarracks();
-        onCompletion(true);
-
-        if (buildBarracksBar != null)
-        {
-            buildBarracksBar.transform.localScale = new Vector3(0f, buildBarracksBar.transform.localScale.y, buildBarracksBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        barracksPanelController.cancelBarracksButton.gameObject.SetActive(false);
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
 
 
     public IEnumerator HospitalIsFinished(Hospital hospital, System.Action<bool> onCompletion)
     {
-        // İyileştirme aktifse bina yükseltme yapılamaz
+        // �yile�tirme aktifse bina y�kseltme yap�lmas�n
         if (isHealActive)
         {
-            Debug.Log("İyileştirme sırasında bina yükseltilemez. İyileştirmeyi iptal edip tekrar deneyin.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("�yile�tirme s�ras�nda bina y�kseltemezsiniz, iyile�tirmeyi iptal edip yeniden deneyin.");
+            onCompletion(false); // Ba�ar�s�zl�k durumu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("HospitalIsFinished başlatıldı. İnşa süresi: " + hospital.buildTime);
-
-        // İlerleme çubuğunu bul
-        buildHospitalBar = GameObject.Find("BuildHospitalBar");
-
-        if (buildHospitalBar == null)
-        {
-            Debug.LogError("BuildHospitalBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ları tara
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("BuildHospitalBar");
-                if (bar != null)
-                {
-                    buildHospitalBar = bar.gameObject;
-                    Debug.Log("BuildHospitalBar bulundu: " + buildHospitalBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildHospitalBar başarıyla bulundu: " + buildHospitalBar.name);
-        }
-
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("İnşaata izin verildi - Hospital inşaatına devam ediliyor");
+        hospitalPanelController.cancelHospitalButton.gameObject.SetActive(true);
+        hospitalPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
+
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(buildHospitalBar, 1, hospital.buildTime).setOnComplete(() => ResetProgressBar(buildHospitalBar));
+        isHospitalBuildActive = true;
 
         string panelName = "HospitalBuildingProcessPanel";
-        hospitalPanelController.cancelHospitalButton.gameObject.SetActive(true);
-        hospitalPanelController.isBuildCanceled = false;
-
-        if (buildHospitalBar != null)
-        {
-            buildHospitalBar.transform.localScale = new Vector3(0, buildHospitalBar.transform.localScale.y, buildHospitalBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildHospitalBar.transform.localScale);
-        }
-
         panelManager.CreatePanel(panelName, hospital.buildingName, hospital.buildTime, "Building");
 
-        isHospitalBuildActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < hospital.buildTime)
         {
-            if (hospitalPanelController.isBuildCanceled)
+            if (hospitalPanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (buildHospitalBar != null)
-                {
-                    buildHospitalBar.transform.localScale = new Vector3(0, buildHospitalBar.transform.localScale.y, buildHospitalBar.transform.localScale.z);
-                }
-                onCompletion(false);
+                LeanTween.cancel(buildHospitalBar); // Animasyonu iptal et
+                ResetProgressBar(buildHospitalBar); // ProgressBar'� s�f�rla
                 isHospitalBuildActive = false;
-                yield break;
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-
-            if (buildHospitalBar != null)
-            {
-                float progress = elapsedTime / hospital.buildTime;
-                buildHospitalBar.transform.localScale = new Vector3(
-                    progress,
-                    buildHospitalBar.transform.localScale.y,
-                    buildHospitalBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildHospitalBar.transform.localScale +
-                              ", Aktif=" + buildHospitalBar.activeInHierarchy +
-                              ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        Debug.Log("Hospital inşaatı başarıyla tamamlandı");
-
-        if (buildHospitalBar != null)
-        {
-            buildHospitalBar.transform.localScale = new Vector3(1f, buildHospitalBar.transform.localScale.y, buildHospitalBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildHospitalBar.transform.localScale);
-        }
-
-        hospitalPanelController.cancelHospitalButton.gameObject.SetActive(false);
+        // �ptal edilmeden tamamland�ysa
         isHospitalBuildActive = false;
-
-        panelManager.DestroyPanel(panelName);
-        hospitalPanelController.refreshHospital();
-        onCompletion(true);
-
-        if (buildHospitalBar != null)
-        {
-            buildHospitalBar.transform.localScale = new Vector3(0f, buildHospitalBar.transform.localScale.y, buildHospitalBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        panelManager.DestroyPanel("HospitalBuildingProcessPanel");
+        hospitalPanelController.cancelHospitalButton.gameObject.SetActive(false);
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
 
 
     public IEnumerator CastleIsFinished(Castle castle, System.Action<bool> onCompletion)
     {
-        // Yeni inşaata izin kontrolü
+        // Yeni in�aata izin verilip verilmedi�ini kontrol et
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
 
-        Debug.Log("CastleIsFinished başlatıldı. İnşa süresi: " + castle.buildTime);
+        castlePanelController.cancelUpgradeCastleButton.gameObject.SetActive(true);
+        castlePanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
 
-        // İlerleme çubuğunu bul
-        upgradeCastleBar = GameObject.Find("UpgradeCastleBar");
+        // LeanTween animasyonu ba�lat
+        LeanTween.scaleX(upgradeCastleBar, 1, castle.buildTime).setOnComplete(() => ResetProgressBar(upgradeCastleBar));
+        isCastleBuildingActive = true;
 
-        if (upgradeCastleBar == null)
-        {
-            Debug.LogError("UpgradeCastleBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
-
-            // Alternatif olarak canvas'ları tara
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
-            {
-                Transform bar = c.transform.Find("UpgradeCastleBar");
-                if (bar != null)
-                {
-                    upgradeCastleBar = bar.gameObject;
-                    Debug.Log("UpgradeCastleBar bulundu: " + upgradeCastleBar.name);
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.Log("UpgradeCastleBar başarıyla bulundu: " + upgradeCastleBar.name);
-        }
 
         string panelName = "CastleUpgradeProcessPanel";
-        castlePanelController.cancelUpgradeCastleButton.gameObject.SetActive(true);
-        castlePanelController.isBuildCanceled = false;
-
-        if (upgradeCastleBar != null)
-        {
-            upgradeCastleBar.transform.localScale = new Vector3(0, upgradeCastleBar.transform.localScale.y, upgradeCastleBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + upgradeCastleBar.transform.localScale);
-        }
-
         panelManager.CreatePanel(panelName, castle.buildingName, castle.buildTime, "Building");
 
-        isCastleBuildingActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
         while (elapsedTime < castle.buildTime)
         {
-            if (castlePanelController.isBuildCanceled)
+            if (castlePanelController.isBuildCanceled) // E�er iptal edilirse
             {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (upgradeCastleBar != null)
-                {
-                    upgradeCastleBar.transform.localScale = new Vector3(0, upgradeCastleBar.transform.localScale.y, upgradeCastleBar.transform.localScale.z);
-                }
-                onCompletion(false);
+                LeanTween.cancel(upgradeCastleBar); // Animasyonu iptal et
+                ResetProgressBar(upgradeCastleBar); // ProgressBar'� s�f�rla
                 isCastleBuildingActive = false;
-                yield break;
+                onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                yield break; // Coroutine sonland�r
             }
 
-            elapsedTime += Time.deltaTime;
-
-            if (upgradeCastleBar != null)
-            {
-                float progress = elapsedTime / castle.buildTime;
-                upgradeCastleBar.transform.localScale = new Vector3(
-                    progress,
-                    upgradeCastleBar.transform.localScale.y,
-                    upgradeCastleBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + upgradeCastleBar.transform.localScale +
-                              ", Aktif=" + upgradeCastleBar.activeInHierarchy +
-                              ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
+            elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+            yield return null; // Bir sonraki kareye kadar bekle
         }
 
-        Debug.Log("Castle inşaatı başarıyla tamamlandı.");
-
-        if (upgradeCastleBar != null)
-        {
-            upgradeCastleBar.transform.localScale = new Vector3(1f, upgradeCastleBar.transform.localScale.y, upgradeCastleBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + upgradeCastleBar.transform.localScale);
-        }
-
+        // �ptal edilmeden tamamland�ysa
         castlePanelController.cancelUpgradeCastleButton.gameObject.SetActive(false);
         isCastleBuildingActive = false;
-
-        panelManager.DestroyPanel(panelName);
-        castlePanelController.refreshCastle();
-        onCompletion(true);
-
-        if (upgradeCastleBar != null)
-        {
-            upgradeCastleBar.transform.localScale = new Vector3(0f, upgradeCastleBar.transform.localScale.y, upgradeCastleBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+        panelManager.DestroyPanel("CastleUpgradeProcessPanel");
+        onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
     }
-
 
 
     public IEnumerator TowerIsFinished(Tower tower, System.Action<bool> onCompletion)
     {
+
         if (isTowerBuildingActive)
         {
-            Debug.Log("Halihazırda bir işlem devam ederken yeni işlem gerçekleştirilemez.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("Halihaz�rda bir i�lem devam ederken yeni i�lem ger�ekle�tiremezsiniz.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
-
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
+      
+            towerPanelController.cancelTowerButton.gameObject.SetActive(true);
+            towerPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
 
-        Debug.Log("TowerIsFinished başlatıldı. İnşa süresi: " + tower.buildTime);
+            // LeanTween animasyonu ba�lat
+            LeanTween.scaleX(buildTowerBar, 1, tower.buildTime).setOnComplete(() => ResetProgressBar(buildTowerBar));
+            isTowerBuildingActive = true;
 
-        // İlerleme çubuğunu bul
-        buildTowerBar = GameObject.Find("BuildTowerBar");
+            string panelName = "TowerBuildingProcessPanel";  
+            panelManager.CreatePanel(panelName, tower.buildingName, tower.buildTime, "Building");
 
-        if (buildTowerBar == null)
-        {
-            Debug.LogError("BuildTowerBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
+            float elapsedTime = 0f; // Ge�en zaman� takip et
 
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
+            while (elapsedTime < tower.buildTime)
             {
-                Transform bar = c.transform.Find("BuildTowerBar");
-                if (bar != null)
+                if (towerPanelController.isBuildCanceled) // E�er iptal edilirse
                 {
-                    buildTowerBar = bar.gameObject;
-                    Debug.Log("BuildTowerBar bulundu: " + buildTowerBar.name);
-                    break;
+                    LeanTween.cancel(buildTowerBar); // Animasyonu iptal et
+                    ResetProgressBar(buildTowerBar); // ProgressBar'� s�f�rla
+                    isTowerBuildingActive = false;
+                    onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                    yield break; // Coroutine sonland�r
                 }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildTowerBar başarıyla bulundu: " + buildTowerBar.name);
-        }
 
-        string panelName = "TowerBuildingProcessPanel";
-        towerPanelController.cancelTowerButton.gameObject.SetActive(true);
-        towerPanelController.isBuildCanceled = false;
-
-        if (buildTowerBar != null)
-        {
-            buildTowerBar.transform.localScale = new Vector3(0, buildTowerBar.transform.localScale.y, buildTowerBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildTowerBar.transform.localScale);
-        }
-
-        panelManager.CreatePanel(panelName, tower.buildingName, tower.buildTime, "Building");
-
-        isTowerBuildingActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
-
-        while (elapsedTime < tower.buildTime)
-        {
-            if (towerPanelController.isBuildCanceled)
-            {
-                Debug.Log("İnşaat kullanıcı tarafından iptal edildi.");
-                if (buildTowerBar != null)
-                {
-                    buildTowerBar.transform.localScale = new Vector3(0, buildTowerBar.transform.localScale.y, buildTowerBar.transform.localScale.z);
-                }
-                onCompletion(false);
-                isTowerBuildingActive = false;
-                yield break;
+                elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+                yield return null; // Bir sonraki kareye kadar bekle
             }
 
-            elapsedTime += Time.deltaTime;
-
-            if (buildTowerBar != null)
-            {
-                float progress = elapsedTime / tower.buildTime;
-                buildTowerBar.transform.localScale = new Vector3(
-                    progress,
-                    buildTowerBar.transform.localScale.y,
-                    buildTowerBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildTowerBar.transform.localScale +
-                              ", Aktif=" + buildTowerBar.activeInHierarchy +
-                              ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
-        }
-
-        Debug.Log("Tower inşaatı başarıyla tamamlandı.");
-
-        if (buildTowerBar != null)
-        {
-            buildTowerBar.transform.localScale = new Vector3(1f, buildTowerBar.transform.localScale.y, buildTowerBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildTowerBar.transform.localScale);
-        }
-
+            // �ptal edilmeden tamamland�ysa
+            isTowerBuildingActive = false;
+        panelManager.DestroyPanel("TowerBuildingProcessPanel");
         towerPanelController.cancelTowerButton.gameObject.SetActive(false);
-        isTowerBuildingActive = false;
-
-        panelManager.DestroyPanel(panelName);
-        onCompletion(true);
-
-        if (buildTowerBar != null)
-        {
-            buildTowerBar.transform.localScale = new Vector3(0f, buildTowerBar.transform.localScale.y, buildTowerBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+            onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
+        
     }
-
 
     public IEnumerator TrapIsFinished(Trap trap, System.Action<bool> onCompletion)
     {
         if (isAnyTrapActive)
         {
-            Debug.Log("Halihazırda bir tuzak işlemi devam ederken yeni işlem başlatılamaz.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("Halihaz�rda bir i�lem devam ederken yeni i�lem ger�ekle�tiremezsiniz.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
-
+        
         if (!constructionController.CanStartNewConstruction())
         {
-            Debug.Log("En fazla 2 inşaat aynı anda aktif olabilir.");
-            onCompletion(false);
-            yield break;
+            Debug.Log("En fazla 2 in�aat ayn� anda aktif olabilir.");
+            onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+            yield break; // Coroutine sonland�r
         }
+       
+            trapPanelController.cancelTrapButton.gameObject.SetActive(true);
+            trapPanelController.isBuildCanceled = false; // �ptal durumu s�f�rla
 
-        Debug.Log("TrapIsFinished başlatıldı. İnşa süresi: " + trap.buildTime);
+            // LeanTween animasyonu ba�lat
+            LeanTween.scaleX(buildTrapBar, 1, trap.buildTime).setOnComplete(() => ResetProgressBar(buildTrapBar));
+            isAnyTrapActive = true;
 
-        // İlerleme çubuğunu bul
-        buildTrapBar = GameObject.Find("BuildTrapBar");
+            string panelName = "TrapBuildingProcessPanel";
+            panelManager.CreatePanel(panelName, trap.buildingName, trap.buildTime, "Building");
 
-        if (buildTrapBar == null)
-        {
-            Debug.LogError("BuildTrapBar objesi bulunamadı! İlerleme çubuğu çalışmayacak.");
+        float elapsedTime = 0f; // Ge�en zaman� takip et
 
-            Canvas[] canvaslar = FindObjectsOfType<Canvas>();
-            foreach (Canvas c in canvaslar)
+            while (elapsedTime < trap.buildTime)
             {
-                Transform bar = c.transform.Find("BuildTrapBar");
-                if (bar != null)
+                if (trapPanelController.isBuildCanceled) // E�er iptal edilirse
                 {
-                    buildTrapBar = bar.gameObject;
-                    Debug.Log("BuildTrapBar bulundu: " + buildTrapBar.name);
-                    break;
+                    LeanTween.cancel(buildTrapBar); // Animasyonu iptal et
+                    ResetProgressBar(buildTrapBar); // ProgressBar'� s�f�rla
+                    isAnyTrapActive = false;
+                    onCompletion(false); // Ba�ar�s�zl�k durumunu bildir
+                    yield break; // Coroutine sonland�r
                 }
-            }
-        }
-        else
-        {
-            Debug.Log("BuildTrapBar başarıyla bulundu: " + buildTrapBar.name);
-        }
 
-        string panelName = "TrapBuildingProcessPanel";
-        trapPanelController.cancelTrapButton.gameObject.SetActive(true);
-        trapPanelController.isBuildCanceled = false;
-
-        if (buildTrapBar != null)
-        {
-            buildTrapBar.transform.localScale = new Vector3(0, buildTrapBar.transform.localScale.y, buildTrapBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu sıfırlandı: " + buildTrapBar.transform.localScale);
-        }
-
-        panelManager.CreatePanel(panelName, trap.buildingName, trap.buildTime, "Building");
-
-        isAnyTrapActive = true;
-        float elapsedTime = 0f;
-        float nextLogTime = 0.5f;
-
-        while (elapsedTime < trap.buildTime)
-        {
-            if (trapPanelController.isBuildCanceled)
-            {
-                Debug.Log("Tuzak inşaatı kullanıcı tarafından iptal edildi.");
-                if (buildTrapBar != null)
-                {
-                    buildTrapBar.transform.localScale = new Vector3(0, buildTrapBar.transform.localScale.y, buildTrapBar.transform.localScale.z);
-                }
-                onCompletion(false);
-                isAnyTrapActive = false;
-                yield break;
+                elapsedTime += Time.deltaTime; // Ge�en s�reyi art�r
+                yield return null; // Bir sonraki kareye kadar bekle
             }
 
-            elapsedTime += Time.deltaTime;
-
-            if (buildTrapBar != null)
-            {
-                float progress = elapsedTime / trap.buildTime;
-                buildTrapBar.transform.localScale = new Vector3(
-                    progress,
-                    buildTrapBar.transform.localScale.y,
-                    buildTrapBar.transform.localScale.z
-                );
-
-                if (elapsedTime > nextLogTime)
-                {
-                    Debug.Log("İlerleme çubuğu durumu: Scale=" + buildTrapBar.transform.localScale +
-                              ", Aktif=" + buildTrapBar.activeInHierarchy +
-                              ", İlerleme=%" + (progress * 100).ToString("F1"));
-                    nextLogTime += 0.5f;
-                }
-            }
-
-            yield return null;
-        }
-
-        Debug.Log("Tuzak inşaatı başarıyla tamamlandı.");
-
-        if (buildTrapBar != null)
-        {
-            buildTrapBar.transform.localScale = new Vector3(1f, buildTrapBar.transform.localScale.y, buildTrapBar.transform.localScale.z);
-            Debug.Log("İlerleme çubuğu tam dolu duruma getirildi: " + buildTrapBar.transform.localScale);
-        }
-
-        trapPanelController.cancelTrapButton.gameObject.SetActive(false);
-        isAnyTrapActive = false;
-
-        panelManager.DestroyPanel(panelName);
-        onCompletion(true);
-
-        if (buildTrapBar != null)
-        {
-            buildTrapBar.transform.localScale = new Vector3(0f, buildTrapBar.transform.localScale.y, buildTrapBar.transform.localScale.z);
-            Debug.Log("İnşaat tamamlandıktan sonra ilerleme çubuğu sıfırlandı");
-        }
+            // �ptal edilmeden tamamland�ysa
+            isAnyTrapActive = false;
+            panelManager.DestroyPanel("TrapBuildingProcessPanel");
+            trapPanelController.cancelTrapButton.gameObject.SetActive(false);
+            onCompletion(true); // Tamamland���nda ba�ar�l� olarak bildir
+        
     }
-
 
 
 }

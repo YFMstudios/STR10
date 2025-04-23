@@ -291,21 +291,35 @@ private Animator anim;                        // Animator referansı
     }
 
     // Tüm istemcilerde çalışır
-    [PunRPC]
-    private void RPC_Ability2Damage(Vector3 abilityCenter)
-    {
-        float abilityRadius = maxAbility2Distance / 2;
-        Collider[] hitColliders = Physics.OverlapSphere(abilityCenter, abilityRadius);
+   [PunRPC]
+private void RPC_Ability2Damage(Vector3 abilityCenter)
+{
+    float abilityRadius = maxAbility2Distance / 2;
+    // Tüm layer’ları taramak isterseniz mask’i ~0 yapabilirsiniz, 
+    // yoksa karakter katmanınızı da eklerseniz performans artar.
+    Collider[] hitColliders = Physics.OverlapSphere(abilityCenter, abilityRadius);
 
-        foreach (var hitCollider in hitColliders)
+    foreach (var col in hitColliders)
+    {
+        // 1) Öncelikle minyon, tuzak vb. için ObjectiveStats
+        var objStats = col.GetComponentInParent<ObjectiveStats>();
+        if (objStats != null)
         {
-            ObjectiveStats enemyStats = hitCollider.GetComponent<ObjectiveStats>();
-            if (enemyStats != null)
-            {
-                enemyStats.TakeDamage(65);
-            }
+            objStats.TakeDamage(65);
+            continue;
+        }
+
+        // 2) Karakterler için Stats (Player/Enemy)
+        var charStats = col.GetComponentInParent<Stats>();
+        if (charStats != null)
+        {
+            // Stats.TakeDamage içinde photonView.IsMine kontrolü var,
+            // bu yüzden her şey doğru şekilde senkronize olur.
+            charStats.TakeDamage(65f);
         }
     }
+}
+
     #endregion
 
     #region COOLDOWN

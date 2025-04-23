@@ -5,10 +5,10 @@ using UnityEngine;
 public class Blacksmith : Building
 {
     public static int ironProductionRate;
-    public static int goldProductionRateBlacksmith;
-    public static bool canIStartProduction;
-    public static int buildLevel;
-    public static bool wasBlacksmithCreated;
+    public static int goldProductionRateBlacksmith= 1;
+    public static bool canIStartProduction = false;
+    public static int buildLevel = 0;
+    public static bool wasBlacksmithCreated = false;
 
     public Blacksmith()
     {

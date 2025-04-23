@@ -5,36 +5,31 @@ using Photon.Pun;
 [RequireComponent(typeof(PhotonView))]
 public class HealthUI : MonoBehaviourPun
 {
-    public Slider healthSlider3D; // 3 boyutlu sağlık kaydırıcısı (herkes görür)
-    public Slider healthSlider2D; // 2 boyutlu sağlık kaydırıcısı (sadece local player görür)
+    public Slider healthSlider2D;
 
-    // 3 boyutlu sağlık kaydırıcısını başlatan fonksiyon
-    public void Start3DSlider(float maxValue)
+    private void Start()
     {
-        if (healthSlider3D != null)
+        // Sadece karakterlerde 2D bar aktif olacak
+        if (!(CompareTag("Player") || CompareTag("Enemy")) && healthSlider2D != null)
+            healthSlider2D.gameObject.SetActive(false);
+
+        // Sadece yerel oyuncu veya enemy ise başlat
+        if ((photonView.IsMine || CompareTag("Enemy")) && healthSlider2D != null)
         {
-            healthSlider3D.maxValue = maxValue;
-            healthSlider3D.value = maxValue;
+            healthSlider2D.maxValue = 100f;
+            healthSlider2D.value = 100f;
         }
     }
 
-    // 3 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (her istemcide çalışır)
-    public void Update3DSlider(float value)
+    public void Update2DSlider(float maxValue, float value)
     {
-        if (healthSlider3D != null)
+        // Sadece local player veya düşmanlarda 2D bar güncellenir
+        if (!photonView.IsMine && !CompareTag("Enemy")) return;
+
+        if (healthSlider2D != null)
         {
-            healthSlider3D.value = value;
+            healthSlider2D.maxValue = maxValue;
+            healthSlider2D.value = value;
         }
     }
-
-    // 2 boyutlu sağlık kaydırıcısını güncelleyen fonksiyon (sadece local player veya enemy için)
-   public void Update2DSlider(float maxValue, float value)
-{
-    if (healthSlider2D != null)
-    {
-        healthSlider2D.maxValue = maxValue;
-        healthSlider2D.value = value;
-    }
-}
-
 }

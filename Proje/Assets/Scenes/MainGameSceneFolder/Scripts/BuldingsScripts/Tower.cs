@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Tower : Building
 {
-    public static int towerOneBuildLevel;
-    public static bool wasTowerOneCreated;
-    public static int towerTwoBuildLevel;
-    public static bool wasTowerTwoCreated;
+    public static int towerOneBuildLevel = 0;
+    public static bool wasTowerOneCreated = false;
+    public static int towerTwoBuildLevel = 0;
+    public static bool wasTowerTwoCreated = false;
 
     public Tower()
     {

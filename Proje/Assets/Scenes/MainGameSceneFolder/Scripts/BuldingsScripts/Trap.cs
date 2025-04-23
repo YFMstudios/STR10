@@ -5,14 +5,14 @@ using UnityEngine;
 public class Trap : Building
 {
     // Tuzak seviyeleri ve oluþturulma durumlarý
-    public static int trapOneBuildLevel;
-    public static bool wasTrapOneCreated;
+    public static int trapOneBuildLevel = 0;
+    public static bool wasTrapOneCreated = false;
 
-    public static int trapTwoBuildLevel;
-    public static bool wasTrapTwoCreated;
+    public static int trapTwoBuildLevel = 0;
+    public static bool wasTrapTwoCreated = false;
 
-    public static int trapThreeBuildLevel;
-    public static bool wasTrapThreeCreated;
+    public static int trapThreeBuildLevel = 0;
+    public static bool wasTrapThreeCreated = false;
 
 
 

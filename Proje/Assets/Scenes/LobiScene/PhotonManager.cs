@@ -282,7 +282,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     foreach (RoomInfo roomInfo in roomList)
     {
-        // ❗Sadece isVisibility true olanlar gösterilsin
+        // ❗️Sadece isVisibility true olanlar gösterilsin
         if (roomInfo.CustomProperties.TryGetValue("isVisibility", out object isVisible) && isVisible is bool && (bool)isVisible)
         {
             if (roomInfo.RemovedFromList)
@@ -359,7 +359,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             shouldRefreshRoomList = true;
             PhotonNetwork.JoinLobby();
         }
-        RefreshCachedRoomList();
     }
 
     /// <summary>
@@ -527,7 +526,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     if (!PhotonNetwork.IsConnected)
     {
         PhotonNetwork.ConnectUsingSettings();
-    }
+    }
 }
 
 }

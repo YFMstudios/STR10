@@ -78,18 +78,26 @@ public class RoomHostManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnStartButtonPressed()
+public void OnStartButtonPressed()
+{
+    if (PhotonNetwork.IsMasterClient)
     {
-        if (PhotonNetwork.IsMasterClient)
+        // isVisibility'yi false yap
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
         {
-            // Oda sahibiysek, odadaki tüm oyuncuları aynı sahneye yönlendirelim
-            PhotonNetwork.LoadLevel(targetSceneIndex);
-        }
-        else
-        {
-            Debug.LogWarning("Sadece oda sahibi oyunu başlatabilir!");
-        }
+            { "isVisibility", false }
+        };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
+        PhotonNetwork.LoadLevel(targetSceneIndex);
     }
+    else
+    {
+        Debug.LogWarning("Sadece oda sahibi oyunu başlatabilir!");
+    }
+}
+
+
 
     // Yeni oda sahibini belirle
     private void AssignNewMaster()

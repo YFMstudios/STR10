@@ -5,8 +5,8 @@ using UnityEngine;
 public class Lab : Building
 {
 
-    public static bool wasLabCreated;
-    public static int buildLevel;
+    public static bool wasLabCreated = false;
+    public static int buildLevel = 0;
     public Lab()
     {
         // Özelliklerin baþlangýç deðerlerini atama

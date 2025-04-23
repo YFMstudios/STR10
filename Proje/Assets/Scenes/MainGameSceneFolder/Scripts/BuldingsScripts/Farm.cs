@@ -5,10 +5,10 @@ using UnityEngine;
 public class Farm : Building
 {
     public static int foodProductionRate;
-    public static int goldProductionRateFarm;
-    public static bool canIStartProduction;
-    public static int buildLevel;
-    public static bool wasFarmCreated;
+    public static int goldProductionRateFarm = 1;
+    public static bool canIStartProduction = false;
+    public static int buildLevel = 0;
+    public static bool wasFarmCreated = false;
     public Farm()
     {
         // Özelliklerin baþlangýç deðerlerini atama
