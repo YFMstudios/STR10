@@ -30,8 +30,8 @@ EditorBuildSettings:
     path: Assets/Scenes/InGameScene/Main Scene.unity
     guid: a0fdf506acabb1a4fb52efdc8bd12773
   - enabled: 1
-    path: Assets/Scenes/MainGameSceneFolder/LobiScene/lobi.unity
-    guid: afb292b8afbedd0499221fcee251261e
+    path: Assets/Scenes/LobiScene/lobi.unity
+    guid: 353278dfe82112e45b87de81f02ada1c
   - enabled: 1
     path: Assets/Scenes/RoomScene/room.unity
     guid: d5f8ceda8d8a1a0478686d33373f5971
