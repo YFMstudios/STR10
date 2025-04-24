@@ -95,7 +95,7 @@ public void hardButton()
 
     public void settingsButton()
     {
-        
+        SceneManager.LoadScene(12);
     }
 
     public void creditsButton()
