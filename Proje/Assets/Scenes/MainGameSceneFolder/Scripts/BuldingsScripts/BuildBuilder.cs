@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // OPT�M�ZASYON KISMINDA KAYNAK AZALTMA,�ADE ETME G�B� ��LEMLER METHODLA�TIRILAB�L�R.
 public class BuildBuilder : MonoBehaviour
 {
-   
+
     public Button buildStonePitButton;
     public Button buildBlacksmithButton;
     public Button buildSawmillButton;
@@ -50,7 +50,8 @@ public class BuildBuilder : MonoBehaviour
 
     public static bool checkResources(Building building) // Art�k Building t�r� kabul ediliyor
     {
-        if(building == null){
+        if (building == null)
+        {
             Debug.Log("NULLLLLLLLLLLLLLLLLLLLLL");
         }
         // G�ncel maliyetleri kontrol edin
@@ -71,17 +72,36 @@ public class BuildBuilder : MonoBehaviour
     }
     public void BuildStonePit()
     {
-        // Zaten var olan ta� oca�� nesnesini kullanmak i�in kontrol edin
+
+        Debug.Log("BuildStonePit çağrıldı. Mevcut StonePit.wasStonePitCreated: " + StonePit.wasStonePitCreated +
+                  ", buildLevel: " + StonePit.buildLevel);
+
+        // Zaten var olan taş ocağı nesnesini kullanmak için kontrol edin
         StonePit stonePit = GetComponent<StonePit>();
+
+        // Eğer bileşen null ise ve daha önce demirci inşa edilmişse, yeniden oluştur
+        if (stonePit == null && StonePit.wasStonePitCreated)
+        {
+            stonePit = gameObject.AddComponent<StonePit>();
+            Debug.Log("StonePit bileşeni eksikti, yeniden oluşturuldu. Seviye: " + StonePit.buildLevel);
+        }
 
         if (!StonePit.wasStonePitCreated)
         {
+            Debug.Log("Yeni StonePit oluşturuluyor (İlk inşaat)");
             stonePit = gameObject.AddComponent<StonePit>();
             TextMeshProUGUI buttonText = buildStonePitButton.GetComponentInChildren<TextMeshProUGUI>();
 
             if (checkResources(stonePit))
             {
-                // Kaynaklar� azalt�n
+                Debug.Log("Kaynak kontrolü başarılı. Şu maliyetlerle inşaat başlatılıyor: " +
+                         "Altın: " + stonePit.buildGoldCost +
+                         ", Taş: " + stonePit.buildStoneCost +
+                         ", Odun: " + stonePit.buildTimberCost +
+                         ", Demir: " + stonePit.buildIronCost +
+                         ", Yiyecek: " + stonePit.buildFoodCost);
+
+                // Kaynakları azaltın
                 Kingdom.myKingdom.GoldAmount -= stonePit.buildGoldCost;
                 Kingdom.myKingdom.StoneAmount -= stonePit.buildStoneCost;
                 Kingdom.myKingdom.WoodAmount -= stonePit.buildTimberCost;
@@ -89,50 +109,65 @@ public class BuildBuilder : MonoBehaviour
                 Kingdom.myKingdom.FoodAmount -= stonePit.buildFoodCost;
 
                 buildStonePitButton.enabled = false;
+                Debug.Log("İnşaat başlatılıyor - Buton devre dışı bırakıldı");
 
                 StartCoroutine(progressBarController.StonePitIsFinished(stonePit, (isFinished) =>
                 {
+                    Debug.Log("StonePitIsFinished callback alındı, isFinished: " + isFinished);
+
                     if (isFinished)
                     {
+                        Debug.Log("StonePit inşaatı tamamlandı. Durum güncelleniyor...");
                         StonePit.wasStonePitCreated = true;
                         StonePit.canIStartProduction = true;
                         StonePit.buildLevel = 1;
                         StonePit.refreshStoneProductionRate();
-                        stonePit.UpdateCosts(); // Maliyetleri g�ncelle
+                        stonePit.UpdateCosts(); // Maliyetleri güncelle
 
                         Debug.Log("Bina Seviyesi : " + StonePit.buildLevel);
-                        buttonText.text = "Y�kselt";
+                        buttonText.text = "Yükselt";
                         buildStonePitButton.enabled = true;
                         stonepitPanelController.refreshStonePit();
+                        Debug.Log("İnşaat başarıyla tamamlandı ve durum güncellendi");
                     }
                     else
                     {
-                        // Kaynaklar� iade et
+                        Debug.Log("StonePit inşaatı tamamlanamadı. Kaynaklar iade ediliyor.");
+                        // Kaynakları iade et
                         Kingdom.myKingdom.GoldAmount += stonePit.buildGoldCost;
                         Kingdom.myKingdom.StoneAmount += stonePit.buildStoneCost;
                         Kingdom.myKingdom.WoodAmount += stonePit.buildTimberCost;
                         Kingdom.myKingdom.IronAmount += stonePit.buildIronCost;
                         Kingdom.myKingdom.FoodAmount += stonePit.buildFoodCost;
                         buildStonePitButton.enabled = true;
+                        Debug.Log("Kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                     }
                 }));
             }
             else
             {
-                Debug.Log("Yeterli kaynak bulunmamaktad�r");
+                Debug.Log("Yeterli kaynak bulunmamaktadır - İnşaat başlatılamadı");
             }
         }
         else
         {
-
-            // Zaten bir ta� oca�� varsa, yeni bir nesne yaratmay�n
+            Debug.Log("Mevcut StonePit yükseltiliyor, seviye: " + StonePit.buildLevel);
+            // Zaten bir taş ocağı varsa, yeni bir nesne yaratmayın
             if (StonePit.buildLevel == 1)
             {
+                Debug.Log("StonePit seviye 1'den seviye 2'ye yükseltiliyor");
                 TextMeshProUGUI buttonText = buildStonePitButton.GetComponentInChildren<TextMeshProUGUI>();
 
                 if (checkResources(stonePit))
                 {
-                    // Kaynaklar� azalt�n
+                    Debug.Log("Seviye 2 için kaynak kontrolü başarılı. Şu maliyetlerle yükseltme başlatılıyor: " +
+                             "Altın: " + stonePit.buildGoldCost +
+                             ", Taş: " + stonePit.buildStoneCost +
+                             ", Odun: " + stonePit.buildTimberCost +
+                             ", Demir: " + stonePit.buildIronCost +
+                             ", Yiyecek: " + stonePit.buildFoodCost);
+
+                    // Kaynakları azaltın
                     Kingdom.myKingdom.GoldAmount -= stonePit.buildGoldCost;
                     Kingdom.myKingdom.StoneAmount -= stonePit.buildStoneCost;
                     Kingdom.myKingdom.WoodAmount -= stonePit.buildTimberCost;
@@ -140,44 +175,58 @@ public class BuildBuilder : MonoBehaviour
                     Kingdom.myKingdom.FoodAmount -= stonePit.buildFoodCost;
 
                     buildStonePitButton.enabled = false;
+                    Debug.Log("Seviye 2 yükseltmesi başlatılıyor - Buton devre dışı bırakıldı");
 
                     StartCoroutine(progressBarController.StonePitIsFinished(stonePit, (isFinished) =>
                     {
+                        Debug.Log("Seviye 2 için StonePitIsFinished callback alındı, isFinished: " + isFinished);
+
                         if (isFinished)
                         {
-                            // Gerekli i�lemleri yap
+                            Debug.Log("Seviye 2 yükseltmesi tamamlandı. Durum güncelleniyor...");
+                            // Gerekli işlemleri yap
 
                             StonePit.buildLevel++;
-                            StonePit.refreshStoneProductionRate(); // �retim miktar�n� g�ncelliyoruz.
-                            stonePit.UpdateCosts(); // Maliyetleri g�ncelle
-                            buttonText.text = "Y�kselt";
+                            StonePit.refreshStoneProductionRate(); // Üretim miktarını güncelliyoruz.
+                            stonePit.UpdateCosts(); // Maliyetleri güncelle
+                            buttonText.text = "Yükselt";
                             buildStonePitButton.enabled = true;
                             stonepitPanelController.refreshStonePit();
+                            Debug.Log("Seviye 2 yükseltmesi başarıyla tamamlandı. Yeni seviye: " + StonePit.buildLevel);
                         }
                         else
                         {
-                            // Kaynaklar� iade et
+                            Debug.Log("Seviye 2 yükseltmesi tamamlanamadı. Kaynaklar iade ediliyor.");
+                            // Kaynakları iade et
                             Kingdom.myKingdom.GoldAmount += stonePit.buildGoldCost;
                             Kingdom.myKingdom.StoneAmount += stonePit.buildStoneCost;
                             Kingdom.myKingdom.WoodAmount += stonePit.buildTimberCost;
                             Kingdom.myKingdom.IronAmount += stonePit.buildIronCost;
                             Kingdom.myKingdom.FoodAmount += stonePit.buildFoodCost;
                             buildStonePitButton.enabled = true;
+                            Debug.Log("Seviye 2 için kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                         }
                     }));
                 }
                 else
                 {
-                    Debug.Log("Yeterli kaynak bulunmamaktad�r");
+                    Debug.Log("Seviye 2 için yeterli kaynak bulunmamaktadır");
                 }
             }
 
             else if (StonePit.buildLevel == 2)
             {
+                Debug.Log("StonePit seviye 2'den seviye 3'e yükseltiliyor");
                 TextMeshProUGUI buttonText = buildStonePitButton.GetComponentInChildren<TextMeshProUGUI>();
 
                 if (checkResources(stonePit))
                 {
+                    Debug.Log("Seviye 3 için kaynak kontrolü başarılı. Şu maliyetlerle yükseltme başlatılıyor: " +
+                             "Altın: " + stonePit.buildGoldCost +
+                             ", Taş: " + stonePit.buildStoneCost +
+                             ", Odun: " + stonePit.buildTimberCost +
+                             ", Demir: " + stonePit.buildIronCost +
+                             ", Yiyecek: " + stonePit.buildFoodCost);
 
                     Kingdom.myKingdom.GoldAmount -= stonePit.buildGoldCost;
                     Kingdom.myKingdom.StoneAmount -= stonePit.buildStoneCost;
@@ -186,38 +235,47 @@ public class BuildBuilder : MonoBehaviour
                     Kingdom.myKingdom.FoodAmount -= stonePit.buildFoodCost;
 
                     buildStonePitButton.enabled = false;
+                    Debug.Log("Seviye 3 yükseltmesi başlatılıyor - Buton devre dışı bırakıldı");
 
                     StartCoroutine(progressBarController.StonePitIsFinished(stonePit, (isFinished) =>
                     {
+                        Debug.Log("Seviye 3 için StonePitIsFinished callback alındı, isFinished: " + isFinished);
+
                         if (isFinished)
                         {
-                            // Gerekli i�lemleri yap
+                            Debug.Log("Seviye 3 yükseltmesi tamamlandı. Durum güncelleniyor...");
+                            // Gerekli işlemleri yap
 
                             StonePit.buildLevel++;
-                            StonePit.refreshStoneProductionRate(); // �retim miktar�n� g�ncelliyoruz.                  
+                            StonePit.refreshStoneProductionRate(); // Üretim miktarını güncelliyoruz.                  
                             stonepitPanelController.refreshStonePit();
                             Destroy(buildStonePitButton.gameObject);
+                            Debug.Log("Seviye 3 yükseltmesi başarıyla tamamlandı. Yükseltme butonu kaldırıldı.");
                         }
                         else
                         {
-                            // Kaynaklar� iade et
+                            Debug.Log("Seviye 3 yükseltmesi tamamlanamadı. Kaynaklar iade ediliyor.");
+                            // Kaynakları iade et
                             Kingdom.myKingdom.GoldAmount += stonePit.buildGoldCost;
                             Kingdom.myKingdom.StoneAmount += stonePit.buildStoneCost;
                             Kingdom.myKingdom.WoodAmount += stonePit.buildTimberCost;
                             Kingdom.myKingdom.IronAmount += stonePit.buildIronCost;
                             Kingdom.myKingdom.FoodAmount += stonePit.buildFoodCost;
                             buildStonePitButton.enabled = true;
+                            Debug.Log("Seviye 3 için kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                         }
                     }));
                 }
-
+                else
+                {
+                    Debug.Log("Seviye 3 için yeterli kaynak bulunmamaktadır");
+                }
             }
             else
             {
-                Debug.Log("Bir sorun var gibi duruyor 'BuildBuilder' scriptindeki buildStonePit fonksiyonunu kontrol ediniz.");
+                Debug.Log("Bir sorun var gibi duruyor 'BuildBuilder' scriptindeki buildStonePit fonksiyonunu kontrol ediniz. Beklenmeyen buildLevel: " + StonePit.buildLevel);
             }
         }
-
     }
 
     public void BuildBlacksmith()
@@ -225,7 +283,14 @@ public class BuildBuilder : MonoBehaviour
         // Zaten var olan demirci nesnesini kontrol et
         Blacksmith blacksmith = GetComponent<Blacksmith>();
 
-        // Yeni bir demirci in�a ediliyorsa
+        // Eğer bileşen null ise ve daha önce demirci inşa edilmişse, yeniden oluştur
+        if (blacksmith == null && Blacksmith.wasBlacksmithCreated)
+        {
+            blacksmith = gameObject.AddComponent<Blacksmith>();
+            Debug.Log("Blacksmith bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Blacksmith.buildLevel);
+        }
+
+        // Yeni bir demirci inşa ediliyorsa
         if (!Blacksmith.wasBlacksmithCreated)
         {
             blacksmith = gameObject.AddComponent<Blacksmith>();
@@ -233,7 +298,7 @@ public class BuildBuilder : MonoBehaviour
 
             if (checkResources(blacksmith))
             {
-                // Kaynaklar� azalt
+                // Kaynakları azalt
                 Kingdom.myKingdom.GoldAmount -= blacksmith.buildGoldCost;
                 Kingdom.myKingdom.StoneAmount -= blacksmith.buildStoneCost;
                 Kingdom.myKingdom.WoodAmount -= blacksmith.buildTimberCost;
@@ -242,7 +307,7 @@ public class BuildBuilder : MonoBehaviour
 
                 buildBlacksmithButton.enabled = false;
 
-                // �n�aat tamamland���nda yap�lacak i�lemler
+                // İnşaat tamamlandığında yapılacak işlemler
                 StartCoroutine(progressBarController.BlacksmithIsFinished(blacksmith, (isFinished) =>
                 {
                     if (isFinished)
@@ -254,13 +319,13 @@ public class BuildBuilder : MonoBehaviour
                         blacksmith.UpdateCosts();
 
                         Debug.Log("Bina Seviyesi: " + Blacksmith.buildLevel);
-                        buttonText.text = "Y�kselt";
+                        buttonText.text = "Yükselt";
                         buildBlacksmithButton.enabled = true;
                         blacksmithPanelController.refreshBlacksmith();
                     }
                     else
                     {
-                        // Kaynaklar� geri al
+                        // Kaynakları geri al
                         Kingdom.myKingdom.GoldAmount += blacksmith.buildGoldCost;
                         Kingdom.myKingdom.StoneAmount += blacksmith.buildStoneCost;
                         Kingdom.myKingdom.WoodAmount += blacksmith.buildTimberCost;
@@ -272,19 +337,20 @@ public class BuildBuilder : MonoBehaviour
             }
             else
             {
-                Debug.Log("Yeterli kaynak bulunmamaktad�r");
+                Debug.Log("Yeterli kaynak bulunmamaktadır");
             }
         }
         else
         {
-            // Demirci zaten var, mevcut seviyeye g�re i�lem yap
+            Debug.Log("Demirci zaten var.");
             if (Blacksmith.buildLevel == 1)
             {
+
                 TextMeshProUGUI buttonText = buildBlacksmithButton.GetComponentInChildren<TextMeshProUGUI>();
 
                 if (checkResources(blacksmith))
                 {
-                    // Kaynaklar� azalt
+                    // Kaynakları azalt
                     Kingdom.myKingdom.GoldAmount -= blacksmith.buildGoldCost;
                     Kingdom.myKingdom.StoneAmount -= blacksmith.buildStoneCost;
                     Kingdom.myKingdom.WoodAmount -= blacksmith.buildTimberCost;
@@ -300,7 +366,7 @@ public class BuildBuilder : MonoBehaviour
                             Blacksmith.buildLevel++;
                             Blacksmith.refreshIronProductionRate();
                             blacksmith.UpdateCosts();
-                            buttonText.text = "Y�kselt";
+                            buttonText.text = "Yükselt";
                             buildBlacksmithButton.enabled = true;
                             blacksmithPanelController.refreshBlacksmith();
                         }
@@ -317,11 +383,13 @@ public class BuildBuilder : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Yeterli kaynak bulunmamaktad�r");
+                    Debug.Log("Yeterli kaynak bulunmamaktadır");
                 }
             }
             else if (Blacksmith.buildLevel == 2)
             {
+
+
                 TextMeshProUGUI buttonText = buildBlacksmithButton.GetComponentInChildren<TextMeshProUGUI>();
 
                 if (checkResources(blacksmith))
@@ -368,6 +436,13 @@ public class BuildBuilder : MonoBehaviour
     {
         // Zaten var olan kereste oca�� nesnesini kullanmak i�in kontrol edin
         Sawmill sawmill = GetComponent<Sawmill>();
+
+        // Eğer bileşen null ise ve daha önce demirci inşa edilmişse, yeniden oluştur
+        if (sawmill == null && Sawmill.wasSawmillCreated)
+        {
+            sawmill = gameObject.AddComponent<Sawmill>();
+            Debug.Log("Sawmill bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Sawmill.buildLevel);
+        }
 
         if (!Sawmill.wasSawmillCreated)
         {
@@ -519,6 +594,12 @@ public class BuildBuilder : MonoBehaviour
         // Zaten var olan �iftlik nesnesini kullanmak i�in kontrol edin
         Farm farm = GetComponent<Farm>();
 
+        if (farm == null && Farm.wasFarmCreated)
+        {
+            farm = gameObject.AddComponent<Farm>();
+            Debug.Log("Farm bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Farm.buildLevel);
+        }
+
         if (!Farm.wasFarmCreated)
         {
             farm = gameObject.AddComponent<Farm>();
@@ -667,6 +748,12 @@ public class BuildBuilder : MonoBehaviour
     {
         // Zaten var olan k��la nesnesini kullanmak i�in kontrol edin
         Barracks barracks = GetComponent<Barracks>();
+
+        if (barracks == null && Barracks.wasBarracksCreated)
+        {
+            barracks = gameObject.AddComponent<Barracks>();
+            Debug.Log("Barracks bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Barracks.buildLevel);
+        }
 
         if (!Barracks.wasBarracksCreated)
         {
@@ -843,6 +930,12 @@ public class BuildBuilder : MonoBehaviour
         // Zaten var olan hastane nesnesini kullanmak i�in kontrol edin
         Hospital hospital = GetComponent<Hospital>();
 
+        if (hospital == null && Hospital.wasHospitalCreated)
+        {
+            hospital = gameObject.AddComponent<Hospital>();
+            Debug.Log("Hospital bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Hospital.buildLevel);
+        }
+
         if (!Hospital.wasHospitalCreated)
         {
             hospital = gameObject.AddComponent<Hospital>();
@@ -1007,6 +1100,12 @@ public class BuildBuilder : MonoBehaviour
     {
         Lab lab = gameObject.GetComponent<Lab>();
 
+        if (lab == null && Lab.wasLabCreated)
+        {
+            lab = gameObject.AddComponent<Lab>();
+            Debug.Log("Lab bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Lab.buildLevel);
+        }
+
         if (Lab.wasLabCreated == false) // Daha �nce �retilmediyse
         {
             lab = gameObject.AddComponent<Lab>();
@@ -1151,126 +1250,10 @@ public class BuildBuilder : MonoBehaviour
     }
 
 
-    public void BuildDefenseWorkshop()
-    {
-        // Zaten var olan savunma at�lyesi nesnesini kullanmak i�in kontrol edin
-        DefenseWorkshop defenseWorkshop = GetComponent<DefenseWorkshop>();
-
-        if (!DefenseWorkshop.wasDefenseWorkshopCreated)
-        {
-            defenseWorkshop = gameObject.AddComponent<DefenseWorkshop>();
-            TextMeshProUGUI buttonText = buildDefenseWorkshopButton.GetComponentInChildren<TextMeshProUGUI>();
-
-            if (checkResources(defenseWorkshop))
-            {
-                // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= defenseWorkshop.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= defenseWorkshop.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= defenseWorkshop.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= defenseWorkshop.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= defenseWorkshop.buildFoodCost;
-
-                DefenseWorkshop.wasDefenseWorkshopCreated = true;
-                DefenseWorkshop.buildLevel = 1;
-                defenseWorkshop.UpdateCosts(); // Maliyetleri g�ncelle
-
-                Debug.Log("Bina Seviyesi : " + DefenseWorkshop.buildLevel);
-                buttonText.text = "Y�kselt";
-            }
-            else
-            {
-                Debug.Log("Yeterli kaynak bulunmamaktad�r");
-            }
-        }
-        else
-        {
-            // Zaten bir savunma at�lyesi varsa, yeni bir nesne yaratmay�n
-            if (checkResources(defenseWorkshop))
-            {
-                // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= defenseWorkshop.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= defenseWorkshop.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= defenseWorkshop.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= defenseWorkshop.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= defenseWorkshop.buildFoodCost;
-
-                DefenseWorkshop.buildLevel++;
-                Debug.Log("Bina Seviyesi : " + DefenseWorkshop.buildLevel);
-                defenseWorkshop.UpdateCosts(); // Maliyetleri g�ncelle
-
-                // 3. seviyeye ula��ld���nda butonu yok et
-                if (DefenseWorkshop.buildLevel == 3)
-                {
-                    Destroy(buildDefenseWorkshopButton.gameObject);
-                }
-            }
-            else
-            {
-                Debug.Log("Yeterli kaynak bulunmamaktad�r");
-            }
-        }
-    }
 
 
-    public void BuildSiegeWorkshop()
-    {
-        // Zaten var olan ku�atma at�lyesi nesnesini kullanmak i�in kontrol edin
-        SiegeWorkshop siegeWorkshop = GetComponent<SiegeWorkshop>();
 
-        if (!SiegeWorkshop.wasSiegeWorkshopCreated)
-        {
-            siegeWorkshop = gameObject.AddComponent<SiegeWorkshop>();
-            TextMeshProUGUI buttonText = buildSiegeWorkshopButton.GetComponentInChildren<TextMeshProUGUI>();
 
-            if (checkResources(siegeWorkshop))
-            {
-                // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= siegeWorkshop.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= siegeWorkshop.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= siegeWorkshop.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= siegeWorkshop.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= siegeWorkshop.buildFoodCost;
-
-                SiegeWorkshop.wasSiegeWorkshopCreated = true;
-                SiegeWorkshop.buildLevel = 1;
-                siegeWorkshop.UpdateCosts(); // Maliyetleri g�ncelle
-
-                Debug.Log("Bina Seviyesi : " + SiegeWorkshop.buildLevel);
-                buttonText.text = "Y�kselt";
-            }
-            else
-            {
-                Debug.Log("Yeterli kaynak bulunmamaktad�r");
-            }
-        }
-        else
-        {
-            // Zaten bir ku�atma at�lyesi varsa, yeni bir nesne yaratmay�n
-            if (checkResources(siegeWorkshop))
-            {
-                // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= siegeWorkshop.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= siegeWorkshop.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= siegeWorkshop.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= siegeWorkshop.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= siegeWorkshop.buildFoodCost;
-
-                SiegeWorkshop.buildLevel++;
-                Debug.Log("Bina Seviyesi : " + SiegeWorkshop.buildLevel);
-                siegeWorkshop.UpdateCosts(); // Maliyetleri g�ncelle
-
-                // 3. seviyeye ula��ld���nda butonu yok et
-                if (SiegeWorkshop.buildLevel == 3)
-                {
-                    Destroy(buildSiegeWorkshopButton.gameObject);
-                }
-            }
-            else
-            {
-                Debug.Log("Yeterli kaynak bulunmamaktad�r");
-            }
-        }
-    }
 
 
 
@@ -1278,6 +1261,12 @@ public class BuildBuilder : MonoBehaviour
     {
         // Zaten var olan k��la nesnesini kullanmak i�in kontrol edin
         Warehouse warehouse = GetComponent<Warehouse>();
+
+        if (warehouse == null && Warehouse.wasWarehouseCreated)
+        {
+            warehouse = gameObject.AddComponent<Warehouse>();
+            Debug.Log("Warehouse bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Warehouse.buildLevel);
+        }
 
         if (!Warehouse.wasWarehouseCreated)
         {
@@ -1422,6 +1411,12 @@ public class BuildBuilder : MonoBehaviour
         // Zaten var olan demirci nesnesini kullanmak i�in kontrol edin
         Castle castle = GetComponent<Castle>();
 
+        if (castle == null && Castle.wasCastleCreated)
+        {
+            castle = gameObject.AddComponent<Castle>();
+            Debug.Log("Castle bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Castle.buildLevel);
+        }
+
         if (!Castle.wasCastleCreated)
         {
             castle = new Castle();
@@ -1515,10 +1510,16 @@ public class BuildBuilder : MonoBehaviour
 
     public void BuildTowerOne()
     {
-        // Zaten var olan k��la nesnesini kullanmak i�in kontrol edin
+
         if (!buildTowerTwoIsActive)
         {
             Tower towerOne = GetComponent<Tower>();
+
+            if (towerOne == null && Tower.wasTowerOneCreated)
+            {
+                towerOne = gameObject.AddComponent<Tower>();
+                Debug.Log("Tower bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Tower.towerOneBuildLevel);
+            }
 
             if (!Tower.wasTowerOneCreated)
             {
@@ -1687,6 +1688,12 @@ public class BuildBuilder : MonoBehaviour
             // Zaten var olan k��la nesnesini kullanmak i�in kontrol edin
             Tower towerTwo = GetComponent<Tower>();
 
+            if (towerTwo == null && Tower.wasTowerTwoCreated)
+            {
+                towerTwo = gameObject.AddComponent<Tower>();
+                Debug.Log("Tower bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Tower.towerTwoBuildLevel);
+            }
+
             if (!Tower.wasTowerTwoCreated)
             {
                 towerTwo = gameObject.AddComponent<Tower>();
@@ -1848,6 +1855,12 @@ public class BuildBuilder : MonoBehaviour
         {
             Trap trapOne = GetComponent<Trap>();
 
+            if (trapOne == null && Trap.wasTrapOneCreated)
+            {
+                trapOne = gameObject.AddComponent<Trap>();
+                Debug.Log("Trap bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Trap.trapOneBuildLevel);
+            }
+
             if (!Trap.wasTrapOneCreated)
             {
                 trapOne = gameObject.AddComponent<Trap>();
@@ -1968,6 +1981,12 @@ public class BuildBuilder : MonoBehaviour
         {
             Trap trapTwo = GetComponent<Trap>();
 
+            if (trapTwo == null && Trap.wasTrapTwoCreated)
+            {
+                trapTwo = gameObject.AddComponent<Trap>();
+                Debug.Log("Trap bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Trap.trapTwoBuildLevel);
+            }
+
             if (!Trap.wasTrapTwoCreated)
             {
                 trapTwo = gameObject.AddComponent<Trap>();
@@ -2087,6 +2106,12 @@ public class BuildBuilder : MonoBehaviour
         if (!isAnyTrapActive)
         {
             Trap trapThree = GetComponent<Trap>();
+
+            if (trapThree == null && Trap.wasTrapThreeCreated)
+            {
+                trapThree = gameObject.AddComponent<Trap>();
+                Debug.Log("Trap bileşeni eksikti, yeniden oluşturuldu. Seviye: " + Trap.trapThreeBuildLevel);
+            }
 
             if (!Trap.wasTrapThreeCreated)
             {

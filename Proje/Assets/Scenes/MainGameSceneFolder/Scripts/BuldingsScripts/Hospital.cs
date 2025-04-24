@@ -5,9 +5,9 @@ using UnityEngine;
 public class Hospital : Building
 {
 
-    public static int buildLevel = 0;
-    public static bool wasHospitalCreated = false;
-    public static int capasity = 0;
+    public static int buildLevel;
+    public static bool wasHospitalCreated;
+    public static int capasity;
     public Hospital()
     {
         // Özelliklerin baþlangýç deðerlerini atama
@@ -56,7 +56,7 @@ public class Hospital : Building
         {
             capasity = 2500;
         }
-        else if(buildLevel == 3)
+        else if (buildLevel == 3)
         {
             capasity = 3000;
         }

@@ -2596,7 +2596,7 @@ GameObject:
   - component: {fileID: 56670260}
   - component: {fileID: 56670259}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildFarmBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11390,7 +11390,7 @@ GameObject:
   - component: {fileID: 288751804}
   - component: {fileID: 288751803}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: UpgradeCastleBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18569,7 +18569,7 @@ GameObject:
   - component: {fileID: 447978189}
   - component: {fileID: 447978188}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildBarracksBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20689,7 +20689,7 @@ GameObject:
   - component: {fileID: 480212027}
   - component: {fileID: 480212026}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildStonepitBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21867,7 +21867,7 @@ GameObject:
   - component: {fileID: 506626464}
   - component: {fileID: 506626463}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildTrapBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24640,7 +24640,7 @@ GameObject:
   - component: {fileID: 565295748}
   - component: {fileID: 565295747}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildLabBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42694,7 +42694,7 @@ GameObject:
   - component: {fileID: 1056339684}
   - component: {fileID: 1056339683}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildWareHouseBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59038,7 +59038,7 @@ GameObject:
   - component: {fileID: 1438025205}
   - component: {fileID: 1438025204}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildTowerBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67639,7 +67639,7 @@ GameObject:
   - component: {fileID: 1641512394}
   - component: {fileID: 1641512393}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildBlacksmithBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67714,7 +67714,7 @@ GameObject:
   - component: {fileID: 1647676130}
   - component: {fileID: 1647676129}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildSawmillBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73899,7 +73899,7 @@ GameObject:
   - component: {fileID: 1782644552}
   - component: {fileID: 1782644551}
   m_Layer: 5
-  m_Name: Bar
+  m_Name: BuildHospitalBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

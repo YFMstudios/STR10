@@ -6,11 +6,11 @@ public class Sawmill : Building
 {
     // Ekstra özellikler
     public static int timberProductionRate;
-    public static int goldProductionRateSawmill = 1;
-    public static bool canIStartProduction = false;
+    public static int goldProductionRateSawmill;
+    public static bool canIStartProduction;
 
-    public static int buildLevel = 0;
-    public static bool wasSawmillCreated = false;
+    public static int buildLevel;
+    public static bool wasSawmillCreated;
     // Kurucu yöntem
     public Sawmill()
     {
