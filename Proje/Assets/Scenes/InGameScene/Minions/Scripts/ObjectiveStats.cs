@@ -19,8 +19,9 @@ public class ObjectiveStats : MonoBehaviourPunCallbacks
     private Animator animator;
 
     [Header("ScriptableObject")]
+    public ProgressData progressData;
 
-    public TowerManagerInGame towerManagerInGame;
+     public TowerManagerInGame towerManagerInGame;
      public CastleManager castleManager;
 
     

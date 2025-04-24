@@ -272,6 +272,8 @@ MonoBehaviour:
   damage: 5
   damageLerpDuration: 0.2
   progressData: {fileID: 0}
+  towerManagerInGame: {fileID: 0}
+  castleManager: {fileID: 0}
 --- !u!114 &-8326526324587816037
 MonoBehaviour:
   m_ObjectHideFlags: 0

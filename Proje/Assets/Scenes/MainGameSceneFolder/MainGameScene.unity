@@ -73329,7 +73329,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1764854057
 Transform:
   m_ObjectHideFlags: 0
@@ -84095,6 +84095,107 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1990304892}
   m_CullTransparentMesh: 1
+--- !u!1 &1990628645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1990628647}
+  - component: {fileID: 1990628646}
+  m_Layer: 0
+  m_Name: ReasercheUIUpdater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1990628646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990628645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e78416ca091fa049ad3a70d359b9166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seviyeImages:
+  - {fileID: 1874836825}
+  - {fileID: 828430962}
+  - {fileID: 2097679216}
+  - {fileID: 1238725548}
+  - {fileID: 1382140214}
+  - {fileID: 947821409}
+  - {fileID: 1474688260}
+  - {fileID: 361875420}
+  - {fileID: 2008262852}
+  - {fileID: 1735458979}
+  - {fileID: 1837495935}
+  - {fileID: 873126226}
+  - {fileID: 1025883900}
+  - {fileID: 546655596}
+  - {fileID: 493389792}
+  - {fileID: 1635748427}
+  - {fileID: 177235671}
+  - {fileID: 2097682691}
+  lockItems:
+  - {fileID: 258403514}
+  - {fileID: 1324317629}
+  - {fileID: 1582282872}
+  - {fileID: 651943183}
+  - {fileID: 24643098}
+  - {fileID: 150145134}
+  - {fileID: 1933665711}
+  - {fileID: 1547663207}
+  - {fileID: 853090837}
+  - {fileID: 1143580025}
+  - {fileID: 542236697}
+  - {fileID: 2062310485}
+  - {fileID: 205477674}
+  - {fileID: 790308805}
+  - {fileID: 1350065220}
+  - {fileID: 529035889}
+  - {fileID: 1763564669}
+  - {fileID: 1807905811}
+  buttons:
+  - {fileID: 463298954}
+  - {fileID: 1599833738}
+  - {fileID: 1061333106}
+  - {fileID: 496704237}
+  - {fileID: 454109825}
+  - {fileID: 987102842}
+  - {fileID: 2106145717}
+  - {fileID: 578889564}
+  - {fileID: 949062696}
+  - {fileID: 2027061331}
+  - {fileID: 553522315}
+  - {fileID: 328603242}
+  - {fileID: 1634347153}
+  - {fileID: 1852564932}
+  - {fileID: 322764923}
+  - {fileID: 1047381715}
+  - {fileID: 141046409}
+  - {fileID: 1339351558}
+--- !u!4 &1990628647
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990628645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 963.9108, y: 513.03204, z: -8.791632}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1992592089
 GameObject:
   m_ObjectHideFlags: 0
@@ -92224,3 +92325,4 @@ SceneRoots:
   - {fileID: 1735794292}
   - {fileID: 617837872}
   - {fileID: 1362423204}
+  - {fileID: 1990628647}
