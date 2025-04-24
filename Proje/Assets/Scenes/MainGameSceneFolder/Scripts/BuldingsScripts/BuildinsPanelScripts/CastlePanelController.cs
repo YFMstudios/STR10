@@ -6,23 +6,23 @@ using UnityEngine.UI;
 
 public class CastlePanelController : MonoBehaviour
 {
-    public TMP_Text goldText;     // Altýn miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text woodText;     // Kereste miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text stoneText;    // Taþ miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text ironText;     // Demir miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text foodText;     // Yemek miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text buildLevelText;     // Bina seviyesini gösterecek TMP bileþeni
-    public TMP_Text productionRateText; // Üretim Miktarýný gösterecek TMP bileþeni
+    public TMP_Text goldText;     // Altï¿½n miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text woodText;     // Kereste miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text stoneText;    // Taï¿½ miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text ironText;     // Demir miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text foodText;     // Yemek miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text buildLevelText;     // Bina seviyesini gï¿½sterecek TMP bileï¿½eni
+    public TMP_Text productionRateText; // ï¿½retim Miktarï¿½nï¿½ gï¿½sterecek TMP bileï¿½eni
     public TMP_Text maliyetText;
     public TMP_Text menzilText;
     public TMP_Text canText;
     public TMP_Text saldiriHiziText;
 
 
-    public Image goldImage;        // Altýn için resim
-    public Image woodImage;        // Kereste için resim
-    public Image stoneImage;       // Taþ için resim
-    public Image ironImage;        // Demir için resim
+    public Image goldImage;        // Altï¿½n iï¿½in resim
+    public Image woodImage;        // Kereste iï¿½in resim
+    public Image stoneImage;       // Taï¿½ iï¿½in resim
+    public Image ironImage;        // Demir iï¿½in resim
     public Image foodImage;
 
     public Button cancelUpgradeCastleButton;
@@ -30,9 +30,12 @@ public class CastlePanelController : MonoBehaviour
     public PanelManager panelManager;
     public GameObject progressBar;
 
+                  public Button buildCastleButton;
+    private Text buttonText;
+
     public void refreshCastle()
     {
-
+        TextMeshProUGUI buttonText = buildCastleButton.GetComponentInChildren<TextMeshProUGUI>();
         if (Castle.buildLevel == 2)
         {
             buildLevelText.text = "2";
@@ -44,6 +47,7 @@ public class CastlePanelController : MonoBehaviour
             menzilText.text = "15 br";
             canText.text = "1500";
             saldiriHiziText.text = "7.5 h/s";
+              buttonText.text = "YÃ¼kselt";
         }
         else if (Castle.buildLevel == 3)
         {
@@ -60,7 +64,7 @@ public class CastlePanelController : MonoBehaviour
 
     public void DestroyComponents()
     {
-        // TMP_Text bileþenlerini yok et
+        // TMP_Text bileï¿½enlerini yok et
         if (goldText != null) Destroy(goldText);
         if (woodText != null) Destroy(woodText);
         if (stoneText != null) Destroy(stoneText);
@@ -68,7 +72,7 @@ public class CastlePanelController : MonoBehaviour
         if (foodText != null) Destroy(foodText);
         if (maliyetText != null) Destroy(maliyetText);
 
-        // Image bileþenlerini yok et
+        // Image bileï¿½enlerini yok et
         if (goldImage != null) Destroy(goldImage);
         if (woodImage != null) Destroy(woodImage);
         if (stoneImage != null) Destroy(stoneImage);
@@ -80,7 +84,7 @@ public class CastlePanelController : MonoBehaviour
 
     public void cancelCastleBuild()
     {
-        isBuildCanceled = true; // Ýptal iþlemini baþlat
+        isBuildCanceled = true; // ï¿½ptal iï¿½lemini baï¿½lat
         panelManager.DestroyPanel("CastleUpgradeProcessPanel");
         cancelUpgradeCastleButton.gameObject.SetActive(false);
     }

@@ -55,10 +55,10 @@ public class BuildsDataResetter : MonoBehaviour
 
         Warehouse.buildLevel = 0;
         Warehouse.wasWarehouseCreated = false;
-        Warehouse.foodCapacity = 101000;
-        Warehouse.ironCapacity = 101000;
-        Warehouse.timberCapacity = 101000;
-        Warehouse.stoneCapacity = 100100;
+        Warehouse.foodCapacity = 120000;
+        Warehouse.ironCapacity = 120000;
+        Warehouse.timberCapacity = 120000;
+        Warehouse.stoneCapacity = 120000;
 
         Barracks.buildLevel = 0;
         Barracks.wasBarracksCreated = false;

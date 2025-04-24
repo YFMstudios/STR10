@@ -25,20 +25,28 @@ public class TrapPanelController : MonoBehaviour
     public bool isBuildCanceled = false;
     public GameObject progressBar;
     public PanelManager panelManager;
+
+                          public Button buildTrap1Button;
+                          public Button buildTrap2Button;
+                            public Button buildTrap3Button;
+    private Text buttonText;
     // Trap 1 refresh function
     public void refreshTrapOne()
     {
+         TextMeshProUGUI buttonText = buildTrap1Button.GetComponentInChildren<TextMeshProUGUI>();
         if (Trap.trapOneBuildLevel == 1)
         {
             trapOneBuildLevelText.text = "1";
             trapOneEtkiAlaniText.text = "5";
             trapOneSaldiriGucuText.text = "50";
+                        buttonText.text = "YÃ¼kselt";
         }
         else if (Trap.trapOneBuildLevel == 2)
         {
             trapOneBuildLevelText.text = "2";
             trapOneEtkiAlaniText.text = "7.5";
             trapOneSaldiriGucuText.text = "75";
+                        buttonText.text = "YÃ¼kselt";
         }
         else if (Trap.trapOneBuildLevel == 3)
         {
@@ -51,17 +59,20 @@ public class TrapPanelController : MonoBehaviour
     // Trap 2 refresh function
     public void refreshTrapTwo()
     {
+         TextMeshProUGUI buttonText = buildTrap2Button.GetComponentInChildren<TextMeshProUGUI>();
         if (Trap.trapTwoBuildLevel == 1)
         {
             trapTwoBuildLevelText.text = "1";
             trapTwoEtkiAlaniText.text = "5";
             trapTwoSaldiriGucuText.text = "50";
+                        buttonText.text = "YÃ¼kselt";
         }
         else if (Trap.trapTwoBuildLevel == 2)
         {
             trapTwoBuildLevelText.text = "2";
             trapTwoEtkiAlaniText.text = "7.5";
             trapTwoSaldiriGucuText.text = "75";
+                        buttonText.text = "YÃ¼kselt";
         }
         else if (Trap.trapTwoBuildLevel == 3)
         {
@@ -74,17 +85,20 @@ public class TrapPanelController : MonoBehaviour
     // Trap 3 refresh function
     public void refreshTrapThree()
     {
+         TextMeshProUGUI buttonText = buildTrap3Button.GetComponentInChildren<TextMeshProUGUI>();
         if (Trap.trapThreeBuildLevel == 1)
         {
             trapThreeBuildLevelText.text = "1";
             trapThreeEtkiAlaniText.text = "5";
             trapThreeSaldiriGucuText.text = "50";
+                        buttonText.text = "YÃ¼kselt";
         }
         else if (Trap.trapThreeBuildLevel == 2)
         {
             trapThreeBuildLevelText.text = "2";
             trapThreeEtkiAlaniText.text = "7.5";
             trapThreeSaldiriGucuText.text = "75";
+                        buttonText.text = "YÃ¼kselt";
         }
         else if (Trap.trapThreeBuildLevel == 3)
         {
@@ -100,14 +114,14 @@ public class TrapPanelController : MonoBehaviour
         if (Trap.trapOneBuildLevel == 3 && Trap.trapTwoBuildLevel == 3 && Trap.trapThreeBuildLevel == 3)
         {
             // All traps are at level 3, perform destruction
-            Debug.Log("Tüm tuzaklar 3. seviyeye ulaþtý. Bileþenler yok ediliyor.");
+            Debug.Log("Tï¿½m tuzaklar 3. seviyeye ulaï¿½tï¿½. Bileï¿½enler yok ediliyor.");
         }
     }
 
     // Cancel trap build
     public void cancelTrapBuild()
     {
-        isBuildCanceled = true; // Ýptal iþlemini baþlat
+        isBuildCanceled = true; // ï¿½ptal iï¿½lemini baï¿½lat
         panelManager.DestroyPanel("TrapBuildingProcessPanel");
         cancelTrapButton.gameObject.SetActive(false);
     }

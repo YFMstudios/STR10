@@ -29,12 +29,12 @@ public class PanelTextController : MonoBehaviour//Bozulan
         {
             kingdomName.text = "Akhadzria";
             imageComponent.sprite = Kingdom.Kingdoms[2].Flag;
-            foodAmount.text = Kingdom.Kingdoms[2].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[2].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[2].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[2].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[2].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[2].WarPower.ToString();
+            foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
             Kingdom.myKingdom = Kingdom.Kingdoms[2];
 
         }
@@ -42,48 +42,48 @@ public class PanelTextController : MonoBehaviour//Bozulan
         {
             kingdomName.text = "Alfgard";
             imageComponent.sprite = Kingdom.Kingdoms[1].Flag;
-            foodAmount.text = Kingdom.Kingdoms[1].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[1].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[1].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[1].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[1].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[1].WarPower.ToString();
+            foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
             Kingdom.myKingdom = Kingdom.Kingdoms[1];
         }
         else if (spriteNum == 4)
         {
             kingdomName.text = "Arianopol";
             imageComponent.sprite = Kingdom.Kingdoms[0].Flag;
-            foodAmount.text = Kingdom.Kingdoms[0].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[0].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[0].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[0].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[0].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[0].WarPower.ToString();
+             foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
             Kingdom.myKingdom = Kingdom.Kingdoms[0];
         }
         else if (spriteNum == 5)
         {
             kingdomName.text = "Dhamuron";
             imageComponent.sprite = Kingdom.Kingdoms[3].Flag;
-            foodAmount.text = Kingdom.Kingdoms[3].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[3].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[3].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[3].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[3].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[3].WarPower.ToString();
+            foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
             Kingdom.myKingdom = Kingdom.Kingdoms[3];
         }
         else if (spriteNum == 6)
         {
             kingdomName.text = "Lexion";
             imageComponent.sprite = Kingdom.Kingdoms[4].Flag;
-            foodAmount.text = Kingdom.Kingdoms[4].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[4].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[4].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[4].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[4].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[4].WarPower.ToString();
+             foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
             Kingdom.myKingdom = Kingdom.Kingdoms[4];
         }
         else
@@ -91,12 +91,12 @@ public class PanelTextController : MonoBehaviour//Bozulan
             
             kingdomName.text = "Zephrion";
             imageComponent.sprite = Kingdom.Kingdoms[5].Flag;
-            foodAmount.text = Kingdom.Kingdoms[5].FoodAmount.ToString();
-            stoneAmount.text = Kingdom.Kingdoms[5].StoneAmount.ToString();
-            goldAmount.text = Kingdom.Kingdoms[5].GoldAmount.ToString();
-            woodAmount.text = Kingdom.Kingdoms[5].WoodAmount.ToString();
-            ironAmount.text = Kingdom.Kingdoms[5].IronAmount.ToString();
-            warPower.text = Kingdom.Kingdoms[5].WarPower.ToString();
+             foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
             Kingdom.myKingdom = Kingdom.Kingdoms[5];
         }
     }
@@ -109,12 +109,12 @@ public class PanelTextController : MonoBehaviour//Bozulan
     public void refreshKingdomResources()
     {
 
-        foodAmount.text = Kingdom.myKingdom.FoodAmount.ToString();
-        stoneAmount.text = Kingdom.myKingdom.StoneAmount.ToString();
-        goldAmount.text = Kingdom.myKingdom.GoldAmount.ToString();
-        woodAmount.text = Kingdom.myKingdom.WoodAmount.ToString();
-        ironAmount.text = Kingdom.myKingdom.IronAmount.ToString();
-        warPower.text = Kingdom.myKingdom.WarPower.ToString();
+        foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
+            stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();
+            goldAmount.text = KaynakYoneticisi.GoldAmount.ToString();
+            woodAmount.text = KaynakYoneticisi.WoodAmount.ToString();
+            ironAmount.text = KaynakYoneticisi.IronAmount.ToString();
+            warPower.text = KaynakYoneticisi.WarPower.ToString();
     }
 
     

@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class LabPanelController : MonoBehaviour
 {
-    public TMP_Text goldText;     // Altýn miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text woodText;     // Kereste miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text stoneText;    // Taþ miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text ironText;     // Demir miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text foodText;     // Yemek miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text buildLevelText;     // Bina seviyesini gösterecek TMP bileþeni
-    public TMP_Text productionRateText; // Üretim Miktarýný gösterecek TMP bileþeni
+    public TMP_Text goldText;     // Altï¿½n miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text woodText;     // Kereste miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text stoneText;    // Taï¿½ miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text ironText;     // Demir miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text foodText;     // Yemek miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text buildLevelText;     // Bina seviyesini gï¿½sterecek TMP bileï¿½eni
+    public TMP_Text productionRateText; // ï¿½retim Miktarï¿½nï¿½ gï¿½sterecek TMP bileï¿½eni
     public TMP_Text maliyetText;
 
-    public Image goldImage;        // Altýn için resim
-    public Image woodImage;        // Kereste için resim
-    public Image stoneImage;       // Taþ için resim
-    public Image ironImage;        // Demir için resim
+    public Image goldImage;        // Altï¿½n iï¿½in resim
+    public Image woodImage;        // Kereste iï¿½in resim
+    public Image stoneImage;       // Taï¿½ iï¿½in resim
+    public Image ironImage;        // Demir iï¿½in resim
     public Image foodImage;
 
     public Button cancelLabButton;
@@ -26,8 +26,11 @@ public class LabPanelController : MonoBehaviour
     public GameObject progressBar;
     public PanelManager panelManager;
 
+           public Button buildLabButton;
+    private Text buttonText;
     public void refreshLab()
-    {
+    {   
+        TextMeshProUGUI buttonText = buildLabButton.GetComponentInChildren<TextMeshProUGUI>();
         if (Lab.buildLevel == 1)
         {
             buildLevelText.text = "1";
@@ -36,6 +39,7 @@ public class LabPanelController : MonoBehaviour
             woodText.text = "3500";
             stoneText.text = "4500";
             ironText.text = "4000";
+               buttonText.text = "YÃ¼kselt";
         }
         else if (Lab.buildLevel == 2)
         {
@@ -45,6 +49,7 @@ public class LabPanelController : MonoBehaviour
             woodText.text = "5000";
             stoneText.text = "7000";
             ironText.text = "6500";
+               buttonText.text = "YÃ¼kselt";
         }
         else if (Lab.buildLevel == 3)
         {
@@ -56,7 +61,7 @@ public class LabPanelController : MonoBehaviour
 
     public void DestroyComponents()
     {
-        // TMP_Text bileþenlerini yok et
+        // TMP_Text bileï¿½enlerini yok et
         if (goldText != null) Destroy(goldText);
         if (woodText != null) Destroy(woodText);
         if (stoneText != null) Destroy(stoneText);
@@ -64,7 +69,7 @@ public class LabPanelController : MonoBehaviour
         if (foodText != null) Destroy(foodText);
         if (maliyetText != null) Destroy(maliyetText);
 
-        // Image bileþenlerini yok et
+        // Image bileï¿½enlerini yok et
         if (goldImage != null) Destroy(goldImage);
         if (woodImage != null) Destroy(woodImage);
         if (stoneImage != null) Destroy(stoneImage);
@@ -76,7 +81,7 @@ public class LabPanelController : MonoBehaviour
 
     public void cancelLabBuild()
     {
-        isBuildCanceled = true; // Ýptal iþlemini baþlat
+        isBuildCanceled = true; // ï¿½ptal iï¿½lemini baï¿½lat
         panelManager.DestroyPanel("LabBuildingProcessPanel");
         cancelLabButton.gameObject.SetActive(false);
     }

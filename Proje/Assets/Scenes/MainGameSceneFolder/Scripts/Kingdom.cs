@@ -45,28 +45,27 @@ public class Kingdom : MonoBehaviour
     }
     public Kingdom() { }
 
-    public static void CreateKingdoms()
-    {
-        // Bayrak �zelli�i i�in gerekli sprite'lar �nce tan�mlanmal�d�r
+   public static void CreateKingdoms()
+{
+    // Bayrak  zelli i i in gerekli sprite'lar  nce tan mlanmal d r
 
-        Sprite akhadzriaFlag = Resources.Load<Sprite>("Flags/akhadzriaFlag");
-        Sprite alfgardFlag = Resources.Load<Sprite>("Flags/alfgardFlag");
-        Sprite arianopolFlag = Resources.Load<Sprite>("Flags/arianopolFlag");
-        Sprite dhamuronFlag = Resources.Load<Sprite>("Flags/dhamuronFlag");
-        Sprite lexionFlag = Resources.Load<Sprite>("Flags/lexionFlag");
-        Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephrionFlag");
+    Sprite akhadzriaFlag = Resources.Load<Sprite>("Flags/akhadzriaFlag");
+    Sprite alfgardFlag = Resources.Load<Sprite>("Flags/alfgardFlag");
+    Sprite arianopolFlag = Resources.Load<Sprite>("Flags/arianopolFlag");
+    Sprite dhamuronFlag = Resources.Load<Sprite>("Flags/dhamuronFlag");
+    Sprite lexionFlag = Resources.Load<Sprite>("Flags/lexionFlag");
+    Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephrionFlag");
 
-        kingdoms[0] = new Kingdom("Arianopol", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, arianopolFlag);
-        kingdoms[1] = new Kingdom("Alfgard", 0, 75000, 35000, 75000, 55000, 35000, 0, 0, alfgardFlag);
-        kingdoms[2] = new Kingdom("Akhadzria", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, akhadzriaFlag);
-        kingdoms[3] = new Kingdom("Dhamuron", 0, 75000, 35000, 75000, 55000, 35000, 0, 0, dhamuronFlag);
-        kingdoms[4] = new Kingdom("Lexion", 0, 75000, 35000, 75000, 55000, 35000, 0, 0, lexionFlag);
-        kingdoms[5] = new Kingdom("Zephrion", 0, 7500, 3500, 7500, 5500, 3500, 0, 0, zephyrionFlag);
+    kingdoms[0] = new Kingdom("Arianopol", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, arianopolFlag);
+    kingdoms[1] = new Kingdom("Alfgard", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, alfgardFlag);
+    kingdoms[2] = new Kingdom("Akhadzria", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, akhadzriaFlag);
+    kingdoms[3] = new Kingdom("Dhamuron", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, dhamuronFlag);
+    kingdoms[4] = new Kingdom("Lexion", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, lexionFlag);
+    kingdoms[5] = new Kingdom("Zephrion", 0,KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, zephyrionFlag);
 
 
 
-    }
-
+}
     public static int returnsKingdomNumbers(string kingdom)
     {
         if (kingdom == "Arianopol") return 0;

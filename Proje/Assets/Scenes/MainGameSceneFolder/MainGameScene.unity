@@ -652,6 +652,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 0}
   panelManager: {fileID: 1735794291}
+  buildStonePitButton: {fileID: 1733424059}
 --- !u!4 &6597937
 Transform:
   m_ObjectHideFlags: 0
@@ -3479,6 +3480,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 557937839}
   panelManager: {fileID: 1735794291}
+  buildBarracksButton: {fileID: 1274341523}
 --- !u!4 &77116427
 Transform:
   m_ObjectHideFlags: 0
@@ -6665,6 +6667,8 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 664324102}
   panelManager: {fileID: 1735794291}
+  buildTower1Button: {fileID: 1444855353}
+  buildTower2Button: {fileID: 1172057170}
 --- !u!1 &149362418
 GameObject:
   m_ObjectHideFlags: 0
@@ -32640,6 +32644,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 1204850891}
   panelManager: {fileID: 1735794291}
+  buildLabButton: {fileID: 1608911805}
 --- !u!4 &796053680
 Transform:
   m_ObjectHideFlags: 0
@@ -47768,6 +47773,7 @@ MonoBehaviour:
   cancelHospitalButton: {fileID: 1917292414}
   isBuildCanceled: 0
   panelManager: {fileID: 1735794291}
+  buildHospitalButton: {fileID: 42015081}
 --- !u!4 &1176594860
 Transform:
   m_ObjectHideFlags: 0
@@ -54577,6 +54583,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 1075891161}
   panelManager: {fileID: 1735794291}
+  buildSamwillButton: {fileID: 877249086}
 --- !u!1 &1350065218
 GameObject:
   m_ObjectHideFlags: 0
@@ -63066,6 +63073,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1541301068}
+  - component: {fileID: 1541301069}
   m_Layer: 0
   m_Name: BuildControllers
   m_TagString: Untagged
@@ -63100,6 +63108,43 @@ Transform:
   - {fileID: 1961369826}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1541301069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541301067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5408b96ea31b9bd4487212fb2bfd2474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wareHousePanelController: {fileID: 1857280096}
+  stonepitPanelController: {fileID: 6597936}
+  sawmillPanelController: {fileID: 1349949392}
+  farmPanelController: {fileID: 1843992850}
+  blacksmithPanelController: {fileID: 1710035373}
+  labPanelController: {fileID: 796053679}
+  barracksPanelController: {fileID: 77116426}
+  hospitalPanelController: {fileID: 1176594859}
+  castlePanelController: {fileID: 2141381836}
+  towerPanelController: {fileID: 141944812}
+  trapPanelController: {fileID: 1961369825}
+  buildStonePitButton: {fileID: 1733424059}
+  buildBlacksmithButton: {fileID: 1147567283}
+  buildSawmillButton: {fileID: 877249086}
+  buildBarracksButton: {fileID: 1274341523}
+  buildFarmButton: {fileID: 1244317813}
+  buildHospitalButton: {fileID: 42015081}
+  buildLabButton: {fileID: 1608911805}
+  buildWarehouseButton: {fileID: 1009877763}
+  buildCastleButton: {fileID: 1009559437}
+  buildTowerOneButton: {fileID: 1444855353}
+  buildTowerTwoButton: {fileID: 1172057170}
+  buildTrapOneButton: {fileID: 1939744558}
+  buildTrapTwoButton: {fileID: 1672803052}
+  buildTrapThreeButton: {fileID: 1829223755}
 --- !u!1 &1542199097
 GameObject:
   m_ObjectHideFlags: 0
@@ -70776,6 +70821,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 173651435}
   panelManager: {fileID: 1735794291}
+  buildBlackSmittButton: {fileID: 1147567283}
 --- !u!1 &1715777696
 GameObject:
   m_ObjectHideFlags: 0
@@ -76770,6 +76816,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 1214443221}
   panelManager: {fileID: 1735794291}
+  buildFarmButton: {fileID: 1274341523}
 --- !u!1 &1850141096
 GameObject:
   m_ObjectHideFlags: 0
@@ -77773,6 +77820,7 @@ MonoBehaviour:
   cancelWarehouseButton: {fileID: 535746165}
   isBuildCanceled: 0
   panelManager: {fileID: 1735794291}
+  buildWareHouseButton: {fileID: 1009877763}
 --- !u!4 &1857280097
 Transform:
   m_ObjectHideFlags: 0
@@ -82600,6 +82648,9 @@ MonoBehaviour:
   isBuildCanceled: 0
   progressBar: {fileID: 38098608}
   panelManager: {fileID: 1735794291}
+  buildTrap1Button: {fileID: 1939744558}
+  buildTrap2Button: {fileID: 1672803052}
+  buildTrap3Button: {fileID: 1829223755}
 --- !u!4 &1961369826
 Transform:
   m_ObjectHideFlags: 0
@@ -91833,6 +91884,7 @@ MonoBehaviour:
   isBuildCanceled: 0
   panelManager: {fileID: 1735794291}
   progressBar: {fileID: 122269086}
+  buildCastleButton: {fileID: 1009559437}
 --- !u!1 &2145269138
 GameObject:
   m_ObjectHideFlags: 0

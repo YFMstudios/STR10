@@ -6,27 +6,31 @@ using UnityEngine.UI;
 
 public class HospitalPanelController : MonoBehaviour
 {
-    public TMP_Text goldText;     // Altýn miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text woodText;     // Kereste miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text stoneText;    // Taþ miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text ironText;     // Demir miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text foodText;     // Yemek miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text buildLevelText;     // Bina seviyesini gösterecek TMP bileþeni
-    public TMP_Text productionRateText; // Üretim Miktarýný gösterecek TMP bileþeni
+    public TMP_Text goldText;     // Altï¿½n miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text woodText;     // Kereste miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text stoneText;    // Taï¿½ miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text ironText;     // Demir miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text foodText;     // Yemek miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text buildLevelText;     // Bina seviyesini gï¿½sterecek TMP bileï¿½eni
+    public TMP_Text productionRateText; // ï¿½retim Miktarï¿½nï¿½ gï¿½sterecek TMP bileï¿½eni
     public TMP_Text maliyetText;
 
-    public Image goldImage;        // Altýn için resim
-    public Image woodImage;        // Kereste için resim
-    public Image stoneImage;       // Taþ için resim
-    public Image ironImage;        // Demir için resim
+    public Image goldImage;        // Altï¿½n iï¿½in resim
+    public Image woodImage;        // Kereste iï¿½in resim
+    public Image stoneImage;       // Taï¿½ iï¿½in resim
+    public Image ironImage;        // Demir iï¿½in resim
     public Image foodImage;
 
     public Button cancelHospitalButton;
     public bool isBuildCanceled = false;
     public PanelManager panelManager;
 
+                public Button buildHospitalButton;
+    private Text buttonText;
+
     public void refreshHospital()
     {
+        TextMeshProUGUI buttonText = buildHospitalButton.GetComponentInChildren<TextMeshProUGUI>();
         if (Hospital.buildLevel == 1)
         {
             buildLevelText.text = "1";
@@ -36,6 +40,7 @@ public class HospitalPanelController : MonoBehaviour
             woodText.text = "2200";
             stoneText.text = "2000";
             ironText.text = "1500";
+             buttonText.text = "YÃ¼kselt";
         }
         else if (Hospital.buildLevel == 2)
         {
@@ -46,6 +51,7 @@ public class HospitalPanelController : MonoBehaviour
             woodText.text = "3500";
             stoneText.text = "3000";
             ironText.text = "2000";
+             buttonText.text = "YÃ¼kselt";
         }
         else if (Hospital.buildLevel == 3)
         {
@@ -59,7 +65,7 @@ public class HospitalPanelController : MonoBehaviour
 
     public void DestroyComponents()
     {
-        // TMP_Text bileþenlerini yok et
+        // TMP_Text bileï¿½enlerini yok et
         if (goldText != null) Destroy(goldText);
         if (woodText != null) Destroy(woodText);
         if (stoneText != null) Destroy(stoneText);
@@ -67,7 +73,7 @@ public class HospitalPanelController : MonoBehaviour
         if (foodText != null) Destroy(foodText);
         if (maliyetText != null) Destroy(maliyetText);
 
-        // Image bileþenlerini yok et
+        // Image bileï¿½enlerini yok et
         if (goldImage != null) Destroy(goldImage);
         if (woodImage != null) Destroy(woodImage);
         if (stoneImage != null) Destroy(stoneImage);
@@ -78,7 +84,7 @@ public class HospitalPanelController : MonoBehaviour
 
     public void cancelHospitalBuild()
     {
-        isBuildCanceled = true; // Ýptal iþlemini baþlat
+        isBuildCanceled = true; // ï¿½ptal iï¿½lemini baï¿½lat
         cancelHospitalButton.gameObject.SetActive(false);
         panelManager.DestroyPanel("HospitalBuildingProcessPanel");
     }

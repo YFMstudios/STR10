@@ -8,6 +8,8 @@ public class ProductionController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale=1;
+        Debug.Log("Coroutinler baslatÄ±ldÄ±.");
         StartCoroutine(IncrementStoneAmount());
         
         StartCoroutine(IncrementIronAmount());
@@ -17,22 +19,25 @@ public class ProductionController : MonoBehaviour
 
     IEnumerator IncrementStoneAmount()
     {
+        Debug.Log("Fonksiyona Girdim.");
         while (true)
         {
+             Debug.Log("Whilea Girdim.");
             yield return new WaitForSeconds(2f); // 2 saniye bekle
-
+                Debug.Log("Stone pit Ã¼retim durumu:"+StonePit.canIStartProduction);
             if (StonePit.canIStartProduction) // StonePit isClickedButton true ise
             {
-
-                if ((Kingdom.myKingdom.StoneAmount + StonePit.stoneProductionRate) >= Warehouse.stoneCapacity)
+                     Debug.Log("Stone pit Ã¼retim durumu:"+StonePit.canIStartProduction);
+                if ((KaynakYoneticisi.StoneAmount + StonePit.stoneProductionRate) >= Warehouse.stoneCapacity)
                 {
                     StonePit.canIStartProduction = false;
+                     Debug.Log("Stone pit Ã¼retim durumu:"+StonePit.canIStartProduction);
                 }
                 else
                 {
 
-                    Kingdom.myKingdom.StoneAmount += StonePit.stoneProductionRate;
-                    Kingdom.myKingdom.GoldAmount += StonePit.goldProductionRateStonePit;
+                    KaynakYoneticisi.StoneAmount += StonePit.stoneProductionRate;
+                    KaynakYoneticisi.GoldAmount += StonePit.goldProductionRateStonePit;
                 }
             }
 
@@ -48,15 +53,15 @@ public class ProductionController : MonoBehaviour
             if (Blacksmith.canIStartProduction) // StonePit isClickedButton true ise
             {
 
-                if ((Kingdom.myKingdom.IronAmount + Blacksmith.ironProductionRate) >= Warehouse.ironCapacity)
+                if ((KaynakYoneticisi.IronAmount + Blacksmith.ironProductionRate) >= Warehouse.ironCapacity)
                 {
                     Blacksmith.canIStartProduction = false;
                 }
                 else
                 {
 
-                    Kingdom.myKingdom.IronAmount += Blacksmith.ironProductionRate; // myKingdom.StoneAmount deðerini 5 artýr
-                    Kingdom.myKingdom.GoldAmount += Blacksmith.goldProductionRateBlacksmith;
+                    KaynakYoneticisi.IronAmount += Blacksmith.ironProductionRate; // myKingdom.StoneAmount deï¿½erini 5 artï¿½r
+                    KaynakYoneticisi.GoldAmount += Blacksmith.goldProductionRateBlacksmith;
                 }
             }
 
@@ -72,15 +77,15 @@ public class ProductionController : MonoBehaviour
             if (Farm.canIStartProduction) // StonePit isClickedButton true ise
             {
 
-                if ((Kingdom.myKingdom.FoodAmount + Farm.foodProductionRate) >= Warehouse.foodCapacity)
+                if ((KaynakYoneticisi.FoodAmount + Farm.foodProductionRate) >= Warehouse.foodCapacity)
                 {
                     Farm.canIStartProduction = false;
                 }
                 else
                 {
 
-                    Kingdom.myKingdom.FoodAmount += Farm.foodProductionRate; // myKingdom.StoneAmount deðerini 5 artýr
-                    Kingdom.myKingdom.GoldAmount += Farm.goldProductionRateFarm;
+                    KaynakYoneticisi.FoodAmount += Farm.foodProductionRate; // myKingdom.StoneAmount deï¿½erini 5 artï¿½r
+                    KaynakYoneticisi.GoldAmount += Farm.goldProductionRateFarm;
                 }
             }
 
@@ -97,15 +102,15 @@ public class ProductionController : MonoBehaviour
             if (Sawmill.canIStartProduction) // StonePit isClickedButton true ise
             {
 
-                if ((Kingdom.myKingdom.WoodAmount + Sawmill.timberProductionRate) >= Warehouse.timberCapacity)
+                if ((KaynakYoneticisi.WoodAmount + Sawmill.timberProductionRate) >= Warehouse.timberCapacity)
                 {
                     Sawmill.canIStartProduction = false;
                 }
                 else
                 {
 
-                    Kingdom.myKingdom.WoodAmount += Sawmill.timberProductionRate; // myKingdom.StoneAmount deðerini 5 artýr
-                    Kingdom.myKingdom.GoldAmount += Sawmill.goldProductionRateSawmill;
+                    KaynakYoneticisi.WoodAmount += Sawmill.timberProductionRate; // myKingdom.StoneAmount deï¿½erini 5 artï¿½r
+                    KaynakYoneticisi.GoldAmount += Sawmill.goldProductionRateSawmill;
                 }
 
             }

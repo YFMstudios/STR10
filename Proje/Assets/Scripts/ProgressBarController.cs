@@ -409,11 +409,11 @@ public class ProgressBarController : MonoBehaviour
         totalTas = ((int)savasciCount * 5) + ((int)okcuCount * 2);
         totalKereste = ((int)savasciCount * 5) + ((int)okcuCount * 10);
 
-        Kingdom.myKingdom.GoldAmount -= (int)totalAltin;
-        Kingdom.myKingdom.FoodAmount -= (int)totalYemek;
-        Kingdom.myKingdom.IronAmount -= (int)totalDemir;
-        Kingdom.myKingdom.StoneAmount -= (int)totalTas;
-        Kingdom.myKingdom.WoodAmount -= (int)totalKereste;
+        KaynakYoneticisi.GoldAmount -= (int)totalAltin;
+        KaynakYoneticisi.FoodAmount -= (int)totalYemek;
+        KaynakYoneticisi.IronAmount -= (int)totalDemir;
+        KaynakYoneticisi.StoneAmount -= (int)totalTas;
+        KaynakYoneticisi.WoodAmount -= (int)totalKereste;
     }
 
     void giveCostBack(float savasciCount, float okcuCount)
@@ -425,11 +425,11 @@ public class ProgressBarController : MonoBehaviour
         totalTas = ((int)savasciCount * 5) + ((int)okcuCount * 2);
         totalKereste = ((int)savasciCount * 5) + ((int)okcuCount * 10);
 
-        Kingdom.myKingdom.GoldAmount += (int)totalAltin;
-        Kingdom.myKingdom.FoodAmount += (int)totalYemek;
-        Kingdom.myKingdom.IronAmount += (int)totalDemir;
-        Kingdom.myKingdom.StoneAmount += (int)totalTas;
-        Kingdom.myKingdom.WoodAmount += (int)totalKereste;
+        KaynakYoneticisi.GoldAmount += (int)totalAltin;
+        KaynakYoneticisi.FoodAmount += (int)totalYemek;
+        KaynakYoneticisi.IronAmount += (int)totalDemir;
+        KaynakYoneticisi.StoneAmount += (int)totalTas;
+        KaynakYoneticisi.WoodAmount += (int)totalKereste;
     }
     void ResetProgressBar(GameObject gameObject)
     {

@@ -57,11 +57,11 @@ public class BuildBuilder : MonoBehaviour
         // G�ncel maliyetleri kontrol edin
         building.UpdateCosts();
 
-        if ((building.buildGoldCost > Kingdom.myKingdom.GoldAmount) ||
-            (building.buildStoneCost > Kingdom.myKingdom.StoneAmount) ||
-            (building.buildTimberCost > Kingdom.myKingdom.WoodAmount) ||
-            (building.buildIronCost > Kingdom.myKingdom.IronAmount) ||
-            (building.buildFoodCost > Kingdom.myKingdom.FoodAmount))
+        if ((building.buildGoldCost > KaynakYoneticisi.GoldAmount) ||
+            (building.buildStoneCost > KaynakYoneticisi.StoneAmount) ||
+            (building.buildTimberCost > KaynakYoneticisi.WoodAmount) ||
+            (building.buildIronCost > KaynakYoneticisi.IronAmount) ||
+            (building.buildFoodCost > KaynakYoneticisi.FoodAmount))
         {
             return false;
         }
@@ -102,11 +102,11 @@ public class BuildBuilder : MonoBehaviour
                          ", Yiyecek: " + stonePit.buildFoodCost);
 
                 // Kaynakları azaltın
-                Kingdom.myKingdom.GoldAmount -= stonePit.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= stonePit.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= stonePit.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= stonePit.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= stonePit.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= stonePit.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= stonePit.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= stonePit.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= stonePit.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= stonePit.buildFoodCost;
 
                 buildStonePitButton.enabled = false;
                 Debug.Log("İnşaat başlatılıyor - Buton devre dışı bırakıldı");
@@ -134,11 +134,11 @@ public class BuildBuilder : MonoBehaviour
                     {
                         Debug.Log("StonePit inşaatı tamamlanamadı. Kaynaklar iade ediliyor.");
                         // Kaynakları iade et
-                        Kingdom.myKingdom.GoldAmount += stonePit.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += stonePit.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += stonePit.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += stonePit.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += stonePit.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += stonePit.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += stonePit.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += stonePit.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += stonePit.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += stonePit.buildFoodCost;
                         buildStonePitButton.enabled = true;
                         Debug.Log("Kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                     }
@@ -168,11 +168,11 @@ public class BuildBuilder : MonoBehaviour
                              ", Yiyecek: " + stonePit.buildFoodCost);
 
                     // Kaynakları azaltın
-                    Kingdom.myKingdom.GoldAmount -= stonePit.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= stonePit.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= stonePit.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= stonePit.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= stonePit.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= stonePit.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= stonePit.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= stonePit.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= stonePit.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= stonePit.buildFoodCost;
 
                     buildStonePitButton.enabled = false;
                     Debug.Log("Seviye 2 yükseltmesi başlatılıyor - Buton devre dışı bırakıldı");
@@ -198,11 +198,11 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Debug.Log("Seviye 2 yükseltmesi tamamlanamadı. Kaynaklar iade ediliyor.");
                             // Kaynakları iade et
-                            Kingdom.myKingdom.GoldAmount += stonePit.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += stonePit.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += stonePit.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += stonePit.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += stonePit.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += stonePit.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += stonePit.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += stonePit.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += stonePit.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += stonePit.buildFoodCost;
                             buildStonePitButton.enabled = true;
                             Debug.Log("Seviye 2 için kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                         }
@@ -228,11 +228,11 @@ public class BuildBuilder : MonoBehaviour
                              ", Demir: " + stonePit.buildIronCost +
                              ", Yiyecek: " + stonePit.buildFoodCost);
 
-                    Kingdom.myKingdom.GoldAmount -= stonePit.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= stonePit.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= stonePit.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= stonePit.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= stonePit.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= stonePit.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= stonePit.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= stonePit.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= stonePit.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= stonePit.buildFoodCost;
 
                     buildStonePitButton.enabled = false;
                     Debug.Log("Seviye 3 yükseltmesi başlatılıyor - Buton devre dışı bırakıldı");
@@ -256,11 +256,11 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Debug.Log("Seviye 3 yükseltmesi tamamlanamadı. Kaynaklar iade ediliyor.");
                             // Kaynakları iade et
-                            Kingdom.myKingdom.GoldAmount += stonePit.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += stonePit.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += stonePit.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += stonePit.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += stonePit.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += stonePit.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += stonePit.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += stonePit.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += stonePit.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += stonePit.buildFoodCost;
                             buildStonePitButton.enabled = true;
                             Debug.Log("Seviye 3 için kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                         }
@@ -299,11 +299,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(blacksmith))
             {
                 // Kaynakları azalt
-                Kingdom.myKingdom.GoldAmount -= blacksmith.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= blacksmith.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= blacksmith.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= blacksmith.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= blacksmith.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= blacksmith.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= blacksmith.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= blacksmith.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= blacksmith.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= blacksmith.buildFoodCost;
 
                 buildBlacksmithButton.enabled = false;
 
@@ -326,11 +326,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynakları geri al
-                        Kingdom.myKingdom.GoldAmount += blacksmith.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += blacksmith.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += blacksmith.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += blacksmith.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += blacksmith.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += blacksmith.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += blacksmith.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += blacksmith.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += blacksmith.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += blacksmith.buildFoodCost;
                         buildBlacksmithButton.enabled = true;
                     }
                 }));
@@ -351,11 +351,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(blacksmith))
                 {
                     // Kaynakları azalt
-                    Kingdom.myKingdom.GoldAmount -= blacksmith.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= blacksmith.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= blacksmith.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= blacksmith.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= blacksmith.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= blacksmith.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= blacksmith.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= blacksmith.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= blacksmith.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= blacksmith.buildFoodCost;
 
                     buildBlacksmithButton.enabled = false;
 
@@ -372,11 +372,11 @@ public class BuildBuilder : MonoBehaviour
                         }
                         else
                         {
-                            Kingdom.myKingdom.GoldAmount += blacksmith.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += blacksmith.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += blacksmith.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += blacksmith.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += blacksmith.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += blacksmith.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += blacksmith.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += blacksmith.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += blacksmith.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += blacksmith.buildFoodCost;
                             buildBlacksmithButton.enabled = true;
                         }
                     }));
@@ -394,11 +394,11 @@ public class BuildBuilder : MonoBehaviour
 
                 if (checkResources(blacksmith))
                 {
-                    Kingdom.myKingdom.GoldAmount -= blacksmith.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= blacksmith.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= blacksmith.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= blacksmith.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= blacksmith.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= blacksmith.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= blacksmith.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= blacksmith.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= blacksmith.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= blacksmith.buildFoodCost;
 
                     buildBlacksmithButton.enabled = false;
 
@@ -413,11 +413,11 @@ public class BuildBuilder : MonoBehaviour
                         }
                         else
                         {
-                            Kingdom.myKingdom.GoldAmount += blacksmith.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += blacksmith.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += blacksmith.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += blacksmith.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += blacksmith.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += blacksmith.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += blacksmith.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += blacksmith.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += blacksmith.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += blacksmith.buildFoodCost;
                             buildBlacksmithButton.enabled = true;
                         }
                     }));
@@ -452,11 +452,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(sawmill))
             {
                 // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= sawmill.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= sawmill.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= sawmill.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= sawmill.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= sawmill.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= sawmill.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= sawmill.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= sawmill.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= sawmill.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= sawmill.buildFoodCost;
 
                 buildSawmillButton.enabled = false;
 
@@ -478,11 +478,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += sawmill.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += sawmill.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += sawmill.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += sawmill.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += sawmill.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += sawmill.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += sawmill.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += sawmill.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += sawmill.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += sawmill.buildFoodCost;
                         buildSawmillButton.enabled = true;
                     }
                 }));
@@ -502,11 +502,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(sawmill))
                 {
                     // Kaynaklar� azalt�n
-                    Kingdom.myKingdom.GoldAmount -= sawmill.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= sawmill.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= sawmill.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= sawmill.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= sawmill.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= sawmill.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= sawmill.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= sawmill.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= sawmill.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= sawmill.buildFoodCost;
 
                     buildSawmillButton.enabled = false;
 
@@ -526,11 +526,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += sawmill.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += sawmill.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += sawmill.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += sawmill.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += sawmill.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += sawmill.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += sawmill.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += sawmill.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += sawmill.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += sawmill.buildFoodCost;
                             buildSawmillButton.enabled = true;
                         }
                     }));
@@ -548,11 +548,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(sawmill))
                 {
 
-                    Kingdom.myKingdom.GoldAmount -= sawmill.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= sawmill.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= sawmill.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= sawmill.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= sawmill.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= sawmill.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= sawmill.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= sawmill.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= sawmill.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= sawmill.buildFoodCost;
 
                     buildSawmillButton.enabled = false;
 
@@ -570,11 +570,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += sawmill.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += sawmill.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += sawmill.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += sawmill.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += sawmill.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += sawmill.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += sawmill.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += sawmill.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += sawmill.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += sawmill.buildFoodCost;
                             buildSawmillButton.enabled = true;
                         }
                     }));
@@ -608,11 +608,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(farm))
             {
                 // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= farm.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= farm.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= farm.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= farm.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= farm.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= farm.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= farm.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= farm.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= farm.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= farm.buildFoodCost;
 
                 buildFarmButton.enabled = false;
 
@@ -634,11 +634,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += farm.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += farm.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += farm.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += farm.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += farm.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += farm.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += farm.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += farm.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += farm.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += farm.buildFoodCost;
                         buildFarmButton.enabled = true;
                     }
                 }));
@@ -658,11 +658,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(farm))
                 {
                     // Kaynaklar� azalt�n
-                    Kingdom.myKingdom.GoldAmount -= farm.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= farm.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= farm.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= farm.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= farm.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= farm.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= farm.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= farm.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= farm.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= farm.buildFoodCost;
 
                     buildFarmButton.enabled = false;
 
@@ -682,11 +682,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += farm.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += farm.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += farm.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += farm.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += farm.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += farm.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += farm.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += farm.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += farm.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += farm.buildFoodCost;
                             buildFarmButton.enabled = true;
                         }
                     }));
@@ -703,11 +703,11 @@ public class BuildBuilder : MonoBehaviour
 
                 if (checkResources(farm))
                 {
-                    Kingdom.myKingdom.GoldAmount -= farm.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= farm.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= farm.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= farm.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= farm.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= farm.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= farm.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= farm.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= farm.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= farm.buildFoodCost;
 
                     buildFarmButton.enabled = false;
 
@@ -725,11 +725,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += farm.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += farm.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += farm.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += farm.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += farm.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += farm.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += farm.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += farm.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += farm.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += farm.buildFoodCost;
                             buildFarmButton.enabled = true;
                         }
                     }));
@@ -763,11 +763,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(barracks) /*&& Sawmill.buildLevel >= 1 && Farm.buildLevel >= 2 && Blacksmith.buildLevel >= 1*/)
             {
                 //Kaynaklar� Azalt
-                Kingdom.myKingdom.GoldAmount -= barracks.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= barracks.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= barracks.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= barracks.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= barracks.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= barracks.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= barracks.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= barracks.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= barracks.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= barracks.buildFoodCost;
 
                 buildBarracksButton.enabled = false;
 
@@ -790,11 +790,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += barracks.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += barracks.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += barracks.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += barracks.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += barracks.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += barracks.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += barracks.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += barracks.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += barracks.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += barracks.buildFoodCost;
                         buildBarracksButton.enabled = true;
                     }
                 }));
@@ -820,11 +820,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         //Kaynaklar� Azalt
-                        Kingdom.myKingdom.GoldAmount -= barracks.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= barracks.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= barracks.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= barracks.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= barracks.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= barracks.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= barracks.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= barracks.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= barracks.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= barracks.buildFoodCost;
 
                         buildBarracksButton.enabled = false;
 
@@ -846,11 +846,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += barracks.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += barracks.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += barracks.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += barracks.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += barracks.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += barracks.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += barracks.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += barracks.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += barracks.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += barracks.buildFoodCost;
                                 buildBarracksButton.enabled = true;
                             }
                         }));
@@ -875,11 +875,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         //Kaynaklar� Azalt
-                        Kingdom.myKingdom.GoldAmount -= barracks.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= barracks.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= barracks.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= barracks.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= barracks.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= barracks.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= barracks.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= barracks.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= barracks.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= barracks.buildFoodCost;
 
                         buildBarracksButton.enabled = false;
 
@@ -900,11 +900,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += barracks.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += barracks.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += barracks.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += barracks.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += barracks.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += barracks.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += barracks.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += barracks.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += barracks.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += barracks.buildFoodCost;
                                 buildBarracksButton.enabled = true;
                             }
                         }));
@@ -945,11 +945,11 @@ public class BuildBuilder : MonoBehaviour
             {
                 buildHospitalButton.enabled = false;
                 // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= hospital.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= hospital.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= hospital.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= hospital.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= hospital.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= hospital.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= hospital.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= hospital.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= hospital.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= hospital.buildFoodCost;
 
                 buildHospitalButton.enabled = false;
 
@@ -972,11 +972,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += hospital.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += hospital.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += hospital.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += hospital.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += hospital.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += hospital.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += hospital.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += hospital.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += hospital.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += hospital.buildFoodCost;
                         buildHospitalButton.enabled = true;
                     }
                 }));
@@ -999,11 +999,11 @@ public class BuildBuilder : MonoBehaviour
                     }
                     else
                     {
-                        Kingdom.myKingdom.GoldAmount -= hospital.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= hospital.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= hospital.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= hospital.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= hospital.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= hospital.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= hospital.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= hospital.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= hospital.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= hospital.buildFoodCost;
 
                         buildHospitalButton.enabled = false;
 
@@ -1024,11 +1024,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += hospital.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += hospital.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += hospital.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += hospital.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += hospital.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += hospital.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += hospital.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += hospital.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += hospital.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += hospital.buildFoodCost;
                                 buildHospitalButton.enabled = true;
                             }
                         }));
@@ -1052,11 +1052,11 @@ public class BuildBuilder : MonoBehaviour
                     }
                     else
                     {
-                        Kingdom.myKingdom.GoldAmount -= hospital.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= hospital.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= hospital.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= hospital.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= hospital.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= hospital.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= hospital.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= hospital.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= hospital.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= hospital.buildFoodCost;
 
                         buildHospitalButton.enabled = false;
 
@@ -1073,11 +1073,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += hospital.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += hospital.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += hospital.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += hospital.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += hospital.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += hospital.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += hospital.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += hospital.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += hospital.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += hospital.buildFoodCost;
                                 buildHospitalButton.enabled = true;
                             }
                         }));
@@ -1114,11 +1114,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(lab) /*&& Sawmill.buildLevel >= 2*/) // Kaynaklar yeterliyse, keresteci seviye 2 ise
             {
                 // Kaynaklar� azalt
-                Kingdom.myKingdom.GoldAmount -= lab.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= lab.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= lab.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= lab.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= lab.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= lab.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= lab.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= lab.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= lab.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= lab.buildFoodCost;
 
                 buildLabButton.enabled = false;
 
@@ -1139,11 +1139,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += lab.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += lab.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += lab.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += lab.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += lab.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += lab.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += lab.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += lab.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += lab.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += lab.buildFoodCost;
                         buildLabButton.enabled = true;
                     }
                 }));
@@ -1160,11 +1160,11 @@ public class BuildBuilder : MonoBehaviour
                 TextMeshProUGUI buttonText = buildLabButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (checkResources(lab)) // Kaynaklar yeterliyse ve 3 ve 4. ara�t�rma yap�lm��sa
                 {
-                    Kingdom.myKingdom.GoldAmount -= lab.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= lab.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= lab.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= lab.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= lab.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= lab.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= lab.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= lab.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= lab.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= lab.buildFoodCost;
 
                     buildLabButton.enabled = false;
 
@@ -1184,11 +1184,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += lab.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += lab.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += lab.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += lab.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += lab.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += lab.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += lab.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += lab.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += lab.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += lab.buildFoodCost;
                             buildLabButton.enabled = true;
                         }
                     }));
@@ -1203,11 +1203,11 @@ public class BuildBuilder : MonoBehaviour
                 TextMeshProUGUI buttonText = buildLabButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (checkResources(lab) && ResearchButtonEvents.isResearched[10] && ResearchButtonEvents.isResearched[11] && ResearchButtonEvents.isResearched[12] && Sawmill.buildLevel >= 3)
                 {
-                    Kingdom.myKingdom.GoldAmount -= lab.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= lab.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= lab.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= lab.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= lab.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= lab.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= lab.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= lab.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= lab.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= lab.buildFoodCost;
 
                     buildLabButton.enabled = false;
 
@@ -1228,11 +1228,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += lab.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += lab.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += lab.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += lab.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += lab.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += lab.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += lab.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += lab.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += lab.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += lab.buildFoodCost;
                             buildLabButton.enabled = true;
                         }
                     }));
@@ -1276,11 +1276,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(warehouse) /*&& Farm.buildLevel >= 1 && Sawmill.buildLevel >= 1 && StonePit.buildLevel >= 1 && Blacksmith.buildLevel >= 1*/)
             {
                 // Kaynaklar� Azalt
-                Kingdom.myKingdom.GoldAmount -= warehouse.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= warehouse.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= warehouse.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= warehouse.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= warehouse.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= warehouse.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= warehouse.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= warehouse.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= warehouse.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= warehouse.buildFoodCost;
 
                 buildWarehouseButton.enabled = false;
 
@@ -1300,11 +1300,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += warehouse.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += warehouse.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += warehouse.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += warehouse.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += warehouse.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += warehouse.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += warehouse.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += warehouse.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += warehouse.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += warehouse.buildFoodCost;
                         buildWarehouseButton.enabled = true;
                     }
                 }));
@@ -1321,11 +1321,11 @@ public class BuildBuilder : MonoBehaviour
                 TextMeshProUGUI buttonText = buildWarehouseButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (checkResources(warehouse) && Sawmill.buildLevel >= 2 && Blacksmith.buildLevel >= 2 && Farm.buildLevel >= 2 && StonePit.buildLevel >= 2)
                 {
-                    Kingdom.myKingdom.GoldAmount -= warehouse.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= warehouse.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= warehouse.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= warehouse.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= warehouse.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= warehouse.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= warehouse.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= warehouse.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= warehouse.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= warehouse.buildFoodCost;
 
                     buildWarehouseButton.enabled = false;
 
@@ -1344,11 +1344,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += warehouse.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += warehouse.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += warehouse.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += warehouse.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += warehouse.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += warehouse.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += warehouse.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += warehouse.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += warehouse.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += warehouse.buildFoodCost;
                             buildWarehouseButton.enabled = true;
                         }
                     }));
@@ -1364,11 +1364,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(warehouse))
                 {
                     // ProgressBar Ekle, Zaman dolunca a�a��dakileri yap.
-                    Kingdom.myKingdom.GoldAmount -= warehouse.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= warehouse.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= warehouse.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= warehouse.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= warehouse.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= warehouse.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= warehouse.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= warehouse.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= warehouse.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= warehouse.buildFoodCost;
 
                     buildWarehouseButton.enabled = false;
 
@@ -1385,11 +1385,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += warehouse.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += warehouse.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += warehouse.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += warehouse.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += warehouse.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += warehouse.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += warehouse.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += warehouse.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += warehouse.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += warehouse.buildFoodCost;
                             buildWarehouseButton.enabled = true;
                         }
                     }));
@@ -1425,11 +1425,11 @@ public class BuildBuilder : MonoBehaviour
             if (checkResources(castle))
             {
                 // Kaynaklar� azalt�n
-                Kingdom.myKingdom.GoldAmount -= castle.buildGoldCost;
-                Kingdom.myKingdom.StoneAmount -= castle.buildStoneCost;
-                Kingdom.myKingdom.WoodAmount -= castle.buildTimberCost;
-                Kingdom.myKingdom.IronAmount -= castle.buildIronCost;
-                Kingdom.myKingdom.FoodAmount -= castle.buildFoodCost;
+                KaynakYoneticisi.GoldAmount -= castle.buildGoldCost;
+                KaynakYoneticisi.StoneAmount -= castle.buildStoneCost;
+                KaynakYoneticisi.WoodAmount -= castle.buildTimberCost;
+                KaynakYoneticisi.IronAmount -= castle.buildIronCost;
+                KaynakYoneticisi.FoodAmount -= castle.buildFoodCost;
 
                 buildCastleButton.enabled = false;
 
@@ -1448,11 +1448,11 @@ public class BuildBuilder : MonoBehaviour
                     else
                     {
                         // Kaynaklar� iade et
-                        Kingdom.myKingdom.GoldAmount += castle.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount += castle.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount += castle.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount += castle.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount += castle.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount += castle.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount += castle.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount += castle.buildTimberCost;
+                        KaynakYoneticisi.IronAmount += castle.buildIronCost;
+                        KaynakYoneticisi.FoodAmount += castle.buildFoodCost;
                         buildCastleButton.enabled = true;
                     }
                 }));
@@ -1468,11 +1468,11 @@ public class BuildBuilder : MonoBehaviour
             {
                 if (checkResources(castle))
                 {
-                    Kingdom.myKingdom.GoldAmount -= castle.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= castle.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= castle.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= castle.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= castle.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= castle.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= castle.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= castle.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= castle.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= castle.buildFoodCost;
 
                     buildCastleButton.enabled = false;
 
@@ -1490,11 +1490,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += castle.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += castle.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += castle.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += castle.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += castle.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += castle.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += castle.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += castle.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += castle.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += castle.buildFoodCost;
                             buildCastleButton.enabled = true;
                         }
                     }));
@@ -1529,11 +1529,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(towerOne))
                 {
                     //Kaynaklar� Azalt
-                    Kingdom.myKingdom.GoldAmount -= towerOne.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= towerOne.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= towerOne.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= towerOne.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= towerOne.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= towerOne.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= towerOne.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= towerOne.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= towerOne.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= towerOne.buildFoodCost;
 
                     buildTowerOneButton.enabled = false;
 
@@ -1561,11 +1561,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += towerOne.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += towerOne.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += towerOne.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += towerOne.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += towerOne.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += towerOne.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += towerOne.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += towerOne.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += towerOne.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += towerOne.buildFoodCost;
                             buildTowerOneButton.enabled = true;
                             buildTowerOneIsActive = false;
                         }
@@ -1583,11 +1583,11 @@ public class BuildBuilder : MonoBehaviour
                     TextMeshProUGUI buttonText = buildTowerOneButton.GetComponentInChildren<TextMeshProUGUI>();
                     if (checkResources(towerOne))
                     {
-                        Kingdom.myKingdom.GoldAmount -= towerOne.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= towerOne.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= towerOne.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= towerOne.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= towerOne.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= towerOne.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= towerOne.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= towerOne.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= towerOne.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= towerOne.buildFoodCost;
 
                         buildTowerOneButton.enabled = false;
                         buildTowerOneIsActive = true;
@@ -1610,11 +1610,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += towerOne.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += towerOne.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += towerOne.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += towerOne.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += towerOne.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += towerOne.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += towerOne.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += towerOne.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += towerOne.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += towerOne.buildFoodCost;
                                 buildTowerOneButton.enabled = true;
                                 buildTowerOneIsActive = false;
                             }
@@ -1632,11 +1632,11 @@ public class BuildBuilder : MonoBehaviour
                     if (checkResources(towerOne))
                     {
                         //ProgressBar Ekle,Zaman dolunca a�a��dakileri yap.
-                        Kingdom.myKingdom.GoldAmount -= towerOne.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= towerOne.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= towerOne.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= towerOne.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= towerOne.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= towerOne.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= towerOne.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= towerOne.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= towerOne.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= towerOne.buildFoodCost;
 
                         buildTowerOneButton.enabled = false;
                         buildTowerOneIsActive = true;
@@ -1656,11 +1656,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += towerOne.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += towerOne.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += towerOne.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += towerOne.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += towerOne.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += towerOne.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += towerOne.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += towerOne.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += towerOne.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += towerOne.buildFoodCost;
                                 buildTowerOneButton.enabled = true;
                                 buildTowerOneIsActive = false;
                             }
@@ -1702,11 +1702,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(towerTwo))
                 {
                     // Kaynaklar� Azalt
-                    Kingdom.myKingdom.GoldAmount -= towerTwo.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= towerTwo.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= towerTwo.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= towerTwo.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= towerTwo.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= towerTwo.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= towerTwo.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= towerTwo.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= towerTwo.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= towerTwo.buildFoodCost;
 
                     buildTowerTwoButton.enabled = false;
                     buildTowerTwoIsActive = true;
@@ -1733,11 +1733,11 @@ public class BuildBuilder : MonoBehaviour
                         else
                         {
                             // Kaynaklar� iade et
-                            Kingdom.myKingdom.GoldAmount += towerTwo.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += towerTwo.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += towerTwo.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += towerTwo.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += towerTwo.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += towerTwo.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += towerTwo.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += towerTwo.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += towerTwo.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += towerTwo.buildFoodCost;
                             buildTowerTwoButton.enabled = true;
                             buildTowerTwoIsActive = false;
                         }
@@ -1755,11 +1755,11 @@ public class BuildBuilder : MonoBehaviour
                     TextMeshProUGUI buttonText = buildTowerTwoButton.GetComponentInChildren<TextMeshProUGUI>();
                     if (checkResources(towerTwo))
                     {
-                        Kingdom.myKingdom.GoldAmount -= towerTwo.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= towerTwo.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= towerTwo.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= towerTwo.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= towerTwo.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= towerTwo.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= towerTwo.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= towerTwo.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= towerTwo.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= towerTwo.buildFoodCost;
 
                         buildTowerTwoButton.enabled = false;
                         buildTowerTwoIsActive = true;
@@ -1781,11 +1781,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += towerTwo.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += towerTwo.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += towerTwo.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += towerTwo.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += towerTwo.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += towerTwo.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += towerTwo.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += towerTwo.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += towerTwo.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += towerTwo.buildFoodCost;
                                 buildTowerTwoButton.enabled = true;
                                 buildTowerTwoIsActive = false;
                             }
@@ -1801,11 +1801,11 @@ public class BuildBuilder : MonoBehaviour
                     TextMeshProUGUI buttonText = buildTowerTwoButton.GetComponentInChildren<TextMeshProUGUI>();
                     if (checkResources(towerTwo))
                     {
-                        Kingdom.myKingdom.GoldAmount -= towerTwo.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= towerTwo.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= towerTwo.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= towerTwo.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= towerTwo.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= towerTwo.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= towerTwo.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= towerTwo.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= towerTwo.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= towerTwo.buildFoodCost;
 
                         buildTowerTwoButton.enabled = false;
                         buildTowerTwoIsActive = true;
@@ -1825,11 +1825,11 @@ public class BuildBuilder : MonoBehaviour
                             else
                             {
                                 // Kaynaklar� iade et
-                                Kingdom.myKingdom.GoldAmount += towerTwo.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += towerTwo.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += towerTwo.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += towerTwo.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += towerTwo.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += towerTwo.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += towerTwo.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += towerTwo.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += towerTwo.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += towerTwo.buildFoodCost;
                                 buildTowerTwoButton.enabled = true;
                                 buildTowerTwoIsActive = false;
                             }
@@ -1869,11 +1869,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(trapOne))
                 {
                     // Kaynaklar� azalt
-                    Kingdom.myKingdom.GoldAmount -= trapOne.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= trapOne.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= trapOne.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= trapOne.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= trapOne.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= trapOne.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= trapOne.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= trapOne.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= trapOne.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= trapOne.buildFoodCost;
 
                     buildTrapOneButton.enabled = false;
                     isAnyTrapActive = true;
@@ -1896,11 +1896,11 @@ public class BuildBuilder : MonoBehaviour
                         }
                         else
                         {
-                            Kingdom.myKingdom.GoldAmount += trapOne.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += trapOne.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += trapOne.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += trapOne.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += trapOne.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += trapOne.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += trapOne.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += trapOne.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += trapOne.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += trapOne.buildFoodCost;
                             buildTrapOneButton.enabled = true;
                             isAnyTrapActive = false;
                         }
@@ -1919,11 +1919,11 @@ public class BuildBuilder : MonoBehaviour
                     if (checkResources(trapOne))
                     {
                         // Kaynaklar� azalt
-                        Kingdom.myKingdom.GoldAmount -= trapOne.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= trapOne.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= trapOne.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= trapOne.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= trapOne.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= trapOne.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= trapOne.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= trapOne.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= trapOne.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= trapOne.buildFoodCost;
 
                         buildTrapOneButton.enabled = false;
                         isAnyTrapActive = true;
@@ -1947,11 +1947,11 @@ public class BuildBuilder : MonoBehaviour
                             }
                             else
                             {
-                                Kingdom.myKingdom.GoldAmount += trapOne.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += trapOne.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += trapOne.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += trapOne.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += trapOne.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += trapOne.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += trapOne.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += trapOne.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += trapOne.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += trapOne.buildFoodCost;
                                 buildTrapOneButton.enabled = true;
                                 isAnyTrapActive = false;
                             }
@@ -1995,11 +1995,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(trapTwo))
                 {
                     // Kaynaklar� azalt
-                    Kingdom.myKingdom.GoldAmount -= trapTwo.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= trapTwo.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= trapTwo.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= trapTwo.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= trapTwo.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= trapTwo.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= trapTwo.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= trapTwo.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= trapTwo.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= trapTwo.buildFoodCost;
 
                     buildTrapTwoButton.enabled = false;
                     isAnyTrapActive = true;
@@ -2022,11 +2022,11 @@ public class BuildBuilder : MonoBehaviour
                         }
                         else
                         {
-                            Kingdom.myKingdom.GoldAmount += trapTwo.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += trapTwo.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += trapTwo.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += trapTwo.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += trapTwo.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += trapTwo.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += trapTwo.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += trapTwo.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += trapTwo.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += trapTwo.buildFoodCost;
                             buildTrapTwoButton.enabled = true;
                             isAnyTrapActive = false;
                         }
@@ -2045,11 +2045,11 @@ public class BuildBuilder : MonoBehaviour
                     if (checkResources(trapTwo))
                     {
                         // Kaynaklar� azalt
-                        Kingdom.myKingdom.GoldAmount -= trapTwo.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= trapTwo.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= trapTwo.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= trapTwo.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= trapTwo.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= trapTwo.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= trapTwo.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= trapTwo.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= trapTwo.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= trapTwo.buildFoodCost;
 
                         buildTrapTwoButton.enabled = false;
                         isAnyTrapActive = true;
@@ -2073,11 +2073,11 @@ public class BuildBuilder : MonoBehaviour
                             }
                             else
                             {
-                                Kingdom.myKingdom.GoldAmount += trapTwo.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += trapTwo.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += trapTwo.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += trapTwo.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += trapTwo.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += trapTwo.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += trapTwo.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += trapTwo.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += trapTwo.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += trapTwo.buildFoodCost;
                                 buildTrapTwoButton.enabled = true;
                                 isAnyTrapActive = false;
                             }
@@ -2121,11 +2121,11 @@ public class BuildBuilder : MonoBehaviour
                 if (checkResources(trapThree))
                 {
                     // Kaynaklar� azalt
-                    Kingdom.myKingdom.GoldAmount -= trapThree.buildGoldCost;
-                    Kingdom.myKingdom.StoneAmount -= trapThree.buildStoneCost;
-                    Kingdom.myKingdom.WoodAmount -= trapThree.buildTimberCost;
-                    Kingdom.myKingdom.IronAmount -= trapThree.buildIronCost;
-                    Kingdom.myKingdom.FoodAmount -= trapThree.buildFoodCost;
+                    KaynakYoneticisi.GoldAmount -= trapThree.buildGoldCost;
+                    KaynakYoneticisi.StoneAmount -= trapThree.buildStoneCost;
+                    KaynakYoneticisi.WoodAmount -= trapThree.buildTimberCost;
+                    KaynakYoneticisi.IronAmount -= trapThree.buildIronCost;
+                    KaynakYoneticisi.FoodAmount -= trapThree.buildFoodCost;
 
                     buildTrapThreeButton.enabled = false;
                     isAnyTrapActive = true;
@@ -2148,11 +2148,11 @@ public class BuildBuilder : MonoBehaviour
                         }
                         else
                         {
-                            Kingdom.myKingdom.GoldAmount += trapThree.buildGoldCost;
-                            Kingdom.myKingdom.StoneAmount += trapThree.buildStoneCost;
-                            Kingdom.myKingdom.WoodAmount += trapThree.buildTimberCost;
-                            Kingdom.myKingdom.IronAmount += trapThree.buildIronCost;
-                            Kingdom.myKingdom.FoodAmount += trapThree.buildFoodCost;
+                            KaynakYoneticisi.GoldAmount += trapThree.buildGoldCost;
+                            KaynakYoneticisi.StoneAmount += trapThree.buildStoneCost;
+                            KaynakYoneticisi.WoodAmount += trapThree.buildTimberCost;
+                            KaynakYoneticisi.IronAmount += trapThree.buildIronCost;
+                            KaynakYoneticisi.FoodAmount += trapThree.buildFoodCost;
                             buildTrapThreeButton.enabled = true;
                             isAnyTrapActive = false;
                         }
@@ -2171,11 +2171,11 @@ public class BuildBuilder : MonoBehaviour
                     if (checkResources(trapThree))
                     {
                         // Kaynaklar� azalt
-                        Kingdom.myKingdom.GoldAmount -= trapThree.buildGoldCost;
-                        Kingdom.myKingdom.StoneAmount -= trapThree.buildStoneCost;
-                        Kingdom.myKingdom.WoodAmount -= trapThree.buildTimberCost;
-                        Kingdom.myKingdom.IronAmount -= trapThree.buildIronCost;
-                        Kingdom.myKingdom.FoodAmount -= trapThree.buildFoodCost;
+                        KaynakYoneticisi.GoldAmount -= trapThree.buildGoldCost;
+                        KaynakYoneticisi.StoneAmount -= trapThree.buildStoneCost;
+                        KaynakYoneticisi.WoodAmount -= trapThree.buildTimberCost;
+                        KaynakYoneticisi.IronAmount -= trapThree.buildIronCost;
+                        KaynakYoneticisi.FoodAmount -= trapThree.buildFoodCost;
 
                         buildTrapThreeButton.enabled = false;
                         isAnyTrapActive = true;
@@ -2199,11 +2199,11 @@ public class BuildBuilder : MonoBehaviour
                             }
                             else
                             {
-                                Kingdom.myKingdom.GoldAmount += trapThree.buildGoldCost;
-                                Kingdom.myKingdom.StoneAmount += trapThree.buildStoneCost;
-                                Kingdom.myKingdom.WoodAmount += trapThree.buildTimberCost;
-                                Kingdom.myKingdom.IronAmount += trapThree.buildIronCost;
-                                Kingdom.myKingdom.FoodAmount += trapThree.buildFoodCost;
+                                KaynakYoneticisi.GoldAmount += trapThree.buildGoldCost;
+                                KaynakYoneticisi.StoneAmount += trapThree.buildStoneCost;
+                                KaynakYoneticisi.WoodAmount += trapThree.buildTimberCost;
+                                KaynakYoneticisi.IronAmount += trapThree.buildIronCost;
+                                KaynakYoneticisi.FoodAmount += trapThree.buildFoodCost;
                                 buildTrapThreeButton.enabled = true;
                                 isAnyTrapActive = false;
                             }

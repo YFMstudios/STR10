@@ -6,27 +6,33 @@ using UnityEngine.UI;
 
 public class WareHousePanelController : MonoBehaviour
 {
-    public TMP_Text goldText;     // Altýn miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text woodText;     // Kereste miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text stoneText;    // Taþ miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text ironText;     // Demir miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text foodText;     // Yemek miktarýný gösterecek TMP_Text bileþeni
-    public TMP_Text buildLevelText;     // Bina seviyesini gösterecek TMP bileþeni
-    public TMP_Text productionRateText; // Üretim Miktarýný gösterecek TMP bileþeni
+    public TMP_Text goldText;     // Altï¿½n miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text woodText;     // Kereste miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text stoneText;    // Taï¿½ miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text ironText;     // Demir miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text foodText;     // Yemek miktarï¿½nï¿½ gï¿½sterecek TMP_Text bileï¿½eni
+    public TMP_Text buildLevelText;     // Bina seviyesini gï¿½sterecek TMP bileï¿½eni
+    public TMP_Text productionRateText; // ï¿½retim Miktarï¿½nï¿½ gï¿½sterecek TMP bileï¿½eni
     public TMP_Text maliyetText;
 
-    public Image goldImage;        // Altýn için resim
-    public Image woodImage;        // Kereste için resim
-    public Image stoneImage;       // Taþ için resim
-    public Image ironImage;        // Demir için resim
+    public Image goldImage;        // Altï¿½n iï¿½in resim
+    public Image woodImage;        // Kereste iï¿½in resim
+    public Image stoneImage;       // Taï¿½ iï¿½in resim
+    public Image ironImage;        // Demir iï¿½in resim
     public Image foodImage;
 
     public GameObject progressBar;
     public Button cancelWarehouseButton;
     public bool isBuildCanceled = false;
     public PanelManager panelManager;
+
+    public Button buildWareHouseButton;
+
+    
+    private Text buttonText;
     public void refreshWarehouse()
     {
+        TextMeshProUGUI buttonText = buildWareHouseButton.GetComponentInChildren<TextMeshProUGUI>();
         if (Warehouse.buildLevel == 1)
         {
             buildLevelText.text = "1";
@@ -35,6 +41,7 @@ public class WareHousePanelController : MonoBehaviour
             woodText.text = "4000";
             stoneText.text = "3500";
             ironText.text = "3000";
+            buttonText.text = "YÃ¼kselt";
         }
         else if (Warehouse.buildLevel == 2)
         {
@@ -44,6 +51,7 @@ public class WareHousePanelController : MonoBehaviour
             woodText.text = "5000";
             stoneText.text = "5000";
             ironText.text = "5500";
+            buttonText.text = "YÃ¼kselt";
         }
         else if (Warehouse.buildLevel == 3)
         {
@@ -55,7 +63,7 @@ public class WareHousePanelController : MonoBehaviour
 
     public void DestroyComponents()
     {
-        // TMP_Text bileþenlerini yok et
+        // TMP_Text bileï¿½enlerini yok et
         if (goldText != null) Destroy(goldText);
         if (woodText != null) Destroy(woodText);
         if (stoneText != null) Destroy(stoneText);
@@ -63,7 +71,7 @@ public class WareHousePanelController : MonoBehaviour
         if (foodText != null) Destroy(foodText);
         if (maliyetText != null) Destroy(maliyetText);
 
-        // Image bileþenlerini yok et
+        // Image bileï¿½enlerini yok et
         if (goldImage != null) Destroy(goldImage);
         if (woodImage != null) Destroy(woodImage);
         if (stoneImage != null) Destroy(stoneImage);
@@ -74,7 +82,7 @@ public class WareHousePanelController : MonoBehaviour
     }
     public void cancelWareHouseBuild()
     {
-        isBuildCanceled = true; // Ýptal iþlemini baþlat
+        isBuildCanceled = true; // ï¿½ptal iï¿½lemini baï¿½lat
         panelManager.DestroyPanel("WareHouseBuildingProcessPanel");
         cancelWarehouseButton.gameObject.SetActive(false);
     }

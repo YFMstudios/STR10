@@ -14,12 +14,12 @@ public class ResearchButtonEvents : MonoBehaviour
 
     public bool AreResourcesSufficient(float requiredGold, float requiredFood, float requiredIron, float requiredWood, float requiredStone)
     {
-        // Kaynaklarýn mevcut miktarlarýný kontrol et
-        if (Kingdom.myKingdom.GoldAmount >= requiredGold &&
-            Kingdom.myKingdom.FoodAmount >= requiredFood &&
-            Kingdom.myKingdom.IronAmount >= requiredIron &&
-            Kingdom.myKingdom.WoodAmount >= requiredWood &&
-            Kingdom.myKingdom.StoneAmount >= requiredStone)
+        // Kaynaklarï¿½n mevcut miktarlarï¿½nï¿½ kontrol et
+        if (KaynakYoneticisi.GoldAmount >= requiredGold &&
+            KaynakYoneticisi.FoodAmount >= requiredFood &&
+            KaynakYoneticisi.IronAmount >= requiredIron &&
+            KaynakYoneticisi.WoodAmount >= requiredWood &&
+            KaynakYoneticisi.StoneAmount >= requiredStone)
         {
             return true; // Yeterli kaynak mevcut
         }
@@ -38,7 +38,7 @@ public class ResearchButtonEvents : MonoBehaviour
         float requiredWood = 0;
         float requiredStone = 0;
 
-        // Araþtýrma seviyesine göre maliyetleri belirle
+        // Araï¿½tï¿½rma seviyesine gï¿½re maliyetleri belirle
         switch (researchLevel)
         {
             case 1:
@@ -168,19 +168,19 @@ public class ResearchButtonEvents : MonoBehaviour
                 requiredStone = 400;
                 break;
             default:
-                Debug.LogError("Geçersiz araþtýrma seviyesi!");
+                Debug.LogError("Geï¿½ersiz araï¿½tï¿½rma seviyesi!");
                 return false;
         }
 
-        // Kaynaklarýn yeterli olup olmadýðýný kontrol et
+        // Kaynaklarï¿½n yeterli olup olmadï¿½ï¿½ï¿½nï¿½ kontrol et
         if (AreResourcesSufficient(requiredGold, requiredFood, requiredIron, requiredWood, requiredStone))
         {
-            Debug.Log($"Araþtýrma seviyesi {researchLevel} için yeterli kaynak mevcut.");
+            Debug.Log($"Araï¿½tï¿½rma seviyesi {researchLevel} iï¿½in yeterli kaynak mevcut.");
             return true;
         }
         else
         {
-            Debug.Log($"Araþtýrma seviyesi {researchLevel} için yeterli kaynak yok!");
+            Debug.Log($"Araï¿½tï¿½rma seviyesi {researchLevel} iï¿½in yeterli kaynak yok!");
             return false;
         }
     }
@@ -191,23 +191,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(1))
             {
-                Kingdom.myKingdom.GoldAmount -= 250;
-                Kingdom.myKingdom.FoodAmount -= 180;
-                Kingdom.myKingdom.IronAmount -= 220;
-                Kingdom.myKingdom.WoodAmount -= 130;
-                Kingdom.myKingdom.StoneAmount -= 180;
+                KaynakYoneticisi.GoldAmount -= 250;
+                KaynakYoneticisi.FoodAmount -= 180;
+                KaynakYoneticisi.IronAmount -= 220;
+                KaynakYoneticisi.WoodAmount -= 130;
+                KaynakYoneticisi.StoneAmount -= 180;
 
                 imageColorTransition.StartColorTransitionSeviye1();
                 Destroy(button[0].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarý Ýnþa Etmelisin.");
+            Debug.Log("Laboratuvarï¿½ ï¿½nï¿½a Etmelisin.");
         }
     }
 
@@ -217,23 +217,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(2))
             {
-                Kingdom.myKingdom.GoldAmount -= 200;
-                Kingdom.myKingdom.FoodAmount -= 350;
-                Kingdom.myKingdom.IronAmount -= 140;
-                Kingdom.myKingdom.WoodAmount -= 180;
-                Kingdom.myKingdom.StoneAmount -= 180;
+                KaynakYoneticisi.GoldAmount -= 200;
+                KaynakYoneticisi.FoodAmount -= 350;
+                KaynakYoneticisi.IronAmount -= 140;
+                KaynakYoneticisi.WoodAmount -= 180;
+                KaynakYoneticisi.StoneAmount -= 180;
 
                 imageColorTransition.StartColorTransitionSeviye2();
                 Destroy(button[1].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az seviye 1 olduðundan ve Level 1 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az seviye 1 olduï¿½undan ve Level 1 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -243,23 +243,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(3))
             {
-                Kingdom.myKingdom.GoldAmount -= 350;
-                Kingdom.myKingdom.FoodAmount -= 220;
-                Kingdom.myKingdom.IronAmount -= 400;
-                Kingdom.myKingdom.WoodAmount -= 180;
-                Kingdom.myKingdom.StoneAmount -= 220;
+                KaynakYoneticisi.GoldAmount -= 350;
+                KaynakYoneticisi.FoodAmount -= 220;
+                KaynakYoneticisi.IronAmount -= 400;
+                KaynakYoneticisi.WoodAmount -= 180;
+                KaynakYoneticisi.StoneAmount -= 220;
 
                 imageColorTransition.StartColorTransitionSeviye3();
                 Destroy(button[2].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az seviye 1 olduðundan ve Level 1 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az seviye 1 olduï¿½undan ve Level 1 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -269,23 +269,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(4))
             {
-                Kingdom.myKingdom.GoldAmount -= 180;
-                Kingdom.myKingdom.FoodAmount -= 270;
-                Kingdom.myKingdom.IronAmount -= 180;
-                Kingdom.myKingdom.WoodAmount -= 400;
-                Kingdom.myKingdom.StoneAmount -= 220;
+                KaynakYoneticisi.GoldAmount -= 180;
+                KaynakYoneticisi.FoodAmount -= 270;
+                KaynakYoneticisi.IronAmount -= 180;
+                KaynakYoneticisi.WoodAmount -= 400;
+                KaynakYoneticisi.StoneAmount -= 220;
 
                 imageColorTransition.StartColorTransitionSeviye4();
                 Destroy(button[3].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az seviye 1 olduðundan ve Level 2 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az seviye 1 olduï¿½undan ve Level 2 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -295,23 +295,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(5))
             {
-                Kingdom.myKingdom.GoldAmount -= 250;
-                Kingdom.myKingdom.FoodAmount -= 180;
-                Kingdom.myKingdom.IronAmount -= 180;
-                Kingdom.myKingdom.WoodAmount -= 180;
-                Kingdom.myKingdom.StoneAmount -= 400;
+                KaynakYoneticisi.GoldAmount -= 250;
+                KaynakYoneticisi.FoodAmount -= 180;
+                KaynakYoneticisi.IronAmount -= 180;
+                KaynakYoneticisi.WoodAmount -= 180;
+                KaynakYoneticisi.StoneAmount -= 400;
 
                 imageColorTransition.StartColorTransitionSeviye5();
                 Destroy(button[4].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az seviye 1 olduðundan ve Level 3 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az seviye 1 olduï¿½undan ve Level 3 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -321,23 +321,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(6))
             {
-                Kingdom.myKingdom.GoldAmount -= 450;
-                Kingdom.myKingdom.FoodAmount -= 350;
-                Kingdom.myKingdom.IronAmount -= 350;
-                Kingdom.myKingdom.WoodAmount -= 270;
-                Kingdom.myKingdom.StoneAmount -= 270;
+                KaynakYoneticisi.GoldAmount -= 450;
+                KaynakYoneticisi.FoodAmount -= 350;
+                KaynakYoneticisi.IronAmount -= 350;
+                KaynakYoneticisi.WoodAmount -= 270;
+                KaynakYoneticisi.StoneAmount -= 270;
 
                 imageColorTransition.StartColorTransitionSeviye6();
                 Destroy(button[5].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az seviye 2 olduðundan ve Level 4,5 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az seviye 2 olduï¿½undan ve Level 4,5 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -347,27 +347,27 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(7))
             {
-                Kingdom.myKingdom.GoldAmount -= 350;
-                Kingdom.myKingdom.FoodAmount -= 270;
-                Kingdom.myKingdom.IronAmount -= 270;
-                Kingdom.myKingdom.WoodAmount -= 270;
-                Kingdom.myKingdom.StoneAmount -= 180;
+                KaynakYoneticisi.GoldAmount -= 350;
+                KaynakYoneticisi.FoodAmount -= 270;
+                KaynakYoneticisi.IronAmount -= 270;
+                KaynakYoneticisi.WoodAmount -= 270;
+                KaynakYoneticisi.StoneAmount -= 180;
 
                 imageColorTransition.StartColorTransitionSeviye7();
                 Destroy(button[6].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az seviye 2 olduðundan ve Level 4,5 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az seviye 2 olduï¿½undan ve Level 4,5 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
-    // Diðer araþtýrma seviyeleri için ayný þekilde fonksiyonlarý oluþturabilirsiniz...
+    // Diï¿½er araï¿½tï¿½rma seviyeleri iï¿½in aynï¿½ ï¿½ekilde fonksiyonlarï¿½ oluï¿½turabilirsiniz...
 
 
     public void level8Research()
@@ -376,23 +376,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(8))
             {
-                Kingdom.myKingdom.GoldAmount -= 400;
-                Kingdom.myKingdom.FoodAmount -= 270;
-                Kingdom.myKingdom.IronAmount -= 180;
-                Kingdom.myKingdom.WoodAmount -= 180;
-                Kingdom.myKingdom.StoneAmount -= 130;
+                KaynakYoneticisi.GoldAmount -= 400;
+                KaynakYoneticisi.FoodAmount -= 270;
+                KaynakYoneticisi.IronAmount -= 180;
+                KaynakYoneticisi.WoodAmount -= 180;
+                KaynakYoneticisi.StoneAmount -= 130;
 
                 imageColorTransition.StartColorTransitionSeviye8();
                 Destroy(button[7].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 2.seviye olduðundan ve Level 4,5 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 2.seviye olduï¿½undan ve Level 4,5 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -402,23 +402,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(9))
             {
-                Kingdom.myKingdom.GoldAmount -= 550;
-                Kingdom.myKingdom.FoodAmount -= 300;
-                Kingdom.myKingdom.IronAmount -= 270;
-                Kingdom.myKingdom.WoodAmount -= 270;
-                Kingdom.myKingdom.StoneAmount -= 270;
+                KaynakYoneticisi.GoldAmount -= 550;
+                KaynakYoneticisi.FoodAmount -= 300;
+                KaynakYoneticisi.IronAmount -= 270;
+                KaynakYoneticisi.WoodAmount -= 270;
+                KaynakYoneticisi.StoneAmount -= 270;
 
                 imageColorTransition.StartColorTransitionSeviye9();
                 Destroy(button[8].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 2.seviye olduðundan ve Level 6,7 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 2.seviye olduï¿½undan ve Level 6,7 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -428,23 +428,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(10))
             {
-                Kingdom.myKingdom.GoldAmount -= 450;
-                Kingdom.myKingdom.FoodAmount -= 350;
-                Kingdom.myKingdom.IronAmount -= 450;
-                Kingdom.myKingdom.WoodAmount -= 350;
-                Kingdom.myKingdom.StoneAmount -= 350;
+                KaynakYoneticisi.GoldAmount -= 450;
+                KaynakYoneticisi.FoodAmount -= 350;
+                KaynakYoneticisi.IronAmount -= 450;
+                KaynakYoneticisi.WoodAmount -= 350;
+                KaynakYoneticisi.StoneAmount -= 350;
 
                 imageColorTransition.StartColorTransitionSeviye10();
                 Destroy(button[9].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 2.seviye olduðundan ve Level 7,8 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 2.seviye olduï¿½undan ve Level 7,8 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -454,23 +454,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(11))
             {
-                Kingdom.myKingdom.GoldAmount -= 600;
-                Kingdom.myKingdom.FoodAmount -= 400;
-                Kingdom.myKingdom.IronAmount -= 550;
-                Kingdom.myKingdom.WoodAmount -= 450;
-                Kingdom.myKingdom.StoneAmount -= 400;
+                KaynakYoneticisi.GoldAmount -= 600;
+                KaynakYoneticisi.FoodAmount -= 400;
+                KaynakYoneticisi.IronAmount -= 550;
+                KaynakYoneticisi.WoodAmount -= 450;
+                KaynakYoneticisi.StoneAmount -= 400;
 
                 imageColorTransition.StartColorTransitionSeviye11();
                 Destroy(button[10].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 2.seviye olduðundan ve Level 9 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 2.seviye olduï¿½undan ve Level 9 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -480,23 +480,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(12))
             {
-                Kingdom.myKingdom.GoldAmount -= 500;
-                Kingdom.myKingdom.FoodAmount -= 350;
-                Kingdom.myKingdom.IronAmount -= 300;
-                Kingdom.myKingdom.WoodAmount -= 400;
-                Kingdom.myKingdom.StoneAmount -= 300;
+                KaynakYoneticisi.GoldAmount -= 500;
+                KaynakYoneticisi.FoodAmount -= 350;
+                KaynakYoneticisi.IronAmount -= 300;
+                KaynakYoneticisi.WoodAmount -= 400;
+                KaynakYoneticisi.StoneAmount -= 300;
 
                 imageColorTransition.StartColorTransitionSeviye12();
                 Destroy(button[11].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 2.seviye olduðundan ve Level 9,10 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 2.seviye olduï¿½undan ve Level 9,10 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -506,23 +506,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(13))
             {
-                Kingdom.myKingdom.GoldAmount -= 550;
-                Kingdom.myKingdom.FoodAmount -= 250;
-                Kingdom.myKingdom.IronAmount -= 500;
-                Kingdom.myKingdom.WoodAmount -= 400;
-                Kingdom.myKingdom.StoneAmount -= 350;
+                KaynakYoneticisi.GoldAmount -= 550;
+                KaynakYoneticisi.FoodAmount -= 250;
+                KaynakYoneticisi.IronAmount -= 500;
+                KaynakYoneticisi.WoodAmount -= 400;
+                KaynakYoneticisi.StoneAmount -= 350;
 
                 imageColorTransition.StartColorTransitionSeviye13();
                 Destroy(button[12].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 2.seviye olduðundan ve Level 10 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 2.seviye olduï¿½undan ve Level 10 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -532,23 +532,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(14))
             {
-                Kingdom.myKingdom.GoldAmount -= 450;
-                Kingdom.myKingdom.FoodAmount -= 400;
-                Kingdom.myKingdom.IronAmount -= 400;
-                Kingdom.myKingdom.WoodAmount -= 300;
-                Kingdom.myKingdom.StoneAmount -= 300;
+                KaynakYoneticisi.GoldAmount -= 450;
+                KaynakYoneticisi.FoodAmount -= 400;
+                KaynakYoneticisi.IronAmount -= 400;
+                KaynakYoneticisi.WoodAmount -= 300;
+                KaynakYoneticisi.StoneAmount -= 300;
 
                 imageColorTransition.StartColorTransitionSeviye14();
                 Destroy(button[13].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 3.seviye olduðundan ve Level 11,12 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 3.seviye olduï¿½undan ve Level 11,12 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -558,23 +558,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(15))
             {
-                Kingdom.myKingdom.GoldAmount -= 400;
-                Kingdom.myKingdom.FoodAmount -= 400;
-                Kingdom.myKingdom.IronAmount -= 300;
-                Kingdom.myKingdom.WoodAmount -= 450;
-                Kingdom.myKingdom.StoneAmount -= 500;
+                KaynakYoneticisi.GoldAmount -= 400;
+                KaynakYoneticisi.FoodAmount -= 400;
+                KaynakYoneticisi.IronAmount -= 300;
+                KaynakYoneticisi.WoodAmount -= 450;
+                KaynakYoneticisi.StoneAmount -= 500;
 
                 imageColorTransition.StartColorTransitionSeviye15();
                 Destroy(button[14].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 3.seviye olduðundan ve Level 12,13 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 3.seviye olduï¿½undan ve Level 12,13 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -584,23 +584,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(16))
             {
-                Kingdom.myKingdom.GoldAmount -= 500;
-                Kingdom.myKingdom.FoodAmount -= 300;
-                Kingdom.myKingdom.IronAmount -= 200;
-                Kingdom.myKingdom.WoodAmount -= 200;
-                Kingdom.myKingdom.StoneAmount -= 300;
+                KaynakYoneticisi.GoldAmount -= 500;
+                KaynakYoneticisi.FoodAmount -= 300;
+                KaynakYoneticisi.IronAmount -= 200;
+                KaynakYoneticisi.WoodAmount -= 200;
+                KaynakYoneticisi.StoneAmount -= 300;
 
                 imageColorTransition.StartColorTransitionSeviye16();
                 Destroy(button[15].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 3.seviye olduðundan ve Level 14 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 3.seviye olduï¿½undan ve Level 14 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
     public void level17Research()
@@ -609,23 +609,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(17))
             {
-                Kingdom.myKingdom.GoldAmount -= 450;
-                Kingdom.myKingdom.FoodAmount -= 400;
-                Kingdom.myKingdom.IronAmount -= 350;
-                Kingdom.myKingdom.WoodAmount -= 450;
-                Kingdom.myKingdom.StoneAmount -= 350;
+                KaynakYoneticisi.GoldAmount -= 450;
+                KaynakYoneticisi.FoodAmount -= 400;
+                KaynakYoneticisi.IronAmount -= 350;
+                KaynakYoneticisi.WoodAmount -= 450;
+                KaynakYoneticisi.StoneAmount -= 350;
 
                 imageColorTransition.StartColorTransitionSeviye17();
                 Destroy(button[16].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 3.seviye olduðundan ve Level 15 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 3.seviye olduï¿½undan ve Level 15 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 
@@ -635,23 +635,23 @@ public class ResearchButtonEvents : MonoBehaviour
         {
             if (CanStartResearch(18))
             {
-                Kingdom.myKingdom.GoldAmount -= 600;
-                Kingdom.myKingdom.FoodAmount -= 500;
-                Kingdom.myKingdom.IronAmount -= 450;
-                Kingdom.myKingdom.WoodAmount -= 500;
-                Kingdom.myKingdom.StoneAmount -= 400;
+                KaynakYoneticisi.GoldAmount -= 600;
+                KaynakYoneticisi.FoodAmount -= 500;
+                KaynakYoneticisi.IronAmount -= 450;
+                KaynakYoneticisi.WoodAmount -= 500;
+                KaynakYoneticisi.StoneAmount -= 400;
 
                 imageColorTransition.StartColorTransitionSeviye18();
                 Destroy(button[17].gameObject);
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktadýr.");
+                Debug.Log("Yeterli Kaynak Bulunmamaktadï¿½r.");
             }
         }
         else
         {
-            Debug.Log("Laboratuvarýn en az 3.seviye olduðundan ve Level 16,17 Araþtýrmasýný yaptýðýnýzdan emin olun!");
+            Debug.Log("Laboratuvarï¿½n en az 3.seviye olduï¿½undan ve Level 16,17 Araï¿½tï¿½rmasï¿½nï¿½ yaptï¿½ï¿½ï¿½nï¿½zdan emin olun!");
         }
     }
 

@@ -23,14 +23,20 @@ public class TowerPanelController : MonoBehaviour
     public bool isBuildCanceled = false;
     public GameObject progressBar;
     public PanelManager panelManager;
+                      public Button buildTower1Button;
+                          public Button buildTower2Button;
+    private Text buttonText;
+
     public void refreshTowerOne()
     {
+         TextMeshProUGUI buttonText = buildTower1Button.GetComponentInChildren<TextMeshProUGUI>();
         if (Tower.towerOneBuildLevel == 1)
         {
             towerOneBuildLevelText.text = "1";
             towerOneMenzilText.text = "10";
             towerOneCanText.text = "1000";
             towerOneSaldiriHiziText.text = "5 h/s";
+               buttonText.text = "YÃ¼kselt";
 
         }
         else if (Tower.towerOneBuildLevel == 2)
@@ -39,6 +45,7 @@ public class TowerPanelController : MonoBehaviour
             towerOneMenzilText.text = "15";
             towerOneCanText.text = "1500";
             towerOneSaldiriHiziText.text = "7.5 h/s";
+               buttonText.text = "YÃ¼kselt";
         }
         else if (Tower.towerOneBuildLevel == 3)
         {
@@ -52,12 +59,14 @@ public class TowerPanelController : MonoBehaviour
 
     public void refreshTowerTwo()
     {
+        TextMeshProUGUI buttonText = buildTower2Button.GetComponentInChildren<TextMeshProUGUI>();
         if (Tower.towerTwoBuildLevel == 1)
         {
             towerTwoBuildLevelText.text = "1";
             towerTwoMenzilText.text = "10";
             towerTwoCanText.text = "1000";
             towerTwoSaldiriHiziText.text = "5 h/s";
+               buttonText.text = "YÃ¼kselt";
         }
         else if (Tower.towerTwoBuildLevel == 2)
         {
@@ -65,6 +74,7 @@ public class TowerPanelController : MonoBehaviour
             towerTwoMenzilText.text = "15";
             towerTwoCanText.text = "1500";
             towerTwoSaldiriHiziText.text = "7.5 h/s";
+               buttonText.text = "YÃ¼kselt";
         }
         else if (Tower.towerTwoBuildLevel == 3)
         {
@@ -88,7 +98,7 @@ public class TowerPanelController : MonoBehaviour
 
     public void cancelTowerBuild()
     {
-        isBuildCanceled = true; // Ýptal iþlemini baþlat
+        isBuildCanceled = true; // ï¿½ptal iï¿½lemini baï¿½lat
         panelManager.DestroyPanel("TowerBuildingProcessPanel");
         cancelTowerButton.gameObject.SetActive(false);
     }
