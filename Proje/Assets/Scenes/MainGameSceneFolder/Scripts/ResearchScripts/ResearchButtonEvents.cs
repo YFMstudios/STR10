@@ -239,8 +239,13 @@ public class ResearchButtonEvents : MonoBehaviour
 
     public void level3Research()
     {
+        Debug.Log("Level3 research fonksiyonuna girdim.");
+        Debug.Log("Lab leveli: " + Lab.buildLevel);
+        Debug.Log("1.arastırma durumu: " + isResearched[0]);
+        Debug.Log("Herhangi bir arastırma aktif mi: " + isAnyResearchActive);
         if (Lab.buildLevel >= 1 && isResearched[0] && !isAnyResearchActive)
         {
+                 Debug.Log("Level3 research fonksiyonundaki ifin icine girdim. girdim.");
             if (CanStartResearch(3))
             {
                 KaynakYoneticisi.GoldAmount -= 350;

@@ -56,12 +56,12 @@ public class Kingdom : MonoBehaviour
     Sprite lexionFlag = Resources.Load<Sprite>("Flags/lexionFlag");
     Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephrionFlag");
 
-    kingdoms[0] = new Kingdom("Arianopol", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, arianopolFlag);
-    kingdoms[1] = new Kingdom("Alfgard", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, alfgardFlag);
-    kingdoms[2] = new Kingdom("Akhadzria", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, akhadzriaFlag);
-    kingdoms[3] = new Kingdom("Dhamuron", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, dhamuronFlag);
-    kingdoms[4] = new Kingdom("Lexion", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, lexionFlag);
-    kingdoms[5] = new Kingdom("Zephrion", 0,KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, 0, 0, zephyrionFlag);
+    kingdoms[0] = new Kingdom("Arianopol", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, arianopolFlag);
+    kingdoms[1] = new Kingdom("Alfgard", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, alfgardFlag);
+    kingdoms[2] = new Kingdom("Akhadzria", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, akhadzriaFlag);
+    kingdoms[3] = new Kingdom("Dhamuron", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, dhamuronFlag);
+    kingdoms[4] = new Kingdom("Lexion", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, lexionFlag);
+    kingdoms[5] = new Kingdom("Zephrion", 0,KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, zephyrionFlag);
 
 
 

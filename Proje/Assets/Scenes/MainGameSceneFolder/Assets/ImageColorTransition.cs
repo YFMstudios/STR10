@@ -27,6 +27,7 @@ public class ImageColorTransition : MonoBehaviour
                 uniqueMaterials[i].SetFloat("_FillAmount", 0f); // Ba�lang��ta tamamen renksiz yap
             }
         }
+        Time.timeScale=1;
     }
 
     public string FindResearchName(int researchLevel)

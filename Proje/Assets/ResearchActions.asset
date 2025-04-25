@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b37726eb24687dc4ab5693fb21145a08, type: 3}
+  m_Name: ResearchActions
+  m_EditorClassIdentifier: 
+  EnemyMeleeMinion: {fileID: 2379972077780547209, guid: bd7b9dee928e57a42b9114159b59e2a3, type: 3}
+  EnemyRangedMinion: {fileID: 2379972077780547209, guid: 49f4ddee6d9dc1b45bf5d845965325a5, type: 3}
+  MeleeMinion: {fileID: 2379972077780547209, guid: 6f1839c88e2dde348924752d3f5fecec, type: 3}
+  RangedMinion: {fileID: 2379972077780547209, guid: 80200c94e7ec22a47a9878dae0caa876, type: 3}
+  Kale: {fileID: 8730173862479260988, guid: 908fe672c5923f847becc862d7598730, type: 3}
+  Kule1: {fileID: 8071076854146660766, guid: 1bc11da30dd008d41bc327ca6ef6cfbe, type: 3}
+  Kule2: {fileID: 353412333871863595, guid: 0e62aa28c1401e541a7806eee6e64f8c, type: 3}
+  Enemy: {fileID: 7915763257884871087, guid: aa1245356326ab74b80748aa3af0201f, type: 3}
+  Player: {fileID: 2910761185380661856, guid: 262b6990c7603ba42b2c13e80ec185d4, type: 3}
+  Trap1: {fileID: 8305805047206251318, guid: a2ffd7a5945c7974480bb6db142558e8, type: 3}
+  Trap2: {fileID: 4284995633646555465, guid: ce23994d028e358448eb96a1a15b86f6, type: 3}
+  Trap3: {fileID: 764335935628533644, guid: 2aad22f948596d948b981b5f401866f6, type: 3}

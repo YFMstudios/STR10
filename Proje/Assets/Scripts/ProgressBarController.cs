@@ -185,7 +185,7 @@ public class ProgressBarController : MonoBehaviour
 
     void Start()
     {
-        // Ba�lang��ta zaman s�f�rlanabilir.
+        // Ba lang  ta zaman s f rlanabilir.
         time = 0;
 
         buttonText = createUnitButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -295,112 +295,127 @@ public class ProgressBarController : MonoBehaviour
 
     public void CreateUnits()
     {
-        //Progressbar� kontrol et 0'dan farkl�ysa ---> Bina Y�kseltmesi s�ras�nda asker �retemezsiniz.
-        //De�ilse asker �retebilirsin.
         if (!isBarracksBuildActive)
         {
             if (Barracks.wasBarracksCreated == true)
             {
-                // �retim s�relerini toplamak i�in de�i�kenler
                 float totalTime = 0;
                 totalUnitAmount = 0;
-                // Sava��� slider'�n�n de�eri varsa
+
                 if (slider.savasciSlider.value > 0)
                 {
                     float savasciTime = slider.savasciSlider.value * savasciCreationTime;
                     totalTime += savasciTime;
                     totalUnitAmount += slider.savasciSlider.value;
-
                 }
 
-                // Ok�u slider'�n�n de�eri varsa
                 if (slider.okcuSlider.value > 0)
                 {
                     float okcuTime = slider.okcuSlider.value * okcuCreationTime;
                     totalTime += okcuTime;
                     totalUnitAmount += slider.okcuSlider.value;
-
                 }
 
-
-                // T�m birimlerin toplam �retim s�resi s�f�rdan b�y�kse progress bar'� g�ncelle
                 if (totalTime > 0)
                 {
-                    // E�er progress bar doluyorsa ve aktifse
                     if (isUnitCreationActive)
                     {
-                        // Mevcut animasyonu durdur
-                        buttonText.text = "E�it";
-
-                        // Mevcut asker say�s�n� de�i�tirmiyoruz
-                        // Sadece slider de�erlerini s�f�rl�yoruz
+                        buttonText.text = "Eğit";
                         slider.okcuSlider.value = 0f;
                         slider.savasciSlider.value = 0f;
 
-                        // Kaynaklar� geri ver
                         giveCostBack(slider.savasciSlider.value, slider.okcuSlider.value);
 
-                        Debug.Log("Sava�c� Sayisi :" + createdSoldierAmount); // Burada mevcut asker say�s� de�i�meden kal�r
-                        Debug.Log("Okcu Sayisi : " + createdArcherAmount);
+                        Debug.Log("Savaşçı Sayısı :" + createdSoldierAmount);
+                        Debug.Log("Okçu Sayısı : " + createdArcherAmount);
 
-                        LeanTween.cancel(progressBar);
+                        StopCoroutine("CreateUnitsCoroutine");
                         panelManager.DestroyPanel("SoldierCreation");
                         isUnitCreationActive = false;
 
-                        // Progress bar'� s�f�rla
                         ResetProgressBar(progressBar);
-
-                        // Toplam birim miktar�n� s�f�rla
                         totalUnitAmount = 0;
                     }
-
                     else
                     {
-                        // Progress bar'� ba�lat
-                        isUnitCreationActive = true; // Progress bar aktif
-                        buttonText.text = "�ptal Et";
+                        isUnitCreationActive = true;
+                        buttonText.text = "İptal Et";
                         reduceCost(slider.savasciSlider.value, slider.okcuSlider.value);
-                        LeanTween.scaleX(progressBar, 1, totalTime)
-                            .setOnComplete(() =>
-                            {
-                                // Progress bar doldu�unda yap�lacak i�lemler
-                                buttonText.text = "�ret";
-                                OnProgressComplete();
-                                createdArcherAmount += slider.okcuSlider.value;
-                                createdSoldierAmount += slider.savasciSlider.value;
-
-                                //--------------InGameAskerSay�s�G�ncelleme-----------------
-                                getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);
-                                //-----------------------------------------------------------
-
-                                slider.okcuSlider.value = 0f;
-                                slider.savasciSlider.value = 0f;
-                                Debug.Log("Sava�c� Sayisi :" + createdSoldierAmount);
-                                Debug.Log("Okcu Sayisi : " + createdArcherAmount);
-
-                                ResetProgressBar(progressBar); // Progress bar'� s�f�rlamak i�in �a��r
-                                isUnitCreationActive = false;
-                            });
+                        StartCoroutine(CreateUnitsCoroutine(totalTime));
                         panelManager.CreatePanel("SoldierCreation", totalUnitAmount.ToString(), totalTime, "SoldierCreation");
                     }
                 }
             }
             else
             {
-                Debug.Log("�ncelikle bir k��la �retmelisiniz.");
+                Debug.Log("Öncelikle bir kışla üretmelisiniz.");
             }
         }
         else
         {
-            Debug.Log("Bina Y�kseltmesi S�ras�nda Asker E�itemezsin");
+            Debug.Log("Bina Yükseltmesi Sırasında Asker Eğitemezsin");
         }
-
-
-
-
     }
 
-    void reduceCost(float savasciCount, float okcuCount) // Maliyetleri kaynaklardan d��en fonksiyon.
+    private IEnumerator CreateUnitsCoroutine(float totalTime)
+    {
+        float elapsedTime = 0f;
+        float nextLogTime = 0.5f;
+
+        progressBar.transform.localScale = new Vector3(0f, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+
+        while (elapsedTime < totalTime)
+        {
+            if (!isUnitCreationActive)
+            {
+                progressBar.transform.localScale = new Vector3(0f, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+                yield break;
+            }
+
+            elapsedTime += Time.deltaTime;
+
+            if (progressBar != null)
+            {
+                float progress = elapsedTime / totalTime;
+                progressBar.transform.localScale = new Vector3(progress, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+
+                if (elapsedTime > nextLogTime)
+                {
+                    Debug.Log("Asker üretim ilerleme: %" + (progress * 100f).ToString("F1"));
+                    nextLogTime += 0.5f;
+                }
+            }
+
+            yield return null;
+        }
+
+        // Tamamlandığında
+        buttonText.text = "Üret";
+        OnProgressComplete();
+        createdArcherAmount += slider.okcuSlider.value;
+        createdSoldierAmount += slider.savasciSlider.value;
+
+        getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);
+
+        slider.okcuSlider.value = 0f;
+        slider.savasciSlider.value = 0f;
+
+        Debug.Log("Savaşçı Sayısı :" + createdSoldierAmount);
+        Debug.Log("Okçu Sayısı : " + createdArcherAmount);
+
+        ResetProgressBar(progressBar);
+        isUnitCreationActive = false;
+        panelManager.DestroyPanel("SoldierCreation");
+
+        yield return new WaitForSeconds(0.2f);
+        if (progressBar != null)
+        {
+            progressBar.transform.localScale = new Vector3(0f, progressBar.transform.localScale.y, progressBar.transform.localScale.z);
+        }
+    }
+
+
+    void reduceCost(float savasciCount, float okcuCount) // Maliyetleri kaynaklardan d  en fonksiyon.
     {
 
         totalAltin = ((int)savasciCount * 5) + ((int)okcuCount * 7);
@@ -442,11 +457,11 @@ public class ProgressBarController : MonoBehaviour
     }
     void OnProgressComplete()
     {
-        // Burada progress bar doldu�unda yap�lacak i�lemleri tan�mla
-        Debug.Log("Progress Bar doldu, i�lem ger�ekle�tiriliyor!");
+        // Burada progress bar doldu unda yap lacak i lemleri tan mla
+        Debug.Log("Progress Bar doldu, i lem ger ekle tiriliyor!");
         Kingdom.myKingdom.SoldierAmount += totalUnitAmount;
         totalUnitAmount = 0;
-        Debug.Log("Krall���n�z�n asker say�s�:" + Kingdom.myKingdom.SoldierAmount);
+        Debug.Log("Krall   n z n asker say s :" + Kingdom.myKingdom.SoldierAmount);
     }
 
 
@@ -456,74 +471,107 @@ public class ProgressBarController : MonoBehaviour
         {
             if (Hospital.wasHospitalCreated == true)
             {
-                float totalHealTime = 0; // Toplam iyile�tirme s�resi
-                int totalHealedUnitaAmount = 0;
-                // HastaneSlider de�erlerini kontrol et
+                float totalHealTime = 0;
+                int totalHealedUnitAmount = 0;
+
                 if (hastaneSlider.savasciSlider.value > 0)
                 {
                     totalHealTime += hastaneSlider.savasciSlider.value * savasciHealTime;
-                    totalHealedUnitaAmount += (int)hastaneSlider.savasciSlider.value;
+                    totalHealedUnitAmount += (int)hastaneSlider.savasciSlider.value;
                 }
 
                 if (hastaneSlider.okcuSlider.value > 0)
                 {
                     totalHealTime += hastaneSlider.okcuSlider.value * okcuHealTime;
-                    totalHealedUnitaAmount += (int)hastaneSlider.okcuSlider.value;
+                    totalHealedUnitAmount += (int)hastaneSlider.okcuSlider.value;
                 }
 
-
-                // Toplam iyile�tirme s�resi s�f�rdan b�y�kse progress bar'� g�ncelle
                 if (totalHealTime > 0)
                 {
+                    Debug.Log("Toplam iyileştirme süresi: " + totalHealTime);
 
-
-                    Debug.Log("Toplam iyile�tirme s�resi: " + totalHealTime);
-
-                    // E�er progress bar doluyorsa ve aktifse
                     if (isHealActive)
                     {
-                        // Mevcut animasyonu durdur
-                        healButtonText.text = "�yile�tir";
+                        healButtonText.text = "İyileştir";
                         giveCostBack(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value);
-                        LeanTween.cancel(healProgressBar);
+
+                        StopCoroutine("HealUnitsCoroutine");
                         panelManager.DestroyPanel("HealSoldier");
-                        // Progress bar'� s�f�rla
                         isHealActive = false;
                         ResetProgressBar(healProgressBar);
-                        totalHealTime = 0;
                     }
                     else
                     {
-                        // Progress bar'� ba�lat
-                        isHealActive = true; // Progress bar aktif
-                        healButtonText.text = "�ptal Et";
+                        isHealActive = true;
+                        healButtonText.text = "İptal Et";
                         reduceCost(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value);
-                        LeanTween.scaleX(healProgressBar, 1, totalHealTime)
-                            .setOnComplete(() =>
-                            {
-                                // Progress bar doldu�unda yap�lacak i�lemler
-                                healButtonText.text = "�yile�tir";
-                                OnProgressComplete();
-                                ResetProgressBar(healProgressBar); // Progress bar'� s�f�rlamak i�in �a��r
-                                isHealActive = false;
-
-                            });
-                        panelManager.CreatePanel("HealSoldier", totalHealedUnitaAmount.ToString(), totalHealTime, "HealSoldier");
+                        StartCoroutine(HealUnitsCoroutine(totalHealTime));
+                        panelManager.CreatePanel("HealSoldier", totalHealedUnitAmount.ToString(), totalHealTime, "HealSoldier");
                     }
                 }
             }
             else
             {
-                Debug.Log("�ncelikle hastane in�a etmelisiniz.");
+                Debug.Log("Öncelikle hastane inşa etmelisiniz.");
             }
         }
         else
         {
-            Debug.Log("�n�a s�ras�nda birlik e�itemezsin");
+            Debug.Log("İnşa sırasında birlik eğitemezsin");
+        }
+    }
+
+    private IEnumerator HealUnitsCoroutine(float totalTime)
+    {
+        float elapsedTime = 0f;
+        float nextLogTime = 0.5f;
+
+        if (healProgressBar != null)
+        {
+            healProgressBar.transform.localScale = new Vector3(0f, healProgressBar.transform.localScale.y, healProgressBar.transform.localScale.z);
         }
 
+        while (elapsedTime < totalTime)
+        {
+            if (!isHealActive)
+            {
+                if (healProgressBar != null)
+                {
+                    healProgressBar.transform.localScale = new Vector3(0f, healProgressBar.transform.localScale.y, healProgressBar.transform.localScale.z);
+                }
+                yield break;
+            }
 
+            elapsedTime += Time.deltaTime;
+
+            if (healProgressBar != null)
+            {
+                float progress = elapsedTime / totalTime;
+                healProgressBar.transform.localScale = new Vector3(progress, healProgressBar.transform.localScale.y, healProgressBar.transform.localScale.z);
+
+                if (elapsedTime > nextLogTime)
+                {
+                    Debug.Log("İyileştirme ilerleme: %" + (progress * 100f).ToString("F1"));
+                    nextLogTime += 0.5f;
+                }
+            }
+
+            yield return null;
+        }
+
+        healButtonText.text = "İyileştir";
+        OnProgressComplete();
+        ResetProgressBar(healProgressBar);
+        isHealActive = false;
+        panelManager.DestroyPanel("HealSoldier");
+
+        yield return new WaitForSeconds(0.2f);
+        if (healProgressBar != null)
+        {
+            healProgressBar.transform.localScale = new Vector3(0f, healProgressBar.transform.localScale.y, healProgressBar.transform.localScale.z);
+        }
     }
+
 
 
     public IEnumerator WarehouseIsFinished(Warehouse warehouse, System.Action<bool> onCompletion)

@@ -6462,6 +6462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -6481,7 +6482,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 1807905811}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &141046413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6911,7 +6913,7 @@ RectTransform:
   m_Father: {fileID: 1141075769}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.7684623}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9015,6 +9017,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 233498252}
   m_CullTransparentMesh: 1
+--- !u!1 &234526317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 234526319}
+  - component: {fileID: 234526318}
+  m_Layer: 0
+  m_Name: PhotonPropertiesUpdater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &234526318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234526317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04a88853852ccd45a64b720044060c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
+--- !u!4 &234526319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234526317}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1115.5798, y: 528.9723, z: 3.3673337}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &237121883
 GameObject:
   m_ObjectHideFlags: 0
@@ -9974,6 +10021,7 @@ MonoBehaviour:
   createdSoldierAmount: 12
   createdArcherAmount: 12
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kaynakYoneticisi: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
 --- !u!4 &250818656
 Transform:
   m_ObjectHideFlags: 0
@@ -12681,6 +12729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -12700,7 +12749,8 @@ MonoBehaviour:
   - {fileID: 529035889}
   - {fileID: 1763564669}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &322764927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13234,6 +13284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -13253,7 +13304,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!1 &331061185
 GameObject:
   m_ObjectHideFlags: 0
@@ -18879,18 +18931,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 454109829}
-        m_TargetAssemblyTypeName: ResearchController, Assembly-CSharp
-        m_MethodName: OpenSevenLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &454109826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18979,6 +19019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -18988,7 +19029,8 @@ MonoBehaviour:
   - {fileID: 150145134}
   - {fileID: 1933665711}
   - {fileID: 1547663207}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!1 &454413858
 GameObject:
   m_ObjectHideFlags: 0
@@ -19299,11 +19341,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
   - {fileID: 1582282872}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!1 &463344804
 GameObject:
   m_ObjectHideFlags: 0
@@ -21409,18 +21453,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 496704241}
-        m_TargetAssemblyTypeName: ResearchController, Assembly-CSharp
-        m_MethodName: OpenSevenLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &496704238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21508,6 +21540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -21517,7 +21550,8 @@ MonoBehaviour:
   - {fileID: 150145134}
   - {fileID: 1933665711}
   - {fileID: 1547663207}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!1 &501546083
 GameObject:
   m_ObjectHideFlags: 0
@@ -24147,6 +24181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -24166,7 +24201,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &553522319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25384,6 +25420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -25395,7 +25432,8 @@ MonoBehaviour:
   - {fileID: 1547663207}
   - {fileID: 853090837}
   - {fileID: 1143580025}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &578889568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31951,7 +31989,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Geli\u015Fmi\u015F \u0130n\u015Faat Teknikleri"
+  m_text: "Geli\u015Fmiz Tuzak Teknolojisi"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -37846,6 +37884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -37865,7 +37904,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &949062700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39308,6 +39348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -39319,7 +39360,8 @@ MonoBehaviour:
   - {fileID: 1547663207}
   - {fileID: 853090837}
   - {fileID: 1143580025}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &987102846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42491,6 +42533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -42510,7 +42553,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 1807905811}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &1047381719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42921,13 +42965,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
   - {fileID: 1582282872}
   - {fileID: 651943183}
   - {fileID: 24643098}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &1061333110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53332,7 +53378,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.000030517578, y: -0.00015258789}
-  m_SizeDelta: {x: -0.000030518, y: 1121.3481}
+  m_SizeDelta: {x: -0.000030518, y: 1240.6594}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1329522267
 MonoBehaviour:
@@ -53838,6 +53884,7 @@ MonoBehaviour:
   panel: {fileID: 407858640}
   imageObject: {fileID: 1337373505}
   alternatePanel: {fileID: 253842241}
+  regionClickHandler: {fileID: 407858644}
 --- !u!1 &1339351556
 GameObject:
   m_ObjectHideFlags: 0
@@ -53985,6 +54032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -54004,7 +54052,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &1339351562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54290,7 +54339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1341448985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -54354,8 +54403,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 151364009}
   m_HandleRect: {fileID: 151364008}
   m_Direction: 3
-  m_Value: 1.000001
-  m_Size: 0.88308185
+  m_Value: 1.0000005
+  m_Size: 0.7684623
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -57801,7 +57850,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 54.989, y: -1251}
+  m_AnchoredPosition: {x: 54.989, y: -1200.6562}
   m_SizeDelta: {x: 89.978, y: 80.0066}
   m_Pivot: {x: 0.5, y: 0.4999992}
 --- !u!114 &1410743593
@@ -65415,12 +65464,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
   - {fileID: 1582282872}
   - {fileID: 651943183}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!1 &1603951113
 GameObject:
   m_ObjectHideFlags: 0
@@ -67248,6 +67299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -67267,7 +67319,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &1634347157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73719,6 +73772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -73739,6 +73793,7 @@ MonoBehaviour:
   - {fileID: 1763564669}
   - {fileID: 1807905811}
   progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!4 &1774118554
 Transform:
   m_ObjectHideFlags: 0
@@ -74406,7 +74461,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 194.4863}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1796374146
 MonoBehaviour:
@@ -77378,6 +77433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -77397,7 +77453,8 @@ MonoBehaviour:
   - {fileID: 529035889}
   - {fileID: 1763564669}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &1852564936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84143,6 +84200,7 @@ MonoBehaviour:
   - {fileID: 1635748427}
   - {fileID: 177235671}
   - {fileID: 2097682691}
+  researchController: {fileID: 1774118553}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -87004,6 +87062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 0}
   - {fileID: 0}
@@ -87023,7 +87082,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &2027061335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90414,6 +90474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f28bfb611d89314f9a6299d0ad33fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 0}
   lockItems:
   - {fileID: 258403514}
   - {fileID: 1324317629}
@@ -90425,7 +90486,8 @@ MonoBehaviour:
   - {fileID: 1547663207}
   - {fileID: 853090837}
   - {fileID: 1143580025}
-  progressBarController: {fileID: 0}
+  progressBarController: {fileID: 250818655}
+  researchActions: {fileID: 11400000, guid: cc68cfab3e725654f9762a2d598e87d6, type: 2}
 --- !u!114 &2106145721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90792,9 +90854,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0130n\u015Faat tekniklerini geli\u015Ftir ve yap\u0131lar\u0131n\u0131
-    daha h\u0131zl\u0131 in\u015Fa et. Daha sa\u011Flam binalar ve savunma sistemleri
-    kur."
+  m_text: "Tuzaklar\u0131n savunman\u0131n en \xF6nemli par\xE7alar\u0131ndan biridir.
+    Tuzaklar\u0131n\u0131 geli\u015Ftir ve d\xFC\u015Fmanlar\u0131n\u0131 gafil avla."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -92326,3 +92387,4 @@ SceneRoots:
   - {fileID: 617837872}
   - {fileID: 1362423204}
   - {fileID: 1990628647}
+  - {fileID: 234526319}

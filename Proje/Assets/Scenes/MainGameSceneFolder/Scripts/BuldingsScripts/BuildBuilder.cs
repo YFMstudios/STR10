@@ -1130,7 +1130,7 @@ public class BuildBuilder : MonoBehaviour
                         Lab.wasLabCreated = true;
                         Lab.buildLevel = 1;
                         // Ara�t�rma h�z�n� artt�r
-                        researchController.OpenResearchUnit(Lab.buildLevel);
+                        researchController.OpenResearchUnit();
                         lab.UpdateCosts();
                         buttonText.text = "Y�kselt";
                         buildLabButton.enabled = true;

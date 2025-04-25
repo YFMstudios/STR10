@@ -4072,6 +4072,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9045704786742347240}
+  - component: {fileID: 2938898027015620357}
+  - component: {fileID: 1612609933499531621}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -4098,6 +4100,44 @@ Transform:
   - {fileID: 3317934250533697681}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -85.651, z: 0}
+--- !u!114 &2938898027015620357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915763257884871087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &1612609933499531621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915763257884871087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fb6d0f9c3f5cb4386e1e4ce2bc13f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  damage: 25
+  attackSpeed: 1
+  damageLerpDuration: 0.5
 --- !u!1 &8040815936521543709
 GameObject:
   m_ObjectHideFlags: 0
@@ -4431,7 +4471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcc44b7477101c4683758c16c19fb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider3D: {fileID: 2216474301546780087}
   healthSlider2D: {fileID: 2445628572804365774}
 --- !u!114 &3359112310869233459
 MonoBehaviour:
@@ -4479,7 +4518,6 @@ MonoBehaviour:
   startingMana: 100
   manaRegenRate: 5
   manaBar2d: {fileID: 3907992208782034279}
-  manaBar3d: {fileID: 8582038081988221123}
   manaText2d: {fileID: 7002496917051968337}
 --- !u!114 &3985985596663753878
 MonoBehaviour:
@@ -4583,8 +4621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
-  rotateSpeedMovement: 0.05
   anim: {fileID: 0}
+  rotateSpeedMovement: 0.05
   targetEnemy: {fileID: 0}
   stoppingDistance: 0
 --- !u!114 &8631150991664759723

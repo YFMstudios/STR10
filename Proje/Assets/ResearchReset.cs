@@ -13,6 +13,7 @@ public class ResearchReset : MonoBehaviour
     }
 
     Debug.Log("Tüm araştırmalar sıfırlandı.");
+    ResearchButtonEvents.isAnyResearchActive = false;
 }
 
 }

@@ -1,228 +1,240 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class ResearchController : MonoBehaviour
 {
-
-
+    
+    public KaynakYoneticisi kaynakYoneticisi;
     public Image[] lockItems = new Image[18];
     public ProgressBarController progressBarController;
 
-    public void OpenResearchUnit(int buildLevel)
+    public ResearchActions researchActions;
+
+    public void Start()
     {
-        if (buildLevel == 1)
-        {
-            // Ýlk seviyenin kilidini aç
-            lockItems[0].enabled = false;
-        }
+        ResearchButtonEvents.isAnyResearchActive=false;
+        researchActions.MinionHareketHiziArttirma();
+
+      
     }
-    public void OpenTwoAndThreeLevels()
+    public void OpenResearchUnit()
+{
+    if (Lab.buildLevel == 1)
     {
-
-        if (ResearchButtonEvents.isResearched[0] == true)
-        {
-
-            lockItems[1].enabled = false;
-            lockItems[2].enabled = false;
-        }
+        // Ä°lk seviyenin kilidini aÃ§
+        if (lockItems[0] != null) Destroy(lockItems[0]);
     }
+}
 
-    public void OpenFourLevel()
+public void OpenTwoAndThreeLevels()
+{
+    if (ResearchButtonEvents.isResearched[0])
     {
-        if (ResearchButtonEvents.isResearched[1] == true)
-        {
-            lockItems[3].enabled = false;
-
-        }
+        if (lockItems[1] != null) Destroy(lockItems[1]);
+        if (lockItems[2] != null) Destroy(lockItems[2]);
     }
+}
 
-    public void OpenFiveLevel()
+public void OpenFourLevel()
+{
+    if (ResearchButtonEvents.isResearched[1])
     {
-
-        if (ResearchButtonEvents.isResearched[2] == true)
-        {
-            lockItems[4].enabled = false;
-        }
+        if (lockItems[3] != null) Destroy(lockItems[3]);
     }
+}
 
-    public void controlBuildLevelTwoResearches()
+public void OpenFiveLevel()
+{
+    if (ResearchButtonEvents.isResearched[2])
     {
-        if (ResearchButtonEvents.isResearched[3] == true && Lab.buildLevel >= 2)
-        {
-            lockItems[5].enabled = false;
-            // researchItems[5].color = new Color(255f, 255f, 255f, 255f);
-        }
-        if (ResearchButtonEvents.isResearched[4] == true && Lab.buildLevel >= 2)
-        {
-            lockItems[7].enabled = false;
-            //researchItems[7].color = new Color(255f, 255f, 255f, 255f);
-        }
-        if (ResearchButtonEvents.isResearched[3] == true && ResearchButtonEvents.isResearched[4] == true && Lab.buildLevel >= 2)
-        {
-            lockItems[6].enabled = false;
-            //researchItems[6].color = new Color(255f, 255f, 255f, 255f);
-        }
-
+        if (lockItems[4] != null) Destroy(lockItems[4]);
     }
+}
 
-    public void control9And10Levels()
+public void controlBuildLevelTwoResearches()
+{
+    if (ResearchButtonEvents.isResearched[3] && Lab.buildLevel >= 2)
     {
-        if (ResearchButtonEvents.isResearched[5] == true)
-        {
-            Debug.Log("Level6 Araþtýrýldý");
-        }
-        if (ResearchButtonEvents.isResearched[6] == true)
-        {
-            Debug.Log("Level7 Araþtýrýldý");
-        }
-        if (ResearchButtonEvents.isResearched[5] == true && ResearchButtonEvents.isResearched[6] == true)
-        {
-            lockItems[8].enabled = false;
-            Debug.Log("Seviye9 Açýldý");
-        }
-        if (ResearchButtonEvents.isResearched[6] == true && ResearchButtonEvents.isResearched[7] == true)
-        {
-            lockItems[9].enabled = false;
-        }
+        if (lockItems[5] != null) Destroy(lockItems[5]);
     }
-
-    public void control11And12And13Levels()
+    if (ResearchButtonEvents.isResearched[4] && Lab.buildLevel >= 2)
     {
-
-        if (ResearchButtonEvents.isResearched[8] == true && Lab.buildLevel >= 2)
-        {
-            lockItems[10].enabled = false;
-        }
-        if (ResearchButtonEvents.isResearched[9] == true && Lab.buildLevel >= 2)
-        {
-            lockItems[12].enabled = false;
-        }
-        if (ResearchButtonEvents.isResearched[8] == true && ResearchButtonEvents.isResearched[9] == true
-           && Lab.buildLevel >= 2)
-        {
-            lockItems[11].enabled = false;
-        }
+        if (lockItems[7] != null) Destroy(lockItems[7]);
     }
-
-
-    public void controlBuildLevelThreeResearches()
+    if (ResearchButtonEvents.isResearched[3] && ResearchButtonEvents.isResearched[4] && Lab.buildLevel >= 2)
     {
-        if (ResearchButtonEvents.isResearched[10] == true && ResearchButtonEvents.isResearched[11]
-            && Lab.buildLevel >= 3)
-        {
-            lockItems[13].enabled = false;
-        }
-        if (ResearchButtonEvents.isResearched[11] == true && ResearchButtonEvents.isResearched[12] == true
-            && Lab.buildLevel >= 3)
-        {
-            lockItems[14].enabled = false;
-        }
+        if (lockItems[6] != null) Destroy(lockItems[6]);
     }
+}
 
-    public void control16And17Levels()
+public void control9And10Levels()
+{
+    if (ResearchButtonEvents.isResearched[5])
     {
-        if (ResearchButtonEvents.isResearched[13] == true && Lab.buildLevel >= 3)
-        {
-            lockItems[15].enabled = false;
-        }
-        if (ResearchButtonEvents.isResearched[14] == true && Lab.buildLevel >= 3)
-        {
-            lockItems[16].enabled = false;
-        }
+        Debug.Log("Level6 AraÅŸtÄ±rÄ±ldÄ±");
     }
+    if (ResearchButtonEvents.isResearched[6])
+    {
+        Debug.Log("Level7 AraÅŸtÄ±rÄ±ldÄ±");
+    }
+    if (ResearchButtonEvents.isResearched[5] && ResearchButtonEvents.isResearched[6])
+    {
+        if (lockItems[8] != null) Destroy(lockItems[8]);
+        Debug.Log("Seviye9 AÃ§Ä±ldÄ±");
+    }
+    if (ResearchButtonEvents.isResearched[6] && ResearchButtonEvents.isResearched[7])
+    {
+        if (lockItems[9] != null) Destroy(lockItems[9]);
+    }
+}
 
-    public void level18Control()
+public void control11And12And13Levels()
+{
+    if (ResearchButtonEvents.isResearched[8] && Lab.buildLevel >= 2)
     {
-        if (ResearchButtonEvents.isResearched[15] && ResearchButtonEvents.isResearched[16] && Lab.buildLevel >= 3)
-        {
-            lockItems[17].enabled = false;
-        }
+        if (lockItems[10] != null) Destroy(lockItems[10]);
     }
+    if (ResearchButtonEvents.isResearched[9] && Lab.buildLevel >= 2)
+    {
+        if (lockItems[12] != null) Destroy(lockItems[12]);
+    }
+    if (ResearchButtonEvents.isResearched[8] && ResearchButtonEvents.isResearched[9] && Lab.buildLevel >= 2)
+    {
+        if (lockItems[11] != null) Destroy(lockItems[11]);
+    }
+}
+
+public void controlBuildLevelThreeResearches()
+{
+    if (ResearchButtonEvents.isResearched[10] && ResearchButtonEvents.isResearched[11] && Lab.buildLevel >= 3)
+    {
+        if (lockItems[13] != null) Destroy(lockItems[13]);
+    }
+    if (ResearchButtonEvents.isResearched[11] && ResearchButtonEvents.isResearched[12] && Lab.buildLevel >= 3)
+    {
+        if (lockItems[14] != null) Destroy(lockItems[14]);
+    }
+}
+
+public void control16And17Levels()
+{
+    if (ResearchButtonEvents.isResearched[13] && Lab.buildLevel >= 3)
+    {
+        if (lockItems[15] != null) Destroy(lockItems[15]);
+    }
+    if (ResearchButtonEvents.isResearched[14] && Lab.buildLevel >= 3)
+    {
+        if (lockItems[16] != null) Destroy(lockItems[16]);
+    }
+}
+
+public void level18Control()
+{
+    if (ResearchButtonEvents.isResearched[15] && ResearchButtonEvents.isResearched[16] && Lab.buildLevel >= 3)
+    {
+        if (lockItems[17] != null) Destroy(lockItems[17]);
+    }
+}
+
 
     public void UpgradeResearchedItems(int researchedLevel)
     {
         if (researchedLevel == 0)
         {
-            Debug.Log("Eski Üretim Oraný : " + Farm.foodProductionRate);
-            Debug.Log("Eski Altýn Üretme Oraný : " + Farm.goldProductionRateFarm);
+            kaynakYoneticisi.WarPowerArttirma(50);
+            Debug.Log("Eski ï¿½retim Oranï¿½ : " + Farm.foodProductionRate);
+            Debug.Log("Eski Altï¿½n ï¿½retme Oranï¿½ : " + Farm.goldProductionRateFarm);
             Farm.foodProductionRate += (Farm.foodProductionRate * 25) / 100;
             Farm.goldProductionRateFarm += (Farm.goldProductionRateFarm * 100) / 100;
-            Debug.Log("Yeni Üretim Oraný : " + Farm.foodProductionRate);
-            Debug.Log("Yeni Altýn Üretme Oraný : " + Farm.goldProductionRateFarm);
+            Debug.Log("Yeni ï¿½retim Oranï¿½ : " + Farm.foodProductionRate);
+            Debug.Log("Yeni Altï¿½n ï¿½retme Oranï¿½ : " + Farm.goldProductionRateFarm);
         }
         else if (researchedLevel == 1)
         {
-            Debug.Log("Eski Üretim Oraný : " + Sawmill.timberProductionRate);
-            Debug.Log("Eski Altýn Üretme Oraný : " + Sawmill.goldProductionRateSawmill);
+             kaynakYoneticisi.WarPowerArttirma(100);
+            Debug.Log("Eski ï¿½retim Oranï¿½ : " + Sawmill.timberProductionRate);
+            Debug.Log("Eski Altï¿½n ï¿½retme Oranï¿½ : " + Sawmill.goldProductionRateSawmill);
             Sawmill.timberProductionRate += (Sawmill.timberProductionRate * 25) / 100;
             Sawmill.goldProductionRateSawmill += (Sawmill.goldProductionRateSawmill * 100) / 100;
-            Debug.Log("Yeni Üretim Oraný : " + Sawmill.timberProductionRate);
-            Debug.Log("Yeni Altýn Üretme Oraný : " + Sawmill.goldProductionRateSawmill);
+            Debug.Log("Yeni ï¿½retim Oranï¿½ : " + Sawmill.timberProductionRate);
+            Debug.Log("Yeni Altï¿½n ï¿½retme Oranï¿½ : " + Sawmill.goldProductionRateSawmill);
         }
         else if (researchedLevel == 2)
         {
-            Debug.Log("Eski Üretim Oraný : " + StonePit.stoneProductionRate);
-            Debug.Log("Eski Altýn Üretme Oraný : " + StonePit.goldProductionRateStonePit);
+             kaynakYoneticisi.WarPowerArttirma(150);
+            Debug.Log("Eski ï¿½retim Oranï¿½ : " + StonePit.stoneProductionRate);
+            Debug.Log("Eski Altï¿½n ï¿½retme Oranï¿½ : " + StonePit.goldProductionRateStonePit);
             StonePit.stoneProductionRate += (StonePit.stoneProductionRate * 25) / 100;
             StonePit.goldProductionRateStonePit += (StonePit.goldProductionRateStonePit * 100) / 100;
-            Debug.Log("Yeni Üretim Oraný : " + StonePit.stoneProductionRate);
-            Debug.Log("Yeni Altýn Üretme Oraný : " + StonePit.goldProductionRateStonePit);
+            Debug.Log("Yeni ï¿½retim Oranï¿½ : " + StonePit.stoneProductionRate);
+            Debug.Log("Yeni Altï¿½n ï¿½retme Oranï¿½ : " + StonePit.goldProductionRateStonePit);
         }
         else if (researchedLevel == 3)
         {
-            Debug.Log("Eski Üretim Oraný : " + Blacksmith.ironProductionRate);
-            Debug.Log("Eski Altýn Üretme Oraný : " + Blacksmith.goldProductionRateBlacksmith);
+             kaynakYoneticisi.WarPowerArttirma(200);
+            Debug.Log("Eski ï¿½retim Oranï¿½ : " + Blacksmith.ironProductionRate);
+            Debug.Log("Eski Altï¿½n ï¿½retme Oranï¿½ : " + Blacksmith.goldProductionRateBlacksmith);
             Blacksmith.ironProductionRate += (Blacksmith.ironProductionRate * 25) / 100;
             Blacksmith.goldProductionRateBlacksmith += (Blacksmith.goldProductionRateBlacksmith * 100) / 100;
-            Debug.Log("Yeni Üretim Oraný : " + Blacksmith.ironProductionRate);
-            Debug.Log("Yeni Altýn Üretme Oraný : " + Blacksmith.goldProductionRateBlacksmith);
+            Debug.Log("Yeni ï¿½retim Oranï¿½ : " + Blacksmith.ironProductionRate);
+            Debug.Log("Yeni Altï¿½n ï¿½retme Oranï¿½ : " + Blacksmith.goldProductionRateBlacksmith);
         }
         else if (researchedLevel == 4)
         {
-            //Araþtýrmalarý hýzlandýr.
+             kaynakYoneticisi.WarPowerArttirma(300);
+            //Araï¿½tï¿½rmalarï¿½ hï¿½zlandï¿½r.
         }
         else if (researchedLevel == 5)
         {
-            Debug.Log("Eski Savaþçý Heal Time : " + progressBarController.savasciHealTime);
-            Debug.Log("Eski Okçu Heal Time : " + progressBarController.okcuHealTime);
+             kaynakYoneticisi.WarPowerArttirma(400);
+            Debug.Log("Eski Savaï¿½ï¿½ï¿½ Heal Time : " + progressBarController.savasciHealTime);
+            Debug.Log("Eski Okï¿½u Heal Time : " + progressBarController.okcuHealTime);
             progressBarController.savasciHealTime = 1.25f;
             progressBarController.okcuHealTime = 2.15f;
-            Debug.Log("Yeni Savaþçý Heal Time : " + progressBarController.savasciHealTime);
-            Debug.Log("Yeni Okçu Heal Time : " + progressBarController.okcuHealTime);
+            Debug.Log("Yeni Savaï¿½ï¿½ï¿½ Heal Time : " + progressBarController.savasciHealTime);
+            Debug.Log("Yeni Okï¿½u Heal Time : " + progressBarController.okcuHealTime);
         }
         else if (researchedLevel == 6)
         {
-            Debug.Log("Karakterin Damage'ini arttýr.");
+             kaynakYoneticisi.WarPowerArttirma(450);
+              researchActions.KarakterCanVeHasarArttirma();
         }
         else if ((researchedLevel == 7))
         {
+             kaynakYoneticisi.WarPowerArttirma(500);
             progressBarController.savasciCreationTime -= 0.25f;
             progressBarController.okcuCreationTime -= 0.25f;
 
         }
         else if ((researchedLevel == 8))
         {
+             kaynakYoneticisi.WarPowerArttirma(550);
             Farm.foodProductionRate += (Farm.foodProductionRate * 40) / 100;
             Farm.goldProductionRateFarm += (Farm.goldProductionRateFarm * 100) / 100;
         }
         else if (researchedLevel == 9)
         {
-            //Ýnþaa sürelerini azalt
+             kaynakYoneticisi.WarPowerArttirma(600);
+            researchActions.TrapHasarAttirma();
         }
         else if (researchedLevel == 10)
         {
+             kaynakYoneticisi.WarPowerArttirma(650);
             StonePit.stoneProductionRate += (StonePit.stoneProductionRate * 40) / 100;
             StonePit.goldProductionRateStonePit += (StonePit.goldProductionRateStonePit * 100) / 100;
         }
         else if (researchedLevel == 11)
         {
+             kaynakYoneticisi.WarPowerArttirma(700);
             Blacksmith.ironProductionRate += (Blacksmith.ironProductionRate * 40) / 100;
             Blacksmith.goldProductionRateBlacksmith += (Blacksmith.goldProductionRateBlacksmith * 100) / 100;
         }
         else if (researchedLevel == 12)
         {
+             kaynakYoneticisi.WarPowerArttirma(750);
             Warehouse.foodCapacity += (Warehouse.foodCapacity * 10) / 100;
             Warehouse.ironCapacity += (Warehouse.ironCapacity * 10) / 100;
             Warehouse.timberCapacity += (Warehouse.timberCapacity * 10) / 100;
@@ -230,24 +242,30 @@ public class ResearchController : MonoBehaviour
         }
         else if (researchedLevel == 13)
         {
-            //Komutanýn damage ve hareket hýzýný arttýr.
+             kaynakYoneticisi.WarPowerArttirma(800);
+            researchActions.KarakterCanVeHasarArttirma2();
         }
         else if (researchedLevel == 14)
         {
-            //Askerilerin hareket hýzlarýný arttýr.
+             kaynakYoneticisi.WarPowerArttirma(850);
+            researchActions.MinionHareketHiziArttirma();
         }
         else if (researchedLevel == 15)
         {
+             kaynakYoneticisi.WarPowerArttirma(900);
             progressBarController.savasciCreationTime -= 0.25f;
             progressBarController.okcuCreationTime -= 0.25f;
         }
         else if (researchedLevel == 16)
         {
-            // Kale ve kulelerin canlarýný arttýr.
+             kaynakYoneticisi.WarPowerArttirma(950);
+            researchActions.KaleKuleCanArttirma();
         }
         else if (researchedLevel == 17)
         {
-            //Askerlerin damage'ini arttýr.
+             kaynakYoneticisi.WarPowerArttirma(1000);
+            researchActions.MinionHasarArttirma();
+            
         }
 
     }
