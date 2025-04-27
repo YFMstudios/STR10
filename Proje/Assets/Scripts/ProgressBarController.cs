@@ -79,6 +79,7 @@ public class ProgressBarController : MonoBehaviour
 
     [Header("ScriptableObject")]
     public GetPlayerData getPlayerData;
+    public HealController healController;
 
     // Awake fonksiyonu (ProgressBarController sınıfına)
     private void Awake()
@@ -471,43 +472,76 @@ public class ProgressBarController : MonoBehaviour
         {
             if (Hospital.wasHospitalCreated == true)
             {
-                float totalHealTime = 0;
-                int totalHealedUnitAmount = 0;
+                // Input field değerlerini doğrudan çek
+                int inputSavasciCount = 0;
+                int inputOkcuCount = 0;
 
-                if (hastaneSlider.savasciSlider.value > 0)
+                // Input field değerlerini int'e çevir
+                if (!string.IsNullOrEmpty(hastaneSlider.savasciInputField.text))
+                    int.TryParse(hastaneSlider.savasciInputField.text, out inputSavasciCount);
+
+                if (!string.IsNullOrEmpty(hastaneSlider.okcuInputField.text))
+                    int.TryParse(hastaneSlider.okcuInputField.text, out inputOkcuCount);
+
+                // Yaralı asker ve okçu sayılarını kontrol et
+                bool validInput = true;
+
+                if (inputSavasciCount > healController.woundedSoldier)
                 {
-                    totalHealTime += hastaneSlider.savasciSlider.value * savasciHealTime;
-                    totalHealedUnitAmount += (int)hastaneSlider.savasciSlider.value;
+                    Debug.Log("Hata: Yaralı asker sayısından fazla değer girdiniz!");
+                    validInput = false;
                 }
 
-                if (hastaneSlider.okcuSlider.value > 0)
+                if (inputOkcuCount > healController.woundedArcher)
                 {
-                    totalHealTime += hastaneSlider.okcuSlider.value * okcuHealTime;
-                    totalHealedUnitAmount += (int)hastaneSlider.okcuSlider.value;
+                    Debug.Log("Hata: Yaralı okçu sayısından fazla değer girdiniz!");
+                    validInput = false;
                 }
 
-                if (totalHealTime > 0)
+                // Sadece geçerli değerler girilmişse devam et
+                if (validInput)
                 {
-                    Debug.Log("Toplam iyileştirme süresi: " + totalHealTime);
+                    float totalHealTime = 0;
+                    int totalHealedUnitAmount = 0;
 
-                    if (isHealActive)
+                    if (inputSavasciCount > 0)
                     {
-                        healButtonText.text = "İyileştir";
-                        giveCostBack(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value);
+                        totalHealTime += inputSavasciCount * savasciHealTime;
+                        totalHealedUnitAmount += inputSavasciCount;
+                    }
 
-                        StopCoroutine("HealUnitsCoroutine");
-                        panelManager.DestroyPanel("HealSoldier");
-                        isHealActive = false;
-                        ResetProgressBar(healProgressBar);
-                    }
-                    else
+                    if (inputOkcuCount > 0)
                     {
-                        isHealActive = true;
-                        healButtonText.text = "İptal Et";
-                        reduceCost(hastaneSlider.savasciSlider.value, hastaneSlider.okcuSlider.value);
-                        StartCoroutine(HealUnitsCoroutine(totalHealTime));
-                        panelManager.CreatePanel("HealSoldier", totalHealedUnitAmount.ToString(), totalHealTime, "HealSoldier");
+                        totalHealTime += inputOkcuCount * okcuHealTime;
+                        totalHealedUnitAmount += inputOkcuCount;
                     }
+
+                    if (totalHealTime > 0)
+                    {
+                        Debug.Log("Toplam iyileştirme süresi: " + totalHealTime);
+                        if (isHealActive)
+                        {
+                            healButtonText.text = "İyileştir";
+                            giveCostBack(inputSavasciCount, inputOkcuCount);
+                            StopCoroutine("HealUnitsCoroutine");
+                            panelManager.DestroyPanel("HealSoldier");
+                            isHealActive = false;
+                            ResetProgressBar(healProgressBar);
+                        }
+                        else
+                        {
+                            isHealActive = true;
+                            healButtonText.text = "İptal Et";
+                            reduceCost(inputSavasciCount, inputOkcuCount);
+                            StartCoroutine(HealUnitsCoroutine(totalHealTime));
+                            panelManager.CreatePanel("HealSoldier", totalHealedUnitAmount.ToString(), totalHealTime, "HealSoldier");
+                        }
+                    }
+                }
+                else
+                {
+                    // Geçersiz değer girildiyse genel bir uyarı mesajı
+                    Debug.Log("Lütfen yaralı asker ve okçu sayısını aşmayacak değerler giriniz.");
                 }
             }
             else
@@ -517,7 +551,7 @@ public class ProgressBarController : MonoBehaviour
         }
         else
         {
-            Debug.Log("İnşa sırasında birlik eğitemezsin");
+            Debug.Log("İnşa sırasında birlik iyileştiremezsin");
         }
     }
 

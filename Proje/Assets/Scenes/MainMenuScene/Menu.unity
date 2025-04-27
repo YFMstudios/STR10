@@ -2326,6 +2326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  healController: {fileID: 11400000, guid: 7dba1a2cbdeb6684fa99b7f563363e47, type: 2}
 --- !u!4 &1926932193
 Transform:
   m_ObjectHideFlags: 0

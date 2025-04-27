@@ -240,7 +240,7 @@ MonoBehaviour:
   stopDistance: 5
   aggroRange: 100
   targetSwitchInterval: 0.25
-  rotationSpeed: 5
+  rotationSpeed: 7.5
   attackCooldown: 1
 --- !u!114 &-3851584816898897345
 MonoBehaviour:

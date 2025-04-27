@@ -3,166 +3,207 @@ using Photon.Realtime;
 using UnityEngine;
 using System.Collections;
 
-
 public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 {
+    // ------------------------------------------------------------
+    // Inspector değişkenleri
+    // ------------------------------------------------------------
     public float meleeMinionMoveSpeed;
     public float rangedMinionMoveSpeed;
 
-    private const string ENEMY_MELEE_MINION_PREFAB = "Minions/EnemyMeleeMinion";
+    private const string ENEMY_MELEE_MINION_PREFAB  = "Minions/EnemyMeleeMinion";
     private const string ENEMY_RANGED_MINION_PREFAB = "Minions/EnemyRangedMinion";
 
     public Transform[] spawnPoints;
-    public float spawnInterval = 20.0f;
+    public float spawnInterval     = 20.0f;
     public float delayBetweenMinions;
 
-    [Header("ScriptableObject")]
+    [Header("ScriptableObject (artık fallback değil)")]
     public GetPlayerData getPlayerData;
 
+    // ------------------------------------------------------------
+    // İç değişkenler
+    // ------------------------------------------------------------
     private int meleeUnitsToSpawn;
     private int rangedUnitsToSpawn;
     private int meleeRemaining;
     private int rangedRemaining;
 
-       public int kalanOkcu;
-    public int kalanSavasci;
+    public  int kalanOkcu;
+    public  int kalanSavasci;
 
-        public SoldierController soldierManager;
+    public SoldierController soldierManager;
 
+    // Ağdan gelen kesin değerler
+    private int attackerSoldierCnt, attackerArcherCnt;
+    private int defenderSoldierCnt, defenderArcherCnt;
 
-
-
-    private void Start()
+    // ============================================================
+    //  Start – yalnızca MasterClient çalıştırır
+    // ============================================================
+    private IEnumerator Start()
     {
-      
-        Debug.Log("[EnemySpawner] Start()");
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("[EnemySpawner] Master değilim, çıkıyorum.");
+            yield break;
+        }
 
-        meleeUnitsToSpawn = getPlayerData.currentSoldierAmount;
-        rangedUnitsToSpawn = getPlayerData.currentArcherAmount;
+        Debug.Log("[EnemySpawner] Başlıyor...");
 
-        Debug.Log($"[EnemySpawner] Toplam Melee: {meleeUnitsToSpawn}, Ranged: {rangedUnitsToSpawn}");
+        yield return new WaitForSeconds(0.2f);
+        yield return StartCoroutine(WaitForBothSidesCounts());
 
-        meleeRemaining = meleeUnitsToSpawn;
+        // *** Defender tarafının minyonları ***
+        meleeUnitsToSpawn  = defenderSoldierCnt;
+        rangedUnitsToSpawn = defenderArcherCnt;
+
+        meleeRemaining  = meleeUnitsToSpawn;
         rangedRemaining = rangedUnitsToSpawn;
 
-        // Toplam kalan düşman askeri bilgisini WarController'a bildir
+        Debug.Log($"[EnemySpawner] Sayılar alındı  Soldier:{meleeUnitsToSpawn}  Archer:{rangedUnitsToSpawn}");
+
         if (WarController.Instance != null)
-{
-    WarController.Instance.enemykalansavasçı = meleeRemaining;
-    WarController.Instance.enemykalanokçu = rangedRemaining;
-}
-
-
-        if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("[EnemySpawner] MasterClient olarak minyon spawn başlatılıyor");
-            StartCoroutine(SpawnMinions());
+            WarController.Instance.enemykalansavasçı = meleeRemaining;
+            WarController.Instance.enemykalanokçu    = rangedRemaining;
+        }
+
+        StartCoroutine(SpawnMinions());
+    }
+
+    // ============================================================
+    //  WaitForBothSidesCounts
+    // ============================================================
+    private IEnumerator WaitForBothSidesCounts()
+    {
+        float waitTime = 0f;
+        while (true)
+        {
+            Player attacker = FindPlayerByRole("attacker");
+            Player defender = FindPlayerByRole("defender");
+
+            bool attackerReady = attacker != null &&
+                                  attacker.CustomProperties.ContainsKey("SoldierCount") &&
+                                  attacker.CustomProperties.ContainsKey("ArcherCount");
+
+            bool defenderReady = defender != null &&
+                                  defender.CustomProperties.ContainsKey("SoldierCount") &&
+                                  defender.CustomProperties.ContainsKey("ArcherCount");
+
+            Debug.Log($"[EnemySpawner][WAIT] t={waitTime:F1}s  attackerReady:{attackerReady}  defenderReady:{defenderReady}");
+
+            if (attackerReady && defenderReady)
+            {
+                attackerSoldierCnt = (int)attacker.CustomProperties["SoldierCount"];
+                attackerArcherCnt  = (int)attacker.CustomProperties["ArcherCount"];
+
+                defenderSoldierCnt = (int)defender.CustomProperties["SoldierCount"];
+                defenderArcherCnt  = (int)defender.CustomProperties["ArcherCount"];
+                Debug.Log("[EnemySpawner] İki taraf da hazır, döngüden çıkılıyor.");
+                break;
+            }
+            waitTime += Time.deltaTime;
+            yield return null;
         }
     }
 
+    // ============================================================
+    //  SpawnMinions – dalga dalga üretim
+    // ============================================================
     private IEnumerator SpawnMinions()
     {
-        int totalUnits = meleeUnitsToSpawn + rangedUnitsToSpawn;
-        int meleeLeft = meleeUnitsToSpawn;
+        Debug.Log("[EnemySpawner] SpawnMinions başladı.");
+        int meleeLeft  = meleeUnitsToSpawn;
         int rangedLeft = rangedUnitsToSpawn;
 
         int unitsPerWave = 10;
-        int waves = Mathf.CeilToInt((float)totalUnits / unitsPerWave);
-
-        Debug.Log($"[EnemySpawner] Toplam {waves} dalga oluşturulacak.");
+        int waves = Mathf.CeilToInt((float)(meleeLeft + rangedLeft) / unitsPerWave);
+        Debug.Log($"[EnemySpawner] Toplam {waves} dalga.");
 
         for (int wave = 0; wave < waves; wave++)
         {
-            Debug.Log($"[EnemySpawner] Dalga {wave + 1}/{waves} başlatılıyor.");
-
-            int meleeThisWave = Mathf.Min(5, meleeLeft);
+            Debug.Log($"[EnemySpawner] === Dalga {wave + 1}/{waves} ===");
+            int meleeThisWave  = Mathf.Min(5, meleeLeft);
             int rangedThisWave = Mathf.Min(5, rangedLeft);
 
             for (int i = 0; i < meleeThisWave; i++)
             {
-                GameObject minion = SpawnMinionForAll(true, meleeMinionMoveSpeed);
-                AttachDeathLogic(minion, true);
+                GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
+                AttachDeathLogic(m, true);
                 meleeLeft--;
-                Debug.Log($"[EnemySpawner] Melee minion spawn edildi. Kalan: {meleeLeft}");
                 kalanSavasci = meleeLeft;
+                Debug.Log($"[EnemySpawner] Melee spawn – kalan:{meleeLeft}");
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
             for (int i = 0; i < rangedThisWave; i++)
             {
-                GameObject minion = SpawnMinionForAll(false, rangedMinionMoveSpeed);
-                AttachDeathLogic(minion, false);
+                GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
+                AttachDeathLogic(m, false);
                 rangedLeft--;
-                Debug.Log($"[EnemySpawner] Ranged minion spawn edildi. Kalan: {rangedLeft}");
                 kalanOkcu = rangedLeft;
+                Debug.Log($"[EnemySpawner] Ranged spawn – kalan:{rangedLeft}");
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
             if (wave < waves - 1)
             {
                 float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
-                Debug.Log($"[EnemySpawner] Dalga arası bekleniyor: {wait} saniye");
+                Debug.Log($"[EnemySpawner] Dalga arası {wait:F1}s bekleniyor.");
                 yield return new WaitForSeconds(wait);
             }
         }
-
-        Debug.Log("[EnemySpawner] Tüm dalgalar tamamlandı.");
+        Debug.Log("[EnemySpawner] Tüm dalgalar bitti.");
     }
 
+    // ============================================================
+    //  Yardımcı fonksiyonlar
+    // ============================================================
     private GameObject SpawnMinionForAll(bool isMelee, float moveSpeed)
     {
-        int spawnIndex = Random.Range(0, spawnPoints.Length);
-        Transform spawnPoint = spawnPoints[spawnIndex];
-
-        string prefabName = isMelee ? ENEMY_MELEE_MINION_PREFAB : ENEMY_RANGED_MINION_PREFAB;
-
         if (!PhotonNetwork.IsMasterClient) return null;
 
-        GameObject minion = PhotonNetwork.Instantiate(
-            prefabName,
-            spawnPoint.position,
-            spawnPoint.rotation
-        );
+        int idx = Random.Range(0, spawnPoints.Length);
+        Transform p = spawnPoints[idx];
+        string prefab = isMelee ? ENEMY_MELEE_MINION_PREFAB : ENEMY_RANGED_MINION_PREFAB;
 
-        Debug.Log($"[EnemySpawner] {(isMelee ? "Melee" : "Ranged")} minyon instantiate edildi: {prefabName}");
+        Debug.Log($"[EnemySpawner] Instantiate prefab:{prefab}  pos:{p.position}");
 
-        var agent = minion.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (agent != null)
-        {
-            agent.speed = moveSpeed;
-            Debug.Log($"[EnemySpawner] NavMeshAgent hızı ayarlandı: {moveSpeed}");
-        }
+        GameObject m = PhotonNetwork.Instantiate(prefab, p.position, p.rotation);
 
-        return minion;
+        var agent = m.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (agent) agent.speed = moveSpeed;
+
+        return m;
     }
 
     private void AttachDeathLogic(GameObject minion, bool isMelee)
     {
-        Debug.Log("[EnemySpawner] Death tracker eklendi.");
-        EnemyMinionDeathTracker tracker = minion.AddComponent<EnemyMinionDeathTracker>();
-        tracker.Init(this, isMelee);
+        EnemyMinionDeathTracker t = minion.AddComponent<EnemyMinionDeathTracker>();
+        t.Init(this, isMelee);
     }
 
     public void DecreaseMinionCount(bool isMelee)
     {
-        if (isMelee)
-        {
-            meleeRemaining--;
-            Debug.Log($"[EnemySpawner] Melee kalan: {meleeRemaining}");
-        }
-        else
-        {
-            rangedRemaining--;
-            Debug.Log($"[EnemySpawner] Ranged kalan: {rangedRemaining}");
-        }
+        if (isMelee)  meleeRemaining--;
+        else          rangedRemaining--;
 
-        // Güncel düşman asker sayısını WarController'a bildir
+        Debug.Log($"[EnemySpawner] DecreaseMinionCount – Melee:{meleeRemaining}  Ranged:{rangedRemaining}");
+
         if (WarController.Instance != null)
-{
-    WarController.Instance.enemykalansavasçı = meleeRemaining;
-    WarController.Instance.enemykalanokçu = rangedRemaining;
-}
+        {
+            WarController.Instance.enemykalansavasçı = meleeRemaining;
+            WarController.Instance.enemykalanokçu    = rangedRemaining;
+        }
+    }
 
+    private Player FindPlayerByRole(string role)
+    {
+        foreach (Player p in PhotonNetwork.PlayerList)
+            if (p.CustomProperties.TryGetValue("Role", out object r) && r.ToString() == role)
+                return p;
+        return null;
     }
 }
 
@@ -170,20 +211,10 @@ public class EnemyMinionDeathTracker : MonoBehaviour
 {
     private EnemyMinionSpawner spawner;
     private bool isMelee;
-
-    public void Init(EnemyMinionSpawner spawnerRef, bool isMeleeType)
-    {
-        spawner = spawnerRef;
-        isMelee = isMeleeType;
-        Debug.Log("[EnemyMinionDeathTracker] Tracker başlatıldı.");
-    }
-
+    public void Init(EnemyMinionSpawner s, bool melee) { spawner = s; isMelee = melee; }
     private void OnDestroy()
     {
-        Debug.Log("[EnemyMinionDeathTracker] Minyon öldü, spawner bilgilendiriliyor.");
-        if (spawner != null)
-        {
-            spawner.DecreaseMinionCount(isMelee);
-        }
+        Debug.Log("[EnemyMinionDeathTracker] Minyon öldü.");
+        if (spawner) spawner.DecreaseMinionCount(isMelee);
     }
 }

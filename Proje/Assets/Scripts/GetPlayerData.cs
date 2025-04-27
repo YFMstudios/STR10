@@ -1,6 +1,8 @@
 using Unity.VisualScripting;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
+using Photon.Pun;
+using ExitGames.Client.Photon;
 
 [CreateAssetMenu(fileName = "GetPlayerData", menuName = "ScriptableObjects/GetPlayerData", order = 1)]
 public class GetPlayerData : ScriptableObject
@@ -48,6 +50,38 @@ public class GetPlayerData : ScriptableObject
         
     }
 
+
+     private float timer = 0f;
+    private float updateInterval = 2f;
+
+    private void OnEnable()
+    {
+        timer = 0f;
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= updateInterval)
+        {
+            UpdatePhotonProperties();
+            timer = 0f;
+        }
+    }
+
+    private void UpdatePhotonProperties()
+    {
+        if (PhotonNetwork.LocalPlayer == null) return;
+
+        Hashtable props = new Hashtable();
+        props["SoldierCount"] = currentSoldierAmount;
+        props["ArcherCount"] = currentArcherAmount;
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+
+        Debug.Log($"[Güncelleme] Soldier: {currentSoldierAmount}, Archer: {currentArcherAmount}");
+    }
  
     //----------------------------------- B�NA AKTF�LE�T�RME FONKS�YONLARI --------------------------------------------------------------//
     public void ActiveTowerOne()
@@ -227,6 +261,7 @@ public class GetPlayerData : ScriptableObject
     {
         currentSoldierAmount = (int)savasciSayisi;
         currentArcherAmount = (int)okcuSayisi;
+        UpdatePhotonProperties();
     }
 
     public void SetRegionHandler(RegionClickHandler handler)
@@ -237,5 +272,8 @@ public class GetPlayerData : ScriptableObject
     {
         regionClickHandler.ConquerKingdom(conqueringKingdom, conqueredKingdom);
     }
+
+
+    
 
 }

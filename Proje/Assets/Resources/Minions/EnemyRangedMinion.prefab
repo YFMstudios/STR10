@@ -241,7 +241,7 @@ MonoBehaviour:
   stopDistance: 5
   aggroRange: 5
   targetSwitchInterval: 2
-  rotationSpeed: 5
+  rotationSpeed: 7.5
 --- !u!114 &-8959479779125360306
 MonoBehaviour:
   m_ObjectHideFlags: 0

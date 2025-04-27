@@ -15,7 +15,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 
     public Image FlagImage, WarIcon, ObservationImage;
     public Sprite warSprite, observationSprite;
-    public TMP_Text owner, kingdom, civilization, numberOfSoldier;
+    public TMP_Text owner, kingdom, civilization ;
     public TextMeshProUGUI playerNameText, kingdomNameText, foodAmountText, stoneAmountText, goldAmountText, woodAmountText, ironAmountText, warPowerText;
 
     public static string opponentName;
@@ -244,7 +244,7 @@ private void UpdateRegionDetails(Image imageComponent)
         owner.text = $"Sahibi: {findOwner(kingdomName)}";
         kingdom.text = $"Krallık: {kingdomName}";
         civilization.text = $"Medeniyet: {details.CivilizationName}";
-        // numberOfSoldier.text = $"Asker Sayısı: {Kingdom.Kingdoms[kingdomNameToKingdomID(kingdomName)].SoldierAmount}";
+      
     }
     else
     {
@@ -312,7 +312,6 @@ private void UpdateRegionDetails(Image imageComponent)
             owner.text = "Sahibi: Player";
             kingdom.text = "Krallık: Akhadzria";
             civilization.text = "Medeniyet: Ork";
-            numberOfSoldier.text = "Asker Sayısı: " + Kingdom.Kingdoms[2].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 3)
         {
@@ -321,7 +320,6 @@ private void UpdateRegionDetails(Image imageComponent)
             owner.text = "Sahibi: Player";
             kingdom.text = "Krallık: Alfgard";
             civilization.text = "Medeniyet: Büyücü";
-            numberOfSoldier.text = "Asker Sayısı: " + Kingdom.Kingdoms[1].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 4)
         {
@@ -330,7 +328,6 @@ private void UpdateRegionDetails(Image imageComponent)
             owner.text = "Sahibi: Player";
             kingdom.text = "Krallık: Arianopol";
             civilization.text = "Medeniyet: İnsan";
-            numberOfSoldier.text = "Asker Sayısı: " + Kingdom.Kingdoms[0].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 5)
         {
@@ -339,7 +336,6 @@ private void UpdateRegionDetails(Image imageComponent)
             owner.text = "Sahibi: Player";
             kingdom.text = "Krallık: Dhamuron";
             civilization.text = "Medeniyet: Cüceler";
-            numberOfSoldier.text = "Asker Sayısı: " + Kingdom.Kingdoms[3].SoldierAmount.ToString();
         }
         else if (selectedKingdom == 6)
         {
@@ -348,7 +344,6 @@ private void UpdateRegionDetails(Image imageComponent)
             owner.text = "Sahibi: Player";
             kingdom.text = "Krallık: Lexion";
             civilization.text = "Medeniyet: Elf";
-            numberOfSoldier.text = "Asker Sayısı: " + Kingdom.Kingdoms[4].SoldierAmount.ToString();
         }
         else
         {
@@ -357,7 +352,6 @@ private void UpdateRegionDetails(Image imageComponent)
             owner.text = "Sahibi: Player";
             kingdom.text = "Krallık: Zephrion";
             civilization.text = "Medeniyet: Ölüler";
-            numberOfSoldier.text = "Asker Sayısı: " + Kingdom.Kingdoms[5].SoldierAmount.ToString();
         }
     }
 

@@ -75,7 +75,8 @@ PhotonNetwork.AutomaticallySyncScene = false;
         customProperties["IronAmount"] = 0;
         customProperties["WarPower"] = 0;
         customProperties["Warisonline"] = false;
-        
+        customProperties["SoldierCount"]=0;
+        customProperties["ArcherCount"]=0;
         // Yeni eklenen oyuncu rol özelliği (varsayılan olarak spectator)
         customProperties["Role"] = "spectator";
 

@@ -3,11 +3,12 @@ using UnityEngine;
 public class PlayerDataResetter : MonoBehaviour
 {
     public GetPlayerData getPlayerData;
-
+    public HealController healController;
     private void Awake()
     {
         ResetPlayerData();
     }
+
 
     private void ResetPlayerData()
     {
@@ -29,5 +30,8 @@ public class PlayerDataResetter : MonoBehaviour
 
         getPlayerData.currentArcherAmount = 0;
         getPlayerData.currentSoldierAmount = 0;
+
+        healController.woundedArcher = 0;
+        healController.woundedSoldier = 0;
     }
 }

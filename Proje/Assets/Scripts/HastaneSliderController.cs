@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class HastaneSliderController : MonoBehaviour
 {
-    public int yaraliSavasciSayisi;
-    public int yaraliOkcuSayisi;
+    [Header("ScriptableObject")]
+    public HealController healController; // HealController referansÄ±
+
+    private int yaraliSavasciSayisi;
+    private int yaraliOkcuSayisi;
 
     public Slider savasciSlider;
     public Slider okcuSlider;
@@ -21,8 +24,6 @@ public class HastaneSliderController : MonoBehaviour
     public TextMeshProUGUI YemekText;
     public TextMeshProUGUI DemirText;
 
-
-
     private float toplamAltin = 0;
     private float toplamKereste = 0;
     private float toplamTas = 0;
@@ -30,9 +31,12 @@ public class HastaneSliderController : MonoBehaviour
     private float toplamDemir = 0;
 
     void Start()
-    {   //Furkanýn sahneden alýna bilgiler burada eþitlenecek.
-        yaraliSavasciSayisi = 100;
-        yaraliOkcuSayisi = 150;
+    {
+        // HealController'dan verileri Ã§ek
+        yaraliSavasciSayisi = healController.woundedSoldier;
+        yaraliOkcuSayisi = healController.woundedArcher;
+        Debug.Log("YaralÄ± Savasci Sayisi : " + yaraliSavasciSayisi);
+        Debug.Log("YaralÄ± Okcu Sayisi : " + yaraliOkcuSayisi);
 
         savasciSlider.wholeNumbers = true;
         okcuSlider.wholeNumbers = true;
@@ -49,7 +53,6 @@ public class HastaneSliderController : MonoBehaviour
         okcuSlider.value = 0;
         okcuSlider.onValueChanged.AddListener(OnOkcuSliderValueChanged);
         okcuInputField.onEndEdit.AddListener(OnOkcuInputFieldEndEdit);
-
     }
 
     void OnSavasciSliderValueChanged(float value)
@@ -84,17 +87,16 @@ public class HastaneSliderController : MonoBehaviour
         }
     }
 
-
     void CalculateTotalCosts()
     {
         float savasciCount = savasciSlider.value;
         float okcuCount = okcuSlider.value;
 
-        toplamAltin = (savasciCount * 5) + (okcuCount * 7) ;
-        toplamYemek = (savasciCount * 5) + (okcuCount * 6) ;
-        toplamDemir = (savasciCount * 5) + (okcuCount * 3) ;
-        toplamTas = (savasciCount * 5) + (okcuCount * 2) ;
-        toplamKereste = (savasciCount * 5) + (okcuCount * 10) ;
+        toplamAltin = (savasciCount * 5) + (okcuCount * 7);
+        toplamYemek = (savasciCount * 5) + (okcuCount * 6);
+        toplamDemir = (savasciCount * 5) + (okcuCount * 3);
+        toplamTas = (savasciCount * 5) + (okcuCount * 2);
+        toplamKereste = (savasciCount * 5) + (okcuCount * 10);
 
         UpdateCostTexts();
     }

@@ -284,7 +284,7 @@ MonoBehaviour:
   stopDistance: 1
   aggroRange: 100
   targetSwitchInterval: 0.25
-  rotationSpeed: 5
+  rotationSpeed: 7.5
   attackCooldown: 0.3
 --- !u!114 &-3816466005430610682
 MonoBehaviour:

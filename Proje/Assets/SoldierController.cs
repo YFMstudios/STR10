@@ -4,90 +4,76 @@ using UnityEngine;
 
 public class SoldierController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // ------------------------------------------------------------
+    //  Referanslar
+    // ------------------------------------------------------------
     private BattleScenePlayerSpawner _battleScenePlayerSpawner;
-      private MinionSpawner _minionSpawner;
-        private EnemyMinionSpawner _enemyMinionSpawner;
-    public string PlayerRole;
+    private MinionSpawner           _minionSpawner;
+    private EnemyMinionSpawner      _enemyMinionSpawner;
 
-    public GetPlayerData getPlayerData;
-    
-void Start()
-{
-    Debug.Log("[SoldierController] Start() çağrıldı. Rol: " + PlayerRole);
+    public string PlayerRole;               // attacker / defender / spectator
+    public GetPlayerData getPlayerData;     // mevcut ScriptableObject
 
-    // Sahnedeki minion spawner referanslarını çek ve kendini ata
-    MinionSpawner minionSpawner = FindObjectOfType<MinionSpawner>();
-    if (minionSpawner != null)
+    // ------------------------------------------------------------
+    //  >>>> EKLEDİĞİMİZ  Getter'lar  <<<<
+    // ------------------------------------------------------------
+    public int GetSoldierCount(string role)
     {
-        _minionSpawner = minionSpawner;
-        minionSpawner.soldierManager = this;
+        if (role == "attacker" && _minionSpawner != null)
+            return _minionSpawner.kalanSavasci;       // minionSpawner’da tuttuğun sayı
+        if (role == "defender" && _enemyMinionSpawner != null)
+            return _enemyMinionSpawner.kalanSavasci;  // enemyMinionSpawner’da tuttuğun sayı
+        return 0;
     }
 
-    EnemyMinionSpawner enemyMinionSpawner = FindObjectOfType<EnemyMinionSpawner>();
-    if (enemyMinionSpawner != null)
+    public int GetArcherCount(string role)
     {
-        _enemyMinionSpawner = enemyMinionSpawner;
-        enemyMinionSpawner.soldierManager = this;
+        if (role == "attacker" && _minionSpawner != null)
+            return _minionSpawner.kalanOkcu;
+        if (role == "defender" && _enemyMinionSpawner != null)
+            return _enemyMinionSpawner.kalanOkcu;
+        return 0;
     }
-}
+    // ------------------------------------------------------------
 
-
-void Update()
-{
-    if (Input.GetKeyDown(KeyCode.P))
+    void Start()
     {
-        Debug.Log("[SoldierController] Anlık Rol: " + PlayerRole);
-    }
-}
+        Debug.Log("[SoldierController] Start() çağrıldı. Rol: " + PlayerRole);
 
-    public void setBattleScenePlayerSpawner(BattleScenePlayerSpawner battleScenePlayerSpawner){
-            _battleScenePlayerSpawner = battleScenePlayerSpawner;
-    }
-     public void setMinionSpawner(MinionSpawner minionSpawner){
-            _minionSpawner = minionSpawner;
-    }
-     public void setEnemyMinionSpawner(EnemyMinionSpawner enemyMinionSpawner){
-           _enemyMinionSpawner  = enemyMinionSpawner;
+        _minionSpawner      = FindObjectOfType<MinionSpawner>();
+        if (_minionSpawner != null)             _minionSpawner.soldierManager = this;
+
+        _enemyMinionSpawner = FindObjectOfType<EnemyMinionSpawner>();
+        if (_enemyMinionSpawner != null)        _enemyMinionSpawner.soldierManager = this;
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+            Debug.Log("[SoldierController] Anlık Rol: " + PlayerRole);
+    }
+
+    // ------------------------------------------------------------
+    //  Diğer set-fonksiyonların aynı kalıyor
+    // ------------------------------------------------------------
+    public void setBattleScenePlayerSpawner(BattleScenePlayerSpawner s) => _battleScenePlayerSpawner = s;
+    public void setMinionSpawner(MinionSpawner m)                       => _minionSpawner          = m;
+    public void setEnemyMinionSpawner(EnemyMinionSpawner e)             => _enemyMinionSpawner     = e;
+
+    // Kalan askerleri GetPlayerData’ya yazan mevcut fonksiyonun aynen duruyor
     public void setSoldierAmount()
-{
-    Debug.Log("Buton Tıklama Fonksiyonuna Girdi. Role :" + PlayerRole);
-
-    if (PlayerRole == "attacker")
     {
-        if (_minionSpawner != null)
+        Debug.Log("Buton Tıklama Fonksiyonuna Girdi. Role :" + PlayerRole);
+
+        if (PlayerRole == "attacker" && _minionSpawner != null)
         {
-            getPlayerData.currentArcherAmount = _minionSpawner.kalanOkcu;
+            getPlayerData.currentArcherAmount  = _minionSpawner.kalanOkcu;
             getPlayerData.currentSoldierAmount = _minionSpawner.kalanSavasci;
-            Debug.Log("Attacker Kalan Asker Atamaları Yapıldı");
-            Debug.Log("Kalan Savasci : " + getPlayerData.currentSoldierAmount);
-            Debug.Log("Kalan oKCU : " + getPlayerData.currentArcherAmount);
         }
-        else
+        else if (PlayerRole == "defender" && _enemyMinionSpawner != null)
         {
-            Debug.LogError("MinionSpawner NULL!");
-        }
-    }
-    else if (PlayerRole == "defender")
-    {
-        if (_enemyMinionSpawner != null)
-        {
-            getPlayerData.currentArcherAmount = _enemyMinionSpawner.kalanOkcu;
+            getPlayerData.currentArcherAmount  = _enemyMinionSpawner.kalanOkcu;
             getPlayerData.currentSoldierAmount = _enemyMinionSpawner.kalanSavasci;
-            Debug.Log("Defender Kalan Asker Atamaları Yapıldı");
-        }
-        else
-        {
-            Debug.LogError("EnemyMinionSpawner NULL!");
         }
     }
-    else
-    {
-        Debug.Log("ROLE = SPECTATOR");
-    }
-}
-
-
 }
