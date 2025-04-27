@@ -33,14 +33,23 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     public int kalanSavasci;
 
     public SoldierController soldierManager;
+    public HealController healController ;
 
     // Ağdan gelen kesin değerler
     private int attackerSoldierCnt, attackerArcherCnt;
     private int defenderSoldierCnt, defenderArcherCnt;
 
+    public int SpawlananArcherCount , SpawlananSoldierCount ;
+
     // ============================================================
     //  Start – yalnızca MasterClient çalıştırır
     // ============================================================
+
+    public void Awake()
+    {
+        SpawlananArcherCount=0;
+        SpawlananSoldierCount=0;
+    }
     private IEnumerator Start()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -133,8 +142,10 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
                 AttachDeathLogic(m, true);
                 meleeLeft--;
+                SpawlananSoldierCount++;
                 kalanSavasci = meleeLeft;
                 Debug.Log($"[MinionSpawner] Melee spawn – kalan:{meleeLeft}");
+                 Debug.Log($"[MinionSpawner] Spawlananan Asker Sayısı – Üretilen:{SpawlananSoldierCount}");
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 
@@ -143,8 +154,10 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
                 AttachDeathLogic(m, false);
                 rangedLeft--;
+                SpawlananArcherCount++;
                 kalanOkcu = rangedLeft;
                 Debug.Log($"[MinionSpawner] Ranged spawn – kalan:{rangedLeft}");
+                Debug.Log($"[MinionSpawner] Spawlananan Okçu Sayısı – Üretilen:{SpawlananArcherCount}");
                 yield return new WaitForSeconds(delayBetweenMinions);
             }
 

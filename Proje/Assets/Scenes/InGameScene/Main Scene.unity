@@ -1336,6 +1336,9 @@ MonoBehaviour:
   kalanOkcu: 0
   kalanSavasci: 0
   soldierManager: {fileID: 1624748962}
+  SpawlananArcherCount: 0
+  SpawlananSoldierCount: 0
+  healController: {fileID: 0}
 --- !u!1 &732814920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,6 +1679,7 @@ GameObject:
   - component: {fileID: 962783918}
   - component: {fileID: 962783919}
   - component: {fileID: 962783920}
+  - component: {fileID: 962783921}
   m_Layer: 5
   m_Name: ConfirmButton
   m_TagString: Untagged
@@ -1747,6 +1751,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 962783921}
+        m_TargetAssemblyTypeName: HealSoldierController, Assembly-CSharp
+        m_MethodName: HealCagirma
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 816643498}
         m_TargetAssemblyTypeName: EndMatchController, Assembly-CSharp
         m_MethodName: ConfirmEndMatch
@@ -1886,6 +1902,21 @@ MonoBehaviour:
   sceneViewId: 10
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &962783921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962783913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a32fc248368b94c9f5298f4ed846f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warController: {fileID: 1492026883}
+  minionSpawner: {fileID: 8059142760952552257}
+  enemyMinionSpawner: {fileID: 1176192666}
 --- !u!1 &1033778776
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,6 +2798,9 @@ MonoBehaviour:
   kalanOkcu: 0
   kalanSavasci: 0
   soldierManager: {fileID: 1624748962}
+  SpawlananArcherCount: 0
+  SpawlananSoldierCount: 0
+  healController: {fileID: 11400000, guid: 7dba1a2cbdeb6684fa99b7f563363e47, type: 2}
 --- !u!1 &1179806315
 GameObject:
   m_ObjectHideFlags: 0
@@ -3611,6 +3645,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1492026884}
   - component: {fileID: 1492026883}
+  - component: {fileID: 1492026885}
   m_Layer: 0
   m_Name: WarController
   m_TagString: Untagged
@@ -3633,6 +3668,9 @@ MonoBehaviour:
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   Attacker: 
   Defender: 
+  minionSpawner: {fileID: 8059142760952552257}
+  enemyMinionSpawner: {fileID: 1176192666}
+  healController: {fileID: 11400000, guid: 7dba1a2cbdeb6684fa99b7f563363e47, type: 2}
   "playerkalanok\xE7u": 0
   "playerkalansavas\xE7\u0131": 0
   "enemykalanok\xE7u": 0
@@ -3654,6 +3692,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1492026885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492026882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 12
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1501370573
 GameObject:
   m_ObjectHideFlags: 0
@@ -5227,6 +5287,9 @@ MonoBehaviour:
   kalanOkcu: 0
   kalanSavasci: 0
   soldierManager: {fileID: 1624748962}
+  SpawlananArcherCount: 0
+  SpawlananSoldierCount: 0
+  healController: {fileID: 0}
 --- !u!1 &2130831104
 GameObject:
   m_ObjectHideFlags: 0
@@ -6850,6 +6913,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+      propertyPath: healController
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dba1a2cbdeb6684fa99b7f563363e47, type: 2}
+    - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
       propertyPath: minionsPerWave
       value: 10
       objectReference: {fileID: 0}
@@ -6910,6 +6977,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+--- !u!114 &8059142760952552257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+  m_PrefabInstance: {fileID: 8059142760952552256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47407b3d0ea96ee4c828fe9a17cc802e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8209707416071312123
 PrefabInstance:
   m_ObjectHideFlags: 0

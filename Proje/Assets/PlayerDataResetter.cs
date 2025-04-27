@@ -31,7 +31,6 @@ public class PlayerDataResetter : MonoBehaviour
         getPlayerData.currentArcherAmount = 0;
         getPlayerData.currentSoldierAmount = 0;
 
-        healController.woundedArcher = 0;
-        healController.woundedSoldier = 0;
+        healController.resetWoundedSoldiers();
     }
 }
