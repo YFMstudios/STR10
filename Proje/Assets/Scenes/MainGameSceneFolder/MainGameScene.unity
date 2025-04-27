@@ -10021,7 +10021,6 @@ MonoBehaviour:
   createdSoldierAmount: 12
   createdArcherAmount: 12
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
-  kaynakYoneticisi: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
 --- !u!4 &250818656
 Transform:
   m_ObjectHideFlags: 0
@@ -53884,7 +53883,7 @@ MonoBehaviour:
   panel: {fileID: 407858640}
   imageObject: {fileID: 1337373505}
   alternatePanel: {fileID: 253842241}
-  regionClickHandler: {fileID: 407858644}
+  spyButton: {fileID: 1337373505}
 --- !u!1 &1339351556
 GameObject:
   m_ObjectHideFlags: 0

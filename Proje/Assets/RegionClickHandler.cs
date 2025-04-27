@@ -37,6 +37,8 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 
     public GameObject objectToActivate;
 
+
+
     void Start()
     {
         createDefaultPanel();
@@ -96,31 +98,40 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 
     }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Image imageComponent = GetComponent<Image>();
-        string clickedKingdomName = GetKingdomByRegion(imageComponent);
+public void OnPointerClick(PointerEventData eventData)
+{
+    // BURASI HEP ÇALIŞACAK: Tıklama ve krallık seçimi serbest
+    Image imageComponent = GetComponent<Image>();
+    string clickedKingdomName = GetKingdomByRegion(imageComponent);
 
-        if (LastClickedKingdom == "Empty")
-        {
-            LastClickedKingdom = clickedKingdomName;
-            SetKingdomColor(clickedKingdomName);
-        }
-        else if (LastClickedKingdom != clickedKingdomName)
-        {
-            ResetKingdomColor(LastClickedKingdom);
-            SetKingdomColor(clickedKingdomName);
-            LastClickedKingdom = clickedKingdomName;
-        }
-        else
-        {
-            ResetKingdomColor(clickedKingdomName);
-            LastClickedKingdom = "Empty";
-        }
+    if (LastClickedKingdom == "Empty")
+    {
+        LastClickedKingdom = clickedKingdomName;
+        SetKingdomColor(clickedKingdomName);
+    }
+    else if (LastClickedKingdom != clickedKingdomName)
+    {
+        ResetKingdomColor(LastClickedKingdom);
+        SetKingdomColor(clickedKingdomName);
+        LastClickedKingdom = clickedKingdomName;
+    }
+    else
+    {
+        ResetKingdomColor(clickedKingdomName);
+        LastClickedKingdom = "Empty";
+    }
+
+    // 🔥 BURADA KONTROL: Sadece panel kapalıysa bilgiler güncellenecek
+    if (!PanelToggle.spyPanelIsOpen)
+    {
         UpdateRegionDetails(imageComponent);
         UpdatePhotonPlayerDetails(clickedKingdomName);
-         ActivateObject();
     }
+
+    ActivateObject();
+}
+
+
 
     private void ResetKingdomColor(string kingdomName)
     {
@@ -396,11 +407,14 @@ private void UpdateRegionDetails(Image imageComponent)
         return false;
     }
 
-    private void ActivateObject()
+private void ActivateObject()
 {
-    if (objectToActivate != null)
+    if (objectToActivate != null && PanelToggle.canToggle) // 🔥 sadece canToggle == true iken aktif yap
+    {
         objectToActivate.SetActive(true);
+    }
 }
+
 }
 
 public class KingdomDetails
