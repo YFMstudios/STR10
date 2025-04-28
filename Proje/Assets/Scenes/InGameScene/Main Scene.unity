@@ -928,6 +928,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6845859820731589806, guid: ded9089ff3215af4d841d5adfe27afe8, type: 3}
   m_PrefabInstance: {fileID: 1756805503}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &554310359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 554310361}
+  - component: {fileID: 554310360}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &554310360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554310359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f8a733c9982f44893ffcf50aa516d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &554310361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554310359}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1184.0295, y: 531.6753, z: -6.668313}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &575908471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,6 +1962,58 @@ MonoBehaviour:
   warController: {fileID: 1492026883}
   minionSpawner: {fileID: 8059142760952552257}
   enemyMinionSpawner: {fileID: 1176192666}
+--- !u!1 &1029979376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1029979378}
+  - component: {fileID: 1029979377}
+  m_Layer: 0
+  m_Name: CameraManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1029979377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029979376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a3a7ee853d9c144fb9edcc3bb24fa5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackerVirtualCam: {fileID: 2195520207714803655}
+  defenderVirtualCam: {fileID: 5002393095043687397}
+  spectatorVirtualCam: {fileID: 1266505048}
+  mainCamera: {fileID: 1171585654}
+  isSpectator: 0
+  currentSpectatorView: 0
+  attackerTarget: {fileID: 1622147082178325444}
+  defenderTarget: {fileID: 5002393095043687394}
+--- !u!4 &1029979378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029979376}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1184.0295, y: 531.6753, z: -6.668313}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1033778776
 GameObject:
   m_ObjectHideFlags: 0
@@ -6225,6 +6321,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4660609000826731518}
     - target: {fileID: 3985985596663753878, guid: aa1245356326ab74b80748aa3af0201f, type: 3}
+      propertyPath: cameraManager
+      value: 
+      objectReference: {fileID: 1029979377}
+    - target: {fileID: 3985985596663753878, guid: aa1245356326ab74b80748aa3af0201f, type: 3}
       propertyPath: soldierManager
       value: 
       objectReference: {fileID: 1624748962}
@@ -6860,11 +6960,9 @@ MonoBehaviour:
   defenderSpawnPoint: {fileID: 5002393095043687394}
   playerObject: {fileID: 4660609000826731518}
   enemyObject: {fileID: 5002393095043687395}
-  attackerVirtualCam: {fileID: 2195520207714803655}
-  defenderVirtualCam: {fileID: 5002393095043687397}
-  spectatorVirtualCam: {fileID: 1266505048}
-  mainCamera: {fileID: 1171585654}
+  respawnDelay: 5
   soldierManager: {fileID: 1624748962}
+  cameraManager: {fileID: 1029979377}
 --- !u!114 &7704011017306937310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7498,3 +7596,5 @@ SceneRoots:
   - {fileID: 1624748963}
   - {fileID: 1630462773}
   - {fileID: 1779851460}
+  - {fileID: 1029979378}
+  - {fileID: 554310361}

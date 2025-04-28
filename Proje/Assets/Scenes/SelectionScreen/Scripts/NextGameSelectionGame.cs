@@ -1,99 +1,93 @@
+// NextGame.cs
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PhotonView))]
 public class NextGame : MonoBehaviourPunCallbacks
 {
-    private string opponentName; // Rakibin ismi
+    private const byte SCENE_WAITING = 14;
+    private string opponentName;
 
-    // Butona tıklandığında çalışacak olan fonksiyon
+    void Awake()
+    {
+        // MasterClient sahne yükleyince herkese senkron geçiş yapsın
+        PhotonNetwork.AutomaticallySyncScene = true;
+    }
+
+    // Bu fonksiyon UI butonuna bağlı
     public void goWarScene()
     {
-        Debug.Log("Single-player kontrolü başlatılıyor...");
-
+        // Single-player kontrolleri...
         if (ScreenTransitions2.ScreenNavigator.previousScreen == "Simple" ||
-            ScreenTransitions2.ScreenNavigator.previousScreen == "Mid" ||
+            ScreenTransitions2.ScreenNavigator.previousScreen == "Mid"    ||
             ScreenTransitions2.ScreenNavigator.previousScreen == "Hard")
         {
-            Debug.Log("Single-player modunda. 7. ekrana yönlendiriliyor...");
-            GoToWarScene();
+            // Singleplayer’da direkt bekleme yerine savaş sahnesine geçiş de olabilir.
+            // Ama eğer bekleme sahnesine geçeceksek:
+            photonView.RPC(nameof(RPC_LoadWaitingScene), RpcTarget.AllBufferedViaServer);
             return;
         }
 
-        Debug.Log("Multiplayer modunda. Rakip kontrolü ve rol atamaları başlatılıyor...");
-
+        // Multiplayer: önce rakip adını al
         opponentName = RegionClickHandler.opponentName;
-
         if (string.IsNullOrEmpty(opponentName))
         {
-            Debug.LogWarning("Rakip adı null ancak yine de 7. sahneye geçiyoruz...");
+            Debug.LogWarning("Rakip adı boş: yine de roller atanmadan bekleme sahnesine geçiliyor...");
+            photonView.RPC(nameof(RPC_LoadWaitingScene), RpcTarget.AllBufferedViaServer);
         }
         else
         {
-            Debug.Log("Opponent Name (Savunan Kişi): " + opponentName);
-
-            // Roller burada atanıyor
-            AssignPlayerRoles(opponentName);
+            // Roller atama işlemini MasterClient’a bırak
+            photonView.RPC(
+                nameof(RPC_AssignPlayerRoles),
+                RpcTarget.MasterClient,
+                opponentName
+            );
         }
-
-        GoToWarScene();
     }
 
-    private void AssignPlayerRoles(string defenderName)
+    [PunRPC]
+    private void RPC_AssignPlayerRoles(string defenderName)
     {
-        foreach (Player player in PhotonNetwork.PlayerList)
+        // Sadece MasterClient burayı çalıştırır
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        foreach (var player in PhotonNetwork.PlayerList)
         {
-            if (player.CustomProperties.TryGetValue("PlayerName", out object playerNameObj))
+            if (player.CustomProperties.TryGetValue("PlayerName", out object pn))
             {
-                string playerName = playerNameObj.ToString();
+                string pnStr = pn.ToString();
+                string role = "spectator";
 
-                if (playerName == PhotonNetwork.LocalPlayer.CustomProperties["PlayerName"].ToString())
-                {
-                    // Bu butona basan oyuncuyu attacker olarak ayarla
-                    player.SetCustomProperties(new Hashtable { { "Role", "attacker" } });
-                    Debug.Log(playerName + " rolü: attacker");
-                }
-                else if (playerName == defenderName)
-                {
-                    // Rakip olan oyuncuyu defender olarak ayarla
-                    player.SetCustomProperties(new Hashtable { { "Role", "defender" } });
-                    Debug.Log(playerName + " rolü: defender");
-                }
-                else
-                {
-                    // Diğer tüm oyuncuları spectator yap
-                    player.SetCustomProperties(new Hashtable { { "Role", "spectator" } });
-                    Debug.Log(playerName + " rolü: spectator");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Player '{player.ActorNumber}' için PlayerName bulunamadı.");
-            }
+                if (pnStr == (string)PhotonNetwork.LocalPlayer.CustomProperties["PlayerName"])
+                    role = "attacker";
+                else if (pnStr == defenderName)
+                    role = "defender";
 
+                player.SetCustomProperties(
+                    new Hashtable { { "Role", role } }
+                );
+                Debug.Log($"[{player.NickName}] role set to {role}");
+            }
         }
 
-        // Ek olarak, savaş bilgilerini oda özelliklerine yazabilirsin:
+        // Opsiyonel: odanın CustomProperties’ine de yaz
         PhotonNetwork.CurrentRoom.SetCustomProperties(new Hashtable
         {
-            { "war", new Hashtable { { "opponentName", defenderName } } }
+            { "war_opponent", defenderName }
         });
 
-        Debug.Log("War bilgileri odada güncellendi. opponentName: " + defenderName);
+        // Roller atandı, şimdi bekleme sahnesine geç
+        photonView.RPC(nameof(RPC_LoadWaitingScene), RpcTarget.AllBufferedViaServer);
     }
 
-    private void GoToWarScene()
+    [PunRPC]
+    private void RPC_LoadWaitingScene()
     {
-        try
-        {
-            Debug.Log("7. sahneye yönlendiriliyor...");
-            SceneManager.LoadScene(7);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Sahne yüklenirken hata oluştu: " + e.Message);
-        }
+        Debug.Log("WaitingRoom sahnesine geçiliyor...");
+        SceneManager.LoadScene(SCENE_WAITING);
     }
 }

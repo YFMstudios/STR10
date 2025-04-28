@@ -85,39 +85,43 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     // ============================================================
     //  WaitForBothSidesCounts – her iki oyuncu sayılarını yollayana kadar bekler
     // ============================================================
-    private IEnumerator WaitForBothSidesCounts()
+   private IEnumerator WaitForBothSidesCounts()
+{
+    float elapsed = 0f;
+    const float TIMEOUT = 5f;   // 5 saniyede gelmezse devam et
+
+    while (elapsed < TIMEOUT)
     {
-        float waitTime = 0f;
-        while (true)
+        Player attacker = FindPlayerByRole("attacker");
+        Player defender = FindPlayerByRole("defender");
+
+        bool aReady = attacker != null
+            && attacker.CustomProperties.ContainsKey("SoldierCount")
+            && attacker.CustomProperties.ContainsKey("ArcherCount");
+        bool dReady = defender != null
+            && defender.CustomProperties.ContainsKey("SoldierCount")
+            && defender.CustomProperties.ContainsKey("ArcherCount");
+
+        if (aReady && dReady)
         {
-            Player attacker = FindPlayerByRole("attacker");
-            Player defender = FindPlayerByRole("defender");
-
-            bool attackerReady = attacker != null &&
-                                  attacker.CustomProperties.ContainsKey("SoldierCount") &&
-                                  attacker.CustomProperties.ContainsKey("ArcherCount");
-
-            bool defenderReady = defender != null &&
-                                  defender.CustomProperties.ContainsKey("SoldierCount") &&
-                                  defender.CustomProperties.ContainsKey("ArcherCount");
-
-            Debug.Log($"[MinionSpawner][WAIT] t={waitTime:F1}s  attackerReady:{attackerReady}  defenderReady:{defenderReady}");
-
-            if (attackerReady && defenderReady)
-            {
-                attackerSoldierCnt = (int)attacker.CustomProperties["SoldierCount"];
-                attackerArcherCnt  = (int)attacker.CustomProperties["ArcherCount"];
-
-                defenderSoldierCnt = (int)defender.CustomProperties["SoldierCount"];
-                defenderArcherCnt  = (int)defender.CustomProperties["ArcherCount"];
-                Debug.Log("[MinionSpawner] İki taraf da hazır, döngüden çıkılıyor.");
-                break;
-            }
-
-            waitTime += Time.deltaTime;
-            yield return null;
+            attackerSoldierCnt = (int)attacker.CustomProperties["SoldierCount"];
+            attackerArcherCnt  = (int)attacker.CustomProperties["ArcherCount"];
+            defenderSoldierCnt = (int)defender.CustomProperties["SoldierCount"];
+            defenderArcherCnt  = (int)defender.CustomProperties["ArcherCount"];
+            Debug.Log("[MinionSpawner] Veriler alındı, devam ediliyor.");
+            yield break;
         }
+
+        elapsed += Time.deltaTime;
+        yield return null;
     }
+
+    // Timeout aşıldıysa fallback yap (örneğin eşit pay, sabit değer veya görünen değer)
+    attackerSoldierCnt = defenderSoldierCnt = getPlayerData.currentSoldierAmount;
+    attackerArcherCnt  = defenderArcherCnt  = getPlayerData.currentArcherAmount;
+    Debug.LogWarning("[MinionSpawner] Sayı verisi geç gelmedi, fallback ile devam ediliyor.");
+}
+
 
     // ============================================================
     //  SpawnMinions – dalga dalga üretim

@@ -58,6 +58,9 @@ MonoBehaviour:
   - RPC_RequestReset
   - RPC_ResetAllRolesAndOwnership
   - SendCasualtiesToHealController
+  - RPC_AssignPlayerRoles
+  - RPC_LoadWaitingScene
+  - RPC_StartRespawnTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

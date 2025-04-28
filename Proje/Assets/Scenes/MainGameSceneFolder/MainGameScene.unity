@@ -16583,6 +16583,7 @@ GameObject:
   - component: {fileID: 398410885}
   - component: {fileID: 398410887}
   - component: {fileID: 398410888}
+  - component: {fileID: 398410889}
   m_Layer: 5
   m_Name: "Sava\u015FSimgesi"
   m_TagString: Untagged
@@ -16715,6 +16716,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83269d78cdb076145aff82202fe617bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+--- !u!114 &398410889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398410883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 2
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &401873560
 GameObject:
   m_ObjectHideFlags: 0

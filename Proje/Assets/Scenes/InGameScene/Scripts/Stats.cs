@@ -17,11 +17,16 @@ public class Stats : MonoBehaviourPun
 
     private HealthUI healthUI;
     private Health3DBarUpdater health3DUpdater;
+    private BattleScenePlayerSpawner spawner;
+
+    // Ölüm işlemi sırasında flag
+    private bool isDying = false;
 
     private void Awake()
     {
         healthUI = GetComponent<HealthUI>();
         health3DUpdater = GetComponent<Health3DBarUpdater>();
+        spawner = FindObjectOfType<BattleScenePlayerSpawner>();
 
         currentHealth = health;
         targetHealth = health;
@@ -51,7 +56,8 @@ public class Stats : MonoBehaviourPun
     [PunRPC]
     private void RPC_ApplyDamage(float damageAmount)
     {
-        if (!gameObject.activeInHierarchy) return;
+        // Eğer zaten ölüyorsa veya aktif değilse, hasar uygulanmaz
+        if (!gameObject.activeInHierarchy || isDying) return;
 
         targetHealth -= damageAmount;
 
@@ -61,23 +67,41 @@ public class Stats : MonoBehaviourPun
 
             if (CompareTag("Player") || CompareTag("Enemy"))
             {
-                CheckIfCharacterDead();
+                // isDying flag'ini true olarak ayarla
+                isDying = true;
+                HandleCharacterDeath();
             }
             else if (CompareTag("EnemyMinion") || CompareTag("EnemyTurret"))
             {
                 var handler = GetComponent<EnemyDeathHandler>();
-                if (handler != null) handler.Die();
-                else StartCoroutine(DeactivateAfterDelay());
+                if (handler != null)
+                {
+                    handler.Die();
+                }
+                else
+                {
+                    // Coroutine kullanmadan doğrudan deaktif edebiliriz ya da güvenli şekilde Coroutine başlatabiliriz
+                    if (gameObject.activeInHierarchy)
+                    {
+                        StartCoroutine(DeactivateAfterDelay());
+                    }
+                    else
+                    {
+                        gameObject.SetActive(false);
+                    }
+                }
             }
         }
 
-        if (damageCoroutine == null && gameObject.activeInHierarchy)
+        // Sadece aktifse ve ölmek üzere değilse hasar animasyonu göster
+        if (damageCoroutine == null && gameObject.activeInHierarchy && !isDying)
         {
             damageCoroutine = StartCoroutine(LerpHealth());
         }
     }
 
-    private void CheckIfCharacterDead()
+    // Ölüm mantığını ayrı bir metoda taşıyoruz
+    private void HandleCharacterDeath()
     {
         Debug.Log($"{gameObject.name} öldü!");
 
@@ -102,13 +126,37 @@ public class Stats : MonoBehaviourPun
             damageCoroutine = null;
         }
 
-        StartCoroutine(DeactivateAfterDelay());
+        // Önce BattleScenePlayerSpawner'a bildiriyoruz - obje hala aktifken
+        if (spawner != null && photonView.IsMine)
+        {
+            string role = CompareTag("Player") ? "attacker" : "defender";
+            spawner.NotifyCharacterDied(role);
+
+            // Deactivate After spawner notification
+            // NOT: Burada 0 saniye bekleyerek birkaç frame geçmesini sağlıyoruz
+            // Bu, spawner'ın RPC işlemlerini tamamlaması için zaman tanır
+            StartCoroutine(DeactivateAfterDelay(0.5f));
+        }
+        else
+        {
+            // Eğer spawner yoksa veya photonView.IsMine değilse, normal olarak deaktif et
+            StartCoroutine(DeactivateAfterDelay());
+        }
     }
 
-    private IEnumerator DeactivateAfterDelay()
+    // Parametreli versiyonu da ekleyelim
+    private IEnumerator DeactivateAfterDelay(float delay = 3f)
     {
-        yield return new WaitForSeconds(3f);
-        gameObject.SetActive(false);
+        yield return new WaitForSeconds(delay);
+
+        // isDying durumunu sıfırla, böylece respawn olduğunda bu kontroller çalışabilir
+        isDying = false;
+
+        // Eğer hala aktifse deaktif et
+        if (gameObject.activeInHierarchy)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private IEnumerator LerpHealth()
@@ -141,6 +189,9 @@ public class Stats : MonoBehaviourPun
 
     public void ResetHealthToFull()
     {
+        // isDying durumunu sıfırla
+        isDying = false;
+
         currentHealth = health;
         targetHealth = health;
 
