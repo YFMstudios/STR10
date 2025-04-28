@@ -31,7 +31,7 @@ public class ResearchController : MonoBehaviour
 
 public void OpenTwoAndThreeLevels()
 {
-    if (ResearchButtonEvents.isResearched[0])
+    if (ResearchButtonEvents.isResearched[0] && ResearchResetter.isResearched[0])
     {
         if (lockItems[1] != null) Destroy(lockItems[1]);
         if (lockItems[2] != null) Destroy(lockItems[2]);

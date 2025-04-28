@@ -40,6 +40,7 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     private int defenderSoldierCnt, defenderArcherCnt;
 
     public int SpawlananArcherCount , SpawlananSoldierCount ;
+    public KaynakYoneticisi kaynakYoneticisi;//(+)
 
     // ============================================================
     //  Start – yalnızca MasterClient çalıştırır
@@ -143,6 +144,8 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(m, true);
                 meleeLeft--;
                 SpawlananSoldierCount++;
+                kaynakYoneticisi.WarPowerArttirma(-50);//(+)
+                getPlayerData.savasciAzalt();//(+)
                 kalanSavasci = meleeLeft;
                 Debug.Log($"[MinionSpawner] Melee spawn – kalan:{meleeLeft}");
                  Debug.Log($"[MinionSpawner] Spawlananan Asker Sayısı – Üretilen:{SpawlananSoldierCount}");
@@ -155,6 +158,8 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(m, false);
                 rangedLeft--;
                 SpawlananArcherCount++;
+                kaynakYoneticisi.WarPowerArttirma(-25);//(+)
+                getPlayerData.okcuAzalt();//(+)
                 kalanOkcu = rangedLeft;
                 Debug.Log($"[MinionSpawner] Ranged spawn – kalan:{rangedLeft}");
                 Debug.Log($"[MinionSpawner] Spawlananan Okçu Sayısı – Üretilen:{SpawlananArcherCount}");

@@ -74,7 +74,7 @@ public void hardButton()
 
     public void continueButton()
     {
-        SceneManager.LoadScene(6);
+        SceneManager.LoadScene(13);
     }
 
     public void readMoreButton()

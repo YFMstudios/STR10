@@ -30,6 +30,8 @@ public class ProgressBarController : MonoBehaviour
     private float totalUnitAmount;
     public float savasciHealTime = 1.5f;
     public float okcuHealTime = 2.5f;
+    private int healedArcher;
+    private int healedSoldeir;
 
     public bool isBarracksBuildActive = false;
     public bool isUnitCreationActive = false;
@@ -80,6 +82,7 @@ public class ProgressBarController : MonoBehaviour
     [Header("ScriptableObject")]
     public GetPlayerData getPlayerData;
     public HealController healController;
+    public KaynakYoneticisi kaynakYoneticisi;
 
     // Awake fonksiyonu (ProgressBarController sınıfına)
     private void Awake()
@@ -395,15 +398,18 @@ public class ProgressBarController : MonoBehaviour
         OnProgressComplete();
         createdArcherAmount += slider.okcuSlider.value;
         createdSoldierAmount += slider.savasciSlider.value;
-
+        
         getPlayerData.UpdateSoldierAmount(createdSoldierAmount, createdArcherAmount);
+        kaynakYoneticisi.WarPowerArttirma((int)((createdSoldierAmount * 50) + (createdArcherAmount * 25)));
+        barracksPanelController.refreshBarracks();
 
         slider.okcuSlider.value = 0f;
         slider.savasciSlider.value = 0f;
 
         Debug.Log("Savaşçı Sayısı :" + createdSoldierAmount);
         Debug.Log("Okçu Sayısı : " + createdArcherAmount);
-
+        createdSoldierAmount = 0;
+        createdArcherAmount = 0;
         ResetProgressBar(progressBar);
         isUnitCreationActive = false;
         panelManager.DestroyPanel("SoldierCreation");
@@ -459,10 +465,9 @@ public class ProgressBarController : MonoBehaviour
     void OnProgressComplete()
     {
         // Burada progress bar doldu unda yap lacak i lemleri tan mla
-        Debug.Log("Progress Bar doldu, i lem ger ekle tiriliyor!");
+        Debug.Log("Progress Bar doldu, islem gerceklestiriliyor!");
         Kingdom.myKingdom.SoldierAmount += totalUnitAmount;
         totalUnitAmount = 0;
-        Debug.Log("Krall   n z n asker say s :" + Kingdom.myKingdom.SoldierAmount);
     }
 
 
@@ -485,6 +490,8 @@ public class ProgressBarController : MonoBehaviour
 
                 // Yaralı asker ve okçu sayılarını kontrol et
                 bool validInput = true;
+                healedArcher = inputOkcuCount;
+                healedSoldeir = inputSavasciCount;
 
                 if (inputSavasciCount > healController.woundedSoldier)
                 {
@@ -598,7 +605,9 @@ public class ProgressBarController : MonoBehaviour
         ResetProgressBar(healProgressBar);
         isHealActive = false;
         panelManager.DestroyPanel("HealSoldier");
-
+        getPlayerData.UpdateSoldierAmount(healedSoldeir, healedArcher);
+        kaynakYoneticisi.WarPowerArttirma((int)((healedSoldeir * 50) + (healedArcher * 25)));
+        barracksPanelController.refreshBarracks();
         yield return new WaitForSeconds(0.2f);
         if (healProgressBar != null)
         {

@@ -17,12 +17,15 @@ public class PanelManager : MonoBehaviour
     private List<GameObject> deactivePanels = new List<GameObject>();
     private Dictionary<string, GameObject> panelDictionary = new Dictionary<string, GameObject>();
 
-    
+    private void Start()
+    {
+        Time.timeScale = 1;
+    }
 
     // Yeni bir panel oluþtur
-    public void CreatePanel(string panelId, string panelText, float buildTime,string processType)
+    public void CreatePanel(string panelId, string panelText, float buildTime, string processType)
     {
-        if(processType == "Building")
+        if (processType == "Building")
         {
             GameObject newPanel = Instantiate(buildPanelPrefab, panelContainer);
 
@@ -30,7 +33,6 @@ public class PanelManager : MonoBehaviour
             TextMeshProUGUI tmp = newPanel.transform.Find("BuildNameText").GetComponent<TextMeshProUGUI>();
             Image background = newPanel.transform.Find("Background").GetComponent<Image>();
             Sprite sprite = Resources.Load<Sprite>("Buildings/" + panelText);
-
 
             if (background == null)
             {
@@ -46,8 +48,11 @@ public class PanelManager : MonoBehaviour
                 }
                 else
                 {
+                    // Reset bar scale
+                    bar.transform.localScale = new Vector3(0, 1, 1);
 
-                    LeanTween.scaleX(bar.gameObject, 1, buildTime).setOnComplete(() => DestroyPanel(panelId));
+                    // Start manual filling coroutine
+                    StartCoroutine(FillBarManually(bar.gameObject, buildTime, panelId));
                 }
             }
 
@@ -81,8 +86,8 @@ public class PanelManager : MonoBehaviour
 
             Debug.Log($"Aktif Panel Sayýsý: {activePanels.Count}, Deaktif Panel Sayýsý: {deactivePanels.Count}");
         }
-       
-        else if(processType == "Researching")
+
+        else if (processType == "Researching")
         {
             GameObject newPanel = Instantiate(researchPanelPrefab, panelContainer);
 
@@ -105,8 +110,11 @@ public class PanelManager : MonoBehaviour
                 }
                 else
                 {
+                    // Reset bar scale
+                    bar.transform.localScale = new Vector3(0, 1, 1);
 
-                    LeanTween.scaleX(bar.gameObject, 1, buildTime).setOnComplete(() => DestroyPanel(panelId));
+                    // Start manual filling coroutine
+                    StartCoroutine(FillBarManually(bar.gameObject, buildTime, panelId));
                 }
             }
 
@@ -141,7 +149,7 @@ public class PanelManager : MonoBehaviour
             Debug.Log($"Aktif Panel Sayýsý: {activePanels.Count}, Deaktif Panel Sayýsý: {deactivePanels.Count}");
         }
 
-        else if(processType == "SoldierCreation")
+        else if (processType == "SoldierCreation")
         {
             GameObject newPanel = Instantiate(soldierCreationPanelPrefab, panelContainer);
 
@@ -164,8 +172,11 @@ public class PanelManager : MonoBehaviour
                 }
                 else
                 {
+                    // Reset bar scale
+                    bar.transform.localScale = new Vector3(0, 1, 1);
 
-                    LeanTween.scaleX(bar.gameObject, 1, buildTime).setOnComplete(() => DestroyPanel(panelId));
+                    // Start manual filling coroutine
+                    StartCoroutine(FillBarManually(bar.gameObject, buildTime, panelId));
                 }
             }
 
@@ -223,8 +234,11 @@ public class PanelManager : MonoBehaviour
                 }
                 else
                 {
+                    // Reset bar scale
+                    bar.transform.localScale = new Vector3(0, 1, 1);
 
-                    LeanTween.scaleX(bar.gameObject, 1, buildTime).setOnComplete(() => DestroyPanel(panelId));
+                    // Start manual filling coroutine
+                    StartCoroutine(FillBarManually(bar.gameObject, buildTime, panelId));
                 }
             }
 
@@ -258,6 +272,27 @@ public class PanelManager : MonoBehaviour
 
             Debug.Log($"Aktif Panel Sayýsý: {activePanels.Count}, Deaktif Panel Sayýsý: {deactivePanels.Count}");
         }
+    }
+
+    // Manuel olarak bar doldurma coroutine
+    private IEnumerator FillBarManually(GameObject bar, float duration, string panelId)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // Zamaný güncelle
+            elapsedTime += Time.deltaTime;
+
+            // Bar ölçeðini güncelle (0'dan 1'e kadar)
+            float fillAmount = Mathf.Clamp01(elapsedTime / duration);
+            bar.transform.localScale = new Vector3(fillAmount, 1, 1);
+
+            yield return null;
+        }
+
+        // Bar dolduðunda paneli yok et
+        DestroyPanel(panelId);
     }
 
     // Paneli yok et

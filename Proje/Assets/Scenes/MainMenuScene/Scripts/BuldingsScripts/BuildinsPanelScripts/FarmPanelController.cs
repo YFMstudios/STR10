@@ -12,7 +12,6 @@ public class FarmPanelController : MonoBehaviour
     public TMP_Text ironText;     // Demir miktar�n� g�sterecek TMP_Text bile�eni
     public TMP_Text foodText;     // Yemek miktar�n� g�sterecek TMP_Text bile�eni
     public TMP_Text buildLevelText;     // Bina seviyesini g�sterecek TMP bile�eni
-    public TMP_Text productionRateText; // �retim Miktar�n� g�sterecek TMP bile�eni
     public TMP_Text maliyetText;
 
     public Image goldImage;        // Alt�n i�in resim
@@ -36,7 +35,6 @@ public class FarmPanelController : MonoBehaviour
         if (Farm.buildLevel == 1)
         {
             buildLevelText.text = "1";
-            productionRateText.text = "5 b/s";
             goldText.text = "2200";
             foodText.text = "1000";
             woodText.text = "1600";
@@ -47,7 +45,6 @@ public class FarmPanelController : MonoBehaviour
         if (Farm.buildLevel == 2)
         {
             buildLevelText.text = "2";
-            productionRateText.text = "10 b/s";
             goldText.text = "3600";
             foodText.text = "2000";
             woodText.text = "3200";
@@ -58,7 +55,6 @@ public class FarmPanelController : MonoBehaviour
         if (Farm.buildLevel == 3)
         {
             buildLevelText.text = "3";
-            productionRateText.text = "15 b/s";
             DestroyComponents();
         }
     }

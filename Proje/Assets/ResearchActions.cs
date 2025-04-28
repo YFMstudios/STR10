@@ -400,5 +400,135 @@ public class ResearchActions : ScriptableObject
             }
         }
     }
-   
+
+    public float GetMeleeMinionCan()
+    {
+        if (MeleeMinion == null) return 0f;
+
+        var stats = MeleeMinion.GetComponent<ObjectiveStats>();
+        if (stats != null)
+        {
+            return stats.health;
+        }
+        else
+        {
+            Debug.LogWarning("MeleeMinion üzerinde ObjectiveStats bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetMeleeMinionHasar()
+    {
+        if (MeleeMinion == null) return 0f;
+
+        var stats = MeleeMinion.GetComponent<ObjectiveStats>();
+        if (stats != null)
+        {
+            return stats.damage;
+        }
+        else
+        {
+            Debug.LogWarning("MeleeMinion üzerinde ObjectiveStats bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetMeleeMinionHiz()
+    {
+        if (MeleeMinion == null) return 0f;
+
+        var minionAI = MeleeMinion.GetComponent<MinionAI>();
+        if (minionAI != null)
+        {
+            return minionAI.rotationSpeed;
+        }
+        else
+        {
+            Debug.LogWarning("MeleeMinion üzerinde MinionAI bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetMeleeMinionSaldiriHizi()
+    {
+        if (MeleeMinion == null) return 0f;
+
+        var stats = MeleeMinion.GetComponent<MinionAI>();
+        if (stats != null)
+        {
+            return stats.attackCooldown;
+        }
+        else
+        {
+            Debug.LogWarning("MeleeMinion üzerinde ObjectiveStats bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetRangedMinionCan()
+    {
+        if (RangedMinion == null) return 0f;
+
+        var stats = RangedMinion.GetComponent<ObjectiveStats>();
+        if (stats != null)
+        {
+            return stats.health;
+        }
+        else
+        {
+            Debug.LogWarning("RangedMinion üzerinde ObjectiveStats bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetRangedMinionHasar()
+    {
+        if (RangedMinion == null) return 0f;
+
+        var stats = RangedMinion.GetComponent<ObjectiveStats>();
+        if (stats != null)
+        {
+            return stats.damage;
+        }
+        else
+        {
+            Debug.LogWarning("RangedMinion üzerinde ObjectiveStats bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetRangedMinionHiz()
+    {
+        if (RangedMinion == null) return 0f;
+
+        var minionAI = RangedMinion.GetComponent<MinionAI>();
+        if (minionAI != null)
+        {
+            return minionAI.rotationSpeed;
+        }
+        else
+        {
+            Debug.LogWarning("RangedMinion üzerinde MinionAI bulunamadı!");
+            return 0f;
+        }
+    }
+
+    public float GetRangedMinionSaldiriHizi()
+    {
+        if (RangedMinion == null) return 0f;
+
+        var stats = RangedMinion.GetComponent<MinionAI>();
+        if (stats != null)
+        {
+            return stats.attackCooldown;
+        }
+        else
+        {
+            Debug.LogWarning("RangedMinion üzerinde ObjectiveStats bulunamadı!");
+            return 0f;
+        }
+    }
+
+
+
 }

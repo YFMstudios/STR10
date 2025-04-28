@@ -20,6 +20,7 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 
     [Header("ScriptableObject (artık fallback değil)")]
     public GetPlayerData getPlayerData;
+    public KaynakYoneticisi kaynakYoneticisi;//(+)
 
     // ------------------------------------------------------------
     // İç değişkenler
@@ -142,6 +143,8 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(m, true);
                 meleeLeft--;
                 SpawlananSoldierCount++;
+                kaynakYoneticisi.WarPowerArttirma(-50);//(+)
+                getPlayerData.savasciAzalt();//(+)
                 kalanSavasci = meleeLeft;
                 Debug.Log($"[EnemySpawner] Melee spawn – kalan:{meleeLeft}");
                 Debug.Log($"[EnemySpawner] Spawlanan Asker Sayısı  – Üretilen:{SpawlananSoldierCount}");
@@ -154,6 +157,8 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
                 AttachDeathLogic(m, false);
                 rangedLeft--;
                 SpawlananArcherCount++;
+                kaynakYoneticisi.WarPowerArttirma(-25);//(+)
+                getPlayerData.okcuAzalt();//(+)
                 kalanOkcu = rangedLeft;
                 Debug.Log($"[EnemySpawner] Ranged spawn – kalan:{rangedLeft}");
                 Debug.Log($"[EnemySpawner] Spawlanan Archer Sayısı  – Üretilen:{SpawlananArcherCount}");

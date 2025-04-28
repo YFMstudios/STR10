@@ -47,6 +47,7 @@ public class BuildBuilder : MonoBehaviour
 
     [Header("ScriptableObject")]
     public GetPlayerData getPlayerData;
+    public KaynakYoneticisi kaynakYoneticisi;
 
     public static bool checkResources(Building building) // Art�k Building t�r� kabul ediliyor
     {
@@ -121,6 +122,7 @@ public class BuildBuilder : MonoBehaviour
                         StonePit.wasStonePitCreated = true;
                         StonePit.canIStartProduction = true;
                         StonePit.buildLevel = 1;
+                        kaynakYoneticisi.WarPowerArttirma(250);
                         StonePit.refreshStoneProductionRate();
                         stonePit.UpdateCosts(); // Maliyetleri güncelle
 
@@ -193,6 +195,7 @@ public class BuildBuilder : MonoBehaviour
                             buildStonePitButton.enabled = true;
                             stonepitPanelController.refreshStonePit();
                             Debug.Log("Seviye 2 yükseltmesi başarıyla tamamlandı. Yeni seviye: " + StonePit.buildLevel);
+                            kaynakYoneticisi.WarPowerArttirma(350);
                         }
                         else
                         {
@@ -251,6 +254,7 @@ public class BuildBuilder : MonoBehaviour
                             stonepitPanelController.refreshStonePit();
                             Destroy(buildStonePitButton.gameObject);
                             Debug.Log("Seviye 3 yükseltmesi başarıyla tamamlandı. Yükseltme butonu kaldırıldı.");
+                            kaynakYoneticisi.WarPowerArttirma(450);
                         }
                         else
                         {
@@ -315,6 +319,7 @@ public class BuildBuilder : MonoBehaviour
                         Blacksmith.wasBlacksmithCreated = true;
                         Blacksmith.canIStartProduction = true;
                         Blacksmith.buildLevel = 1;
+                        kaynakYoneticisi.WarPowerArttirma(250);
                         Blacksmith.refreshIronProductionRate();
                         blacksmith.UpdateCosts();
 
@@ -369,6 +374,7 @@ public class BuildBuilder : MonoBehaviour
                             buttonText.text = "Yükselt";
                             buildBlacksmithButton.enabled = true;
                             blacksmithPanelController.refreshBlacksmith();
+                            kaynakYoneticisi.WarPowerArttirma(350);
                         }
                         else
                         {
@@ -410,6 +416,7 @@ public class BuildBuilder : MonoBehaviour
                             Blacksmith.refreshIronProductionRate();
                             blacksmithPanelController.refreshBlacksmith();
                             Destroy(buildBlacksmithButton.gameObject);
+                            kaynakYoneticisi.WarPowerArttirma(450);
                         }
                         else
                         {
@@ -474,6 +481,7 @@ public class BuildBuilder : MonoBehaviour
                         buttonText.text = "Y�kselt";
                         buildSawmillButton.enabled = true;
                         sawmillPanelController.refreshSawmill();
+                        kaynakYoneticisi.WarPowerArttirma(250);
                     }
                     else
                     {
@@ -522,6 +530,7 @@ public class BuildBuilder : MonoBehaviour
                             buttonText.text = "Y�kselt";
                             buildSawmillButton.enabled = true;
                             sawmillPanelController.refreshSawmill();
+                            kaynakYoneticisi.WarPowerArttirma(350);
                         }
                         else
                         {
@@ -565,6 +574,7 @@ public class BuildBuilder : MonoBehaviour
                             Sawmill.buildLevel++;
                             Sawmill.refreshTimberProductionRate(); // �retim miktar�n� g�ncelliyoruz.                   
                             sawmillPanelController.refreshSawmill();
+                            kaynakYoneticisi.WarPowerArttirma(450);
                             Destroy(buildSawmillButton.gameObject);
                         }
                         else
@@ -630,6 +640,7 @@ public class BuildBuilder : MonoBehaviour
                         buttonText.text = "Y�kselt";
                         buildFarmButton.enabled = true;
                         farmPanelController.refreshFarm();
+                        kaynakYoneticisi.WarPowerArttirma(250);
                     }
                     else
                     {
@@ -673,6 +684,7 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli i�lemleri yap
 
                             Farm.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(350);
                             Farm.refreshFoodProductionRate(); // �retim miktar�n� g�ncelliyoruz.
                             farm.UpdateCosts(); // Maliyetleri g�ncelle
                             buttonText.text = "Y�kselt";
@@ -718,6 +730,7 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli i�lemleri yap
 
                             Farm.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(450);
                             Farm.refreshFoodProductionRate(); // �retim miktar�n� g�ncelliyoruz.                   
                             farmPanelController.refreshFarm();
                             Destroy(buildFarmButton.gameObject);
@@ -781,6 +794,7 @@ public class BuildBuilder : MonoBehaviour
 
                         Barracks.wasBarracksCreated = true;
                         Barracks.buildLevel = 1;
+                        kaynakYoneticisi.WarPowerArttirma(2250);
                         barracks.UpdateCosts(); // Maliyetleri g�ncelle
                         Debug.Log("Bina Seviyesi : " + Barracks.buildLevel);
                         buttonText.text = "Y�kselt";
@@ -838,6 +852,7 @@ public class BuildBuilder : MonoBehaviour
 
                                 Barracks.wasBarracksCreated = true;
                                 Barracks.buildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(2750);
                                 barracks.UpdateCosts(); // Maliyetleri g�ncelle
                                 Debug.Log("Bina Seviyesi : " + Barracks.buildLevel);
                                 buildBarracksButton.enabled = true;
@@ -892,6 +907,7 @@ public class BuildBuilder : MonoBehaviour
 
 
                                 Barracks.buildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(3250);
                                 barracks.UpdateCosts(); // Maliyetleri g�ncelle
                                 Debug.Log("Bina Seviyesi : " + Barracks.buildLevel);
                                 Destroy(buildBarracksButton.gameObject);
@@ -961,6 +977,7 @@ public class BuildBuilder : MonoBehaviour
 
                         Hospital.wasHospitalCreated = true;
                         Hospital.buildLevel = 1;
+                        kaynakYoneticisi.WarPowerArttirma(750);
                         hospital.UpdateCapasity();
                         Debug.Log("Bina Seviyesi : " + Hospital.buildLevel);
                         Debug.Log("Hastane Kapasitesi : " + Hospital.capasity);
@@ -1013,6 +1030,7 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli i�lemleri yap
                                 Hospital.buildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(1000);
                                 hospital.UpdateCapasity();
                                 Debug.Log("Bina Seviyesi : " + Hospital.buildLevel);
                                 Debug.Log("Hastane Kapasitesi : " + Hospital.capasity);
@@ -1066,6 +1084,7 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli i�lemleri yap
                                 Hospital.buildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(1250);
                                 hospital.UpdateCapasity();
                                 Destroy(buildHospitalButton.gameObject);
                                 hospitalPanelController.refreshHospital();
@@ -1129,6 +1148,7 @@ public class BuildBuilder : MonoBehaviour
                         // Gerekli i�lemleri yap
                         Lab.wasLabCreated = true;
                         Lab.buildLevel = 1;
+                        kaynakYoneticisi.WarPowerArttirma(750);
                         // Ara�t�rma h�z�n� artt�r
                         researchController.OpenResearchUnit();
                         lab.UpdateCosts();
@@ -1174,6 +1194,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             // Gerekli i�lemleri yap
                             Lab.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(1250);
                             // Ara�t�rma h�z�n� artt�r
                             researchController.controlBuildLevelTwoResearches();
                             lab.UpdateCosts();
@@ -1217,6 +1238,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             // Gerekli i�lemleri yap
                             Lab.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(1750);
                             // Ara�t�rma h�z�n� artt�r
                             researchController.controlBuildLevelThreeResearches();
                             lab.UpdateCosts();
@@ -1291,6 +1313,7 @@ public class BuildBuilder : MonoBehaviour
                         // Gerekli i�lemleri yap
                         Warehouse.wasWarehouseCreated = true;
                         Warehouse.buildLevel = 1;
+                        kaynakYoneticisi.WarPowerArttirma(500);
                         Warehouse.IncreaseCapacity();
                         warehouse.UpdateCosts();
                         buttonText.text = "Y�kselt";
@@ -1335,6 +1358,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             // Gerekli i�lemleri yap
                             Warehouse.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(650);
                             Warehouse.IncreaseCapacity();
                             warehouse.UpdateCosts();
                             buttonText.text = "Y�kselt";
@@ -1378,6 +1402,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             // Gerekli i�lemleri yap
                             Warehouse.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(750);
                             Warehouse.IncreaseCapacity();
                             wareHousePanelController.refreshWarehouse();
                             Destroy(buildWarehouseButton.gameObject);
@@ -1440,6 +1465,7 @@ public class BuildBuilder : MonoBehaviour
                         Castle.wasCastleCreated = true;
 
                         Castle.buildLevel = 2;
+                        kaynakYoneticisi.WarPowerArttirma(2500);
                         getPlayerData.UpgradeCastleStats(Castle.buildLevel);//InGame Sahnesindeki Kalenin �zelliklerini G�ncelliyoruz.(Can,Sald�r�H�z� cart curt)
                         castle.UpdateCosts(); // Maliyetleri g�ncelle
                         buildCastleButton.enabled = true;
@@ -1483,6 +1509,7 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli i�lemleri yap
 
                             Castle.buildLevel++;
+                            kaynakYoneticisi.WarPowerArttirma(3250);
                             getPlayerData.UpgradeCastleStats(Castle.buildLevel);//InGame Sahnesindeki Kalenin �zelliklerini G�ncelliyoruz.(Can,Sald�r�H�z� cart curt)
                             castlePanelController.refreshCastle();
                             Destroy(buildCastleButton.gameObject);
@@ -1545,6 +1572,7 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli i�lemleri yap
                             Tower.wasTowerOneCreated = true;
                             Tower.towerOneBuildLevel = 1;
+                            kaynakYoneticisi.WarPowerArttirma(1750);
 
                             //----------------InGame Scene �le Alakl�--------------------------//
                             getPlayerData.TowerOneIsBuilded = true;
@@ -1597,6 +1625,7 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli i�lemleri yap
                                 Tower.towerOneBuildLevel++;//TowerOne Level = 2 Oldu
+                                kaynakYoneticisi.WarPowerArttirma(2500);
                                 //----------------InGame Scene �le Alakl�--------------------------//                              
                                 getPlayerData.UpgradeTowerOneStats(Tower.towerOneBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//
@@ -1646,6 +1675,7 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli i�lemleri yap
                                 Tower.towerOneBuildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(2750);
                                 //----------------InGame Scene �le Alakl�--------------------------//                              
                                 getPlayerData.UpgradeTowerOneStats(Tower.towerOneBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//
@@ -1717,6 +1747,7 @@ public class BuildBuilder : MonoBehaviour
                             // Gerekli i�lemleri yap
                             Tower.wasTowerTwoCreated = true;
                             Tower.towerTwoBuildLevel = 1;
+                            kaynakYoneticisi.WarPowerArttirma(1750);
 
                             //----------------InGame Scene �le Alakl�--------------------------//
                             getPlayerData.TowerTwoIsBuilded = true;
@@ -1769,6 +1800,7 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli i�lemleri yap
                                 Tower.towerTwoBuildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(2500);
                                 //----------------InGame Scene �le Alakl�--------------------------//                              
                                 getPlayerData.UpgradeTowerTwoStats(Tower.towerTwoBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//
@@ -1815,6 +1847,7 @@ public class BuildBuilder : MonoBehaviour
                             {
                                 // Gerekli i�lemleri yap
                                 Tower.towerTwoBuildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(2750);
                                 //----------------InGame Scene �le Alakl�--------------------------//                              
                                 getPlayerData.UpgradeTowerTwoStats(Tower.towerTwoBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//
@@ -1883,6 +1916,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Trap.wasTrapOneCreated = true;
                             Trap.trapOneBuildLevel = 1;
+                            kaynakYoneticisi.WarPowerArttirma(1250);
                             //----------------InGame Scene �le Alakl�--------------------------//
                             getPlayerData.TrapOneIsBuilded = true;
                             getPlayerData.ActiveTrapOne();
@@ -1932,6 +1966,7 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 Trap.trapOneBuildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(1500);
                                 //----------------InGame Scene �le Alakl�--------------------------//
                                 getPlayerData.UpgradeTrapOneStats(Trap.trapOneBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//
@@ -2009,6 +2044,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Trap.wasTrapTwoCreated = true;
                             Trap.trapTwoBuildLevel = 1;
+                            kaynakYoneticisi.WarPowerArttirma(1250);
                             //----------------InGame Scene �le Alakl�--------------------------//
                             getPlayerData.TrapTwoIsBuilded = true;
                             getPlayerData.ActiveTrapTwo();
@@ -2058,6 +2094,7 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 Trap.trapTwoBuildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(1500);
                                 //----------------InGame Scene �le Alakl�--------------------------//
                                 getPlayerData.UpgradeTrapTwoStats(Trap.trapTwoBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//
@@ -2135,6 +2172,7 @@ public class BuildBuilder : MonoBehaviour
                         {
                             Trap.wasTrapThreeCreated = true;
                             Trap.trapThreeBuildLevel = 1;
+                            kaynakYoneticisi.WarPowerArttirma(1250);
                             //----------------InGame Scene �le Alakl�--------------------------//
                             getPlayerData.TrapThreeIsBuilded = true;
                             getPlayerData.ActiveTrapThree();
@@ -2184,6 +2222,7 @@ public class BuildBuilder : MonoBehaviour
                             if (isFinished)
                             {
                                 Trap.trapThreeBuildLevel++;
+                                kaynakYoneticisi.WarPowerArttirma(1550);
                                 //----------------InGame Scene �le Alakl�--------------------------//
                                 getPlayerData.UpgradeTrapThreeStats(Trap.trapThreeBuildLevel);
                                 //----------------InGame Scene �le Alakl�--------------------------//

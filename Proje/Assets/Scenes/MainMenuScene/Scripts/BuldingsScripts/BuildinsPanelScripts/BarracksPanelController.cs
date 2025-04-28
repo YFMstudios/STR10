@@ -6,61 +6,113 @@ using UnityEngine.UI;
 
 public class BarracksPanelController : MonoBehaviour
 {
-    public TMP_Text goldText;     // Alt�n miktar�n� g�sterecek TMP_Text bile�eni
-    public TMP_Text woodText;     // Kereste miktar�n� g�sterecek TMP_Text bile�eni
-    public TMP_Text stoneText;    // Ta� miktar�n� g�sterecek TMP_Text bile�eni
-    public TMP_Text ironText;     // Demir miktar�n� g�sterecek TMP_Text bile�eni
-    public TMP_Text foodText;     // Yemek miktar�n� g�sterecek TMP_Text bile�eni
-    public TMP_Text buildLevelText;     // Bina seviyesini g�sterecek TMP bile�eni
-    public TMP_Text productionRateText; // �retim Miktar�n� g�sterecek TMP bile�eni
+    public TMP_Text goldText;     
+    public TMP_Text woodText;     
+    public TMP_Text stoneText;    
+    public TMP_Text ironText;     
+    public TMP_Text foodText;    
+    public TMP_Text buildLevelText;     
     public TMP_Text maliyetText;
 
-    public Image goldImage;        // Alt�n i�in resim
-    public Image woodImage;        // Kereste i�in resim
-    public Image stoneImage;       // Ta� i�in resim
-    public Image ironImage;        // Demir i�in resim
+    //Savasci Ozellikleri
+    public TMP_Text savasciOzellikleri;    
+    //Okcu Ozellikleri
+    public TMP_Text okcuOzellikleri;    
+
+
+    public Image goldImage;        
+    public Image woodImage;        
+    public Image stoneImage;       
+    public Image ironImage;        
     public Image foodImage;
 
     public Button cancelBarracksButton;
     public bool isBuildCanceled = false;
     public GameObject progressBar;
     public PanelManager panelManager;
-               public Button buildBarracksButton;
+    public Button buildBarracksButton;
     private Text buttonText;
+
+    public ResearchActions researchActions;
+    public GetPlayerData getPlayerData;
     public void refreshBarracks()
     {
+        
         TextMeshProUGUI buttonText = buildBarracksButton.GetComponentInChildren<TextMeshProUGUI>();
-        if (Barracks.buildLevel == 1)
+        if (Barracks.buildLevel == 0)
+        {
+            refreshSavasciOzellikleri();
+            refreshOkcuOzellikleri();
+        }
+        else if (Barracks.buildLevel == 1)
         {
             buildLevelText.text = "1";
-            productionRateText.text = "5 asker/dk";
             goldText.text = "3000";
             foodText.text = "2000";
             woodText.text = "2200";
             stoneText.text = "1800";
             ironText.text = "1500";
              buttonText.text = "Yükselt";
+            refreshSavasciOzellikleri();
+            refreshOkcuOzellikleri();
         }
         else if (Barracks.buildLevel == 2)
         {
             buildLevelText.text = "2";
-            productionRateText.text = "10 asker/dk";
             goldText.text = "4500";
             foodText.text = "3000";
             woodText.text = "3000";
             stoneText.text = "2500";
             ironText.text = "2000";
              buttonText.text = "Yükselt";
+            refreshSavasciOzellikleri();
+            refreshOkcuOzellikleri();
         }
         else if (Barracks.buildLevel == 3)
         {
             buildLevelText.text = "3";
-            productionRateText.text = "15 asker/dk";
-
             DestroyComponents();
-
+            refreshSavasciOzellikleri();
+            refreshOkcuOzellikleri();
         }
     }
+
+    public void refreshSavasciOzellikleri()
+    {
+        // Savaşçı özelliklerini al
+        float can = researchActions.GetMeleeMinionCan();
+        float hasar = researchActions.GetMeleeMinionHasar();
+        float hiz = researchActions.GetMeleeMinionHiz();
+        float saldiriHizi = researchActions.GetMeleeMinionSaldiriHizi();
+        int savasci_Sayisi = getPlayerData.currentSoldierAmount; // Bu değeri dinamik olarak güncellemek isterseniz, kendi sisteminize bağlı olarak burayı değiştirin
+
+        // Ekranda göster
+        savasciOzellikleri.text = 
+                             "Can Miktarı : " + can.ToString() + "\n" +
+                             "Hasar Miktarı : " + hasar.ToString() + "\n" +
+                             "Hız : " + hiz.ToString() + "\n" +
+                             "Saldırı Hızı : " + saldiriHizi.ToString() + "\n" +
+                             "Savaşçı Sayısı : " + savasci_Sayisi.ToString();
+    }
+
+    public void refreshOkcuOzellikleri()
+    {
+        // Okçu özelliklerini al
+        float can = researchActions.GetRangedMinionCan();
+        float hasar = researchActions.GetRangedMinionHasar();
+        float hiz = researchActions.GetRangedMinionHiz();
+        float saldiriHizi = researchActions.GetRangedMinionSaldiriHizi();
+        int okcu_Sayisi = getPlayerData.currentArcherAmount; // Bu değeri dinamik olarak güncellemek isterseniz, kendi sisteminize bağlı olarak burayı değiştirin
+
+        okcuOzellikleri.text = 
+                          "Can Miktarı : " + can.ToString() + "\n" +
+                          "Hasar Miktarı : " + hasar.ToString() + "\n" +
+                          "Hız : " + hiz.ToString() + "\n" +
+                          "Saldırı Hızı : " + saldiriHizi.ToString() + "\n" +
+                          "Okçu Sayısı : " + okcu_Sayisi.ToString();
+    }
+
+
 
     public void DestroyComponents()
     {

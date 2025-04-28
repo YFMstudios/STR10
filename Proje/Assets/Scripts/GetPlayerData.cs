@@ -259,9 +259,18 @@ public class GetPlayerData : ScriptableObject
     //------------------------------------------------------------------------------------------------------------------------
     public void UpdateSoldierAmount(float savasciSayisi, float okcuSayisi)
     {
-        currentSoldierAmount = (int)savasciSayisi;
-        currentArcherAmount = (int)okcuSayisi;
+        currentSoldierAmount += (int)savasciSayisi;
+        currentArcherAmount += (int)okcuSayisi;
         UpdatePhotonProperties();
+    }
+
+    public void savasciAzalt()
+    {
+        currentSoldierAmount--;
+    }
+    public void okcuAzalt()
+    {
+        currentArcherAmount--;
     }
 
     public void SetRegionHandler(RegionClickHandler handler)

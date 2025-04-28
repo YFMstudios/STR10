@@ -1333,6 +1333,7 @@ MonoBehaviour:
   spawnInterval: 20
   delayBetweenMinions: 0
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kaynakYoneticisi: {fileID: 0}
   kalanOkcu: 0
   kalanSavasci: 0
   soldierManager: {fileID: 1624748962}
@@ -2795,6 +2796,7 @@ MonoBehaviour:
   spawnInterval: 20
   delayBetweenMinions: 1
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kaynakYoneticisi: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
   kalanOkcu: 0
   kalanSavasci: 0
   soldierManager: {fileID: 1624748962}
@@ -5284,6 +5286,7 @@ MonoBehaviour:
   spawnInterval: 20
   delayBetweenMinions: 0
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
+  kaynakYoneticisi: {fileID: 0}
   kalanOkcu: 0
   kalanSavasci: 0
   soldierManager: {fileID: 1624748962}
@@ -6924,6 +6927,10 @@ PrefabInstance:
       propertyPath: soldierManager
       value: 
       objectReference: {fileID: 1624748962}
+    - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+      propertyPath: kaynakYoneticisi
+      value: 
+      objectReference: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
     - target: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
       propertyPath: meleeMinionPrefabName
       value: Minions/MeleeMinion

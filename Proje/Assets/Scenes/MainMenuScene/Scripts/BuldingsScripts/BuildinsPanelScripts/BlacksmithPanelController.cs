@@ -12,7 +12,6 @@ public class BlacksmithPanelController : MonoBehaviour
     public TMP_Text ironText;     // Demir miktar�n� g�sterecek TMP_Text bile�eni
     public TMP_Text foodText;     // Yemek miktar�n� g�sterecek TMP_Text bile�eni
     public TMP_Text buildLevelText;     // Bina seviyesini g�sterecek TMP bile�eni
-    public TMP_Text productionRateText; // �retim Miktar�n� g�sterecek TMP bile�eni
     public TMP_Text maliyetText;
 
     public Image goldImage;        // Alt�n i�in resim
@@ -34,7 +33,6 @@ public class BlacksmithPanelController : MonoBehaviour
         if (Blacksmith.buildLevel == 1)
         {
             buildLevelText.text = "1";
-            productionRateText.text = "5 b/s";
             goldText.text = "3500";
             foodText.text = "2000";
             woodText.text = "1800";
@@ -45,7 +43,6 @@ public class BlacksmithPanelController : MonoBehaviour
         if (Blacksmith.buildLevel == 2)
         {
             buildLevelText.text = "2";
-            productionRateText.text = "10 b/s";
             goldText.text = "7000";
             foodText.text = "4000";
             woodText.text = "3600";
@@ -56,7 +53,6 @@ public class BlacksmithPanelController : MonoBehaviour
         if (Blacksmith.buildLevel == 3)
         {
             buildLevelText.text = "3";
-            productionRateText.text = "15 b/s";
             DestroyComponents();
         }
     }

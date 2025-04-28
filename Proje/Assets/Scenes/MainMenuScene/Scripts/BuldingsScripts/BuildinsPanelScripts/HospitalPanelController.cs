@@ -12,7 +12,6 @@ public class HospitalPanelController : MonoBehaviour
     public TMP_Text ironText;     // Demir miktar�n� g�sterecek TMP_Text bile�eni
     public TMP_Text foodText;     // Yemek miktar�n� g�sterecek TMP_Text bile�eni
     public TMP_Text buildLevelText;     // Bina seviyesini g�sterecek TMP bile�eni
-    public TMP_Text productionRateText; // �retim Miktar�n� g�sterecek TMP bile�eni
     public TMP_Text maliyetText;
 
     public Image goldImage;        // Alt�n i�in resim
@@ -34,7 +33,6 @@ public class HospitalPanelController : MonoBehaviour
         if (Hospital.buildLevel == 1)
         {
             buildLevelText.text = "1";
-            productionRateText.text = "5 asker/dk";
             goldText.text = "3500";
             foodText.text = "1800";
             woodText.text = "2200";
@@ -45,7 +43,6 @@ public class HospitalPanelController : MonoBehaviour
         else if (Hospital.buildLevel == 2)
         {
             buildLevelText.text = "2";
-            productionRateText.text = "10 asker/dk";
             goldText.text = "5000";
             foodText.text = "2500";
             woodText.text = "3500";
@@ -56,7 +53,6 @@ public class HospitalPanelController : MonoBehaviour
         else if (Hospital.buildLevel == 3)
         {
             buildLevelText.text = "3";
-            productionRateText.text = "15 asker/dk";
 
             DestroyComponents();
 
