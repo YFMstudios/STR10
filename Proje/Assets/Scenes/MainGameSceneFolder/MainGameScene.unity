@@ -16716,7 +16716,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83269d78cdb076145aff82202fe617bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
 --- !u!114 &398410889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72937,6 +72936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727fa439c9a7ad942b2c84e7667252e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kaynakYoneticisi: {fileID: 11400000, guid: f855255f0f91bc346bf9a36708a5c6b8, type: 2}
 --- !u!1 &1778687883
 GameObject:
   m_ObjectHideFlags: 0

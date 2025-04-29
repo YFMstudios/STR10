@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 public class ProductionController : MonoBehaviour
 {
 
+    public KaynakYoneticisi kaynakYoneticisi;
 
     void Start()
     {
@@ -38,6 +39,7 @@ public class ProductionController : MonoBehaviour
 
                     KaynakYoneticisi.StoneAmount += StonePit.stoneProductionRate;
                     KaynakYoneticisi.GoldAmount += StonePit.goldProductionRateStonePit;
+                    kaynakYoneticisi.needsSync = true;
                 }
             }
 
@@ -62,6 +64,7 @@ public class ProductionController : MonoBehaviour
 
                     KaynakYoneticisi.IronAmount += Blacksmith.ironProductionRate; // myKingdom.StoneAmount de�erini 5 art�r
                     KaynakYoneticisi.GoldAmount += Blacksmith.goldProductionRateBlacksmith;
+                    kaynakYoneticisi.needsSync = true;
                 }
             }
 
@@ -86,6 +89,7 @@ public class ProductionController : MonoBehaviour
 
                     KaynakYoneticisi.FoodAmount += Farm.foodProductionRate; // myKingdom.StoneAmount de�erini 5 art�r
                     KaynakYoneticisi.GoldAmount += Farm.goldProductionRateFarm;
+                    kaynakYoneticisi.needsSync = true;
                 }
             }
 
@@ -111,6 +115,7 @@ public class ProductionController : MonoBehaviour
 
                     KaynakYoneticisi.WoodAmount += Sawmill.timberProductionRate; // myKingdom.StoneAmount de�erini 5 art�r
                     KaynakYoneticisi.GoldAmount += Sawmill.goldProductionRateSawmill;
+                    kaynakYoneticisi.needsSync = true;
                 }
 
             }

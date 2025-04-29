@@ -108,6 +108,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= stonePit.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= stonePit.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= stonePit.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildStonePitButton.enabled = false;
                 Debug.Log("İnşaat başlatılıyor - Buton devre dışı bırakıldı");
@@ -142,6 +143,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += stonePit.buildIronCost;
                         KaynakYoneticisi.FoodAmount += stonePit.buildFoodCost;
                         buildStonePitButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                         Debug.Log("Kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                     }
                 }));
@@ -175,6 +177,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= stonePit.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= stonePit.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= stonePit.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildStonePitButton.enabled = false;
                     Debug.Log("Seviye 2 yükseltmesi başlatılıyor - Buton devre dışı bırakıldı");
@@ -207,6 +210,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += stonePit.buildIronCost;
                             KaynakYoneticisi.FoodAmount += stonePit.buildFoodCost;
                             buildStonePitButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                             Debug.Log("Seviye 2 için kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                         }
                     }));
@@ -236,6 +240,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= stonePit.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= stonePit.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= stonePit.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildStonePitButton.enabled = false;
                     Debug.Log("Seviye 3 yükseltmesi başlatılıyor - Buton devre dışı bırakıldı");
@@ -255,6 +260,7 @@ public class BuildBuilder : MonoBehaviour
                             Destroy(buildStonePitButton.gameObject);
                             Debug.Log("Seviye 3 yükseltmesi başarıyla tamamlandı. Yükseltme butonu kaldırıldı.");
                             kaynakYoneticisi.WarPowerArttirma(450);
+                            
                         }
                         else
                         {
@@ -266,6 +272,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += stonePit.buildIronCost;
                             KaynakYoneticisi.FoodAmount += stonePit.buildFoodCost;
                             buildStonePitButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                             Debug.Log("Seviye 3 için kaynaklar iade edildi ve buton tekrar aktifleştirildi");
                         }
                     }));
@@ -308,6 +315,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= blacksmith.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= blacksmith.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= blacksmith.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildBlacksmithButton.enabled = false;
 
@@ -337,6 +345,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += blacksmith.buildIronCost;
                         KaynakYoneticisi.FoodAmount += blacksmith.buildFoodCost;
                         buildBlacksmithButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -361,6 +370,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= blacksmith.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= blacksmith.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= blacksmith.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildBlacksmithButton.enabled = false;
 
@@ -384,6 +394,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += blacksmith.buildIronCost;
                             KaynakYoneticisi.FoodAmount += blacksmith.buildFoodCost;
                             buildBlacksmithButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -405,8 +416,8 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= blacksmith.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= blacksmith.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= blacksmith.buildFoodCost;
-
                     buildBlacksmithButton.enabled = false;
+                    kaynakYoneticisi.needsSync = true;
 
                     StartCoroutine(progressBarController.BlacksmithIsFinished(blacksmith, (isFinished) =>
                     {
@@ -426,6 +437,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += blacksmith.buildIronCost;
                             KaynakYoneticisi.FoodAmount += blacksmith.buildFoodCost;
                             buildBlacksmithButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -464,6 +476,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= sawmill.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= sawmill.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= sawmill.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildSawmillButton.enabled = false;
 
@@ -492,6 +505,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += sawmill.buildIronCost;
                         KaynakYoneticisi.FoodAmount += sawmill.buildFoodCost;
                         buildSawmillButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -515,6 +529,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= sawmill.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= sawmill.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= sawmill.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildSawmillButton.enabled = false;
 
@@ -541,6 +556,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += sawmill.buildIronCost;
                             KaynakYoneticisi.FoodAmount += sawmill.buildFoodCost;
                             buildSawmillButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -562,6 +578,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= sawmill.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= sawmill.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= sawmill.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildSawmillButton.enabled = false;
 
@@ -586,6 +603,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += sawmill.buildIronCost;
                             KaynakYoneticisi.FoodAmount += sawmill.buildFoodCost;
                             buildSawmillButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -623,7 +641,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= farm.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= farm.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= farm.buildFoodCost;
-
+                kaynakYoneticisi.needsSync = true;
                 buildFarmButton.enabled = false;
 
                 StartCoroutine(progressBarController.FarmIsFinished(farm, (isFinished) =>
@@ -651,6 +669,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += farm.buildIronCost;
                         KaynakYoneticisi.FoodAmount += farm.buildFoodCost;
                         buildFarmButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -674,6 +693,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= farm.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= farm.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= farm.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildFarmButton.enabled = false;
 
@@ -700,6 +720,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += farm.buildIronCost;
                             KaynakYoneticisi.FoodAmount += farm.buildFoodCost;
                             buildFarmButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -720,6 +741,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= farm.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= farm.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= farm.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildFarmButton.enabled = false;
 
@@ -744,6 +766,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += farm.buildIronCost;
                             KaynakYoneticisi.FoodAmount += farm.buildFoodCost;
                             buildFarmButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -781,6 +804,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= barracks.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= barracks.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= barracks.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildBarracksButton.enabled = false;
 
@@ -810,6 +834,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += barracks.buildIronCost;
                         KaynakYoneticisi.FoodAmount += barracks.buildFoodCost;
                         buildBarracksButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
 
@@ -839,6 +864,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= barracks.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= barracks.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= barracks.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildBarracksButton.enabled = false;
 
@@ -867,6 +893,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.IronAmount += barracks.buildIronCost;
                                 KaynakYoneticisi.FoodAmount += barracks.buildFoodCost;
                                 buildBarracksButton.enabled = true;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -895,7 +922,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= barracks.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= barracks.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= barracks.buildFoodCost;
-
+                        kaynakYoneticisi.needsSync = true;
                         buildBarracksButton.enabled = false;
 
 
@@ -922,6 +949,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.IronAmount += barracks.buildIronCost;
                                 KaynakYoneticisi.FoodAmount += barracks.buildFoodCost;
                                 buildBarracksButton.enabled = true;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -966,7 +994,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= hospital.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= hospital.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= hospital.buildFoodCost;
-
+                kaynakYoneticisi.needsSync = true;
                 buildHospitalButton.enabled = false;
 
                 StartCoroutine(progressBarController.HospitalIsFinished(hospital, (isFinished) =>
@@ -995,6 +1023,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += hospital.buildIronCost;
                         KaynakYoneticisi.FoodAmount += hospital.buildFoodCost;
                         buildHospitalButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -1021,6 +1050,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= hospital.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= hospital.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= hospital.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildHospitalButton.enabled = false;
 
@@ -1048,6 +1078,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.IronAmount += hospital.buildIronCost;
                                 KaynakYoneticisi.FoodAmount += hospital.buildFoodCost;
                                 buildHospitalButton.enabled = true;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -1075,6 +1106,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= hospital.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= hospital.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= hospital.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildHospitalButton.enabled = false;
 
@@ -1098,6 +1130,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.IronAmount += hospital.buildIronCost;
                                 KaynakYoneticisi.FoodAmount += hospital.buildFoodCost;
                                 buildHospitalButton.enabled = true;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -1138,6 +1171,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= lab.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= lab.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= lab.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildLabButton.enabled = false;
 
@@ -1165,6 +1199,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += lab.buildIronCost;
                         KaynakYoneticisi.FoodAmount += lab.buildFoodCost;
                         buildLabButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -1185,6 +1220,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= lab.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= lab.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= lab.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildLabButton.enabled = false;
 
@@ -1211,6 +1247,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += lab.buildIronCost;
                             KaynakYoneticisi.FoodAmount += lab.buildFoodCost;
                             buildLabButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1229,6 +1266,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= lab.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= lab.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= lab.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildLabButton.enabled = false;
 
@@ -1256,6 +1294,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += lab.buildIronCost;
                             KaynakYoneticisi.FoodAmount += lab.buildFoodCost;
                             buildLabButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1303,6 +1342,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= warehouse.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= warehouse.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= warehouse.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildWarehouseButton.enabled = false;
 
@@ -1329,6 +1369,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += warehouse.buildIronCost;
                         KaynakYoneticisi.FoodAmount += warehouse.buildFoodCost;
                         buildWarehouseButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -1349,6 +1390,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= warehouse.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= warehouse.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= warehouse.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildWarehouseButton.enabled = false;
 
@@ -1374,6 +1416,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += warehouse.buildIronCost;
                             KaynakYoneticisi.FoodAmount += warehouse.buildFoodCost;
                             buildWarehouseButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1393,7 +1436,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= warehouse.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= warehouse.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= warehouse.buildFoodCost;
-
+                    kaynakYoneticisi.needsSync = true;
                     buildWarehouseButton.enabled = false;
 
                     StartCoroutine(progressBarController.WarehouseIsFinished(warehouse, (isFinished) =>
@@ -1416,6 +1459,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += warehouse.buildIronCost;
                             KaynakYoneticisi.FoodAmount += warehouse.buildFoodCost;
                             buildWarehouseButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1455,6 +1499,7 @@ public class BuildBuilder : MonoBehaviour
                 KaynakYoneticisi.WoodAmount -= castle.buildTimberCost;
                 KaynakYoneticisi.IronAmount -= castle.buildIronCost;
                 KaynakYoneticisi.FoodAmount -= castle.buildFoodCost;
+                kaynakYoneticisi.needsSync = true;
 
                 buildCastleButton.enabled = false;
 
@@ -1480,6 +1525,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.IronAmount += castle.buildIronCost;
                         KaynakYoneticisi.FoodAmount += castle.buildFoodCost;
                         buildCastleButton.enabled = true;
+                        kaynakYoneticisi.needsSync = true;
                     }
                 }));
             }
@@ -1499,7 +1545,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= castle.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= castle.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= castle.buildFoodCost;
-
+                    kaynakYoneticisi.needsSync = true;
                     buildCastleButton.enabled = false;
 
                     StartCoroutine(progressBarController.CastleIsFinished(castle, (isFinished) =>
@@ -1523,6 +1569,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.IronAmount += castle.buildIronCost;
                             KaynakYoneticisi.FoodAmount += castle.buildFoodCost;
                             buildCastleButton.enabled = true;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1561,6 +1608,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= towerOne.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= towerOne.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= towerOne.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildTowerOneButton.enabled = false;
 
@@ -1596,6 +1644,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.FoodAmount += towerOne.buildFoodCost;
                             buildTowerOneButton.enabled = true;
                             buildTowerOneIsActive = false;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1616,6 +1665,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= towerOne.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= towerOne.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= towerOne.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTowerOneButton.enabled = false;
                         buildTowerOneIsActive = true;
@@ -1646,6 +1696,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += towerOne.buildFoodCost;
                                 buildTowerOneButton.enabled = true;
                                 buildTowerOneIsActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -1666,6 +1717,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= towerOne.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= towerOne.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= towerOne.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTowerOneButton.enabled = false;
                         buildTowerOneIsActive = true;
@@ -1693,6 +1745,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += towerOne.buildFoodCost;
                                 buildTowerOneButton.enabled = true;
                                 buildTowerOneIsActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -1737,6 +1790,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= towerTwo.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= towerTwo.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= towerTwo.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildTowerTwoButton.enabled = false;
                     buildTowerTwoIsActive = true;
@@ -1771,6 +1825,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.FoodAmount += towerTwo.buildFoodCost;
                             buildTowerTwoButton.enabled = true;
                             buildTowerTwoIsActive = false;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1791,6 +1846,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= towerTwo.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= towerTwo.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= towerTwo.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTowerTwoButton.enabled = false;
                         buildTowerTwoIsActive = true;
@@ -1820,6 +1876,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += towerTwo.buildFoodCost;
                                 buildTowerTwoButton.enabled = true;
                                 buildTowerTwoIsActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -1838,6 +1895,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= towerTwo.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= towerTwo.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= towerTwo.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTowerTwoButton.enabled = false;
                         buildTowerTwoIsActive = true;
@@ -1865,6 +1923,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += towerTwo.buildFoodCost;
                                 buildTowerTwoButton.enabled = true;
                                 buildTowerTwoIsActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -1907,6 +1966,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= trapOne.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= trapOne.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= trapOne.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildTrapOneButton.enabled = false;
                     isAnyTrapActive = true;
@@ -1937,6 +1997,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.FoodAmount += trapOne.buildFoodCost;
                             buildTrapOneButton.enabled = true;
                             isAnyTrapActive = false;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -1958,6 +2019,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= trapOne.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= trapOne.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= trapOne.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTrapOneButton.enabled = false;
                         isAnyTrapActive = true;
@@ -1989,6 +2051,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += trapOne.buildFoodCost;
                                 buildTrapOneButton.enabled = true;
                                 isAnyTrapActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -2035,6 +2098,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= trapTwo.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= trapTwo.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= trapTwo.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildTrapTwoButton.enabled = false;
                     isAnyTrapActive = true;
@@ -2065,6 +2129,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.FoodAmount += trapTwo.buildFoodCost;
                             buildTrapTwoButton.enabled = true;
                             isAnyTrapActive = false;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -2086,6 +2151,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= trapTwo.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= trapTwo.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= trapTwo.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTrapTwoButton.enabled = false;
                         isAnyTrapActive = true;
@@ -2117,6 +2183,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += trapTwo.buildFoodCost;
                                 buildTrapTwoButton.enabled = true;
                                 isAnyTrapActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }
@@ -2163,6 +2230,7 @@ public class BuildBuilder : MonoBehaviour
                     KaynakYoneticisi.WoodAmount -= trapThree.buildTimberCost;
                     KaynakYoneticisi.IronAmount -= trapThree.buildIronCost;
                     KaynakYoneticisi.FoodAmount -= trapThree.buildFoodCost;
+                    kaynakYoneticisi.needsSync = true;
 
                     buildTrapThreeButton.enabled = false;
                     isAnyTrapActive = true;
@@ -2193,6 +2261,7 @@ public class BuildBuilder : MonoBehaviour
                             KaynakYoneticisi.FoodAmount += trapThree.buildFoodCost;
                             buildTrapThreeButton.enabled = true;
                             isAnyTrapActive = false;
+                            kaynakYoneticisi.needsSync = true;
                         }
                     }));
                 }
@@ -2214,6 +2283,7 @@ public class BuildBuilder : MonoBehaviour
                         KaynakYoneticisi.WoodAmount -= trapThree.buildTimberCost;
                         KaynakYoneticisi.IronAmount -= trapThree.buildIronCost;
                         KaynakYoneticisi.FoodAmount -= trapThree.buildFoodCost;
+                        kaynakYoneticisi.needsSync = true;
 
                         buildTrapThreeButton.enabled = false;
                         isAnyTrapActive = true;
@@ -2245,6 +2315,7 @@ public class BuildBuilder : MonoBehaviour
                                 KaynakYoneticisi.FoodAmount += trapThree.buildFoodCost;
                                 buildTrapThreeButton.enabled = true;
                                 isAnyTrapActive = false;
+                                kaynakYoneticisi.needsSync = true;
                             }
                         }));
                     }

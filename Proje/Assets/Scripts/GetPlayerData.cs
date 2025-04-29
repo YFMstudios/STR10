@@ -59,17 +59,6 @@ public class GetPlayerData : ScriptableObject
         timer = 0f;
     }
 
-    private void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= updateInterval)
-        {
-            UpdatePhotonProperties();
-            timer = 0f;
-        }
-    }
-
     private void UpdatePhotonProperties()
     {
         if (PhotonNetwork.LocalPlayer == null) return;
@@ -257,21 +246,24 @@ public class GetPlayerData : ScriptableObject
     }
 
     //------------------------------------------------------------------------------------------------------------------------
-    public void UpdateSoldierAmount(float savasciSayisi, float okcuSayisi)
-    {
-        currentSoldierAmount += (int)savasciSayisi;
-        currentArcherAmount += (int)okcuSayisi;
-        UpdatePhotonProperties();
-    }
+public void UpdateSoldierAmount(float savasciSayisi, float okcuSayisi)
+{
+    currentSoldierAmount += (int)savasciSayisi;
+    currentArcherAmount += (int)okcuSayisi;
+    UpdatePhotonProperties();  // doğru yerde
+}
 
-    public void savasciAzalt()
-    {
-        currentSoldierAmount--;
-    }
-    public void okcuAzalt()
-    {
-        currentArcherAmount--;
-    }
+public void savasciAzalt()
+{
+    currentSoldierAmount--;
+    UpdatePhotonProperties();  // BURAYA EKLE
+}
+
+public void okcuAzalt()
+{
+    currentArcherAmount--;
+    UpdatePhotonProperties();  // BURAYA EKLE
+}
 
     public void SetRegionHandler(RegionClickHandler handler)
     {
