@@ -52,11 +52,12 @@ public class RoomHostManager : MonoBehaviourPunCallbacks
         UpdateStartButton(); // Buton durumunu güncelle
     }
 
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        Debug.Log($"{otherPlayer.NickName} odadan ayrıldı.");
-        UpdatePlayerList(); // Oyuncu listesi güncelle
-    }
+   public override void OnPlayerLeftRoom(Player otherPlayer)
+{
+    Debug.Log($"{otherPlayer.NickName} odadan ayrıldı.");
+    UpdatePlayerList(); // Oyuncu listesi güncelle
+    UpdateStartButton(); // <<< BU SATIRI DA EKLE (butonu da güncelle)
+}
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
@@ -80,22 +81,28 @@ public class RoomHostManager : MonoBehaviourPunCallbacks
 
 public void OnStartButtonPressed()
 {
-    if (PhotonNetwork.IsMasterClient)
-    {
-        // isVisibility'yi false yap
-        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
-        {
-            { "isVisibility", false }
-        };
-        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
-
-        PhotonNetwork.LoadLevel(targetSceneIndex);
-    }
-    else
+    if (!PhotonNetwork.IsMasterClient)
     {
         Debug.LogWarning("Sadece oda sahibi oyunu başlatabilir!");
+        return;
     }
+
+    if (PhotonNetwork.CurrentRoom.PlayerCount < 2) // örnek: en az 2 oyuncu lazım
+    {
+        Debug.LogWarning("Oyunu başlatmak için en az 2 oyuncu gerekli!");
+        return;
+    }
+
+    // isVisibility'yi false yap
+    ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+    {
+        { "isVisibility", false }
+    };
+    PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+
+    PhotonNetwork.LoadLevel(targetSceneIndex);
 }
+
 
 
 

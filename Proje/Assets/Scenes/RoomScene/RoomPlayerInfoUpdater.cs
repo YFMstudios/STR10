@@ -36,6 +36,13 @@ private IEnumerator UpdatePlayerData()
                     continue;
                 }
 
+                 // Burada HasConfirmed kontrolü ekle
+    if (!player.CustomProperties.ContainsKey("HasConfirmed") || !(bool)player.CustomProperties["HasConfirmed"])
+    {
+        Debug.Log($"Oyuncu onaylamamış, prefab oluşturulmadı: {player.NickName}");
+        continue;
+    }
+    
                 // CustomProperties'den oyuncu adı çekiliyor
                 string playerName = player.CustomProperties.ContainsKey("PlayerName")
                     ? player.CustomProperties["PlayerName"].ToString()
