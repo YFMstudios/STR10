@@ -26,11 +26,18 @@ public class Stats : MonoBehaviourPun
     {
         healthUI = GetComponent<HealthUI>();
         health3DUpdater = GetComponent<Health3DBarUpdater>();
-        spawner = FindObjectOfType<BattleScenePlayerSpawner>();
 
+        // Spawner referansını Start'ta alacağız (daha güvenli)
         currentHealth = health;
         targetHealth = health;
+    }
 
+    private void Start()
+    {
+        // Spawner'ı Start'ta al (tüm objeler oluşturulduktan sonra)
+        spawner = FindObjectOfType<BattleScenePlayerSpawner>();
+
+        // Health bar'ları güncelle
         if (health3DUpdater != null)
         {
             health3DUpdater.SetHealth(currentHealth, health); // 3D bar'ı başlat
@@ -57,18 +64,24 @@ public class Stats : MonoBehaviourPun
     private void RPC_ApplyDamage(float damageAmount)
     {
         // Eğer zaten ölüyorsa veya aktif değilse, hasar uygulanmaz
-        if (!gameObject.activeInHierarchy || isDying) return;
+        if (!gameObject.activeInHierarchy || isDying)
+        {
+            Debug.Log($"[Stats] {gameObject.name} hasar almadı: aktif değil veya zaten ölüyor");
+            return;
+        }
 
         targetHealth -= damageAmount;
+        Debug.Log($"[Stats] {gameObject.name} hasar aldı: {damageAmount}, yeni sağlık: {targetHealth}/{health}");
 
         if (targetHealth <= 0)
         {
             targetHealth = 0;
 
+            // isDying flag'ini true olarak ayarla
+            isDying = true;
+
             if (CompareTag("Player") || CompareTag("Enemy"))
             {
-                // isDying flag'ini true olarak ayarla
-                isDying = true;
                 HandleCharacterDeath();
             }
             else if (CompareTag("EnemyMinion") || CompareTag("EnemyTurret"))
@@ -80,30 +93,25 @@ public class Stats : MonoBehaviourPun
                 }
                 else
                 {
-                    // Coroutine kullanmadan doğrudan deaktif edebiliriz ya da güvenli şekilde Coroutine başlatabiliriz
-                    if (gameObject.activeInHierarchy)
-                    {
-                        StartCoroutine(DeactivateAfterDelay());
-                    }
-                    else
-                    {
-                        gameObject.SetActive(false);
-                    }
+                    // Direkt deaktivasyon çağrılabilir
+                    gameObject.SetActive(false);
                 }
             }
         }
-
-        // Sadece aktifse ve ölmek üzere değilse hasar animasyonu göster
-        if (damageCoroutine == null && gameObject.activeInHierarchy && !isDying)
+        else
         {
-            damageCoroutine = StartCoroutine(LerpHealth());
+            // Sadece aktifse ve ölmek üzere değilse hasar animasyonu göster
+            if (damageCoroutine == null && gameObject.activeInHierarchy && !isDying)
+            {
+                damageCoroutine = StartCoroutine(LerpHealth());
+            }
         }
     }
 
     // Ölüm mantığını ayrı bir metoda taşıyoruz
     private void HandleCharacterDeath()
     {
-        Debug.Log($"{gameObject.name} öldü!");
+        Debug.Log($"[Stats] {gameObject.name} öldü!");
 
         if (CompareTag("Player") && WarController.Instance != null)
         {
@@ -126,37 +134,20 @@ public class Stats : MonoBehaviourPun
             damageCoroutine = null;
         }
 
-        // Önce BattleScenePlayerSpawner'a bildiriyoruz - obje hala aktifken
+        // Spawn Manager'a bildir (sadece owner için)
         if (spawner != null && photonView.IsMine)
         {
             string role = CompareTag("Player") ? "attacker" : "defender";
+            Debug.Log($"[Stats] {gameObject.name} ölümü spawner'a bildiriliyor, role: {role}");
             spawner.NotifyCharacterDied(role);
-
-            // Deactivate After spawner notification
-            // NOT: Burada 0 saniye bekleyerek birkaç frame geçmesini sağlıyoruz
-            // Bu, spawner'ın RPC işlemlerini tamamlaması için zaman tanır
-            StartCoroutine(DeactivateAfterDelay(0.5f));
         }
         else
         {
-            // Eğer spawner yoksa veya photonView.IsMine değilse, normal olarak deaktif et
-            StartCoroutine(DeactivateAfterDelay());
+            Debug.LogWarning($"[Stats] {gameObject.name} ölümü bildirilemedi - spawner: {(spawner == null ? "null" : "not null")}, isMine: {photonView.IsMine}");
         }
-    }
 
-    // Parametreli versiyonu da ekleyelim
-    private IEnumerator DeactivateAfterDelay(float delay = 3f)
-    {
-        yield return new WaitForSeconds(delay);
-
-        // isDying durumunu sıfırla, böylece respawn olduğunda bu kontroller çalışabilir
-        isDying = false;
-
-        // Eğer hala aktifse deaktif et
-        if (gameObject.activeInHierarchy)
-        {
-            gameObject.SetActive(false);
-        }
+        // Objeyi deaktif etme - artık spawner kontrol ediyor
+        // İşlem spawner tarafından yapılacak
     }
 
     private IEnumerator LerpHealth()
@@ -194,6 +185,8 @@ public class Stats : MonoBehaviourPun
 
         currentHealth = health;
         targetHealth = health;
+
+        Debug.Log($"[Stats] {gameObject.name} can yenilendi: {currentHealth}/{health}");
 
         if (photonView.IsMine && healthUI != null)
             healthUI.Update2DSlider(health, currentHealth);

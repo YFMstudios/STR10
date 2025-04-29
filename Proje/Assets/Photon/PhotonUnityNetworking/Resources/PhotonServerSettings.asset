@@ -61,6 +61,10 @@ MonoBehaviour:
   - RPC_AssignPlayerRoles
   - RPC_LoadWaitingScene
   - RPC_StartRespawnTimer
+  - SyncTransform
+  - DeactivateCharacter
+  - SyncPositions
+  - RPC_StartGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

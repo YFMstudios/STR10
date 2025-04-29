@@ -17,15 +17,15 @@ using PhotonHashtable = ExitGames.Client.Photon.Hashtable;   // Alias
 public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
 {
     [Header("Sıralama: 0-Attacker | 1-Defender | 2-5 Spectator-1…4")]
-    public Image[]    flagImages      = new Image[6];
-    public TMP_Text[] kingdomTexts    = new TMP_Text[6];
+    public Image[] flagImages = new Image[6];
+    public TMP_Text[] kingdomTexts = new TMP_Text[6];
     public TMP_Text[] playerNameTexts = new TMP_Text[6];
 
     private readonly string[] defaultKingdomOrder =
         { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "zeprion" };
 
-    private const string ROLE_KEY    = "Role";
-    private const string PLAYER_KEY  = "PlayerName";
+    private const string ROLE_KEY = "Role";
+    private const string PLAYER_KEY = "PlayerName";
     private const string KINGDOM_KEY = "Kingdom";
 
     private Coroutine startRoutine;
@@ -67,8 +67,8 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
         }
 
         // 3) Slotlara sırayla yerleştir
-        if (attacker != null)   FillSlot(0, attacker);
-        if (defender   != null) FillSlot(1, defender);
+        if (attacker != null) FillSlot(0, attacker);
+        if (defender != null) FillSlot(1, defender);
 
         for (int i = 0; i < spectators.Count && i < 4; i++)
             FillSlot(2 + i, spectators[i]);
@@ -90,7 +90,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
         playerNameTexts[index].gameObject.SetActive(true);
 
         // İçeriği doldur
-        kingdomTexts[index].text    = Capitalize(kname);
+        kingdomTexts[index].text = Capitalize(kname);
         playerNameTexts[index].text = pname;
 
         Sprite flag = Resources.Load<Sprite>($"Flamas/{kname}Flama[1]");
@@ -136,8 +136,20 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
             t += Time.unscaledDeltaTime;
         }
         if (PhotonNetwork.IsMasterClient)
-            PhotonNetwork.LoadLevel(7);
+        {
+            Debug.Log("[WaitingRoom] Savaş sahnesi başlatılıyor, tüm oyunculara RPC gönderiliyor.");
+            photonView.RPC(nameof(RPC_StartGame), RpcTarget.AllBufferedViaServer);
+        }
+
     }
+
+    [PunRPC]
+    private void RPC_StartGame()
+    {
+        Debug.Log("[WaitingRoom] RPC_StartGame çağrıldı → Sahne 7'ye geçiliyor.");
+        PhotonNetwork.LoadLevel(7);
+    }
+
 
     // ===============  Photon Callback’leri  ===============
     public override void OnPlayerEnteredRoom(Player _) =>

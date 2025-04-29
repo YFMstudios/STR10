@@ -144,7 +144,11 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         if (transformView != null)
         {
             transformView.m_PositionModel.SynchronizeEnabled = true;
+            transformView.m_PositionModel.InterpolateOption = PhotonTransformViewPositionModel.InterpolateOptions.EstimatedSpeed;
+            transformView.m_PositionModel.ExtrapolateOption = PhotonTransformViewPositionModel.ExtrapolateOptions.SynchronizeValues;
+
             transformView.m_RotationModel.SynchronizeEnabled = true;
+            transformView.m_RotationModel.InterpolateOption = PhotonTransformViewRotationModel.InterpolateOptions.Lerp;
         }
         else
         {
@@ -238,29 +242,54 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
             // Player (Attacker) Ownership bende
             playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
 
+            // DÜZELTME: Ownership'i BufferedAll ile yolla ki, sonradan bağlanan oyuncular da durumu görsün
             photonView.RPC(nameof(SetOwnership), RpcTarget.AllBuffered,
                 playerObject.GetComponent<PhotonView>().ViewID,
                 PhotonNetwork.LocalPlayer);
 
             // Enemy sahnede dursun (Ownership yok)
             enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
+
+            // DÜZELTME: Tüm oyunculara pozisyonun değiştiğini bildir
+            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
         }
         else if (role == "defender")
         {
             // Enemy (Defender) Ownership bende
             enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
 
+            // DÜZELTME: Ownership'i BufferedAll ile yolla ki, sonradan bağlanan oyuncular da durumu görsün
             photonView.RPC(nameof(SetOwnership), RpcTarget.AllBuffered,
                 enemyObject.GetComponent<PhotonView>().ViewID,
                 PhotonNetwork.LocalPlayer);
 
             // Player sahnede dursun (Ownership yok)
             playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
+
+            // DÜZELTME: Tüm oyunculara pozisyonun değiştiğini bildir
+            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
         }
         else
         {
             Debug.LogWarning($"[Spawner] Geçersiz rol ({role}) için SpawnPlayer çağrıldı!");
         }
+    }
+
+    // Tüm oyuncularda karakter konumlarını senkronize et
+    [PunRPC]
+    private void SyncPositions()
+    {
+        Debug.Log("[Spawner] SyncPositions RPC çağrıldı - tüm pozisyonlar senkronize ediliyor");
+
+        // Her iki karakteri görünür yap ve konumları ayarla
+        if (!playerObject.activeInHierarchy)
+            playerObject.SetActive(true);
+
+        if (!enemyObject.activeInHierarchy)
+            enemyObject.SetActive(true);
+
+        playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
+        enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
     }
 
     // Karakter öldüğünde Stats.cs tarafından çağrılan metot
@@ -279,10 +308,18 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         if (role == "attacker")
         {
             isRespawningAttacker = true;
+
+            // Attacker'ı deaktif et (diğer oyuncular da görsün)
+            playerObject.SetActive(false);
+            photonView.RPC(nameof(DeactivateCharacter), RpcTarget.Others, "attacker");
         }
         else if (role == "defender")
         {
             isRespawningDefender = true;
+
+            // Defender'ı deaktif et (diğer oyuncular da görsün)
+            enemyObject.SetActive(false);
+            photonView.RPC(nameof(DeactivateCharacter), RpcTarget.Others, "defender");
         }
 
         // Karakterlerin durumunu kontrol et ve ekrana yazdır
@@ -320,6 +357,22 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+    // Tüm oyuncularda belirtilen karakteri deaktif et
+    [PunRPC]
+    private void DeactivateCharacter(string role)
+    {
+        Debug.Log($"[Spawner] DeactivateCharacter RPC çağrıldı: {role}");
+
+        if (role == "attacker")
+        {
+            playerObject.SetActive(false);
+        }
+        else if (role == "defender")
+        {
+            enemyObject.SetActive(false);
+        }
+    }
+
     // Ölüm gerçekleşince tüm clientlerde respawn zamanlayıcısı başlatır
     [PunRPC]
     private void RPC_StartRespawnTimer(string role)
@@ -328,11 +381,6 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
 
         try
         {
-            Debug.Log($"[Spawner] Coroutine başlatılmadan önce kontrol: GameController active={gameObject.activeInHierarchy}");
-
-            // KRITIK: Objeleri burada pasif yapmayalım, Stats.cs bunu zaten yapıyor
-            // Sadece respawn işlemini zamanlayalım
-
             // Respawn işlemini başlat
             StartCoroutine(RespawnAfterDelay(role));
             Debug.Log("[Spawner] Coroutine başarıyla başlatıldı!");
@@ -341,28 +389,31 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         {
             Debug.LogError($"[Spawner] RPC_StartRespawnTimer'da exception: {ex.Message}");
 
-            // Exception durumunda RespawnManager'a bildir
-            RespawnManager manager = RespawnManager.Instance;
-
-            if (manager != null)
-            {
-                Debug.Log($"[Spawner] Exception sonrası respawn işi RespawnManager'a verildi.");
-
-                int ownerActorNum = -1;
-                if (role == "attacker")
-                {
-                    Player owner = FindPlayerByRole("attacker");
-                    ownerActorNum = (owner != null) ? owner.ActorNumber : -1;
-                }
-                else if (role == "defender")
-                {
-                    Player owner = FindPlayerByRole("defender");
-                    ownerActorNum = (owner != null) ? owner.ActorNumber : -1;
-                }
-
-                manager.ScheduleRespawn(role, respawnDelay, ownerActorNum);
-            }
+            // Exception durumunda 0.5 saniye sonra doğrudan respawn et
+            // RespawnManager başarısız olursa kullanılır
+            StartCoroutine(EmergencyRespawn(role, 0.5f));
         }
+    }
+
+    // Acil durum respawn (exception veya hata durumları için)
+    private IEnumerator EmergencyRespawn(string role, float delay)
+    {
+        Debug.Log($"[Spawner] EmergencyRespawn bekliyor: {delay}s");
+        yield return new WaitForSeconds(delay);
+
+        int ownerActorNum = -1;
+        if (role == "attacker")
+        {
+            Player owner = FindPlayerByRole("attacker");
+            ownerActorNum = (owner != null) ? owner.ActorNumber : -1;
+        }
+        else if (role == "defender")
+        {
+            Player owner = FindPlayerByRole("defender");
+            ownerActorNum = (owner != null) ? owner.ActorNumber : -1;
+        }
+
+        ForceRespawnCharacter(role, ownerActorNum);
     }
 
     // Belirli süre sonra karakteri yeniden doğur
@@ -374,9 +425,7 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(respawnDelay);
 
         Debug.Log($"[Spawner] {respawnDelay} saniye geçti, {role} yeniden doğuyor...");
-        Debug.Log($"[Spawner] WaitForSeconds tamamlandı, respawn başlıyor");
 
-        // RPC'yi çağır
         try
         {
             // Her client kendi karakterini respawn edebilsin
@@ -387,8 +436,11 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
 
                 Debug.Log($"[Spawner] Attacker respawn RPC çağrılıyor, ownerActorNum={ownerActorNum}");
 
-                // Tüm istemcilere respawn komutunu gönder
-                photonView.RPC(nameof(RPC_RespawnCharacter), RpcTarget.All, "attacker", ownerActorNum);
+                // Önce yerel olarak respawn et
+                ForceRespawnCharacter(role, ownerActorNum);
+
+                // Sonra tüm istemcilere respawn komutunu gönder 
+                photonView.RPC(nameof(RPC_RespawnCharacter), RpcTarget.Others, role, ownerActorNum);
             }
             else if (role == "defender")
             {
@@ -397,8 +449,11 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
 
                 Debug.Log($"[Spawner] Defender respawn RPC çağrılıyor, ownerActorNum={ownerActorNum}");
 
-                // Tüm istemcilere respawn komutunu gönder
-                photonView.RPC(nameof(RPC_RespawnCharacter), RpcTarget.All, "defender", ownerActorNum);
+                // Önce yerel olarak respawn et
+                ForceRespawnCharacter(role, ownerActorNum);
+
+                // Sonra tüm istemcilere respawn komutunu gönder
+                photonView.RPC(nameof(RPC_RespawnCharacter), RpcTarget.Others, role, ownerActorNum);
             }
         }
         catch (System.Exception ex)
@@ -438,8 +493,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         ForceRespawnCharacter(role, ownerActorNumber);
     }
 
-    // RespawnManager veya RPC tarafından çağrılabilir
-    public void ForceRespawnCharacter(string role, int ownerActorNumber)
+    // RespawnManager veya RPC tarafından çağrılabilir - İmzayı değiştirme (RespawnManager ile uyumluluk için)
+    public void ForceRespawnCharacter(string role, int ownerActorNumber = -1)
     {
         Debug.Log($"[Spawner][ForceRespawnCharacter] => role={role}, ownerActorNum={ownerActorNumber}");
 
@@ -489,6 +544,9 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
             // Respawn durumunu güncelle
             isRespawningAttacker = false;
             Debug.Log("[Spawner] Attacker respawn process tamamlandı");
+
+            // Tüm oyunculara bildir
+            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
         }
         else if (role == "defender")
         {
@@ -541,6 +599,9 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
             // Respawn durumunu güncelle
             isRespawningDefender = false;
             Debug.Log("[Spawner] Defender respawn process tamamlandı");
+
+            // Tüm oyunculara bildir
+            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
         }
     }
 
@@ -605,5 +666,16 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 cameraManager.SetupCameraForRole(newRole, playerObject.transform, enemyObject.transform);
             }
         }
+    }
+
+    // Yeni bir oyuncu bağlandığında tam bir senkronizasyon yap
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        Debug.Log($"[Spawner] Yeni oyuncu katıldı: {GetPlayerName(newPlayer)}");
+
+        // Yeni oyuncuya mevcut durumu bildir
+        photonView.RPC(nameof(SyncPositions), RpcTarget.All);
     }
 }
