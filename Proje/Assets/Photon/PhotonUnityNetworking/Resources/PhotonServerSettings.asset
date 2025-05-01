@@ -65,6 +65,7 @@ MonoBehaviour:
   - DeactivateCharacter
   - SyncPositions
   - RPC_StartGame
+  - RPC_AssignOwnershipBasedOnRoles
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

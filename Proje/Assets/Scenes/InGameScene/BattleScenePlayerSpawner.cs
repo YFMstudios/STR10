@@ -75,6 +75,11 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
+         if (PhotonNetwork.IsMasterClient)
+    {
+        photonView.RPC(nameof(RPC_AssignOwnershipBasedOnRoles), RpcTarget.MasterClient);
+    }
+
         // Transform senkron ayarları
         SetupTransformSync(playerObject);
         SetupTransformSync(enemyObject);
@@ -395,6 +400,8 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         }
     }
 
+    
+
     // Acil durum respawn (exception veya hata durumları için)
     private IEnumerator EmergencyRespawn(string role, float delay)
     {
@@ -678,4 +685,46 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         // Yeni oyuncuya mevcut durumu bildir
         photonView.RPC(nameof(SyncPositions), RpcTarget.All);
     }
+
+    [PunRPC]
+public void RPC_AssignOwnershipBasedOnRoles()
+{
+    if (!PhotonNetwork.IsMasterClient)
+    {
+        Debug.LogWarning("[Spawner] Bu RPC sadece MasterClient tarafından çalıştırılabilir!");
+        return;
+    }
+
+    Player attacker = FindPlayerByRole("attacker");
+    Player defender = FindPlayerByRole("defender");
+
+    if (attacker != null && playerObject != null)
+    {
+        PhotonView playerPV = playerObject.GetComponent<PhotonView>();
+        if (playerPV != null)
+        {
+            playerPV.TransferOwnership(attacker);
+            Debug.Log($"[Spawner] Player karakteri {attacker.NickName} adlı oyuncuya atandı.");
+        }
+        else
+        {
+            Debug.LogError("[Spawner] Player karakterinde PhotonView bulunamadı!");
+        }
+    }
+
+    if (defender != null && enemyObject != null)
+    {
+        PhotonView enemyPV = enemyObject.GetComponent<PhotonView>();
+        if (enemyPV != null)
+        {
+            enemyPV.TransferOwnership(defender);
+            Debug.Log($"[Spawner] Enemy karakteri {defender.NickName} adlı oyuncuya atandı.");
+        }
+        else
+        {
+            Debug.LogError("[Spawner] Enemy karakterinde PhotonView bulunamadı!");
+        }
+    }
+}
+
 }

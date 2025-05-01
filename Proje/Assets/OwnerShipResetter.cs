@@ -55,26 +55,27 @@ public class OwnerShipResetter : MonoBehaviourPunCallbacks, IOnEventCallback
         return "Bilinmeyen Oyuncu";
     }
 
-    public void ResetAllRolesAndOwnership()
+  public void ResetAllRolesAndOwnership()
+{
+    string playerName = GetPlayerNameFromPhoton(PhotonNetwork.LocalPlayer);
+    Debug.Log($"[OwnerShipResetter] ResetAllRolesAndOwnership başlatılıyor... İstemci: {playerName}");
+
+    Debug.Log("[OwnerShipResetter] Önce yerel role sıfırlama yapılıyor");
+    ResetAllPlayerRoles();
+    DisableCharacterControllers();
+
+    if (PhotonNetwork.IsMasterClient)
     {
-        string playerName = GetPlayerNameFromPhoton(PhotonNetwork.LocalPlayer);
-        Debug.Log($"[OwnerShipResetter] ResetAllRolesAndOwnership başlatılıyor... İstemci: {playerName}");
-
-        Debug.Log("[OwnerShipResetter] Önce yerel role sıfırlama yapılıyor");
-        ResetAllPlayerRoles();
-        DisableCharacterControllers();
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("[OwnerShipResetter] MasterClient olarak sahiplik sıfırlaması yapılıyor");
-            ResetGameObjectOwnerships();
-            SendCustomEventToAll(EVENT_RESET_ROLES, "reset_roles");
-        }
-        else
-        {
-            Debug.Log($"[OwnerShipResetter] MasterClient olmadığı için sadece rol sıfırlandı. MasterClient: {masterClientName}");
-        }
+        Debug.Log("[OwnerShipResetter] MasterClient olarak sadece roller sıfırlanacak, ownership devri artık sahne geçişinde olacak.");
+        // ResetGameObjectOwnerships(); ← bu satır artık gerekmez
+        SendCustomEventToAll(EVENT_RESET_ROLES, "reset_roles");
     }
+    else
+    {
+        Debug.Log($"[OwnerShipResetter] MasterClient olmadığı için sadece rol sıfırlandı. MasterClient: {masterClientName}");
+    }
+}
+
 
     private void SendCustomEventToAll(byte eventCode, string eventName)
     {
@@ -148,51 +149,7 @@ public class OwnerShipResetter : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
-    private void ResetGameObjectOwnerships()
-    {
-        Debug.Log("[OwnerShipResetter] Oyun nesnelerinin sahiplikleri sıfırlanıyor...");
-
-        if (playerObject == null || enemyObject == null)
-        {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-            if (players.Length > 0) playerObject = players[0];
-            if (enemies.Length > 0) enemyObject = enemies[0];
-
-            if (playerObject == null || enemyObject == null)
-            {
-                Debug.LogError("[OwnerShipResetter] Player veya Enemy objeleri bulunamadı!");
-                return;
-            }
-        }
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonView playerView = playerObject.GetComponent<PhotonView>();
-            PhotonView enemyView = enemyObject.GetComponent<PhotonView>();
-
-            if (playerView != null)
-            {
-                playerView.TransferOwnership(PhotonNetwork.MasterClient);
-                Debug.Log("[OwnerShipResetter] Player objesi sahipliği MasterClient'a transfer edildi.");
-            }
-            else
-            {
-                Debug.LogWarning("[OwnerShipResetter] Player objesinde PhotonView bulunamadı!");
-            }
-
-            if (enemyView != null)
-            {
-                enemyView.TransferOwnership(PhotonNetwork.MasterClient);
-                Debug.Log("[OwnerShipResetter] Enemy objesi sahipliği MasterClient'a transfer edildi.");
-            }
-            else
-            {
-                Debug.LogWarning("[OwnerShipResetter] Enemy objesinde PhotonView bulunamadı!");
-            }
-        }
-    }
+ 
 
     private void DisableCharacterControllers()
     {
