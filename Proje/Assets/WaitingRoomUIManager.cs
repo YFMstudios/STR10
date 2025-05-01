@@ -30,11 +30,47 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
 
     private Coroutine startRoutine;
 
+     //ORJİNALİ BÖYLE
     void Start()
     {
-        RefreshUI();
-        TryStartGame();
+        RefreshUI();//Vardı
+        TryStartGame();//Vard
     }
+    
+
+
+
+    private void FakePlayersForTesting()
+    {
+        // Sahte oyuncu listesi oluştur
+        var testPlayers = new List<(string role, string kingdom, string name)>
+    {
+        ("attacker", "akhadzria", "PlayerA"),
+        ("defender", "alfgard", "PlayerB"),
+        ("spectator", "arianopol", "Spec1"),
+        ("spectator", "dhamuron", "Spec2"),
+        ("spectator", "lexion", "Spec3"),
+        ("spectator", "zeprion", "Spec4")
+    };
+
+        for (int i = 0; i < testPlayers.Count && i < 6; i++)
+        {
+            flagImages[i].gameObject.SetActive(true);
+            kingdomTexts[i].gameObject.SetActive(true);
+            playerNameTexts[i].gameObject.SetActive(true);
+
+            var (role, kingdom, name) = testPlayers[i];
+            kingdomTexts[i].text = Capitalize(kingdom);
+            playerNameTexts[i].text = name;
+
+            Sprite flag = Resources.Load<Sprite>($"Flamas/{kingdom}Flama[1]");
+            if (flag != null)
+                flagImages[i].sprite = flag;
+            else
+                Debug.LogWarning($"[TEST] Flama bulunamadı: Flamas/{kingdom}Flama[1]");
+        }
+    }
+
 
     // =====================  UI  =====================
     private void RefreshUI()
