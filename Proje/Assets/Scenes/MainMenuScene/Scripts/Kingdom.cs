@@ -54,14 +54,14 @@ public class Kingdom : MonoBehaviour
     Sprite arianopolFlag = Resources.Load<Sprite>("Flags/arianopolFlag");
     Sprite dhamuronFlag = Resources.Load<Sprite>("Flags/dhamuronFlag");
     Sprite lexionFlag = Resources.Load<Sprite>("Flags/lexionFlag");
-    Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephrionFlag");
+    Sprite zephyrionFlag = Resources.Load<Sprite>("Flags/zephyrionFlag");
 
     kingdoms[0] = new Kingdom("Arianopol", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, arianopolFlag);
     kingdoms[1] = new Kingdom("Alfgard", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, alfgardFlag);
     kingdoms[2] = new Kingdom("Akhadzria", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, akhadzriaFlag);
     kingdoms[3] = new Kingdom("Dhamuron", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, dhamuronFlag);
     kingdoms[4] = new Kingdom("Lexion", 0, KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, lexionFlag);
-    kingdoms[5] = new Kingdom("Zephrion", 0,KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, zephyrionFlag);
+    kingdoms[5] = new Kingdom("Zephyrion", 0,KaynakYoneticisi.FoodAmount, KaynakYoneticisi.StoneAmount, KaynakYoneticisi.GoldAmount, KaynakYoneticisi.WoodAmount, KaynakYoneticisi.IronAmount, KaynakYoneticisi.WarPower, 0, zephyrionFlag);
 
 
 
@@ -73,7 +73,7 @@ public class Kingdom : MonoBehaviour
         else if (kingdom == "Akhadzria") return 2;
         else if (kingdom == "Dhamuron") return 3;
         else if (kingdom == "Lexion") return 4;
-        else if (kingdom == "Zephrion") return 5;
+        else if (kingdom == "Zephyrion") return 5;
         else return -1;
     }
 

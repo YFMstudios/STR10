@@ -87,7 +87,7 @@ public void OnStartButtonPressed()
         return;
     }
 
-    if (PhotonNetwork.CurrentRoom.PlayerCount < 2) // örnek: en az 2 oyuncu lazım
+    if (PhotonNetwork.CurrentRoom.PlayerCount < 1) // örnek: en az 2 oyuncu lazım //6 YAPMAYI UNUTMA
     {
         Debug.LogWarning("Oyunu başlatmak için en az 2 oyuncu gerekli!");
         return;

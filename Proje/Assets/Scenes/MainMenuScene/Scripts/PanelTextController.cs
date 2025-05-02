@@ -89,7 +89,7 @@ public class PanelTextController : MonoBehaviour//Bozulan
         else
         {
             
-            kingdomName.text = "Zephrion";
+            kingdomName.text = "Zephyrion";
             imageComponent.sprite = Kingdom.Kingdoms[5].Flag;
              foodAmount.text = KaynakYoneticisi.FoodAmount.ToString();
             stoneAmount.text = KaynakYoneticisi.StoneAmount.ToString();

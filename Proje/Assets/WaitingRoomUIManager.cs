@@ -21,8 +21,14 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     public TMP_Text[] kingdomTexts = new TMP_Text[6];
     public TMP_Text[] playerNameTexts = new TMP_Text[6];
 
+    [Header("İzleyici GameObjects")]
+    public GameObject izleyiciBir;
+    public GameObject izleyiciIki;
+    public GameObject izleyiciUc;
+    public GameObject izleyiciDort;
+
     private readonly string[] defaultKingdomOrder =
-        { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "zeprion" };
+        { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "Zephyrion" };
 
     private const string ROLE_KEY = "Role";
     private const string PLAYER_KEY = "PlayerName";
@@ -30,15 +36,26 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
 
     private Coroutine startRoutine;
 
-     //ORJİNALİ BÖYLE
+
     void Start()
     {
         RefreshUI();//Vardı
         TryStartGame();//Vard
     }
-    
 
 
+    /*
+    void Start()
+    {
+#if UNITY_EDITOR
+        // TEST MODU: Unity Editor'da çalışırken sahte verilerle test yap
+        FakePlayersForTesting();
+#else
+    RefreshUI();
+    TryStartGame();
+#endif
+    }
+    */
 
     private void FakePlayersForTesting()
     {
@@ -50,7 +67,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
         ("spectator", "arianopol", "Spec1"),
         ("spectator", "dhamuron", "Spec2"),
         ("spectator", "lexion", "Spec3"),
-        ("spectator", "zeprion", "Spec4")
+        ("spectator", "Zephyrion", "Spec4")
     };
 
         for (int i = 0; i < testPlayers.Count && i < 6; i++)
@@ -63,12 +80,15 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
             kingdomTexts[i].text = Capitalize(kingdom);
             playerNameTexts[i].text = name;
 
-            Sprite flag = Resources.Load<Sprite>($"Flamas/{kingdom}Flama[1]");
+            Sprite flag = Resources.Load<Sprite>($"Flamas/{kingdom}WithFrame");
             if (flag != null)
                 flagImages[i].sprite = flag;
             else
                 Debug.LogWarning($"[TEST] Flama bulunamadı: Flamas/{kingdom}Flama[1]");
         }
+
+        // Test modunda izleyici GameObject'lerini güncelle
+        UpdateSpectatorObjectsVisibility(4); // Tüm izleyicileri göster
     }
 
 
@@ -76,6 +96,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     private void RefreshUI()
     {
         // 1) Her slotı gizle
+
         for (int i = 0; i < 6; i++)
         {
             flagImages[i].gameObject.SetActive(false);
@@ -108,6 +129,9 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < spectators.Count && i < 4; i++)
             FillSlot(2 + i, spectators[i]);
+
+        // 4) İzleyici GameObject'lerinin görünürlüğünü ayarla
+        UpdateSpectatorObjectsVisibility(spectators.Count);
     }
 
     private void FillSlot(int index, Player p)
@@ -120,7 +144,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
                        ? k.ToString()
                        : defaultKingdomOrder[index];
 
-        // Görünür yap
+
         flagImages[index].gameObject.SetActive(true);
         kingdomTexts[index].gameObject.SetActive(true);
         playerNameTexts[index].gameObject.SetActive(true);
@@ -129,11 +153,45 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
         kingdomTexts[index].text = Capitalize(kname);
         playerNameTexts[index].text = pname;
 
-        Sprite flag = Resources.Load<Sprite>($"Flamas/{kname}Flama[1]");
+        Sprite flag = Resources.Load<Sprite>($"Flamas/{kname}WithFrame");
         if (flag != null)
             flagImages[index].sprite = flag;
         else
-            Debug.LogWarning($"Flama bulunamadı: Flamas/{kname}Flama[1]");
+            Debug.LogWarning($"Flama bulunamadı: Flamas/{kname}WithFrame");
+    }
+
+    // Yeni metod: İzleyici sayısına göre GameObject'lerin görünürlüğünü ayarla
+    private void UpdateSpectatorObjectsVisibility(int spectatorCount)
+    {
+        // Önce tüm izleyici objelerini gizle
+        izleyiciBir.SetActive(false);
+        izleyiciIki.SetActive(false);
+        izleyiciUc.SetActive(false);
+        izleyiciDort.SetActive(false);
+
+        // İzleyici sayısına göre görünürlüğü ayarla
+        switch (spectatorCount)
+        {
+            case 4:
+                izleyiciBir.SetActive(true);
+                izleyiciIki.SetActive(true);
+                izleyiciUc.SetActive(true);
+                izleyiciDort.SetActive(true);
+                break;
+            case 3:
+                izleyiciBir.SetActive(true);
+                izleyiciIki.SetActive(true);
+                izleyiciDort.SetActive(true);
+                break;
+            case 2:
+                izleyiciBir.SetActive(true);
+                izleyiciDort.SetActive(true);
+                break;
+            case 1:
+                izleyiciBir.SetActive(true);
+                break;
+                // case 0: Tüm objeler zaten gizli
+        }
     }
 
     private string Capitalize(string s) =>
@@ -145,6 +203,9 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     private void TryStartGame()
     {
         if (!PhotonNetwork.IsMasterClient) return;
+
+        photonView.RPC(nameof(RPC_ForceRefreshUI), RpcTarget.AllBufferedViaServer);
+
 
         bool attackerReady = PhotonNetwork.PlayerList
             .Any(p => p.CustomProperties.TryGetValue(ROLE_KEY, out object r) && r.ToString() == "attacker");
@@ -161,6 +222,11 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
             StopCoroutine(startRoutine);
             startRoutine = null;
         }
+    }
+    [PunRPC]
+    private void RPC_ForceRefreshUI()
+    {
+        RefreshUI();
     }
 
     private IEnumerator StartGameAfterDelay(float sec)
@@ -187,7 +253,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     }
 
 
-    // ===============  Photon Callback’leri  ===============
+    // ===============  Photon Callback'leri  ===============
     public override void OnPlayerEnteredRoom(Player _) =>
         InvokeRefreshAndStart();
 

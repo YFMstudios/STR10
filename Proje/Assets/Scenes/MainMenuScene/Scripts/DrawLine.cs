@@ -12,14 +12,14 @@ public class DrawLine : MonoBehaviour
     public Sprite arianopolWithLine;
     public Sprite dhamuronWithLine;
     public Sprite lexionWithLine;
-    public Sprite zephrionWithLine;
+    public Sprite ZephyrionWithLine;
 
     public Sprite akhadzriaSprite;
     public Sprite alfgardSprite;
     public Sprite arianopolSprite;
     public Sprite dhamuronSprite;
     public Sprite lexionSprite;
-    public Sprite zephrionSprite;
+    public Sprite ZephyrionSprite;
 
 
     public void Start()
@@ -46,7 +46,7 @@ public class DrawLine : MonoBehaviour
                     SetPrefabOnTopAndDrawLine(hit.collider.gameObject);
                     closeOthers(hit.collider.gameObject);
                 }
-                if (hit.collider.gameObject.name == "Zephrion")
+                if (hit.collider.gameObject.name == "Zephyrion")
                 {
                     SetPrefabOnTopAndDrawLine(hit.collider.gameObject);
                     closeOthers(hit.collider.gameObject);
@@ -101,9 +101,9 @@ public class DrawLine : MonoBehaviour
         {
             spriteRenderer.sprite = alfgardWithLine;
         }
-        if (go.name == "Zephrion")
+        if (go.name == "Zephyrion")
         {
-            spriteRenderer.sprite = zephrionWithLine;
+            spriteRenderer.sprite = ZephyrionWithLine;
         }
         if (go.name == "Arianopol")
         {
@@ -140,9 +140,9 @@ public class DrawLine : MonoBehaviour
                     spriteRenderer.sprite = alfgardSprite;
                     renderer.sortingLayerName = "Default";
                 }
-                else if (kingdom.name == "Zephrion")
+                else if (kingdom.name == "Zephyrion")
                 {
-                    spriteRenderer.sprite = zephrionSprite;
+                    spriteRenderer.sprite = ZephyrionSprite;
                     renderer.sortingLayerName = "Default";
                 }
                 else if (kingdom.name == "Arianopol")

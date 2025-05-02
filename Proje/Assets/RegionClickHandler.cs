@@ -9,9 +9,9 @@ using System.Collections.Generic;
 public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 {
     // Bölge görselleri (harita üzerindeki çizgi görselleri vb.)
-    public Image LexionLinePNGImage, AlfgardLinePNGImage, ZephrionLinePNGImage, ArianopolLinePNGImage, DhamuronLinePNGImage, AkhadzriaPNGImage;
+    public Image LexionLinePNGImage, AlfgardLinePNGImage, ZephyrionLinePNGImage, ArianopolLinePNGImage, DhamuronLinePNGImage, AkhadzriaPNGImage;
     // Her bölgeye ait, harita üzerinde gösterilecek TMP bileşenleri
-    public TMP_Text LexionTMP, AlfgardTMP, ZephrionTMP, ArianopolTMP, DhamuronTMP, AkhadzriaTMP;
+    public TMP_Text LexionTMP, AlfgardTMP, ZephyrionTMP, ArianopolTMP, DhamuronTMP, AkhadzriaTMP;
 
     public Image FlagImage, WarIcon, ObservationImage;
     public Sprite warSprite, observationSprite;
@@ -48,7 +48,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
         // Her bölge görseliyle, üzerine yazılacak TMP bileşenini eşleştiriyoruz.
         regionToTMPText.Add(LexionLinePNGImage, LexionTMP);
         regionToTMPText.Add(AlfgardLinePNGImage, AlfgardTMP);
-        regionToTMPText.Add(ZephrionLinePNGImage, ZephrionTMP);
+        regionToTMPText.Add(ZephyrionLinePNGImage, ZephyrionTMP);
         regionToTMPText.Add(ArianopolLinePNGImage, ArianopolTMP);
         regionToTMPText.Add(DhamuronLinePNGImage, DhamuronTMP);
         regionToTMPText.Add(AkhadzriaPNGImage, AkhadzriaTMP);
@@ -79,7 +79,7 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
     {
         kingdomDetails.Add("Lexion", new KingdomDetails("Lexion", "Elf", Color.green, new List<Image> { LexionLinePNGImage }, LexionLinePNGImage.sprite));
         kingdomDetails.Add("Alfgard", new KingdomDetails("Alfgard", "Büyücü", Color.blue, new List<Image> { AlfgardLinePNGImage }, AlfgardLinePNGImage.sprite));
-        kingdomDetails.Add("Zephrion", new KingdomDetails("Zephrion", "Ölüler", Color.red, new List<Image> { ZephrionLinePNGImage }, ZephrionLinePNGImage.sprite));
+        kingdomDetails.Add("Zephyrion", new KingdomDetails("Zephyrion", "Ölüler", Color.red, new List<Image> { ZephyrionLinePNGImage }, ZephyrionLinePNGImage.sprite));
         kingdomDetails.Add("Arianopol", new KingdomDetails("Arianopol", "İnsan", Color.yellow, new List<Image> { ArianopolLinePNGImage }, ArianopolLinePNGImage.sprite));
         kingdomDetails.Add("Dhamuron", new KingdomDetails("Dhamuron", "Cüceler", Color.cyan, new List<Image> { DhamuronLinePNGImage }, DhamuronLinePNGImage.sprite));
         kingdomDetails.Add("Akhadzria", new KingdomDetails("Akhadzria", "Orklar", Color.magenta, new List<Image> { AkhadzriaPNGImage }, AkhadzriaPNGImage.sprite));
@@ -260,7 +260,7 @@ private void UpdateRegionDetails(Image imageComponent)
         else if (kingdomName == "Akhadzria") return 2;
         else if (kingdomName == "Dhamuron") return 3;
         else if (kingdomName == "Lexion") return 4;
-        else if (kingdomName == "Zephrion") return 5;
+        else if (kingdomName == "Zephyrion") return 5;
         else
         {
             Debug.Log(kingdomName + " Bulunamadı");
@@ -350,7 +350,7 @@ private void UpdateRegionDetails(Image imageComponent)
             FlagImage.sprite = Kingdom.Kingdoms[5].Flag;
             WarIcon.enabled = false;
             owner.text = "Sahibi: Player";
-            kingdom.text = "Krallık: Zephrion";
+            kingdom.text = "Krallık: Zephyrion";
             civilization.text = "Medeniyet: Ölüler";
         }
     }

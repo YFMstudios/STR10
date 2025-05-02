@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text LexionTMP;
     public TMP_Text AkhadzriaTMP;
     public TMP_Text DhamuronTMP;
-    public TMP_Text ZephrionTMP;
+    public TMP_Text ZephyrionTMP;
     public TMP_Text ArianopolTMP;
 
     private bool gameEnded = false;  // Oyun bitip bitmediðini kontrol eden deðiþken
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         if (AlfgardTMP.text == LexionTMP.text &&
             AlfgardTMP.text == AkhadzriaTMP.text &&
             AlfgardTMP.text == DhamuronTMP.text &&
-            AlfgardTMP.text == ZephrionTMP.text &&
+            AlfgardTMP.text == ZephyrionTMP.text &&
             AlfgardTMP.text == ArianopolTMP.text)
         {
             if (!gameEnded)

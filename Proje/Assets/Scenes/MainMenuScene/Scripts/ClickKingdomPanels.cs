@@ -77,9 +77,9 @@ public class ClickKingdomPanels : MonoBehaviour//Son Projenin Dosyas�
                     civilization.text = "Medeniyet:B�y�c�";
                     numberOfSoldier.text = "Asker Say�s�: " + Kingdom.Kingdoms[1].SoldierAmount.ToString();
                 }
-                if (hit.collider.gameObject.name == "Zephrion")
+                if (hit.collider.gameObject.name == "Zephyrion")
                 {
-                    Debug.Log("Zephriona T�kland�.");
+                    Debug.Log("Zephyriona T�kland�.");
                     FlagImage.sprite = Kingdom.Kingdoms[5].Flag;
                     WarIcon.enabled = true;
                     ObservationImage.enabled = true;

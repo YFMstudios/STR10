@@ -66,6 +66,7 @@ MonoBehaviour:
   - SyncPositions
   - RPC_StartGame
   - RPC_AssignOwnershipBasedOnRoles
+  - RPC_ForceRefreshUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
