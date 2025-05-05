@@ -28,7 +28,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     public GameObject izleyiciDort;
 
     private readonly string[] defaultKingdomOrder =
-        { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "Zephyrion" };
+        { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "zephyrion" };
 
     private const string ROLE_KEY = "Role";
     private const string PLAYER_KEY = "PlayerName";
@@ -84,7 +84,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
             if (flag != null)
                 flagImages[i].sprite = flag;
             else
-                Debug.LogWarning($"[TEST] Flama bulunamadı: Flamas/{kingdom}Flama[1]");
+                Debug.LogWarning($"[TEST] Flama bulunamadı: Flamas/{kingdom}Flama");
         }
 
         // Test modunda izleyici GameObject'lerini güncelle
