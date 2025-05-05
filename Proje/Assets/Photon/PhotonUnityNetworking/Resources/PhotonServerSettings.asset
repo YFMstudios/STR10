@@ -69,6 +69,8 @@ MonoBehaviour:
   - RPC_ForceRefreshUI
   - RPC_CreateWarResultPanel
   - RPC_LoadScene6
+  - RPC_IAmReady
+  - SafeTransferOwnership
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

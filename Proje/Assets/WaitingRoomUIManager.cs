@@ -28,7 +28,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     public GameObject izleyiciDort;
 
     private readonly string[] defaultKingdomOrder =
-        { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "zephyrion" };
+        { "akhadzria", "alfgard", "arianopol", "dhamuron", "lexion", "Zephyrion" };
 
     private const string ROLE_KEY = "Role";
     private const string PLAYER_KEY = "PlayerName";
@@ -41,21 +41,9 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     {
         RefreshUI();//Vardı
         TryStartGame();//Vard
+         PhotonNetwork.AutomaticallySyncScene = true;   // <<< SADECE 1 KEZ
     }
 
-
-    /*
-    void Start()
-    {
-#if UNITY_EDITOR
-        // TEST MODU: Unity Editor'da çalışırken sahte verilerle test yap
-        FakePlayersForTesting();
-#else
-    RefreshUI();
-    TryStartGame();
-#endif
-    }
-    */
 
     private void FakePlayersForTesting()
     {
@@ -84,7 +72,7 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
             if (flag != null)
                 flagImages[i].sprite = flag;
             else
-                Debug.LogWarning($"[TEST] Flama bulunamadı: Flamas/{kingdom}Flama");
+                Debug.LogWarning($"[TEST] Flama bulunamadı: Flamas/{kingdom}Flama[1]");
         }
 
         // Test modunda izleyici GameObject'lerini güncelle
@@ -230,27 +218,16 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
     }
 
     private IEnumerator StartGameAfterDelay(float sec)
-    {
-        float t = 0f;
-        while (t < sec)
-        {
-            yield return null;
-            t += Time.unscaledDeltaTime;
-        }
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("[WaitingRoom] Savaş sahnesi başlatılıyor, tüm oyunculara RPC gönderiliyor.");
-            photonView.RPC(nameof(RPC_StartGame), RpcTarget.AllBufferedViaServer);
-        }
+{
+    yield return new WaitForSecondsRealtime(sec);   // gerçek zaman sayacı
 
-    }
-
-    [PunRPC]
-    private void RPC_StartGame()
+    if (PhotonNetwork.IsMasterClient)
     {
-        Debug.Log("[WaitingRoom] RPC_StartGame çağrıldı → Sahne 7'ye geçiliyor.");
-        PhotonNetwork.LoadLevel(7);
+        Debug.Log("[WaitingRoom] Master sahneyi yüklüyor → BattleScene");
+        PhotonNetwork.LoadLevel(7);                 // Otomatik eşlenme
     }
+}
+
 
 
     // ===============  Photon Callback'leri  ===============

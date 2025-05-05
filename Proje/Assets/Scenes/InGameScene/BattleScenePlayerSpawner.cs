@@ -2,6 +2,11 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
+// Dosyanın en üstündeki using bloklarına ekleyin
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;   // HashSet, List, Dictionary vb.
+
+
 
 public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
 {
@@ -26,17 +31,145 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     private bool isRespawningAttacker = false;
     private bool isRespawningDefender = false;
 
-    void Awake()
+void Awake()
+{
+    // ÖNEMLİ: Ownership hata mesajlarını önlemek için eklenen ayarlar
+    // AutoCleanUpPlayerObjects özelliği sizin PUN sürümünüzde yok
+    PhotonNetwork.SendRate = 20;
+    PhotonNetwork.SerializationRate = 10;
+
+    if (soldierManager != null)
     {
-        if (soldierManager != null)
+        soldierManager.setBattleScenePlayerSpawner(this);
+    }
+    else
+    {
+        Debug.LogError("[BattleScenePlayerSpawner] SoldierManager atanmadı!");
+    }
+
+      // Savaş sahnesi yüklenene kadar mesaj kuyruğunu kapat
+    PhotonNetwork.IsMessageQueueRunning = false;
+    SceneManager.sceneLoaded += OnSceneLoaded;
+}
+
+// 1. Dosyanın en üstüne (class içine)
+void TryAssignAfterRoles()
+{
+    if (!PhotonNetwork.IsMasterClient) return;
+
+    // Roller atanmış mı?
+    if (FindPlayerByRole("attacker") != null &&
+        FindPlayerByRole("defender") != null)
+    {
+        Debug.Log("[Spawner] Her iki rol de atandı → ownership transfer ediliyor");
+        AssignOwnershipSafe();      // Tek seferlik çağrı
+    }
+}
+
+
+// --- DEBUG BLOK BAŞI: global yardımcı --------------------------
+[System.Diagnostics.Conditional("UNITY_EDITOR")]
+void LogPVInfo(string tag, PhotonView pv)
+{
+    if (pv == null) { Debug.Log($"{tag} -> PV null!"); return; }
+
+    Debug.Log($"{tag}  |  viewID={pv.ViewID}  owner={pv.Owner?.NickName}({pv.OwnerActorNr})  " +
+              $"isMine={pv.IsMine}  controller={pv.ControllerActorNr}");
+}
+// --- DEBUG BLOK SONU -------------------------------------------
+
+
+[PunRPC] void RPC_IAmReady(int actorNum) { readyActors.Add(actorNum); }
+
+private HashSet<int> readyActors = new HashSet<int>();
+
+private void OnSceneLoaded(Scene sc, LoadSceneMode mode)
+{
+    if (sc.name != "BattleScene") return;
+
+    // Kuyruk hâlâ kapalı → RPC buffer’lanacak
+    photonView.RPC(nameof(RPC_IAmReady), RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
+    
+    SceneManager.sceneLoaded -= OnSceneLoaded;
+    StartCoroutine(OpenQueueAndTransfer());
+}
+
+private IEnumerator OpenQueueAndTransfer()
+{
+    // 50 ms >> 1 kare  ↔  yavaş HDD / laptop’larda güvence
+    yield return new WaitForSeconds(0.05f);
+
+    PhotonNetwork.IsMessageQueueRunning = true;   // Tüm buffer’lı IAmReady RPC’leri şimdi düşer
+
+    // MasterClient: Herkes hazır mı?
+    if (PhotonNetwork.IsMasterClient)
+        StartCoroutine(WaitUntilEveryoneReadyThenTransfer());
+}
+
+
+IEnumerator WaitUntilEveryoneReadyThenTransfer()
+{
+    while (readyActors.Count < PhotonNetwork.PlayerList.Length)
+        yield return null;   // Her kare kontrol et
+
+    Debug.Log("[Spawner] Everyone ready → safe ownership transfer");
+    AssignOwnershipSafe();
+}
+
+
+
+// RPC yerine direkt çalışan güvenli atama
+private void AssignOwnershipSafe()
+{
+    Player attacker = FindPlayerByRole("attacker");
+    Player defender = FindPlayerByRole("defender");
+
+    if (attacker != null)
+        StartCoroutine(DelayedTransfer(playerObject.GetComponent<PhotonView>(), attacker));
+
+    if (defender != null)
+        StartCoroutine(DelayedTransfer(enemyObject.GetComponent<PhotonView>(), defender));
+}
+IEnumerator DelayedTransfer(PhotonView pv, Player newOwner)
+{
+    for (int i = 0; i < 2; i++) yield return null;
+
+    LogPVInfo("[DelayedTransfer‑BEFORE]", pv);          // <‑‑ DEBUG
+    pv.TransferOwnership(newOwner);
+    LogPVInfo("[DelayedTransfer‑AFTER ]", pv);          // <‑‑ DEBUG
+}
+
+
+
+
+
+
+
+
+// RPC: Ownership transferi için güvenli metod (yeni eklendi)
+[PunRPC]
+private void SafeTransferOwnership(int viewID, int newOwnerActorNumber)
+{
+    PhotonView targetView = PhotonView.Find(viewID);
+    if (targetView != null)
+    {
+        Player newOwner = PhotonNetwork.CurrentRoom.GetPlayer(newOwnerActorNumber);
+        if (newOwner != null)
         {
-            soldierManager.setBattleScenePlayerSpawner(this);
+            // Görünüm varsa ve oyuncu bulunduysa güvenli transfer yap
+            targetView.TransferOwnership(newOwner);
+            Debug.Log($"[Spawner] Ownership güvenli şekilde transfer edildi. ViewID={viewID}, NewOwner={newOwner.NickName}");
         }
         else
         {
-            Debug.LogError("[BattleScenePlayerSpawner] SoldierManager atanmadı!");
+            Debug.LogWarning($"[Spawner] Ownership transfer başarısız. Oyuncu bulunamadı. ActorNumber={newOwnerActorNumber}");
         }
     }
+    else
+    {
+        Debug.LogWarning($"[Spawner] Ownership transfer başarısız. PhotonView bulunamadı. ViewID={viewID}");
+    }
+}
 
     // Oyuncudan PlayerName özelliğini çekmek için yardımcı metod
     private string GetPlayerName(Player player)
@@ -75,10 +208,17 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
             return;
         }
 
-         if (PhotonNetwork.IsMasterClient)
-    {
-        photonView.RPC(nameof(RPC_AssignOwnershipBasedOnRoles), RpcTarget.MasterClient);
-    }
+        LogPVInfo("[Start] playerObject", playerObject.GetComponent<PhotonView>());
+    LogPVInfo("[Start] enemyObject",  enemyObject .GetComponent<PhotonView>());
+
+    // input script’leri aktif mi?
+    foreach (var mb in playerObject.GetComponents<MonoBehaviour>())
+        if (mb.GetType().Name.Contains("Move") || mb.GetType().Name.Contains("Skill"))
+            Debug.Log($"[Start] {mb.GetType().Name} enabled={mb.enabled} (player)");
+
+    foreach (var mb in enemyObject.GetComponents<MonoBehaviour>())
+        if (mb.GetType().Name.Contains("Move") || mb.GetType().Name.Contains("Skill"))
+            Debug.Log($"[Start] {mb.GetType().Name} enabled={mb.enabled} (enemy)");
 
         // Transform senkron ayarları
         SetupTransformSync(playerObject);
@@ -90,6 +230,10 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
 
         // Photon'dan Role'ü kontrol edip spawn ve kamera ayarlarını yap
         HandlePlayerRoleFromPhoton();
+
+           if (PhotonNetwork.IsMasterClient)
+        TryAssignAfterRoles();      // ► oda ilk açıldığında bir kez dener
+
     }
 
     // Photon'dan role bilgisini alıp gerekli işlemleri yapan metod
@@ -240,45 +384,28 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     }
 
     // Seçilen role göre objeleri konumlandırıp Ownership veriyoruz
-    private void SpawnPlayer(string role)
+   private void SpawnPlayer(string role)
+{
+    if (role == "attacker")
     {
-        if (role == "attacker")
-        {
-            // Player (Attacker) Ownership bende
-            playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
+        playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
+        enemyObject .transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
 
-            // DÜZELTME: Ownership'i BufferedAll ile yolla ki, sonradan bağlanan oyuncular da durumu görsün
-            photonView.RPC(nameof(SetOwnership), RpcTarget.AllBuffered,
-                playerObject.GetComponent<PhotonView>().ViewID,
-                PhotonNetwork.LocalPlayer);
-
-            // Enemy sahnede dursun (Ownership yok)
-            enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
-
-            // DÜZELTME: Tüm oyunculara pozisyonun değiştiğini bildir
-            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
-        }
-        else if (role == "defender")
-        {
-            // Enemy (Defender) Ownership bende
-            enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
-
-            // DÜZELTME: Ownership'i BufferedAll ile yolla ki, sonradan bağlanan oyuncular da durumu görsün
-            photonView.RPC(nameof(SetOwnership), RpcTarget.AllBuffered,
-                enemyObject.GetComponent<PhotonView>().ViewID,
-                PhotonNetwork.LocalPlayer);
-
-            // Player sahnede dursun (Ownership yok)
-            playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
-
-            // DÜZELTME: Tüm oyunculara pozisyonun değiştiğini bildir
-            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
-        }
-        else
-        {
-            Debug.LogWarning($"[Spawner] Geçersiz rol ({role}) için SpawnPlayer çağrıldı!");
-        }
+        LogPVInfo("[SpawnPlayer] attacker -> playerObject", playerObject.GetComponent<PhotonView>()); // DEBUG
     }
+    else if (role == "defender")
+    {
+        enemyObject .transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
+        playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
+
+        LogPVInfo("[SpawnPlayer] defender -> enemyObject", enemyObject.GetComponent<PhotonView>());   // DEBUG
+    }
+    else
+        Debug.LogWarning($"[Spawner] Geçersiz rol ({role}) için SpawnPlayer çağrısı!");
+
+    photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
+}
+
 
     // Tüm oyuncularda karakter konumlarını senkronize et
     [PunRPC]
@@ -628,20 +755,6 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         return null;
     }
 
-    // RPC: (ID, Player) ile Ownership atama
-    [PunRPC]
-    private void SetOwnership(int viewID, Player newOwner)
-    {
-        PhotonView targetView = PhotonView.Find(viewID);
-        if (targetView != null)
-        {
-            targetView.TransferOwnership(newOwner);
-        }
-        else
-        {
-            Debug.LogError($"[Spawner][SetOwnership] PhotonView bulunamadı! ID={viewID}");
-        }
-    }
 
     // Photon Player Properties değişimini takip etmek için override
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
@@ -672,6 +785,7 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
                 SpawnPlayer(newRole);
                 cameraManager.SetupCameraForRole(newRole, playerObject.transform, enemyObject.transform);
             }
+            TryAssignAfterRoles();          // ► her yeni Role yazıldığında kontrol et
         }
     }
 
@@ -686,45 +800,7 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
         photonView.RPC(nameof(SyncPositions), RpcTarget.All);
     }
 
-    [PunRPC]
-public void RPC_AssignOwnershipBasedOnRoles()
-{
-    if (!PhotonNetwork.IsMasterClient)
-    {
-        Debug.LogWarning("[Spawner] Bu RPC sadece MasterClient tarafından çalıştırılabilir!");
-        return;
-    }
 
-    Player attacker = FindPlayerByRole("attacker");
-    Player defender = FindPlayerByRole("defender");
 
-    if (attacker != null && playerObject != null)
-    {
-        PhotonView playerPV = playerObject.GetComponent<PhotonView>();
-        if (playerPV != null)
-        {
-            playerPV.TransferOwnership(attacker);
-            Debug.Log($"[Spawner] Player karakteri {attacker.NickName} adlı oyuncuya atandı.");
-        }
-        else
-        {
-            Debug.LogError("[Spawner] Player karakterinde PhotonView bulunamadı!");
-        }
-    }
-
-    if (defender != null && enemyObject != null)
-    {
-        PhotonView enemyPV = enemyObject.GetComponent<PhotonView>();
-        if (enemyPV != null)
-        {
-            enemyPV.TransferOwnership(defender);
-            Debug.Log($"[Spawner] Enemy karakteri {defender.NickName} adlı oyuncuya atandı.");
-        }
-        else
-        {
-            Debug.LogError("[Spawner] Enemy karakterinde PhotonView bulunamadı!");
-        }
-    }
-}
 
 }

@@ -28,19 +28,15 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
 
     void Awake()
     {
-        // PhotonView bileþenini al, eðer yoksa ekle
+        // PhotonView bileï¿½enini al, eï¿½er yoksa ekle
         photonView = GetComponent<PhotonView>();
         if (photonView == null)
         {
             photonView = gameObject.AddComponent<PhotonView>();
         }
 
-        // Deðiþkenlerin null olup olmadýðýný kontrol et
+        // Deï¿½iï¿½kenlerin null olup olmadï¿½ï¿½ï¿½nï¿½ kontrol et
         CheckSerializedFields();
-    }
-    private void Start()
-    {
-        ShowWarResultPanel("Akhadzria");
     }
 
     void CheckSerializedFields()
@@ -56,21 +52,21 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
     }
     public void ShowWarResultPanel(string kazananKrallik)
     {
-        // Photon baðlantýsý kontrolü
+        // Photon baï¿½lantï¿½sï¿½ kontrolï¿½
         if (!PhotonNetwork.IsConnected)
         {
-            Debug.LogWarning("Photon baðlantýsý yok!");
+            Debug.LogWarning("Photon baï¿½lantï¿½sï¿½ yok!");
             return;
         }
 
-        // PhotonView null kontrolü
+        // PhotonView null kontrolï¿½
         if (photonView == null)
         {
-            Debug.LogError("PhotonView bulunamadý!");
+            Debug.LogError("PhotonView bulunamadï¿½!");
             return;
         }
 
-        // RPC çaðrýsý
+        // RPC ï¿½aï¿½rï¿½sï¿½
         photonView.RPC(nameof(RPC_CreateWarResultPanel), RpcTarget.All, kazananKrallik);
     }
 
@@ -84,7 +80,7 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
             return;
         }
 
-        // Saldýran ve savunan oyuncularý bul
+        // Saldï¿½ran ve savunan oyuncularï¿½ bul
         Player saldiranOyuncu = null, savunanOyuncu = null;
 
         foreach (var oyuncu in PhotonNetwork.PlayerList)
@@ -102,16 +98,16 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
         // Oyuncu bilgilerini al
         if (saldiranOyuncu != null && savunanOyuncu != null)
         {
-            // Krallýk adlarýný al
+            // Krallï¿½k adlarï¿½nï¿½ al
             string saldiranKrallik = saldiranOyuncu.CustomProperties.TryGetValue(KINGDOM_KEY, out object saldiranKrallikObj)
                 ? saldiranKrallikObj.ToString()
-                : "Bilinmeyen Krallýk";
+                : "Bilinmeyen Krallï¿½k";
 
             string savunanKrallik = savunanOyuncu.CustomProperties.TryGetValue(KINGDOM_KEY, out object savunanKrallikObj)
                 ? savunanKrallikObj.ToString()
-                : "Bilinmeyen Krallýk";
+                : "Bilinmeyen Krallï¿½k";
 
-            // Kullanýcý adlarýný al
+            // Kullanï¿½cï¿½ adlarï¿½nï¿½ al
             string saldiranKullanici = saldiranOyuncu.CustomProperties.TryGetValue(PLAYER_KEY, out object saldiranKullaniciObj)
                 ? saldiranKullaniciObj.ToString()
                 : $"Oyuncu {saldiranOyuncu.ActorNumber}";
@@ -126,14 +122,14 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
             if (saldiranKullaniciTMP != null) saldiranKullaniciTMP.text = saldiranKullanici;
             if (savunanKullaniciTMP != null) savunanKullaniciTMP.text = savunanKullanici;
 
-            // Bayraklarý yükle
+            // Bayraklarï¿½ yï¿½kle
             if (saldiranKrallikFlama != null)
             {
                 Sprite saldiranBayrak = Resources.Load<Sprite>($"Flamas/{saldiranKrallik}WithFrame");
                 if (saldiranBayrak != null)
                     saldiranKrallikFlama.sprite = saldiranBayrak;
                 else
-                    Debug.LogWarning($"Bayrak bulunamadý: Flamas/{saldiranKrallik}WithFrame");
+                    Debug.LogWarning($"Bayrak bulunamadï¿½: Flamas/{saldiranKrallik}WithFrame");
             }
 
             if (savunanKrallikFlama != null)
@@ -142,14 +138,14 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
                 if (savunanBayrak != null)
                     savunanKrallikFlama.sprite = savunanBayrak;
                 else
-                    Debug.LogWarning($"Bayrak bulunamadý: Flamas/{savunanKrallik}WithFrame");
+                    Debug.LogWarning($"Bayrak bulunamadï¿½: Flamas/{savunanKrallik}WithFrame");
             }
 
-            // Savaþ sonuç metnini ayarla
+            // Savaï¿½ sonuï¿½ metnini ayarla
             if (warResultTMP != null)
-                warResultTMP.text = $"{Capitalize(kazananKrallik)} Kazandý.\nSavaþtan Çýkýlýyor.";
+                warResultTMP.text = $"{Capitalize(kazananKrallik)} Kazandï¿½.\nSavaï¿½tan ï¿½ï¿½kï¿½lï¿½yor.";
 
-            // Paneli göster ve geri sayýmý baþlat
+            // Paneli gï¿½ster ve geri sayï¿½mï¿½ baï¿½lat
             warResultPanel.SetActive(true);
             StartCoroutine(CountdownAndLoadScene(kazananKrallik));
         }
@@ -163,9 +159,9 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
         float countdown = 10f;
         while (countdown > 0)
         {
-            // Zamaný güncelle ve metni ayarla
+            // Zamanï¿½ gï¿½ncelle ve metni ayarla
             if (warResultTMP != null)
-                warResultTMP.text = $"{Capitalize(kazananKrallik)} Kazandý.\nSavaþtan Çýkýlýyor({(int)countdown})";
+                warResultTMP.text = $"{Capitalize(kazananKrallik)} Kazandï¿½.\nSavaï¿½tan ï¿½ï¿½kï¿½lï¿½yor({(int)countdown})";
 
             // Bir saniye bekle
             yield return new WaitForSecondsRealtime(1f);
@@ -173,10 +169,10 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
             countdown -= 1f;
         }
 
-        // Oyunu normale çevir
+        // Oyunu normale ï¿½evir
         Time.timeScale = 1f;
 
-        // Tüm oyuncularý 6. sahneye yönlendir
+        // Tï¿½m oyuncularï¿½ 6. sahneye yï¿½nlendir
         if (PhotonNetwork.IsMasterClient)
         {
             photonView.RPC(nameof(RPC_LoadScene6), RpcTarget.AllBufferedViaServer);
@@ -186,11 +182,11 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_LoadScene6()
     {
-        // 6 numaralý sahneyi yükle
+        // 6 numaralï¿½ sahneyi yï¿½kle
         PhotonNetwork.LoadLevel(6);
     }
 
-    // Krallýk adýnýn ilk harfini büyük harf yap
+    // Krallï¿½k adï¿½nï¿½n ilk harfini bï¿½yï¿½k harf yap
     private string Capitalize(string s) =>
         string.IsNullOrEmpty(s)
             ? s
