@@ -45,9 +45,13 @@ public class BuildBuilder : MonoBehaviour
     public static bool buildTowerTwoIsActive = false;
     public static bool isAnyTrapActive = false;
 
+    public LogManager logmanager;
+    
+
     [Header("ScriptableObject")]
     public GetPlayerData getPlayerData;
     public KaynakYoneticisi kaynakYoneticisi;
+
 
     public static bool checkResources(Building building) // Art�k Building t�r� kabul ediliyor
     {
@@ -1205,7 +1209,7 @@ public class BuildBuilder : MonoBehaviour
             }
             else
             {
-                Debug.Log("Yeterli Kaynak Bulunmamaktad�r veya Keresteci 2.Seviye De�il.");
+                LogManager.Instance.LogEkle("Yeterli Kaynak Bulunmamaktad�r veya Keresteci 2.Seviye De�il.");
             }
         }
         else // Daha �nce �retildi ise
@@ -1305,7 +1309,7 @@ public class BuildBuilder : MonoBehaviour
             }
             else
             {
-                Debug.Log("Bir sorun var gibi duruyor 'BuildBuilder' scriptindeki buildLab fonksiyonunu kontrol ediniz.");
+                LogManager.Instance.LogEkle("Bir sorun var gibi duruyor 'BuildBuilder' scriptindeki buildLab fonksiyonunu kontrol ediniz.");
             }
         }
     }
