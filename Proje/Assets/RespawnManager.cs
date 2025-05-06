@@ -84,62 +84,75 @@ public class RespawnManager : MonoBehaviourPunCallbacks
     }
 
     void Update()
+{
+    for (int i = respawnJobs.Count - 1; i >= 0; i--)
     {
-        // Respawn zamanı gelen işleri kontrol et
-        for (int i = respawnJobs.Count - 1; i >= 0; i--)
+        respawnJobs[i].RespawnTime -= Time.deltaTime;
+        if (respawnJobs[i].RespawnTime > 0) continue;
+
+        string role = respawnJobs[i].Role;
+        int    act  = respawnJobs[i].OwnerActorNumber;
+
+        bool minionsDone = false;
+        if (role == "attacker")
+            minionsDone = spawner.playerMinionSpawner != null &&
+                          spawner.playerMinionSpawner.AreAllMinionsDead;
+        else
+            minionsDone = spawner.enemyMinionSpawner  != null &&
+                          spawner.enemyMinionSpawner.AreAllMinionsDead;
+
+        if (minionsDone)
         {
-            respawnJobs[i].RespawnTime -= Time.deltaTime;
-
-            if (respawnJobs[i].RespawnTime <= 0)
-            {
-                string role = respawnJobs[i].Role;
-                int ownerActorNumber = respawnJobs[i].OwnerActorNumber;
-
-                Debug.Log($"[RespawnManager] Zamanı gelen respawn işi: {role}, OwnerActor={ownerActorNumber}");
-
-                if (spawner != null)
-                {
-                    // Force respawn - spawner üzerindeki RPC_RespawnCharacter metodunu doğrudan çağır
-                    spawner.ForceRespawnCharacter(role, ownerActorNumber);
-                }
-                else
-                {
-                    Debug.LogError("[RespawnManager] Spawner null, respawn yapılamıyor!");
-                    FindSpawner();
-                }
-
-                // İşi listeden kaldır
-                respawnJobs.RemoveAt(i);
-            }
+            Debug.LogWarning($"[RespawnMgr] ⛔ Job çatladı: {role} minyonları bitmiş, tetiklenmedi");
+            respawnJobs.RemoveAt(i);
+            continue;
         }
+
+        Debug.Log($"[RespawnMgr] ►► job tetikleniyor  role={role}  owner={act}");
+        if (spawner) spawner.ForceRespawnCharacter(role, act);
+        else Debug.LogError("[RespawnMgr] Spawner hâlâ null!");
+
+        respawnJobs.RemoveAt(i);
     }
+}
+
 
     // Bu metod BattleScenePlayerSpawner'dan çağrılacak
     public void ScheduleRespawn(string role, float delay, int ownerActorNumber)
+{
+    if (spawner == null)          // güvenlik
     {
-        Debug.Log($"[RespawnManager] Respawn zamanlandı: {role}, Süre={delay}sn, OwnerActor={ownerActorNumber}");
-
-        // Zaten aynı role için bekleyen bir iş var mı?
-        for (int i = 0; i < respawnJobs.Count; i++)
-        {
-            if (respawnJobs[i].Role == role)
-            {
-                Debug.Log($"[RespawnManager] {role} için zaten bir respawn zamanlaması var, güncelleniyor.");
-                respawnJobs[i].RespawnTime = delay;
-                respawnJobs[i].OwnerActorNumber = ownerActorNumber;
-                return;
-            }
-        }
-
-        // Yeni iş ekle
-        RespawnJob job = new RespawnJob
-        {
-            Role = role,
-            RespawnTime = delay,
-            OwnerActorNumber = ownerActorNumber
-        };
-
-        respawnJobs.Add(job);
-        Debug.Log($"[RespawnManager] Yeni respawn işi eklendi. Toplam iş sayısı: {respawnJobs.Count}");
+        Debug.LogWarning("[RespawnMgr] Spawner yok → job eklenmedi");
+        return;
     }
+
+    /* ——— ÖN ŞART ——— */
+    bool minionsDone = false;
+    if (role == "attacker")
+        minionsDone = spawner.playerMinionSpawner != null &&
+                      spawner.playerMinionSpawner.AreAllMinionsDead;
+    else            // defender
+        minionsDone = spawner.enemyMinionSpawner  != null &&
+                      spawner.enemyMinionSpawner.AreAllMinionsDead;
+
+    if (minionsDone)
+    {
+        Debug.LogWarning($"[RespawnMgr] ⛔ {role} minyonları yok → ScheduleRespawn iptal");
+        return;                     // <‑‑ job eklemeyi PAS geç
+    }
+    /* ———————————— */
+
+    Debug.Log($"[RespawnMgr] Job eklendi  role={role}  delay={delay}s");
+
+    // listede varsa güncelle
+    foreach (var j in respawnJobs)
+        if (j.Role == role) { j.RespawnTime = delay; j.OwnerActorNumber = ownerActorNumber; return; }
+
+    respawnJobs.Add(new RespawnJob {
+        Role = role,
+        RespawnTime = delay,
+        OwnerActorNumber = ownerActorNumber
+    });
+}
+
 }

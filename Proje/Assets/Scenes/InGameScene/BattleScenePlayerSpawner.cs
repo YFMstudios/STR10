@@ -31,6 +31,15 @@ public class BattleScenePlayerSpawner : MonoBehaviourPunCallbacks
     private bool isRespawningAttacker = false;
     private bool isRespawningDefender = false;
 
+    
+
+// Yenisi
+public MinionSpawner      playerMinionSpawner { get; private set; }
+public EnemyMinionSpawner enemyMinionSpawner  { get; private set; }
+
+
+
+
 void Awake()
 {
     // ÖNEMLİ: Ownership hata mesajlarını önlemek için eklenen ayarlar
@@ -234,6 +243,10 @@ private void SafeTransferOwnership(int viewID, int newOwnerActorNumber)
            if (PhotonNetwork.IsMasterClient)
         TryAssignAfterRoles();      // ► oda ilk açıldığında bir kez dener
 
+        playerMinionSpawner = FindObjectOfType<MinionSpawner>();
+enemyMinionSpawner  = FindObjectOfType<EnemyMinionSpawner>();
+
+
     }
 
     // Photon'dan role bilgisini alıp gerekli işlemleri yapan metod
@@ -424,70 +437,88 @@ private void SafeTransferOwnership(int viewID, int newOwnerActorNumber)
         enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
     }
 
-    // Karakter öldüğünde Stats.cs tarafından çağrılan metot
-    public void NotifyCharacterDied(string role)
+
+//  KARAKTER ÖLDÜĞÜNDE ÇAĞRILAN ANA FONKSİYON (güncellenmiş son hâli)
+// =====================================================================
+public void NotifyCharacterDied(string role)
+{
+    Debug.Log($"[Spawner] NotifyCharacterDied({role})");
+
+    /* ───────── Yinelenme koruması ───────── */
+    if ((role == "attacker" && isRespawningAttacker) ||
+        (role == "defender" && isRespawningDefender))
+        return;
+
+    /* ───────── Bu karakterin yeniden doğma hakkı var mı? ───────── */
+    bool willRespawn = false;                                   // varsayılan: doğmayacak
+    if (role == "attacker")
+        willRespawn = playerMinionSpawner != null && !playerMinionSpawner.AreAllMinionsDead;
+    else if (role == "defender")
+        willRespawn = enemyMinionSpawner  != null && !enemyMinionSpawner.AreAllMinionsDead;
+
+    /* ───────── Yerel oyuncunun ve kameranın durumu ───────── */
+    string myRole = PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out object rObj)
+                    ? rObj.ToString() : "";
+
+    bool iAmDeadGuy   = myRole == role;            // ölen kişi ben miyim?
+    bool iAmSpectator = myRole == "spectator";     // zaten izleyici miyim?
+
+    bool watchingDead = false;                     // izleyici olarak öleni mi izliyordum?
+    if (iAmSpectator && cameraManager != null)
     {
-        Debug.Log($"[Spawner] NotifyCharacterDied({role}) çağrıldı.");
+        int view = cameraManager.GetCurrentSpectatorView();     // 0‑1‑2
+        watchingDead = (role == "attacker" && view == 1) ||
+                       (role == "defender" && view == 2);
+    }
 
-        if ((role == "attacker" && isRespawningAttacker) ||
-            (role == "defender" && isRespawningDefender))
+    /* ► Kamera yalnızca: (ölen = ben Veya öleni izliyordum)  &&  yeniden doğmayacak */
+    bool goStaticCam = (iAmDeadGuy || watchingDead) && !willRespawn;
+
+    /* ───────── Karakteri sahneden kaldır + RPC ───────── */
+    if (role == "attacker")
+    {
+        isRespawningAttacker = true;
+        playerObject.SetActive(false);
+        photonView.RPC(nameof(DeactivateCharacter), RpcTarget.Others, "attacker");
+
+        if (goStaticCam && cameraManager != null)
+            cameraManager.GoToStaticView();        // ← Yalnızca yerel istemci
+    }
+    else if (role == "defender")
+    {
+        isRespawningDefender = true;
+        enemyObject.SetActive(false);
+        photonView.RPC(nameof(DeactivateCharacter), RpcTarget.Others, "defender");
+
+        if (goStaticCam && cameraManager != null)
+            cameraManager.GoToStaticView();
+    }
+
+    /* ───────── Log ───────── */
+    Debug.Log($"[Spawner] Status => Attacker active={playerObject.activeInHierarchy}, " +
+              $"Defender active={enemyObject.activeInHierarchy}");
+
+    /* ───────── Respawn zamanlayıcısı SADECE willRespawn=true iken ───────── */
+    if (willRespawn)
+    {
+        RespawnManager mgr = RespawnManager.Instance;
+        if (mgr != null)
         {
-            Debug.Log($"[Spawner] {role} zaten respawn ediliyor, işlem atlanıyor.");
-            return;
-        }
-
-        // Durumu burada güncelleyelim
-        if (role == "attacker")
-        {
-            isRespawningAttacker = true;
-
-            // Attacker'ı deaktif et (diğer oyuncular da görsün)
-            playerObject.SetActive(false);
-            photonView.RPC(nameof(DeactivateCharacter), RpcTarget.Others, "attacker");
-        }
-        else if (role == "defender")
-        {
-            isRespawningDefender = true;
-
-            // Defender'ı deaktif et (diğer oyuncular da görsün)
-            enemyObject.SetActive(false);
-            photonView.RPC(nameof(DeactivateCharacter), RpcTarget.Others, "defender");
-        }
-
-        // Karakterlerin durumunu kontrol et ve ekrana yazdır
-        Debug.Log($"[Spawner] Character statuses: Attacker active={playerObject.activeInHierarchy}, Defender active={enemyObject.activeInHierarchy}");
-
-        // YENI YÖNTEM: RespawnManager kullan!
-        // Respawn Manager'a görev ver (eğer varsa)
-        RespawnManager manager = RespawnManager.Instance;
-
-        if (manager != null)
-        {
-            Debug.Log($"[Spawner] {role} için respawn işi RespawnManager'a verildi.");
-
-            int ownerActorNum = -1;
-            if (role == "attacker")
-            {
-                Player owner = FindPlayerByRole("attacker");
-                ownerActorNum = (owner != null) ? owner.ActorNumber : -1;
-            }
-            else if (role == "defender")
-            {
-                Player owner = FindPlayerByRole("defender");
-                ownerActorNum = (owner != null) ? owner.ActorNumber : -1;
-            }
-
-            manager.ScheduleRespawn(role, respawnDelay, ownerActorNum);
+            int ownerActorNum = FindPlayerByRole(role)?.ActorNumber ?? -1;
+            mgr.ScheduleRespawn(role, respawnDelay, ownerActorNum);
         }
         else
         {
-            Debug.LogError("[Spawner] RespawnManager bulunamadı! RPC yöntemi deneniyor...");
-
-            // Eski RPC yöntemi yedek olarak kalsın
-            Debug.Log($"[Spawner] {role} için yeniden doğma RPC'si çağrılıyor...");
+            Debug.LogWarning("[Spawner] RespawnManager yok – RPC ile zamanlayıcı başlatılıyor");
             photonView.RPC(nameof(RPC_StartRespawnTimer), RpcTarget.All, role);
         }
     }
+    else
+    {
+        Debug.Log($"[Spawner] {role} için minyon kalmadı → bir daha respawn olmayacak.");
+    }
+}
+
 
     // Tüm oyuncularda belirtilen karakteri deaktif et
     [PunRPC]
@@ -628,117 +659,71 @@ private void SafeTransferOwnership(int viewID, int newOwnerActorNumber)
     }
 
     // RespawnManager veya RPC tarafından çağrılabilir - İmzayı değiştirme (RespawnManager ile uyumluluk için)
-    public void ForceRespawnCharacter(string role, int ownerActorNumber = -1)
+public void ForceRespawnCharacter(string role, int ownerActorNumber = -1)
+{
+    Debug.Log($"<color=cyan>[ForceRespawn] → role={role}  owner={ownerActorNumber}</color>");
+
+    /* ───────── ÖN ŞART : Minyon kontrolü ───────── */
+    bool minionBlock = false;
+
+    if (role == "attacker")
+        minionBlock = playerMinionSpawner != null && playerMinionSpawner.AreAllMinionsDead;
+    else if (role == "defender")
+        minionBlock = enemyMinionSpawner != null && enemyMinionSpawner.AreAllMinionsDead;
+
+    if (minionBlock)
     {
-        Debug.Log($"[Spawner][ForceRespawnCharacter] => role={role}, ownerActorNum={ownerActorNumber}");
-
-        if (role == "attacker")
-        {
-            Debug.Log("[Spawner] Attacker yeniden doğuyor!");
-
-            // Player yeniden doğsun
-            playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position, attackerSpawnPoint.rotation);
-
-            // Aktif hale getir - BU ÇOK ÖNEMLİ!
-            playerObject.SetActive(true);
-
-            Stats stats = playerObject.GetComponent<Stats>();
-            if (stats != null)
-            {
-                stats.ResetHealthToFull();
-                Debug.Log("[Spawner] Attacker can yenilendi!");
-            }
-            else
-            {
-                Debug.LogError("[Spawner] Attacker Stats komponenti bulunamadı!");
-            }
-
-            // Ownership devrini sadece MasterClient yapar
-            if (PhotonNetwork.IsMasterClient && ownerActorNumber != -1)
-            {
-                Player realOwner = PhotonNetwork.CurrentRoom.GetPlayer(ownerActorNumber);
-                if (realOwner != null)
-                {
-                    playerObject.GetComponent<PhotonView>().TransferOwnership(realOwner);
-                    Debug.Log($"[Spawner] Attacker ownership transferi: ActorNum={ownerActorNumber}");
-                }
-                else
-                {
-                    Debug.LogError($"[Spawner] ActorNumber={ownerActorNumber} için Player bulunamadı!");
-                }
-            }
-
-            // Yeniden doğduktan sonra kamera takiplerini güncelle
-            if (cameraManager != null)
-            {
-                cameraManager.UpdateCameraFollowTarget(role, playerObject.transform);
-                Debug.Log("[Spawner] Attacker için kamera güncellendi");
-            }
-
-            // Respawn durumunu güncelle
-            isRespawningAttacker = false;
-            Debug.Log("[Spawner] Attacker respawn process tamamlandı");
-
-            // Tüm oyunculara bildir
-            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
-        }
-        else if (role == "defender")
-        {
-            Debug.Log("[Spawner] Defender yeniden doğuyor!");
-
-            // Enemy yeniden doğsun
-            enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position, defenderSpawnPoint.rotation);
-
-            // Aktiflik kontrolü
-            Debug.Log($"[Spawner] Defender aktivasyon öncesi: {enemyObject.activeInHierarchy}");
-
-            // KRITIK FIX: Aktif hale getir - BU ÇOK ÖNEMLİ!
-            enemyObject.SetActive(true);
-
-            Debug.Log($"[Spawner] Defender aktivasyon sonrası: {enemyObject.activeInHierarchy}");
-
-            Stats stats = enemyObject.GetComponent<Stats>();
-            if (stats != null)
-            {
-                stats.ResetHealthToFull();
-                Debug.Log("[Spawner] Defender can yenilendi!");
-            }
-            else
-            {
-                Debug.LogError("[Spawner] Defender Stats komponenti bulunamadı!");
-            }
-
-            // Ownership devrini sadece MasterClient yapar
-            if (PhotonNetwork.IsMasterClient && ownerActorNumber != -1)
-            {
-                Player realOwner = PhotonNetwork.CurrentRoom.GetPlayer(ownerActorNumber);
-                if (realOwner != null)
-                {
-                    enemyObject.GetComponent<PhotonView>().TransferOwnership(realOwner);
-                    Debug.Log($"[Spawner] Defender ownership transferi: ActorNum={ownerActorNumber}");
-                }
-                else
-                {
-                    Debug.LogError($"[Spawner] ActorNumber={ownerActorNumber} için Player bulunamadı!");
-                }
-            }
-
-            // Yeniden doğduktan sonra kamera takiplerini güncelle
-            if (cameraManager != null)
-            {
-                cameraManager.UpdateCameraFollowTarget(role, enemyObject.transform);
-                Debug.Log("[Spawner] Defender için kamera güncellendi");
-            }
-
-            // Respawn durumunu güncelle
-            isRespawningDefender = false;
-            Debug.Log("[Spawner] Defender respawn process tamamlandı");
-
-            // Tüm oyunculara bildir
-            photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
-        }
+        Debug.LogWarning($"[ForceRespawn] ⛔ {role} respawn ENGELLENDİ (minyon kalmadı)");
+        if (role == "attacker") isRespawningAttacker  = false;
+        else                    isRespawningDefender  = false;
+        return;
     }
 
+    /* ───────── Yardımcı yerel fonksiyon ───────── */
+    void ResetStatsAndOwnership(GameObject obj, string r, int actorNr)
+    {
+        // 1) canı fulle
+        if (obj.TryGetComponent(out Stats st))
+            st.ResetHealthToFull();
+
+        // 2) ownership (yalnızca master)
+        if (PhotonNetwork.IsMasterClient && actorNr != -1)
+        {
+            Player pl = PhotonNetwork.CurrentRoom.GetPlayer(actorNr);
+            if (pl != null)
+                obj.GetComponent<PhotonView>().TransferOwnership(pl);
+        }
+
+        // 3) kamera hedefini güncelle
+        cameraManager?.UpdateCameraFollowTarget(r, obj.transform);
+    }
+
+    /* ───────── Gerçek respawn ───────── */
+    if (role == "attacker")
+    {
+        playerObject.transform.SetPositionAndRotation(attackerSpawnPoint.position,
+                                                      attackerSpawnPoint.rotation);
+        playerObject.SetActive(true);
+        ResetStatsAndOwnership(playerObject, role, ownerActorNumber);
+        isRespawningAttacker = false;
+    }
+    else   // defender
+    {
+        enemyObject.transform.SetPositionAndRotation(defenderSpawnPoint.position,
+                                                     defenderSpawnPoint.rotation);
+        enemyObject.SetActive(true);
+        ResetStatsAndOwnership(enemyObject, role, ownerActorNumber);
+        isRespawningDefender = false;
+    }
+
+    /* ─── Respawn başarılıysa statik kamera modundan çık ─── */
+    cameraManager?.LeaveStaticView();   // (CameraManager’da eklediniz)
+
+    /* Tüm istemcilere yeni konumu senkronize et */
+    photonView.RPC(nameof(SyncPositions), RpcTarget.Others);
+
+    Debug.Log($"[ForceRespawn] {role} respawn tamamlandı");
+}
     // Rol bazlı player bulma
     private Player FindPlayerByRole(string role)
     {

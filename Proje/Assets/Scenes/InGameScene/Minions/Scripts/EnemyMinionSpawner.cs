@@ -18,6 +18,18 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
     public float spawnInterval     = 20.0f;
     public float delayBetweenMinions;
 
+    /*  ──────────────────────────────────────────────────────────  */
+/*  ► TÜM minyonlar öldü mü?                                   */
+private bool allMinionsDead = false;
+
+// class içinde, mevcut değişkenlerin hemen altına ekle
+private int  aliveMinionCount = 0;   // sahnede canlı minyon sayısı
+private bool wavesFinished    = false;
+
+public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
+
+
+
     [Header("ScriptableObject (artık fallback değil)")]
     public GetPlayerData getPlayerData;
     public KaynakYoneticisi kaynakYoneticisi;//(+)
@@ -50,6 +62,8 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
     {
         SpawlananArcherCount=0;
         SpawlananSoldierCount=0;
+        allMinionsDead = false;   // sahne başında her zaman false
+
     }
     private IEnumerator Start()
     {
@@ -126,59 +140,67 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
     // ============================================================
     //  SpawnMinions – dalga dalga üretim
     // ============================================================
-    private IEnumerator SpawnMinions()
+   private IEnumerator SpawnMinions()
+{
+    Debug.Log("[Spawner] SpawnMinions başladı.");
+
+    int meleeLeft  = meleeUnitsToSpawn;
+    int rangedLeft = rangedUnitsToSpawn;
+
+    const int unitsPerWave = 10;
+    int waves = Mathf.CeilToInt((float)(meleeLeft + rangedLeft) / unitsPerWave);
+    Debug.Log($"[Spawner] Toplam {waves} dalga.");
+
+    for (int wave = 0; wave < waves; wave++)
     {
-        Debug.Log("[EnemySpawner] SpawnMinions başladı.");
-        int meleeLeft  = meleeUnitsToSpawn;
-        int rangedLeft = rangedUnitsToSpawn;
+        Debug.Log($"[Spawner] === Dalga {wave + 1}/{waves} ===");
 
-        int unitsPerWave = 10;
-        int waves = Mathf.CeilToInt((float)(meleeLeft + rangedLeft) / unitsPerWave);
-        Debug.Log($"[EnemySpawner] Toplam {waves} dalga.");
+        int meleeThisWave  = Mathf.Min(5, meleeLeft);
+        int rangedThisWave = Mathf.Min(5, rangedLeft);
 
-        for (int wave = 0; wave < waves; wave++)
+        /* ---------- MELEE ---------- */
+        for (int i = 0; i < meleeThisWave; i++)
         {
-            Debug.Log($"[EnemySpawner] === Dalga {wave + 1}/{waves} ===");
-            int meleeThisWave  = Mathf.Min(5, meleeLeft);
-            int rangedThisWave = Mathf.Min(5, rangedLeft);
+            GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
 
-            for (int i = 0; i < meleeThisWave; i++)
-            {
-                GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
-                AttachDeathLogic(m, true);
-                meleeLeft--;
-                SpawlananSoldierCount++;
-                kaynakYoneticisi.WarPowerArttirma(-50);//(+)
-                getPlayerData.savasciAzalt();//(+)
-                kalanSavasci = meleeLeft;
-                Debug.Log($"[EnemySpawner] Melee spawn – kalan:{meleeLeft}");
-                Debug.Log($"[EnemySpawner] Spawlanan Asker Sayısı  – Üretilen:{SpawlananSoldierCount}");
-                yield return new WaitForSeconds(delayBetweenMinions);
-            }
+            AttachDeathLogic(m, true);
+            meleeLeft--;
 
-            for (int i = 0; i < rangedThisWave; i++)
-            {
-                GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
-                AttachDeathLogic(m, false);
-                rangedLeft--;
-                SpawlananArcherCount++;
-                kaynakYoneticisi.WarPowerArttirma(-25);//(+)
-                getPlayerData.okcuAzalt();//(+)
-                kalanOkcu = rangedLeft;
-                Debug.Log($"[EnemySpawner] Ranged spawn – kalan:{rangedLeft}");
-                Debug.Log($"[EnemySpawner] Spawlanan Archer Sayısı  – Üretilen:{SpawlananArcherCount}");
-                yield return new WaitForSeconds(delayBetweenMinions);
-            }
+            /*  ↓↓↓  SAHNEDEKİ CANLI SAYACI  ↓↓↓  */
+            aliveMinionCount++;
+            Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
 
-            if (wave < waves - 1)
-            {
-                float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
-                Debug.Log($"[EnemySpawner] Dalga arası {wait:F1}s bekleniyor.");
-                yield return new WaitForSeconds(wait);
-            }
+            yield return new WaitForSeconds(delayBetweenMinions);
         }
-        Debug.Log("[EnemySpawner] Tüm dalgalar bitti.");
+
+        /* ---------- RANGED ---------- */
+        for (int i = 0; i < rangedThisWave; i++)
+        {
+            GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
+
+            AttachDeathLogic(m, false);
+            rangedLeft--;
+
+            aliveMinionCount++;
+            Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
+
+            yield return new WaitForSeconds(delayBetweenMinions);
+        }
+
+        /* Dalga arası bekleme */
+        if (wave < waves - 1)
+        {
+            float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
+            Debug.Log($"[Spawner] Dalga arası {wait:F1}s bekleniyor.");
+            yield return new WaitForSeconds(wait);
+        }
     }
+
+    /* -------------- TÜM DALGALAR BİTTİ -------------- */
+    wavesFinished = true;
+    Debug.Log("<color=#00FFFF>[Spawn] ►► BÜTÜN DALGALAR BİTTİ ◀◀</color>");
+    CheckAllDead();
+}
 
     // ============================================================
     //  Yardımcı fonksiyonlar
@@ -207,19 +229,27 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
         t.Init(this, isMelee);
     }
 
-    public void DecreaseMinionCount(bool isMelee)
+public void DecreaseMinionCount(bool isMelee)
+{
+    if (isMelee)  meleeRemaining--;
+    else          rangedRemaining--;
+
+    aliveMinionCount--;
+    Debug.Log($"<color=orange>[Death] isMelee={isMelee}  →  alive={aliveMinionCount}</color>");
+
+    CheckAllDead();
+}
+
+
+private void CheckAllDead()
+{
+    if (!allMinionsDead && wavesFinished && aliveMinionCount <= 0)
     {
-        if (isMelee)  meleeRemaining--;
-        else          rangedRemaining--;
-
-        Debug.Log($"[EnemySpawner] DecreaseMinionCount – Melee:{meleeRemaining}  Ranged:{rangedRemaining}");
-
-        if (WarController.Instance != null)
-        {
-            WarController.Instance.enemykalansavasçı = meleeRemaining;
-            WarController.Instance.enemykalanokçu    = rangedRemaining;
-        }
+        allMinionsDead = true;
+        Debug.Log("<color=lime>[Spawner] *** SAHNEDE HİÇ MİNYON KALMADI → allMinionsDead=TRUE ***</color>");
     }
+}
+
 
     private Player FindPlayerByRole(string role)
     {
@@ -232,12 +262,32 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 
 public class EnemyMinionDeathTracker : MonoBehaviour
 {
-    private EnemyMinionSpawner spawner;
-    private bool isMelee;
-    public void Init(EnemyMinionSpawner s, bool melee) { spawner = s; isMelee = melee; }
-    private void OnDestroy()
+    private EnemyMinionSpawner spawner;   // ← TİP DÜZELTİLDİ
+    private bool  isMelee;
+    private bool  notified = false;
+
+    public void Init(EnemyMinionSpawner s, bool melee)
     {
-        Debug.Log("[EnemyMinionDeathTracker] Minyon öldü.");
-        if (spawner) spawner.DecreaseMinionCount(isMelee);
+        spawner  = s;
+        isMelee  = melee;
+    }
+
+    /* -------- Ölüm bildirimi tek noktada -------- */
+    private void NotifyDeath()
+    {
+        if (notified) return;   // aynı objeyi iki kez sayma
+        notified = true;
+
+        if (spawner != null)
+            spawner.DecreaseMinionCount(isMelee);
+    }
+
+    private void OnDestroy()  { NotifyDeath(); }
+
+    private void OnDisable()
+    {
+        // Pooling kullanıyorsanız sahne null gelebilir
+        if (gameObject.scene.IsValid())
+            NotifyDeath();
     }
 }

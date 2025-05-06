@@ -133,10 +133,12 @@ public class ObjectiveStats : MonoBehaviourPunCallbacks
         Invoke(nameof(DeactivateObject), delay);
     }
 
-    private void DeactivateObject()
-    {
-        gameObject.SetActive(false);
-    }
+  private void DeactivateObject()
+{
+   Destroy(gameObject);   // DeathTracker tetiklenir
+}
+
+
 
     private void UpdateHealthUI()
     {

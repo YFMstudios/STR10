@@ -11,6 +11,12 @@ public class BattleSceneCameraManager : MonoBehaviourPunCallbacks
     public CinemachineVirtualCamera spectatorVirtualCam;
     public Camera mainCamera;
 
+    // class başına, mevcut değişkenlerin hemen altına EKLE
+[Header("Static cams (1‑4)")]
+[SerializeField] public CinemachineVirtualCamera[] staticCams;   // 1‑4 için
+private bool staticViewActive   = false;   // “ölüm modu” açık mı?
+private int  currentStaticIndex = 0;
+
     // İzleyici kamera kontrolü için değişkenler
     [SerializeField] // Inspector'da görülebilmesi için
     private bool isSpectator = false;
@@ -49,36 +55,107 @@ public class BattleSceneCameraManager : MonoBehaviourPunCallbacks
         LogDebugInfo("Kamera yöneticisi başlatıldı");
     }
 
-    void Update()
+    /* --------------------------------------------------------
+ *  Update()
+ * ------------------------------------------------------ */
+void Update()
+{
+    /* ----------------------------------------------------
+     * STATİK KAMERA TUŞLARI  (1‑4)
+     * -------------------------------------------------- */
+    bool pressed1 = Input.GetKeyDown(KeyCode.Alpha1);
+    bool pressed2 = Input.GetKeyDown(KeyCode.Alpha2);
+    bool pressed3 = Input.GetKeyDown(KeyCode.Alpha3);
+    bool pressed4 = Input.GetKeyDown(KeyCode.Alpha4);
+
+    /* ► İzleyici ise daima, oyuncu ise sadece ölüm modunda */
+    bool staticAllowed = isSpectator || staticViewActive;
+
+    if (staticAllowed)
     {
-        // HER FRAME'DE tuş basımlarını kontrol et ve log al - Debug amaçlı
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Debug.Log("[CameraManager] Q tuşuna basıldı, isSpectator: " + isSpectator);
-            LogDebugInfo("Q tuşuna basıldı");
-
-            if (isSpectator)
-            {
-                SwitchSpectatorCamera(1); // Attacker
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("[CameraManager] E tuşuna basıldı, isSpectator: " + isSpectator);
-            LogDebugInfo("E tuşuna basıldı");
-
-            if (isSpectator)
-            {
-                SwitchSpectatorCamera(2); // Defender
-            }
-        }
-
-        // Debug: space tuşuna basıldığında durum bilgilerini logla
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            LogAllStatus();
-        }
+        if (pressed1) ActivateStaticCam(0);
+        if (pressed2) ActivateStaticCam(1);
+        if (pressed3) ActivateStaticCam(2);
+        if (pressed4) ActivateStaticCam(3);
     }
+
+    /* ----------------------------------------------------
+     * Q / E  (karakter kameraları)  – yalnızca izleyici
+     * -------------------------------------------------- */
+    if (isSpectator && !staticViewActive)
+    {
+        if (Input.GetKeyDown(KeyCode.Q)) SwitchSpectatorCamera(1);
+        if (Input.GetKeyDown(KeyCode.E)) SwitchSpectatorCamera(2);
+    }
+
+    /* Debug */
+    if (Input.GetKeyDown(KeyCode.Space)) LogAllStatus();
+}
+
+
+public void LeaveStaticView()
+{
+    staticViewActive = false;                     // <─ 1‑4 tuşları artık pasif
+    foreach (var cam in staticCams) cam.gameObject.SetActive(false);
+    // Karakter/rol kamerası hangisiyse onu açık bırakıyoruz
+    if (isSpectator)          spectatorVirtualCam.gameObject.SetActive(true);
+    else if (currentSpectatorView == 1) attackerVirtualCam.gameObject.SetActive(true);
+    else if (currentSpectatorView == 2) defenderVirtualCam.gameObject.SetActive(true);
+}
+
+/* --------------------------------------------------------
+ *  Oyuncu/izleyici öldüğünde çağrılır
+ * ------------------------------------------------------ */
+public void GoToStaticView()
+{
+    if (staticViewActive) return;          // zaten statik modda
+
+    staticViewActive = true;
+
+    attackerVirtualCam .gameObject.SetActive(false);
+    defenderVirtualCam .gameObject.SetActive(false);
+    spectatorVirtualCam.gameObject.SetActive(false);
+
+    ActivateStaticCam(0);                  // 1.kameradan başla
+    LogDebugInfo("Statik kamera moduna geçildi (1‑4 etkin)");
+}
+
+/* --------------------------------------------------------
+ *  Statik kamerayı etkinleştir (0‑3)
+ * ------------------------------------------------------ */
+private void ActivateStaticCam(int idx)
+{
+    if (idx < 0 || idx >= staticCams.Length) return;
+
+    foreach (var cam in staticCams) cam.gameObject.SetActive(false);
+    staticCams[idx].gameObject.SetActive(true);
+
+    currentStaticIndex = idx;
+    Debug.Log($"[Camera] Statik Kamera {idx + 1} aktif");
+}
+
+private void SelectStaticCam(int idx)
+{
+    if (idx < 0 || idx >= staticCams.Length)
+    {
+        Debug.LogWarning($"[CameraManager] Geçersiz statik cam index: {idx}");
+        return;
+    }
+
+    // tüm sanal kameraları kapat
+    attackerVirtualCam.gameObject.SetActive(false);
+    defenderVirtualCam.gameObject.SetActive(false);
+    spectatorVirtualCam.gameObject.SetActive(false);
+
+    foreach (var c in staticCams) c.gameObject.SetActive(false);
+
+    staticCams[idx].gameObject.SetActive(true);
+    currentStaticIndex = idx;
+    isSpectator        = true;          // bu görünümde artık serbest izleyici
+    currentSpectatorView = 0;
+
+    LogDebugInfo($"Statik kamera {(idx+1)} aktif");
+}
 
     // Debug bilgilerini logla ve ekranda göster
     private void LogDebugInfo(string message)
