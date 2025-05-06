@@ -63,6 +63,21 @@ public class RespawnManager : MonoBehaviourPunCallbacks
         FindSpawner();
     }
 
+    public void OnAllMinionsDead(string side)
+    {
+        Debug.Log($"<color=yellow>[RespawnMgr] {side} tarafı için tüm minyonlar öldü bildirimi alındı!</color>");
+
+        // Bekleyen respawn işlerini iptal et
+        for (int i = respawnJobs.Count - 1; i >= 0; i--)
+        {
+            if (respawnJobs[i].Role == side)
+            {
+                Debug.LogWarning($"<color=red>[RespawnMgr] {side} için bekleyen respawn işi iptal edildi!</color>");
+                respawnJobs.RemoveAt(i);
+            }
+        }
+    }
+
     private void FindSpawner()
     {
         spawner = FindObjectOfType<BattleScenePlayerSpawner>();

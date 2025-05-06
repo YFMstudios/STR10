@@ -153,8 +153,6 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
 
     private IEnumerator CountdownAndLoadScene(string kazananKrallik)
     {
-        // Oyunu durdur
-        Time.timeScale = 0f;
 
         float countdown = 10f;
         while (countdown > 0)
@@ -169,8 +167,6 @@ public class WarResultPanelController : MonoBehaviourPunCallbacks
             countdown -= 1f;
         }
 
-        // Oyunu normale �evir
-        Time.timeScale = 1f;
 
         // T�m oyuncular� 6. sahneye y�nlendir
         if (PhotonNetwork.IsMasterClient)

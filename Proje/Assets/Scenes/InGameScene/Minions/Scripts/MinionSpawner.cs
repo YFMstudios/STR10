@@ -11,13 +11,13 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     public float meleeMinionMoveSpeed;
     public float rangedMinionMoveSpeed;
 
-    
 
-    private const string MELEE_MINION_PREFAB  = "Minions/MeleeMinion";
+
+    private const string MELEE_MINION_PREFAB = "Minions/MeleeMinion";
     private const string RANGED_MINION_PREFAB = "Minions/RangedMinion";
 
     public Transform[] spawnPoints;
-    public float spawnInterval     = 20.0f;
+    public float spawnInterval = 20.0f;
     public float delayBetweenMinions;
 
     [Header("ScriptableObject (artık fallback değil)")]
@@ -37,24 +37,27 @@ public class MinionSpawner : MonoBehaviourPunCallbacks
     public SoldierController soldierManager;
 
     /*  ──────────────────────────────────────────────────────────  */
-/*  ► TÜM minyonlar öldü mü?                                   */
-private bool allMinionsDead = false;
+    /*  ► TÜM minyonlar öldü mü?                                   */
+    private bool allMinionsDead = false;
 
-// class içinde, mevcut değişkenlerin hemen altına ekle
-private int  aliveMinionCount = 0;   // sahnede canlı minyon sayısı
-private bool wavesFinished    = false;
+    // class içinde, mevcut değişkenlerin hemen altına ekle
+    private int aliveMinionCount = 0;   // sahnede canlı minyon sayısı
+    private bool wavesFinished = false;
 
-public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
+    public bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
 
 
-    public HealController healController ;
+    public HealController healController;
 
     // Ağdan gelen kesin değerler
     private int attackerSoldierCnt, attackerArcherCnt;
     private int defenderSoldierCnt, defenderArcherCnt;
 
-    public int SpawlananArcherCount , SpawlananSoldierCount ;
+    public int SpawlananArcherCount, SpawlananSoldierCount;
     public KaynakYoneticisi kaynakYoneticisi;//(+)
+
+    [HideInInspector]
+    public PhotonView photonView;
 
     // ============================================================
     //  Start – yalnızca MasterClient çalıştırır
@@ -62,10 +65,16 @@ public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
 
     public void Awake()
     {
-        SpawlananArcherCount=0;
+        SpawlananArcherCount = 0;
         allMinionsDead = false;   // sahne başında her zaman false
+        SpawlananSoldierCount = 0;
 
-        SpawlananSoldierCount=0;
+        // PhotonView komponentini otomatik al
+        photonView = GetComponent<PhotonView>();
+        if (photonView == null)
+        {
+            Debug.LogError("[MinionSpawner] PhotonView komponenti bulunamadı!");
+        }
     }
     private IEnumerator Start()
     {
@@ -81,10 +90,10 @@ public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
         yield return StartCoroutine(WaitForBothSidesCounts());
 
         // *** Attacker tarafının minyonları ***
-        meleeUnitsToSpawn  = attackerSoldierCnt;
+        meleeUnitsToSpawn = attackerSoldierCnt;
         rangedUnitsToSpawn = attackerArcherCnt;
 
-        meleeRemaining  = meleeUnitsToSpawn;
+        meleeRemaining = meleeUnitsToSpawn;
         rangedRemaining = rangedUnitsToSpawn;
 
         Debug.Log($"[MinionSpawner] Sayılar alındı  Soldier:{meleeUnitsToSpawn}  Archer:{rangedUnitsToSpawn}");
@@ -92,7 +101,7 @@ public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
         if (WarController.Instance != null)
         {
             WarController.Instance.playerkalansavasçı = meleeRemaining;
-            WarController.Instance.playerkalanokçu    = rangedRemaining;
+            WarController.Instance.playerkalanokçu = rangedRemaining;
         }
 
         StartCoroutine(SpawnMinions());
@@ -101,108 +110,121 @@ public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
     // ============================================================
     //  WaitForBothSidesCounts – her iki oyuncu sayılarını yollayana kadar bekler
     // ============================================================
-   private IEnumerator WaitForBothSidesCounts()
-{
-    float elapsed = 0f;
-    const float TIMEOUT = 5f;   // 5 saniyede gelmezse devam et
-
-    while (elapsed < TIMEOUT)
+    private IEnumerator WaitForBothSidesCounts()
     {
-        Player attacker = FindPlayerByRole("attacker");
-        Player defender = FindPlayerByRole("defender");
+        float elapsed = 0f;
+        const float TIMEOUT = 5f;   // 5 saniyede gelmezse devam et
 
-        bool aReady = attacker != null
-            && attacker.CustomProperties.ContainsKey("SoldierCount")
-            && attacker.CustomProperties.ContainsKey("ArcherCount");
-        bool dReady = defender != null
-            && defender.CustomProperties.ContainsKey("SoldierCount")
-            && defender.CustomProperties.ContainsKey("ArcherCount");
-
-        if (aReady && dReady)
+        while (elapsed < TIMEOUT)
         {
-            attackerSoldierCnt = (int)attacker.CustomProperties["SoldierCount"];
-            attackerArcherCnt  = (int)attacker.CustomProperties["ArcherCount"];
-            defenderSoldierCnt = (int)defender.CustomProperties["SoldierCount"];
-            defenderArcherCnt  = (int)defender.CustomProperties["ArcherCount"];
-            Debug.Log("[MinionSpawner] Veriler alındı, devam ediliyor.");
-            yield break;
+            Player attacker = FindPlayerByRole("attacker");
+            Player defender = FindPlayerByRole("defender");
+
+            bool aReady = attacker != null
+                && attacker.CustomProperties.ContainsKey("SoldierCount")
+                && attacker.CustomProperties.ContainsKey("ArcherCount");
+            bool dReady = defender != null
+                && defender.CustomProperties.ContainsKey("SoldierCount")
+                && defender.CustomProperties.ContainsKey("ArcherCount");
+
+            if (aReady && dReady)
+            {
+                attackerSoldierCnt = (int)attacker.CustomProperties["SoldierCount"];
+                attackerArcherCnt = (int)attacker.CustomProperties["ArcherCount"];
+                defenderSoldierCnt = (int)defender.CustomProperties["SoldierCount"];
+                defenderArcherCnt = (int)defender.CustomProperties["ArcherCount"];
+                Debug.Log("[MinionSpawner] Veriler alındı, devam ediliyor.");
+                yield break;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
 
-        elapsed += Time.deltaTime;
-        yield return null;
+        // Timeout aşıldıysa fallback yap (örneğin eşit pay, sabit değer veya görünen değer)
+        attackerSoldierCnt = defenderSoldierCnt = getPlayerData.currentSoldierAmount;
+        attackerArcherCnt = defenderArcherCnt = getPlayerData.currentArcherAmount;
+        Debug.LogWarning("[MinionSpawner] Sayı verisi geç gelmedi, fallback ile devam ediliyor.");
     }
-
-    // Timeout aşıldıysa fallback yap (örneğin eşit pay, sabit değer veya görünen değer)
-    attackerSoldierCnt = defenderSoldierCnt = getPlayerData.currentSoldierAmount;
-    attackerArcherCnt  = defenderArcherCnt  = getPlayerData.currentArcherAmount;
-    Debug.LogWarning("[MinionSpawner] Sayı verisi geç gelmedi, fallback ile devam ediliyor.");
-}
 
 
     // ============================================================
     //  SpawnMinions – dalga dalga üretim
     // ============================================================
     private IEnumerator SpawnMinions()
-{
-    Debug.Log("[Spawner] SpawnMinions başladı.");
-
-    int meleeLeft  = meleeUnitsToSpawn;
-    int rangedLeft = rangedUnitsToSpawn;
-
-    const int unitsPerWave = 10;
-    int waves = Mathf.CeilToInt((float)(meleeLeft + rangedLeft) / unitsPerWave);
-    Debug.Log($"[Spawner] Toplam {waves} dalga.");
-
-    for (int wave = 0; wave < waves; wave++)
     {
-        Debug.Log($"[Spawner] === Dalga {wave + 1}/{waves} ===");
+        Debug.Log("[Spawner] SpawnMinions başladı.");
 
-        int meleeThisWave  = Mathf.Min(5, meleeLeft);
-        int rangedThisWave = Mathf.Min(5, rangedLeft);
+        int meleeLeft = meleeUnitsToSpawn;
+        int rangedLeft = rangedUnitsToSpawn;
 
-        /* ---------- MELEE ---------- */
-        for (int i = 0; i < meleeThisWave; i++)
+        const int unitsPerWave = 10;
+        int waves = Mathf.CeilToInt((float)(meleeLeft + rangedLeft) / unitsPerWave);
+        Debug.Log($"[Spawner] Toplam {waves} dalga.");
+
+        for (int wave = 0; wave < waves; wave++)
         {
-            GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
+            Debug.Log($"[Spawner] === Dalga {wave + 1}/{waves} ===");
 
-            AttachDeathLogic(m, true);
-            meleeLeft--;
+            int meleeThisWave = Mathf.Min(5, meleeLeft);
+            int rangedThisWave = Mathf.Min(5, rangedLeft);
 
-            /*  ↓↓↓  SAHNEDEKİ CANLI SAYACI  ↓↓↓  */
-            aliveMinionCount++;
-            Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
+            /* ---------- MELEE ---------- */
+            for (int i = 0; i < meleeThisWave; i++)
+            {
+                GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
 
-            yield return new WaitForSeconds(delayBetweenMinions);
+                AttachDeathLogic(m, true);
+                meleeLeft--;
+
+                // ÖNEMLİ: Player Data'daki savaşçı sayısını azalt
+                if (getPlayerData != null)
+                {
+                    getPlayerData.savasciAzalt();
+                    SpawlananSoldierCount++;
+                }
+
+                aliveMinionCount++;
+                Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
+
+                yield return new WaitForSeconds(delayBetweenMinions);
+            }
+
+            /* ---------- RANGED ---------- */
+            for (int i = 0; i < rangedThisWave; i++)
+            {
+                GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
+
+                AttachDeathLogic(m, false);
+                rangedLeft--;
+
+                // ÖNEMLİ: Player Data'daki okçu sayısını azalt
+                if (getPlayerData != null)
+                {
+                    getPlayerData.okcuAzalt();
+                    SpawlananArcherCount++;
+                }
+
+                aliveMinionCount++;
+                Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
+
+                yield return new WaitForSeconds(delayBetweenMinions);
+            }
+
+            /* Dalga arası bekleme */
+            if (wave < waves - 1)
+            {
+                float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
+                Debug.Log($"[Spawner] Dalga arası {wait:F1}s bekleniyor.");
+                yield return new WaitForSeconds(wait);
+            }
         }
 
-        /* ---------- RANGED ---------- */
-        for (int i = 0; i < rangedThisWave; i++)
-        {
-            GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
-
-            AttachDeathLogic(m, false);
-            rangedLeft--;
-
-            aliveMinionCount++;
-            Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
-
-            yield return new WaitForSeconds(delayBetweenMinions);
-        }
-
-        /* Dalga arası bekleme */
-        if (wave < waves - 1)
-        {
-            float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
-            Debug.Log($"[Spawner] Dalga arası {wait:F1}s bekleniyor.");
-            yield return new WaitForSeconds(wait);
-        }
+        /* -------------- TÜM DALGALAR BİTTİ -------------- */
+        wavesFinished = true;
+        Debug.Log("<color=#00FFFF>[Spawn] ►► BÜTÜN DALGALAR BİTTİ ◀◀</color>");
+        CheckAllDead();
     }
-
-    /* -------------- TÜM DALGALAR BİTTİ -------------- */
-    wavesFinished = true;
-    Debug.Log("<color=#00FFFF>[Spawn] ►► BÜTÜN DALGALAR BİTTİ ◀◀</color>");
-    CheckAllDead();
-}
 
 
     // ============================================================
@@ -232,25 +254,65 @@ public  bool AreAllMinionsDead => wavesFinished && aliveMinionCount <= 0;
         t.Init(this, isMelee);
     }
 
-public void DecreaseMinionCount(bool isMelee)
-{
-    if (isMelee)  meleeRemaining--;
-    else          rangedRemaining--;
+    public void DecreaseMinionCount(bool isMelee)
+    {
+        if (isMelee) meleeRemaining--;
+        else rangedRemaining--;
 
-    aliveMinionCount--;
-    Debug.Log($"<color=orange>[Death] isMelee={isMelee}  →  alive={aliveMinionCount}</color>");
+        aliveMinionCount--;
+        Debug.Log($"<color=orange>[Death] isMelee={isMelee}  →  alive={aliveMinionCount}</color>");
 
-    CheckAllDead();
-}
+        CheckAllDead();
+    }
 
-private void CheckAllDead()
-{
-    if (!allMinionsDead && wavesFinished && aliveMinionCount <= 0)
+    private void CheckAllDead()
+    {
+        if (!allMinionsDead && wavesFinished && aliveMinionCount <= 0)
+        {
+            allMinionsDead = true;
+            Debug.Log("<color=lime>[Spawner] *** SAHNEDE HİÇ MİNYON KALMADI → allMinionsDead=TRUE ***</color>");
+
+            // Tüm oyunculara bildir
+            if (PhotonNetwork.IsMasterClient && photonView != null)
+            {
+                // Bu satırı ekle - RPC ile tüm oyunculara bildir
+                photonView.RPC("RPC_SetAllMinionsDead", RpcTarget.AllBuffered);
+            }
+        }
+    }
+
+    [PunRPC]
+    public void RPC_SetAllMinionsDead()
     {
         allMinionsDead = true;
-        Debug.Log("<color=lime>[Spawner] *** SAHNEDE HİÇ MİNYON KALMADI → allMinionsDead=TRUE ***</color>");
+        wavesFinished = true;
+        Debug.Log("<color=lime>[MinionSpawner][RPC] Tüm minyonlar öldü bilgisi alındı ve uygulandı.</color>");
+
+        // Respawn Manager'ı güncelle (varsa)
+        RespawnManager respawnMgr = RespawnManager.Instance;
+        if (respawnMgr != null)
+        {
+            respawnMgr.OnAllMinionsDead("attacker");
+        }
     }
-}
+
+    // RPC ile tüm oyunculara bildir
+    [PunRPC]
+    public void RPC_AllMinionsDead(string side)
+    {
+        if (side == "attacker")
+        {
+            allMinionsDead = true;
+            Debug.Log("<color=lime>[RPC] Attacker tarafı için tüm minyonlar öldü bilgisi alındı.</color>");
+
+            // BattleScenePlayerSpawner'a bildir (eğer varsa)
+            BattleScenePlayerSpawner spawner = FindObjectOfType<BattleScenePlayerSpawner>();
+            if (spawner != null)
+            {
+                spawner.OnAllMinionsDead(side);
+            }
+        }
+    }
 
 
 
@@ -285,7 +347,7 @@ public class MinionDeathTracker : MonoBehaviour
             spawner.DecreaseMinionCount(isMelee);
     }
 
-    private void OnDestroy()  { NotifyDeath(); }
+    private void OnDestroy() { NotifyDeath(); }
 
     private void OnDisable()
     {

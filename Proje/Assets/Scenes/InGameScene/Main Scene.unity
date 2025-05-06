@@ -2022,6 +2022,7 @@ MonoBehaviour:
   SpawlananArcherCount: 0
   SpawlananSoldierCount: 0
   healController: {fileID: 0}
+  photonView: {fileID: 0}
 --- !u!1 &732814920
 GameObject:
   m_ObjectHideFlags: 0
@@ -4039,6 +4040,29 @@ MonoBehaviour:
   SpawlananArcherCount: 0
   SpawlananSoldierCount: 0
   healController: {fileID: 11400000, guid: 7dba1a2cbdeb6684fa99b7f563363e47, type: 2}
+  photonView: {fileID: 0}
+--- !u!114 &1176192667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053204006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 15
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1179309305
 GameObject:
   m_ObjectHideFlags: 0
@@ -5446,6 +5470,8 @@ MonoBehaviour:
   minionSpawner: {fileID: 8059142760952552257}
   enemyMinionSpawner: {fileID: 1176192666}
   healController: {fileID: 11400000, guid: 7dba1a2cbdeb6684fa99b7f563363e47, type: 2}
+  warResultPanel: {fileID: 156347469}
+  defenderCastle: {fileID: 4541624740839010716}
   "playerkalanok\xE7u": 0
   "playerkalansavas\xE7\u0131": 0
   "enemykalanok\xE7u": 0
@@ -7734,6 +7760,7 @@ MonoBehaviour:
   SpawlananArcherCount: 0
   SpawlananSoldierCount: 0
   healController: {fileID: 0}
+  photonView: {fileID: 0}
 --- !u!1 &2130831104
 GameObject:
   m_ObjectHideFlags: 0
@@ -8598,6 +8625,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1176192666}
+    - targetCorrespondingSourceObject: {fileID: 7427281804350960737, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1176192667}
   m_SourcePrefab: {fileID: 100100000, guid: 89fb00d3296e3c84c8e14117cdc401c1, type: 3}
 --- !u!1 &4541624740839010716 stripped
 GameObject:
@@ -9429,19 +9459,49 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 435637555903662109, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8059142760952552259}
   m_SourcePrefab: {fileID: 100100000, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
 --- !u!114 &8059142760952552257 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3673321132237095353, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
   m_PrefabInstance: {fileID: 8059142760952552256}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8059142760952552258}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47407b3d0ea96ee4c828fe9a17cc802e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8059142760952552258 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 435637555903662109, guid: 55917729b23366f44b1d362ac5c91a61, type: 3}
+  m_PrefabInstance: {fileID: 8059142760952552256}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8059142760952552259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059142760952552258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 14
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &8209707416071312123
 PrefabInstance:
   m_ObjectHideFlags: 0

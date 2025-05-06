@@ -72,6 +72,12 @@ MonoBehaviour:
   - RPC_IAmReady
   - SafeTransferOwnership
   - RPC_ResetAITargets
+  - RPC_AllMinionsDead
+  - RPC_SetAllMinionsDead
+  - RPC_CastleDestroyed
+  - RPC_KingdomConquered
+  - RPC_TerritoryChangeComplete
+  - RPC_NotifyConquestComplete
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -442,22 +442,22 @@ enemyMinionSpawner  = FindObjectOfType<EnemyMinionSpawner>();
 // =====================================================================
 public void NotifyCharacterDied(string role)
 {
-    Debug.Log($"[Spawner] NotifyCharacterDied({role})");
+        Debug.Log($"[Spawner] NotifyCharacterDied({role})");
 
-    /* ───────── Yinelenme koruması ───────── */
-    if ((role == "attacker" && isRespawningAttacker) ||
-        (role == "defender" && isRespawningDefender))
-        return;
+        /* ───────── Yinelenme koruması ───────── */
+        if ((role == "attacker" && isRespawningAttacker) ||
+            (role == "defender" && isRespawningDefender))
+            return;
 
-    /* ───────── Bu karakterin yeniden doğma hakkı var mı? ───────── */
-    bool willRespawn = false;                                   // varsayılan: doğmayacak
-    if (role == "attacker")
-        willRespawn = playerMinionSpawner != null && !playerMinionSpawner.AreAllMinionsDead;
-    else if (role == "defender")
-        willRespawn = enemyMinionSpawner  != null && !enemyMinionSpawner.AreAllMinionsDead;
+        /* ───────── Bu karakterin yeniden doğma hakkı var mı? ───────── */
+        bool willRespawn = false;                                   // varsayılan: doğmayacak
+        if (role == "attacker")
+            willRespawn = playerMinionSpawner != null && !playerMinionSpawner.AreAllMinionsDead;
+        else if (role == "defender")
+            willRespawn = enemyMinionSpawner != null && !enemyMinionSpawner.AreAllMinionsDead;
 
-    /* ───────── Yerel oyuncunun ve kameranın durumu ───────── */
-    string myRole = PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out object rObj)
+        /* ───────── Yerel oyuncunun ve kameranın durumu ───────── */
+        string myRole = PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out object rObj)
                     ? rObj.ToString() : "";
 
     bool iAmDeadGuy   = myRole == role;            // ölen kişi ben miyim?
@@ -589,6 +589,21 @@ public void NotifyCharacterDied(string role)
         // Tam olarak belirtilen süre kadar bekle
         yield return new WaitForSeconds(respawnDelay);
 
+        // BURADA EK KONTROL EKLE: Tekrar minyon durumunu kontrol et
+        bool canRespawn = false;
+        if (role == "attacker")
+            canRespawn = playerMinionSpawner != null && !playerMinionSpawner.AreAllMinionsDead;
+        else if (role == "defender")
+            canRespawn = enemyMinionSpawner != null && !enemyMinionSpawner.AreAllMinionsDead;
+
+        if (!canRespawn)
+        {
+            Debug.LogWarning($"[RespawnAfterDelay] ⛔ {role} için respawn iptal edildi - minyon kalmadı!");
+            if (role == "attacker") isRespawningAttacker = false;
+            else isRespawningDefender = false;
+            yield break;  // Coroutine'i sonlandır, respawn yapma!
+        }
+
         Debug.Log($"[Spawner] {respawnDelay} saniye geçti, {role} yeniden doğuyor...");
 
         try
@@ -650,6 +665,28 @@ public void NotifyCharacterDied(string role)
         }
     }
 
+    // Tüm minyonlar öldüğünde çağrılacak fonksiyon
+    public void OnAllMinionsDead(string side)
+    {
+        Debug.Log($"<color=yellow>[BattleScenePlayerSpawner] {side} tarafı için tüm minyonlar öldü!</color>");
+
+        // Eğer bir oyuncu ölü ve respawn bekliyorsa, respawn durumunu iptal et
+        if (side == "attacker" && isRespawningAttacker)
+        {
+            Debug.Log("<color=red>[BattleScenePlayerSpawner] Attacker respawn iptal edildi - minyon kalmadı!</color>");
+            isRespawningAttacker = false;
+
+            // Gerekirse diğer temizlik işlemlerini yapabilirsin
+        }
+        else if (side == "defender" && isRespawningDefender)
+        {
+            Debug.Log("<color=red>[BattleScenePlayerSpawner] Defender respawn iptal edildi - minyon kalmadı!</color>");
+            isRespawningDefender = false;
+
+            // Gerekirse diğer temizlik işlemlerini yapabilirsin
+        }
+    }
+
     // RPC: Karakter yeniden doğma - RespawnManager'dan da çağrılabilir
     [PunRPC]
     private void RPC_RespawnCharacter(string role, int ownerActorNumber)
@@ -663,24 +700,24 @@ public void ForceRespawnCharacter(string role, int ownerActorNumber = -1)
 {
     Debug.Log($"<color=cyan>[ForceRespawn] → role={role}  owner={ownerActorNumber}</color>");
 
-    /* ───────── ÖN ŞART : Minyon kontrolü ───────── */
-    bool minionBlock = false;
+        /* ───────── ÖN ŞART : Minyon kontrolü ───────── */
+        bool minionBlock = false;
 
-    if (role == "attacker")
-        minionBlock = playerMinionSpawner != null && playerMinionSpawner.AreAllMinionsDead;
-    else if (role == "defender")
-        minionBlock = enemyMinionSpawner != null && enemyMinionSpawner.AreAllMinionsDead;
+        if (role == "attacker")
+            minionBlock = playerMinionSpawner != null && playerMinionSpawner.AreAllMinionsDead;
+        else if (role == "defender")
+            minionBlock = enemyMinionSpawner != null && enemyMinionSpawner.AreAllMinionsDead;
 
-    if (minionBlock)
-    {
-        Debug.LogWarning($"[ForceRespawn] ⛔ {role} respawn ENGELLENDİ (minyon kalmadı)");
-        if (role == "attacker") isRespawningAttacker  = false;
-        else                    isRespawningDefender  = false;
-        return;
-    }
+        if (minionBlock)
+        {
+            Debug.LogWarning($"[ForceRespawn] ⛔ {role} respawn ENGELLENDİ (minyon kalmadı)");
+            if (role == "attacker") isRespawningAttacker = false;
+            else isRespawningDefender = false;
+            return;
+        }
 
-    /* ───────── Yardımcı yerel fonksiyon ───────── */
-    void ResetStatsAndOwnership(GameObject obj, string r, int actorNr)
+        /* ───────── Yardımcı yerel fonksiyon ───────── */
+        void ResetStatsAndOwnership(GameObject obj, string r, int actorNr)
     {
         // 1) canı fulle
         if (obj.TryGetComponent(out Stats st))

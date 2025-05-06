@@ -211,8 +211,9 @@ public class WaitingRoomUIManager : MonoBehaviourPunCallbacks
             startRoutine = null;
         }
     }
+
     [PunRPC]
-    private void RPC_ForceRefreshUI()
+    public void RPC_ForceRefreshUI()
     {
         RefreshUI();
     }

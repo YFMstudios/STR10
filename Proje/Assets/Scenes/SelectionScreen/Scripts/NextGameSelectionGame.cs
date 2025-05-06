@@ -6,7 +6,7 @@ using ExitGames.Client.Photon;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
-public class NextGame : MonoBehaviourPunCallbacks
+public class NextGame : MonoBehaviourPunCallbacks, IPunObservable  // IPunObservable arayüzünü ekledim
 {
     private const byte SCENE_WAITING = 14;
     private string opponentName;
@@ -85,9 +85,32 @@ public class NextGame : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    private void RPC_LoadWaitingScene()
+    public void RPC_LoadWaitingScene()
     {
         Debug.Log("WaitingRoom sahnesine geçiliyor...");
         SceneManager.LoadScene(SCENE_WAITING);
+    }
+
+    // IPunObservable arayüzü için gerekli metot - bunu ekledim
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        // Eğer sürekli değişkenleri senkronize etmeniz gerekiyorsa, burada yapabilirsiniz
+        // Örneğin:
+        /*
+        if (stream.IsWriting)
+        {
+            // Verileri gönder
+            stream.SendNext(myName);
+            stream.SendNext(opponentName);
+        }
+        else
+        {
+            // Verileri al
+            myName = (string)stream.ReceiveNext();
+            opponentName = (string)stream.ReceiveNext();
+        }
+        */
+
+        // Şu an için RPC'leri kullanacağınız için boş bırakabilirsiniz
     }
 }

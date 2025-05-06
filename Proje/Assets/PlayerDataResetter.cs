@@ -32,5 +32,19 @@ public class PlayerDataResetter : MonoBehaviour
         getPlayerData.currentSoldierAmount = 0;
 
         healController.resetWoundedSoldiers();
+        ClearWarConquestData();
+    }
+
+    // MainMenuManager.cs içinde (veya uygun bir yerde)
+
+    public void ClearWarConquestData()
+    {
+        PlayerPrefs.DeleteKey("IsTerritoryChangeNeeded");
+        PlayerPrefs.DeleteKey("ConqueringKingdom");
+        PlayerPrefs.DeleteKey("ConqueredKingdom");
+        PlayerPrefs.DeleteKey("TerritoryChangeCompleted");
+        PlayerPrefs.Save();
+
+        Debug.Log("<color=purple>[MainMenuManager] Tüm savaþ verileri temizlendi</color>");
     }
 }
