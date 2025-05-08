@@ -3,10 +3,9 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PhotonView))]
-public class NextGame : MonoBehaviourPunCallbacks, IPunObservable  // IPunObservable arayüzünü ekledim
+public class NextGame : MonoBehaviourPunCallbacks
 {
     private const byte SCENE_WAITING = 14;
     private string opponentName;
@@ -14,103 +13,66 @@ public class NextGame : MonoBehaviourPunCallbacks, IPunObservable  // IPunObserv
 
     void Awake()
     {
+        // MasterClient sahne yüklediğinde diğer istemciler de otomatik geçiş yapsın
         PhotonNetwork.AutomaticallySyncScene = true;
     }
 
-    // Bu fonksiyon UI butonuna bağlı
     public void goWarScene()
     {
-        // Single-player kontrolü
+        // ▶ SINGLE-PLAYER ◀
         if (ScreenTransitions2.ScreenNavigator.previousScreen == "Simple" ||
-            ScreenTransitions2.ScreenNavigator.previousScreen == "Mid" ||
+            ScreenTransitions2.ScreenNavigator.previousScreen == "Mid"   ||
             ScreenTransitions2.ScreenNavigator.previousScreen == "Hard")
         {
-            photonView.RPC(nameof(RPC_LoadWaitingScene), RpcTarget.AllBufferedViaServer);
+            // MasterClient doğrudan yüklesin
+            if (PhotonNetwork.IsMasterClient)
+                PhotonNetwork.LoadLevel(SCENE_WAITING);
             return;
         }
 
-        // Multiplayer
+        // ▶ MULTI-PLAYER ◀
         opponentName = RegionClickHandler.opponentName;
-        myName = (string)PhotonNetwork.LocalPlayer.CustomProperties["PlayerName"];
+        myName       = PhotonNetwork.LocalPlayer.CustomProperties["PlayerName"].ToString();
 
         if (string.IsNullOrEmpty(opponentName) || string.IsNullOrEmpty(myName))
         {
             Debug.LogWarning("Rakip veya kendi ismim boş: yine de bekleme sahnesine geçiliyor...");
-            photonView.RPC(nameof(RPC_LoadWaitingScene), RpcTarget.AllBufferedViaServer);
+            if (PhotonNetwork.IsMasterClient)
+                PhotonNetwork.LoadLevel(SCENE_WAITING);
+            return;
         }
-        else
-        {
-            // MasterClient'a savaş bilgilerini yollarız
-            photonView.RPC(
-                nameof(RPC_AssignPlayerRoles),
-                RpcTarget.MasterClient,
-                myName,         // Savaş açanın ismi
-                "attacker",     // Savaş açanın rolü
-                opponentName,   // Rakibin ismi
-                "defender"      // Rakibin rolü
-            );
-        }
+
+        // Roller atama işini MasterClient’a havale et
+        photonView.RPC(
+            nameof(RPC_AssignPlayerRoles),
+            RpcTarget.MasterClient,
+            myName,        // saldıran
+            "attacker",
+            opponentName,  // savunan
+            "defender"
+        );
     }
 
     [PunRPC]
-    private void RPC_AssignPlayerRoles(string attackerName, string attackerRole, string defenderName, string defenderRole)
+    private void RPC_AssignPlayerRoles(string attackerName, string attackerRole,
+                                       string defenderName, string defenderRole)
     {
-        foreach (var player in PhotonNetwork.PlayerList)
+        // **SADECE** MasterClient bu bloğu çalıştırır
+        foreach (Player p in PhotonNetwork.PlayerList)
         {
-            if (player.CustomProperties.TryGetValue("PlayerName", out object pn))
-            {
-                string pnStr = pn.ToString();
-                string role = "spectator";  // default spectator
+            if (!p.CustomProperties.TryGetValue("PlayerName", out object pn)) 
+                continue;
 
-                if (pnStr == attackerName)
-                {
-                    role = attackerRole;
-                }
-                else if (pnStr == defenderName)
-                {
-                    role = defenderRole;
-                }
+            string role = "spectator";
+            if (pn.ToString() == attackerName) role = attackerRole;
+            if (pn.ToString() == defenderName) role = defenderRole;
 
-                player.SetCustomProperties(new Hashtable
-                {
-                    { "Role", role }
-                    // Krallık bilgisi zaten her oyuncunun içinde var! Ayrı göndermeye gerek yok.
-                });
-
-                Debug.Log($"[{player.NickName}] rolü [{role}] olarak ayarlandı.");
-            }
+            p.SetCustomProperties(new Hashtable { { "Role", role } });
+            Debug.Log($"[{p.NickName}] rolü → {role}");
         }
 
-        photonView.RPC(nameof(RPC_LoadWaitingScene), RpcTarget.AllBufferedViaServer);
-    }
-
-    [PunRPC]
-    public void RPC_LoadWaitingScene()
-    {
-        Debug.Log("WaitingRoom sahnesine geçiliyor...");
-        SceneManager.LoadScene(SCENE_WAITING);
-    }
-
-    // IPunObservable arayüzü için gerekli metot - bunu ekledim
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // Eğer sürekli değişkenleri senkronize etmeniz gerekiyorsa, burada yapabilirsiniz
-        // Örneğin:
-        /*
-        if (stream.IsWriting)
-        {
-            // Verileri gönder
-            stream.SendNext(myName);
-            stream.SendNext(opponentName);
-        }
-        else
-        {
-            // Verileri al
-            myName = (string)stream.ReceiveNext();
-            opponentName = (string)stream.ReceiveNext();
-        }
-        */
-
-        // Şu an için RPC'leri kullanacağınız için boş bırakabilirsiniz
+        // Roller atandıktan hemen sonra MasterClient sahneyi yükler,
+        // diğer tüm istemciler de AutomaticallySyncScene sayesinde takip eder.
+        PhotonNetwork.LoadLevel(SCENE_WAITING);
     }
 }

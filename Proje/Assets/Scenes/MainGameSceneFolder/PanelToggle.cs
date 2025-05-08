@@ -9,12 +9,18 @@ public class PanelToggle : MonoBehaviour
     public static bool spyPanelIsOpen = false;
     public static bool canToggle = true;
 
-    private void Start()
-    {
-        panel?.SetActive(false);
-        imageObject?.SetActive(true); // Başta buton açık olacak
-        alternatePanel?.SetActive(false);
-    }
+   private void Start()
+{
+    panel?.SetActive(false);
+
+    /* -------------------------------
+       Başlangıçta casus butonu kapalı
+       (ilk tıklamaya kadar görünmeyecek)
+    --------------------------------*/
+    imageObject?.SetActive(false);
+
+    alternatePanel?.SetActive(false);
+}
 
     public void TogglePanel()
     {

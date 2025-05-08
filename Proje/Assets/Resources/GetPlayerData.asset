@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2520ac4489cd36e4aa7dde0e6edcfd62, type: 3}
   m_Name: GetPlayerData
   m_EditorClassIdentifier: 
-  currentSoldierAmount: 5
+  currentSoldierAmount: 4
   currentArcherAmount: 5
   CastleLevel: 0
   TowerOneLevel: 0

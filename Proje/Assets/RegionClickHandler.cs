@@ -62,6 +62,10 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
             }
         }
 
+           if (ObservationImage != null)
+        ObservationImage.enabled = false;
+
+
     }
 
     private void InitializeRegionColors()

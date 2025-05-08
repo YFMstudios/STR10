@@ -76,11 +76,6 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
     }
     private IEnumerator Start()
     {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("[EnemySpawner] Master değilim, çıkıyorum.");
-            yield break;
-        }
 
         Debug.Log("[EnemySpawner] Başlıyor...");
 
@@ -104,6 +99,14 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
 
         StartCoroutine(SpawnMinions());
     }
+
+    // Oyuncunun rolü, bu spawner’ın tarafı mı?
+private bool IsMySide(string side)
+{
+    return PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("Role", out object r)
+           && r.ToString() == side;
+}
+
 
     // ============================================================
     //  WaitForBothSidesCounts
@@ -151,76 +154,51 @@ public class EnemyMinionSpawner : MonoBehaviourPunCallbacks
     // ============================================================
     private IEnumerator SpawnMinions()
     {
-        Debug.Log("[Spawner] SpawnMinions başladı.");
+        Debug.Log("[EnemySpawner] SpawnMinions başladı.");
 
-        int meleeLeft = meleeUnitsToSpawn;
+        int meleeLeft  = meleeUnitsToSpawn;
         int rangedLeft = rangedUnitsToSpawn;
 
         const int unitsPerWave = 10;
         int waves = Mathf.CeilToInt((float)(meleeLeft + rangedLeft) / unitsPerWave);
-        Debug.Log($"[Spawner] Toplam {waves} dalga.");
+        Debug.Log($"[EnemySpawner] Toplam {waves} dalga.");
 
         for (int wave = 0; wave < waves; wave++)
         {
-            Debug.Log($"[Spawner] === Dalga {wave + 1}/{waves} ===");
+            Debug.Log($"[EnemySpawner] === Dalga {wave + 1}/{waves} ===");
 
-            int meleeThisWave = Mathf.Min(5, meleeLeft);
+            int meleeThisWave  = Mathf.Min(5, meleeLeft);
             int rangedThisWave = Mathf.Min(5, rangedLeft);
 
-            /* ---------- MELEE ---------- */
-            for (int i = 0; i < meleeThisWave; i++)
-            {
-                GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
+           // MELEE döngüsü
+for (int i = 0; i < meleeThisWave; i++)
+{
+    GameObject m = SpawnMinionForAll(true, meleeMinionMoveSpeed);
+    if (PhotonNetwork.LocalPlayer.CustomProperties["Role"].ToString() == "defender")
+        getPlayerData.savasciAzalt();
+    aliveMinionCount++;
+    yield return new WaitForSeconds(delayBetweenMinions);
+}
 
-                AttachDeathLogic(m, true);
-                meleeLeft--;
-
-                // ÖNEMLİ: Player Data'daki savaşçı sayısını azalt
-                if (getPlayerData != null)
-                {
-                    getPlayerData.savasciAzalt();
-                    SpawlananSoldierCount++;
-                }
-
-                aliveMinionCount++;
-                Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
-
-                yield return new WaitForSeconds(delayBetweenMinions);
-            }
-
-            /* ---------- RANGED ---------- */
-            for (int i = 0; i < rangedThisWave; i++)
-            {
-                GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
-
-                AttachDeathLogic(m, false);
-                rangedLeft--;
-
-                // ÖNEMLİ: Player Data'daki okçu sayısını azalt
-                if (getPlayerData != null)
-                {
-                    getPlayerData.okcuAzalt();
-                    SpawlananArcherCount++;
-                }
-
-                aliveMinionCount++;
-                Debug.Log($"<color=#00FFFF>[Spawn] {m.name}  →  alive={aliveMinionCount}</color>");
-
-                yield return new WaitForSeconds(delayBetweenMinions);
-            }
+// RANGED döngüsü
+for (int i = 0; i < rangedThisWave; i++)
+{
+    GameObject m = SpawnMinionForAll(false, rangedMinionMoveSpeed);
+    if (PhotonNetwork.LocalPlayer.CustomProperties["Role"].ToString() == "defender")
+        getPlayerData.okcuAzalt();
+    aliveMinionCount++;
+    yield return new WaitForSeconds(delayBetweenMinions);
+}
 
             /* Dalga arası bekleme */
             if (wave < waves - 1)
             {
                 float wait = spawnInterval - delayBetweenMinions * (meleeThisWave + rangedThisWave);
-                Debug.Log($"[Spawner] Dalga arası {wait:F1}s bekleniyor.");
                 yield return new WaitForSeconds(wait);
             }
         }
 
-        /* -------------- TÜM DALGALAR BİTTİ -------------- */
         wavesFinished = true;
-        Debug.Log("<color=#00FFFF>[Spawn] ►► BÜTÜN DALGALAR BİTTİ ◀◀</color>");
         CheckAllDead();
     }
 
