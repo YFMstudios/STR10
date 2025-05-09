@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+//a
 public class AddFarmer : MonoBehaviour
 {
     public Image slot1;
