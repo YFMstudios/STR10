@@ -3645,6 +3645,7 @@ GameObject:
   - component: {fileID: 82315954}
   - component: {fileID: 82315956}
   - component: {fileID: 82315957}
+  - component: {fileID: 82315958}
   m_Layer: 5
   m_Name: Zephrion
   m_TagString: Untagged
@@ -3763,6 +3764,28 @@ MonoBehaviour:
   warPowerText: {fileID: 727628280}
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   objectToActivate: {fileID: 1337373505}
+--- !u!114 &82315958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82315951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 8
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &84412075
 GameObject:
   m_ObjectHideFlags: 0
@@ -7992,6 +8015,7 @@ GameObject:
   - component: {fileID: 195365619}
   - component: {fileID: 195365621}
   - component: {fileID: 195365622}
+  - component: {fileID: 195365623}
   m_Layer: 5
   m_Name: Arianopol
   m_TagString: Untagged
@@ -8110,6 +8134,28 @@ MonoBehaviour:
   warPowerText: {fileID: 727628280}
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   objectToActivate: {fileID: 1337373505}
+--- !u!114 &195365623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195365616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 7
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &203434834
 GameObject:
   m_ObjectHideFlags: 0
@@ -8465,97 +8511,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 205477672}
   m_CullTransparentMesh: 1
---- !u!1 &209984683
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 209984685}
-  - component: {fileID: 209984684}
-  - component: {fileID: 209984687}
-  - component: {fileID: 209984686}
-  m_Layer: 0
-  m_Name: KingdomConquestManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &209984684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209984683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97a346b47ac0fa444b8c8cf4761b8f3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lexionImage: {fileID: 1359678176}
-  alfgardImage: {fileID: 1351874301}
-  zephyrionImage: {fileID: 82315954}
-  arianopolImage: {fileID: 195365619}
-  dhamuronImage: {fileID: 954679261}
-  akhadzriaImage: {fileID: 1819740958}
---- !u!4 &209984685
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209984683}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 365.72092, y: 413.24533, z: -11.3045435}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &209984686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209984683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
---- !u!114 &209984687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209984683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 1
-  OwnershipTransfer: 0
-  observableSearch: 0
-  ObservedComponents:
-  - {fileID: 209984686}
-  sceneViewId: 3
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &213895831
 GameObject:
   m_ObjectHideFlags: 0
@@ -37964,6 +37919,7 @@ GameObject:
   - component: {fileID: 954679261}
   - component: {fileID: 954679263}
   - component: {fileID: 954679264}
+  - component: {fileID: 954679265}
   m_Layer: 5
   m_Name: Dhamuron
   m_TagString: Untagged
@@ -38082,6 +38038,28 @@ MonoBehaviour:
   warPowerText: {fileID: 727628280}
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   objectToActivate: {fileID: 1337373505}
+--- !u!114 &954679265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954679258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 6
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &956970806
 GameObject:
   m_ObjectHideFlags: 0
@@ -54664,6 +54642,7 @@ GameObject:
   - component: {fileID: 1351874301}
   - component: {fileID: 1351874303}
   - component: {fileID: 1351874304}
+  - component: {fileID: 1351874305}
   m_Layer: 5
   m_Name: Alfgard
   m_TagString: Untagged
@@ -54782,6 +54761,28 @@ MonoBehaviour:
   warPowerText: {fileID: 727628280}
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   objectToActivate: {fileID: 1337373505}
+--- !u!114 &1351874305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1351874298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 5
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1352198003
 GameObject:
   m_ObjectHideFlags: 0
@@ -54970,6 +54971,7 @@ GameObject:
   - component: {fileID: 1359678176}
   - component: {fileID: 1359678180}
   - component: {fileID: 1359678181}
+  - component: {fileID: 1359678182}
   m_Layer: 5
   m_Name: Lexion
   m_TagString: Untagged
@@ -55088,6 +55090,28 @@ MonoBehaviour:
   warPowerText: {fileID: 727628280}
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   objectToActivate: {fileID: 1337373505}
+--- !u!114 &1359678182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359678173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1361373415
 GameObject:
   m_ObjectHideFlags: 0
@@ -74722,6 +74746,7 @@ GameObject:
   - component: {fileID: 1819740958}
   - component: {fileID: 1819740960}
   - component: {fileID: 1819740961}
+  - component: {fileID: 1819740962}
   m_Layer: 5
   m_Name: Akhadzria
   m_TagString: Untagged
@@ -74840,6 +74865,28 @@ MonoBehaviour:
   warPowerText: {fileID: 727628280}
   getPlayerData: {fileID: 11400000, guid: dbce8119d655a674196c61b833d09b51, type: 2}
   objectToActivate: {fileID: 1337373505}
+--- !u!114 &1819740962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819740955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1819934894
 GameObject:
   m_ObjectHideFlags: 0
@@ -91806,4 +91853,3 @@ SceneRoots:
   - {fileID: 1990628647}
   - {fileID: 234526319}
   - {fileID: 1829138787}
-  - {fileID: 209984685}

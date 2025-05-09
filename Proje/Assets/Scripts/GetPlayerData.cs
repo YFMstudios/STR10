@@ -265,14 +265,6 @@ public void okcuAzalt()
     UpdatePhotonProperties();  // BURAYA EKLE
 }
 
-    public void SetRegionHandler(RegionClickHandler handler)
-    {
-        regionClickHandler = handler;
-    }
-    public void conquerKingdom(string conqueringKingdom, string conqueredKingdom)
-    {
-        regionClickHandler.ConquerKingdom(conqueringKingdom, conqueredKingdom);
-    }
 
 
     

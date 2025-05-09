@@ -110,9 +110,8 @@ public class WarController : MonoBehaviour
 
             if (PhotonNetwork.IsMasterClient)
             {
-                // Saldıran krallığı savunanın krallığını fethetti
-                ConquerDefenderKingdom();
 
+                ConquestManager.Conquer(AttackerKingdom, DefenderKingdom);
                 // Savaş kayıplarını gönder 
                 FireCasualtyRPC();
 
@@ -140,51 +139,7 @@ public class WarController : MonoBehaviour
         }
     }
 
-    // Saldıran krallığın, savunanın krallığını fethetmesi
-    private void ConquerDefenderKingdom()
-    {
-        if (!string.IsNullOrEmpty(AttackerKingdom) && !string.IsNullOrEmpty(DefenderKingdom))
-        {
-            Debug.Log($"<color=yellow>[WarController] Fetih: {AttackerKingdom} krallığı {DefenderKingdom} krallığını fethediyor!</color>");
-
-            // Toprak değişimi bilgilerini kaydet
-            ToprakDegisimiBildir(AttackerKingdom, DefenderKingdom);
-
-            // Tüm oyunculara bildir
-            pv.RPC(nameof(RPC_KingdomConquered), RpcTarget.Others, AttackerKingdom, DefenderKingdom);
-        }
-        else
-        {
-            Debug.LogWarning("[WarController] Fetih başarısız - krallık bilgileri eksik!");
-        }
-    }
-
-
-    // Toprak değişimi için yeni fonksiyon
-    private void ToprakDegisimiBildir(string conqueringKingdom, string conqueredKingdom)
-    {
-        Debug.Log($"<color=blue>[WarController] Toprak değişimi bildiriliyor: {conqueringKingdom} -> {conqueredKingdom}</color>");
-
-        // PlayerPrefs'e kaydet (sahne geçişlerinde korunması için)
-        PlayerPrefs.SetInt("IsTerritoryChangeNeeded", 1);
-        PlayerPrefs.SetString("ConqueringKingdom", conqueringKingdom);
-        PlayerPrefs.SetString("ConqueredKingdom", conqueredKingdom);
-        PlayerPrefs.SetInt("TerritoryChangeCompleted", 0);
-        PlayerPrefs.Save();
-    }
-
-    // Fetih işlemini tüm oyunculara bildiren RPC
-    [PunRPC]
-    private void RPC_KingdomConquered(string conqueringKingdom, string conqueredKingdom)
-    {
-        Debug.Log($"<color=yellow>[WarController][RPC] {conqueringKingdom} krallığı {conqueredKingdom} krallığını fethetti!</color>");
-
-        // GetPlayerData üzerinden fethetme işlemini çağır
-        if (getPlayerData != null)
-        {
-            getPlayerData.conquerKingdom(conqueringKingdom, conqueredKingdom);
-        }
-    }
+   
 
     // YENİ: Kalenin yıkıldığını tüm oyunculara bildiren RPC
     [PunRPC]

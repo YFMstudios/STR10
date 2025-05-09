@@ -78,6 +78,7 @@ MonoBehaviour:
   - RPC_KingdomConquered
   - RPC_TerritoryChangeComplete
   - RPC_NotifyConquestComplete
+  - ProcessAllConquestsRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -32,7 +32,19 @@ public class PlayerDataResetter : MonoBehaviour
         getPlayerData.currentSoldierAmount = 0;
 
         healController.resetWoundedSoldiers();
-        ClearWarConquestData();
+        // 6 krallýk oluþtur
+        string[] kingdomNames = new string[]
+        {
+        "Akhadzria",
+        "Alfgard",
+        "Arianopol",
+        "Dhamuron",
+        "Lexion",
+        "Zephyrion"
+        };
+
+        // Sistemi baþlat
+        ConquestManager.Initialize(kingdomNames);
     }
 
     // MainMenuManager.cs içinde (veya uygun bir yerde)

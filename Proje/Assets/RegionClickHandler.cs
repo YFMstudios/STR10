@@ -37,30 +37,52 @@ public class RegionClickHandler : MonoBehaviour, IPointerClickHandler
 
     public GameObject objectToActivate;
 
+    private PhotonView photonView;
+
+
+
 
 
     void Start()
     {
-        createDefaultPanel();
-        InitializeRegionColors();
-        InitializeKingdomRegions();
-        getPlayerData.SetRegionHandler(this);
-        // Her bölge görseliyle, üzerine yazılacak TMP bileşenini eşleştiriyoruz.
-        regionToTMPText.Add(LexionLinePNGImage, LexionTMP);
-        regionToTMPText.Add(AlfgardLinePNGImage, AlfgardTMP);
-        regionToTMPText.Add(ZephyrionLinePNGImage, ZephyrionTMP);
-        regionToTMPText.Add(ArianopolLinePNGImage, ArianopolTMP);
-        regionToTMPText.Add(DhamuronLinePNGImage, DhamuronTMP);
-        regionToTMPText.Add(AkhadzriaPNGImage, AkhadzriaTMP);
 
-        // Başlangıçta her bölgenin TMP metinini, başlangıç sahipliği bilgisine göre ayarlıyoruz.
-        foreach (var kvp in regionOwnership)
-        {
-            if (regionToTMPText.ContainsKey(kvp.Key))
+        // Diğer başlangıç kodları...
+
+        // PhotonView bileşenini otomatik olarak al
+        photonView = GetComponent<PhotonView>();
+            if (photonView == null)
             {
-                regionToTMPText[kvp.Key].text = kvp.Value;
+           
+            Debug.LogWarning("Bu GameObject'te PhotonView bileşeni bulunamadı.");
             }
+            else
+        {
+
+            createDefaultPanel();
+            InitializeRegionColors();
+            InitializeKingdomRegions();
+          
+            regionToTMPText.Add(LexionLinePNGImage, LexionTMP);
+            regionToTMPText.Add(AlfgardLinePNGImage, AlfgardTMP);
+            regionToTMPText.Add(ZephyrionLinePNGImage, ZephyrionTMP);
+            regionToTMPText.Add(ArianopolLinePNGImage, ArianopolTMP);
+            regionToTMPText.Add(DhamuronLinePNGImage, DhamuronTMP);
+            regionToTMPText.Add(AkhadzriaPNGImage, AkhadzriaTMP);
+
+            // Başlangıçta her bölgenin TMP metinini, başlangıç sahipliği bilgisine göre ayarlıyoruz.
+            foreach (var kvp in regionOwnership)
+            {
+                if (regionToTMPText.ContainsKey(kvp.Key))
+                {
+                    regionToTMPText[kvp.Key].text = kvp.Value;
+                }
+            }
+
+            ProcessAllConquestsRPC();
         }
+
+
+
 
     }
 
@@ -130,8 +152,68 @@ public void OnPointerClick(PointerEventData eventData)
 
     ActivateObject();
 }
+    [PunRPC]
+    void ProcessAllConquestsRPC()
+    {
+        Debug.Log("ProcessAllConquestsRPC çağrıldı");
 
+        // ConquestManager sınıfındaki tüm bağlı listeleri dolaş
+        foreach (var kingdomEntry in ConquestManager.kingdoms)
+        {
+            string conquerorName = kingdomEntry.Key;
+            var currentNode = kingdomEntry.Value;
 
+            // İlk düğüm (baş) krallık adını içerir
+            if (currentNode != null)
+            {
+                string conqueringKingdom = currentNode.Name;
+                currentNode = currentNode.Next; // İlk düğümü atla, fethedilen krallıklara git
+
+                // Bağlı listedeki tüm fethedilen krallıkları işle
+                while (currentNode != null)
+                {
+                    string conqueredKingdom = currentNode.Name;
+
+                    // Harita üzerinde fetih işlemini gerçekleştir
+                    ConquerKingdom(conqueringKingdom, conqueredKingdom);
+
+                    // Bir sonraki fethedilen krallığa geç
+                    currentNode = currentNode.Next;
+                }
+            }
+        }
+
+        Debug.Log("Tüm fetih işlemleri tamamlandı ve güncellendi.");
+    }
+
+    [PunRPC]
+    void SyncPositions()
+    {
+        Debug.Log("SyncPositions RPC çağrıldı");
+        // Burada pozisyon senkronizasyonunu yapın
+    }
+
+    // Bu metodu çağırarak tüm oyuncularda fetih işlemini başlatabilirsiniz
+    public void TriggerAllConquests()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.LogWarning("Photon ağına bağlı değil, sadece yerel olarak işlem yapılıyor.");
+            ProcessAllConquestsRPC(); // Çevrimdışı modda direkt çalıştır
+            return;
+        }
+
+        // PhotonView'i kontrol et
+        PhotonView photonView = PhotonView.Get(this);
+        if (photonView == null)
+        {
+            Debug.LogError("PhotonView bulunamadı. Bu GameObject'e PhotonView bileşeni eklediğinizden emin olun.");
+            return;
+        }
+
+        // Tüm oyuncularda RPC'yi çağır
+        photonView.RPC("ProcessAllConquestsRPC", RpcTarget.All);
+    }
 
     private void ResetKingdomColor(string kingdomName)
     {
@@ -158,6 +240,8 @@ public void OnPointerClick(PointerEventData eventData)
             }
         }
     }
+
+   
 
     // Fetih işlemi gerçekleştiğinde; fetheden ülke, fethedilen ülkenin tüm bölgelerini devralır.
     // Aynı zamanda, bölgeye ait TMP metni de fetheden ülkenin adını gösterecek şekilde güncellenir.
